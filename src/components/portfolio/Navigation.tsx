@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-
+import { Link } from "@tanstack/react-router";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -12,13 +11,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = [
-    { href: "#work", label: "Work" },
-    { href: "#capabilities", label: "Capabilities" },
-    { href: "#timeline", label: "Timeline" },
-    { href: "#lab", label: "AI Lab" },
-    { href: "#contact", label: "Contact" },
+  const links: { to: string; label: string; route?: boolean }[] = [
+    { to: "/#work", label: "Work" },
+    { to: "/#capabilities", label: "Capabilities" },
+    { to: "/skills", label: "Skills", route: true },
+    { to: "/certifications", label: "Credentials", route: true },
+    { to: "/#contact", label: "Contact" },
   ];
+
 
   return (
     <nav

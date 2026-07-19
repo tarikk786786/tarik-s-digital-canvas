@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -42,6 +43,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CertificationsRoute = CertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AccessibilityRoute = AccessibilityRouteImport.update({
   id: '/accessibility',
   path: '/accessibility',
@@ -56,6 +62,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accessibility'
+    | '/certifications'
     | '/privacy'
     | '/resume'
     | '/security'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accessibility'
+    | '/certifications'
     | '/privacy'
     | '/resume'
     | '/security'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accessibility'
+    | '/certifications'
     | '/privacy'
     | '/resume'
     | '/security'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
+  CertificationsRoute: typeof CertificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ResumeRoute: typeof ResumeRoute
   SecurityRoute: typeof SecurityRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/certifications': {
+      id: '/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof CertificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/accessibility': {
       id: '/accessibility'
       path: '/accessibility'
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
+  CertificationsRoute: CertificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ResumeRoute: ResumeRoute,
   SecurityRoute: SecurityRoute,
