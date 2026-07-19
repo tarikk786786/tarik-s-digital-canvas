@@ -138,9 +138,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Portrait — case-file dossier */}
-        <Portrait />
+        {/* Portrait — embedded scene figure (ambient on mobile, side-column on desktop) */}
+        <div className="pointer-events-none absolute inset-0 -z-[1] opacity-40 lg:hidden">
+          <Portrait ambient />
+        </div>
+        <div className="hidden lg:block">
+          <Portrait />
+        </div>
       </div>
+
 
 
       {/* Bottom meta strip */}
