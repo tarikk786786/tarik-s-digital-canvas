@@ -13,6 +13,7 @@ import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as PrivacyControlsRouteImport } from './routes/privacy-controls'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
@@ -36,6 +37,11 @@ const SecurityRoute = SecurityRouteImport.update({
 const ResumeRoute = ResumeRouteImport.update({
   id: '/resume',
   path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyControlsRoute = PrivacyControlsRouteImport.update({
+  id: '/privacy-controls',
+  path: '/privacy-controls',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/privacy': typeof PrivacyRoute
+  '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/privacy'
+    | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/privacy'
+    | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/privacy'
+    | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AccessibilityRoute: typeof AccessibilityRoute
   CertificationsRoute: typeof CertificationsRoute
   PrivacyRoute: typeof PrivacyRoute
+  PrivacyControlsRoute: typeof PrivacyControlsRoute
   ResumeRoute: typeof ResumeRoute
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/resume'
       fullPath: '/resume'
       preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-controls': {
+      id: '/privacy-controls'
+      path: '/privacy-controls'
+      fullPath: '/privacy-controls'
+      preLoaderRoute: typeof PrivacyControlsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccessibilityRoute: AccessibilityRoute,
   CertificationsRoute: CertificationsRoute,
   PrivacyRoute: PrivacyRoute,
+  PrivacyControlsRoute: PrivacyControlsRoute,
   ResumeRoute: ResumeRoute,
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

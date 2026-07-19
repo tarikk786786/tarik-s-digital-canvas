@@ -82,7 +82,9 @@ export function clearPersonalization() {
   toDelete.forEach((k) => window.localStorage.removeItem(k));
 }
 
-export function subscribe(listener: Listener) {
+export function subscribe(listener: Listener): () => void {
   listeners.add(listener);
-  return () => listeners.delete(listener);
+  return () => {
+    listeners.delete(listener);
+  };
 }
