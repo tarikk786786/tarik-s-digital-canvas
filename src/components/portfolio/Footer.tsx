@@ -1,4 +1,5 @@
 import logoAsset from "@/assets/logo.jpg.asset.json";
+import { GITHUB_URL, INSTAGRAM_URL, WHATSAPP_URL } from "@/lib/contact-links";
 
 export function Footer() {
   return (
@@ -16,28 +17,28 @@ export function Footer() {
 
         <div className="flex flex-wrap items-center gap-6">
           <a
-            href="#"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-accent"
           >
             GitHub
           </a>
           <a
-            href="#"
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-accent"
           >
-            LinkedIn
+            Instagram
           </a>
           <a
-            href="#"
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-accent"
           >
-            X / Twitter
-          </a>
-          <a
-            href="#"
-            className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground hover:text-accent"
-          >
-            RSS
+            WhatsApp
           </a>
         </div>
 
