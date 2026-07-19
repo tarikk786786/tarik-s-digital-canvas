@@ -383,10 +383,11 @@ export const Route = createFileRoute("/api/news")({
 
         const primaryKey = process.env.NEWS_PROVIDER_PRIMARY_KEY;
         const backupKey = process.env.NEWS_PROVIDER_BACKUP_KEY;
-        const used: Array<"primary" | "backup"> = [];
+        const used: Array<"primary" | "backup" | "mirror"> = [];
 
         let primaryArticles: NewsArticle[] = [];
         let backupArticles: NewsArticle[] = [];
+        let mirrorArticles: NewsArticle[] = [];
 
         if (primaryKey) {
           try {
@@ -407,7 +408,18 @@ export const Route = createFileRoute("/api/news")({
           }
         }
 
-        const articles = mergeDedupe(primaryArticles, backupArticles);
+        // Keyless mirror — always try when the paid providers were thin, so
+        // the feed stays populated even without any API key configured.
+        if (primaryArticles.length + backupArticles.length < 8) {
+          try {
+            mirrorArticles = await callMirror();
+            if (mirrorArticles.length > 0) used.push("mirror");
+          } catch (err) {
+            console.warn("[news] mirror failed:", (err as Error).message);
+          }
+        }
+
+        const articles = mergeAll(primaryArticles, backupArticles, mirrorArticles);
 
         // If both providers failed and we have a stale cache within 6h, serve it.
         if (articles.length === 0 && cache.entry && now - cache.entry.at < STALE_MAX_MS) {
