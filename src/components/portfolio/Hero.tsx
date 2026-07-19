@@ -54,11 +54,12 @@ export function Hero() {
         }}
       >
         <h1
-          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.04em] text-foreground/[0.05] md:text-foreground/[0.07]"
-          style={{ fontSize: "clamp(64px, 13vw, 240px)" }}
+          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.06em] text-foreground/[0.06] md:text-foreground/[0.08]"
+          style={{ fontSize: "clamp(56px, 9.5vw, 180px)" }}
         >
           Tarik&nbsp;Islam
         </h1>
+
       </div>
 
 
