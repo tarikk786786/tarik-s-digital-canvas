@@ -22,14 +22,14 @@ export interface NewsArticle {
   publishedAt: string;
   category: NewsCategory;
   relevanceScore: number;
-  provider: "primary" | "backup";
+  provider: "primary" | "backup" | "mirror";
 }
 
 export interface NewsResponse {
   articles: NewsArticle[];
   stale: boolean;
   generatedAt: string;
-  providersUsed: Array<"primary" | "backup">;
+  providersUsed: Array<"primary" | "backup" | "mirror">;
 }
 
 export const NEWS_CATEGORIES: readonly NewsCategory[] = [

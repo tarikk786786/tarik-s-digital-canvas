@@ -1,6 +1,7 @@
 // Server-only news aggregator.
-// Primary:  NewsData.io   (pub_...)
-// Backup:   GNews         (32-char hex key)
+// Primary:  NewsData.io               (pub_...)
+// Backup:   GNews                     (32-char hex key)
+// Mirror:   saurav.tech/NewsAPI       (keyless, JSON snapshot of newsapi.org)
 //
 // Never returns keys to browser. Keys are only read inside handler().
 // - 5s per-provider timeout
@@ -227,6 +228,80 @@ async function callBackup(key: string): Promise<NewsArticle[]> {
   return out;
 }
 
+/* ------------------------------------------------------------------ */
+/* Mirror: SauravKanchan/NewsAPI (keyless newsapi.org snapshots)      */
+/* ------------------------------------------------------------------ */
+
+const MirrorItem = z
+  .object({
+    title: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    url: z.string().nullable().optional(),
+    urlToImage: z.string().nullable().optional(),
+    publishedAt: z.string().nullable().optional(),
+    source: z.object({ name: z.string().nullable().optional() }).passthrough().optional(),
+  })
+  .passthrough();
+
+const MirrorResp = z
+  .object({
+    articles: z.array(MirrorItem).optional().default([]),
+  })
+  .passthrough();
+
+// Mirror has no keyword search — pull tech/science headlines from a few
+// English-speaking regions and let classify() drop everything off-topic.
+const MIRROR_ENDPOINTS: readonly string[] = [
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/us.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/in.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/gb.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/science/us.json",
+  "https://saurav.tech/NewsAPI/everything/bbc-news.json",
+];
+
+async function callMirror(): Promise<NewsArticle[]> {
+  const settled = await Promise.allSettled(
+    MIRROR_ENDPOINTS.map(async (endpoint) => {
+      const res = await fetchWithTimeout(endpoint, 5000);
+      if (!res.ok) throw new Error(`mirror_http_${res.status}`);
+      const raw = await res.json();
+      const parsed = MirrorResp.safeParse(raw);
+      if (!parsed.success) throw new Error("mirror_bad_shape");
+      return parsed.data.articles ?? [];
+    }),
+  );
+
+  const out: NewsArticle[] = [];
+  for (const result of settled) {
+    if (result.status !== "fulfilled") continue;
+    for (const it of result.value) {
+      const url = safeUrl(it.url);
+      const title = sanitizeText(it.title, 200);
+      const description = sanitizeText(it.description, 400);
+      if (!url || !title) continue;
+      const cls = classify(`${title} ${description}`);
+      if (!cls) continue;
+      out.push({
+        id: hashId(url),
+        title,
+        description,
+        url,
+        imageUrl: safeUrl(it.urlToImage) ?? undefined,
+        source: sanitizeText(it.source?.name ?? "Unknown", 80),
+        publishedAt: sanitizeText(it.publishedAt, 40) || new Date().toISOString(),
+        category: cls.category,
+        relevanceScore: cls.score,
+        provider: "mirror",
+      });
+    }
+  }
+  return out;
+}
+
+function mergeAll(...groups: NewsArticle[][]): NewsArticle[] {
+  return mergeDedupe(groups.flat(), []);
+}
+
 function mergeDedupe(a: NewsArticle[], b: NewsArticle[]): NewsArticle[] {
   const seenUrl = new Set<string>();
   const seenTitle = new Set<string>();
@@ -308,10 +383,11 @@ export const Route = createFileRoute("/api/news")({
 
         const primaryKey = process.env.NEWS_PROVIDER_PRIMARY_KEY;
         const backupKey = process.env.NEWS_PROVIDER_BACKUP_KEY;
-        const used: Array<"primary" | "backup"> = [];
+        const used: Array<"primary" | "backup" | "mirror"> = [];
 
         let primaryArticles: NewsArticle[] = [];
         let backupArticles: NewsArticle[] = [];
+        let mirrorArticles: NewsArticle[] = [];
 
         if (primaryKey) {
           try {
@@ -332,7 +408,18 @@ export const Route = createFileRoute("/api/news")({
           }
         }
 
-        const articles = mergeDedupe(primaryArticles, backupArticles);
+        // Keyless mirror — always try when the paid providers were thin, so
+        // the feed stays populated even without any API key configured.
+        if (primaryArticles.length + backupArticles.length < 8) {
+          try {
+            mirrorArticles = await callMirror();
+            if (mirrorArticles.length > 0) used.push("mirror");
+          } catch (err) {
+            console.warn("[news] mirror failed:", (err as Error).message);
+          }
+        }
+
+        const articles = mergeAll(primaryArticles, backupArticles, mirrorArticles);
 
         // If both providers failed and we have a stale cache within 6h, serve it.
         if (articles.length === 0 && cache.entry && now - cache.entry.at < STALE_MAX_MS) {
