@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Search, ShieldCheck, Clock3, Sparkles, ExternalLink, Award } from "lucide-react";
 import {
   TECH_CERT_CATEGORIES,
@@ -7,7 +7,7 @@ import {
   type TechCert,
 } from "@/content/tech-certifications";
 
-const STATUS_STYLES: Record<CertStatus, { chip: string; ring: string; icon: JSX.Element }> = {
+const STATUS_STYLES: Record<CertStatus, { chip: string; ring: string; icon: ReactNode }> = {
   earned: {
     chip: "bg-emerald-500/15 text-emerald-300 border-emerald-400/30",
     ring: "from-emerald-400/30 via-emerald-400/5 to-transparent",
