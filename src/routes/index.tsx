@@ -9,6 +9,11 @@ import { Lab } from "@/components/portfolio/Lab";
 import { Testimonials } from "@/components/portfolio/Testimonials";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
+import { CinematicIntro } from "@/components/portfolio/CinematicIntro";
+import { CustomCursor } from "@/components/portfolio/CustomCursor";
+import { LivingBackground } from "@/components/portfolio/LivingBackground";
+import { CommandPalette } from "@/components/portfolio/CommandPalette";
+import { Reveal } from "@/components/portfolio/Reveal";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -16,17 +21,25 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="relative min-h-dvh bg-background text-foreground">
-      <Navigation />
-      <Hero />
-      <LogoMarquee />
-      <Capabilities />
-      <Projects />
-      <Timeline />
-      <Lab />
-      <Testimonials />
-      <Contact />
-      <Footer />
-    </main>
+    <>
+      <CinematicIntro />
+      <CustomCursor />
+      <CommandPalette />
+      <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden">
+        <LivingBackground />
+        <div className="relative z-10">
+          <Navigation />
+          <Hero />
+          <LogoMarquee />
+          <Reveal><Capabilities /></Reveal>
+          <Reveal><Projects /></Reveal>
+          <Reveal><Timeline /></Reveal>
+          <Reveal><Lab /></Reveal>
+          <Reveal><Testimonials /></Reveal>
+          <Reveal><Contact /></Reveal>
+          <Footer />
+        </div>
+      </main>
+    </>
   );
 }
