@@ -55,17 +55,30 @@ export function Navigation() {
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link
+                key={l.to}
+                to={l.to}
+                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
+                activeProps={{ className: "text-foreground" }}
+              >
+                {l.label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ) : (
+              <a
+                key={l.to}
+                href={l.to}
+                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {l.label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </a>
+            ),
+          )}
         </div>
+
 
         <a
           href="#contact"
