@@ -68,7 +68,7 @@ export function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-[1600px] flex-1 flex flex-col justify-center">
         <div className="mb-8 flex items-center gap-4 animate-fade-up">
           <span className="h-px w-10 bg-accent" />
-          <div className="overflow-hidden">
+          <div className="h-[1.5em] overflow-hidden">
             <div
               className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
@@ -76,7 +76,7 @@ export function Hero() {
               {ROLES.map((r) => (
                 <p
                   key={r}
-                  className="h-[1.5em] font-mono text-xs uppercase tracking-[0.3em] text-accent"
+                  className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
                 >
                   {r}
                 </p>
