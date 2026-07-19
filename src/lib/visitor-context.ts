@@ -2,6 +2,9 @@
 // labeled as approximate. No fingerprinting, no persistent identifiers beyond
 // a simple "visited before" flag.
 
+import { UAParser } from "ua-parser-js";
+
+
 export type ReferrerFamily =
   | "github"
   | "linkedin"
@@ -17,6 +20,8 @@ export interface VisitorContext {
   timezone: string | null;
   language: string;
   device: DeviceCategory;
+  browser: string | null;
+  os: string | null;
   referrer: ReferrerFamily;
   referrerHost: string | null;
   returning: boolean;
@@ -24,6 +29,7 @@ export interface VisitorContext {
   reducedMotion: boolean;
   dataSaver: boolean;
 }
+
 
 const RETURNING_KEY = "ti.returning.v1";
 const PATH_KEY = "ti.path.v1";
@@ -68,6 +74,8 @@ export function readVisitorContext(): VisitorContext {
       timezone: null,
       language: "en",
       device: "desktop",
+      browser: null,
+      os: null,
       referrer: "direct",
       referrerHost: null,
       returning: false,
@@ -90,10 +98,20 @@ export function readVisitorContext(): VisitorContext {
   // @ts-expect-error non-standard
   const dataSaver = Boolean(navigator.connection?.saveData);
 
+  // UAParser: accurate device / browser / OS family without fingerprinting.
+  const parsed = UAParser(navigator.userAgent);
+  const uaDevice = parsed.device.type; // "mobile" | "tablet" | undefined
+  const device: DeviceCategory =
+    uaDevice === "mobile" || uaDevice === "tablet"
+      ? uaDevice
+      : classifyDevice(navigator.userAgent, window.innerWidth);
+
   return {
     timezone: tz,
     language: lang,
-    device: classifyDevice(navigator.userAgent, window.innerWidth),
+    device,
+    browser: parsed.browser.name ?? null,
+    os: parsed.os.name ?? null,
     referrer: family,
     referrerHost: host,
     returning,
@@ -102,6 +120,7 @@ export function readVisitorContext(): VisitorContext {
     dataSaver,
   };
 }
+
 
 export function markVisited() {
   if (typeof window === "undefined") return;

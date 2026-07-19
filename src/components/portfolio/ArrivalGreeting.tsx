@@ -38,6 +38,10 @@ export function ArrivalGreeting() {
     countryName: personalize ? geo?.countryName ?? null : null,
   });
 
+  const deviceLabel =
+    ctx.device === "mobile" ? "mobile" : ctx.device === "tablet" ? "tablet" : "desktop";
+  const uaLabel = [ctx.browser, ctx.os].filter(Boolean).join(" · ");
+
   return (
     <div
       className="animate-fade-in mt-6 border-l border-accent/40 pl-4"
@@ -53,6 +57,10 @@ export function ArrivalGreeting() {
         {greeting.headline}
       </p>
       <p className="mt-1 text-sm text-muted-foreground">{greeting.subline}</p>
+      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground/70">
+        Optimized {deviceLabel} experience{uaLabel ? ` · ${uaLabel}` : ""}
+      </p>
     </div>
   );
+
 }
