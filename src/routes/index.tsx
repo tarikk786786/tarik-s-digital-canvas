@@ -22,6 +22,7 @@ import { ConsentBanner } from "@/components/privacy/ConsentBanner";
 import { PathSelector } from "@/components/portfolio/PathSelector";
 import { SmoothScroll } from "@/components/portfolio/SmoothScroll";
 import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
+import { ReturningVisitorCard } from "@/components/portfolio/ReturningVisitorCard";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -56,6 +57,7 @@ function Index() {
         </div>
       </main>
       <ConsentBanner />
+      <ReturningVisitorCard />
     </>
   );
 }

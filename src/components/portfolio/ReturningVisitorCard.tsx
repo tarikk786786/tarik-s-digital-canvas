@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getConsent } from "@/lib/consent";
-import { getVisitorContext } from "@/lib/visitor-context";
+import { readVisitorContext } from "@/lib/visitor-context";
 import { track } from "@/lib/analytics";
 
 // Small welcome-back chip. Only renders when:
@@ -13,7 +13,7 @@ export function ReturningVisitorCard() {
   useEffect(() => {
     const consent = getConsent();
     if (!consent.personalization) return;
-    const ctx = getVisitorContext();
+    const ctx = readVisitorContext();
     if (!ctx.returning) return;
     if (window.sessionStorage.getItem("ti.returning.dismissed") === "1") return;
     setVisible(true);
