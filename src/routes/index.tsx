@@ -4,6 +4,7 @@ import { Hero } from "@/components/portfolio/Hero";
 import { LogoMarquee } from "@/components/portfolio/LogoMarquee";
 import { Capabilities } from "@/components/portfolio/Capabilities";
 import { ForensicDomains } from "@/components/portfolio/ForensicDomains";
+import { TechCertifications } from "@/components/portfolio/TechCertifications";
 
 import { Dezo } from "@/components/portfolio/Dezo";
 import { Projects } from "@/components/portfolio/Projects";
@@ -39,6 +40,7 @@ function Index() {
           <LogoMarquee />
           <Reveal><Capabilities /></Reveal>
           <Reveal><ForensicDomains /></Reveal>
+          <Reveal><TechCertifications /></Reveal>
 
           <Reveal><Dezo /></Reveal>
           <Reveal><Projects /></Reveal>
