@@ -277,7 +277,7 @@ function Portrait() {
         style={{ transformStyle: "preserve-3d" }}
       >
         <img
-          src={profileAsset.url}
+          src={profileImage}
           alt="Portrait of Tarik Islam"
           loading="eager"
           decoding="async"
