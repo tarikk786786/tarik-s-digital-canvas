@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
+import { Magnetic } from "@/components/portfolio/Magnetic";
 
 const ROLES = [
   "Forensic Scientist",
