@@ -308,7 +308,8 @@ function Portrait({ ambient = false }: { ambient?: boolean }) {
           WebkitMaskImage: feather,
           maskImage: feather,
           filter:
-            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 30%, transparent)) contrast(1.05) saturate(1.05)",
+            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 35%, transparent)) drop-shadow(0 0 24px color-mix(in oklab, var(--accent) 25%, transparent)) brightness(1.45) contrast(1.15) saturate(1.1)",
+
         }}
       />
 
