@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import profileAsset from "@/assets/profile.jpg.asset.json";
 
 const ROLES = [
   "Forensic Scientist",
@@ -65,71 +66,79 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] flex-1 flex flex-col justify-center">
-        <div className="mb-8 flex items-center gap-4 animate-fade-up">
-          <span className="h-px w-10 bg-accent" />
-          <div className="h-[1.5em] overflow-hidden">
-            <div
-              className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
-            >
-              {ROLES.map((r) => (
-                <p
-                  key={r}
-                  className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
-                >
-                  {r}
-                </p>
-              ))}
+      <div className="relative z-10 mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+        <div className="flex flex-col justify-center">
+          <div className="mb-8 flex items-center gap-4 animate-fade-up">
+            <span className="h-px w-10 bg-accent" />
+            <div className="h-[1.5em] overflow-hidden">
+              <div
+                className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
+              >
+                {ROLES.map((r) => (
+                  <p
+                    key={r}
+                    className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
+                  >
+                    {r}
+                  </p>
+                ))}
+              </div>
             </div>
+          </div>
+
+          <h2
+            className="max-w-3xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-[5.5rem] animate-fade-up"
+            style={{ animationDelay: "0.15s" }}
+          >
+            Building intelligent systems that{" "}
+            <span className="italic font-light text-muted-foreground">see</span>{" "}
+            the invisible.
+          </h2>
+
+          <p
+            className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
+            style={{ animationDelay: "0.3s" }}
+          >
+            I engineer AI, cybersecurity, and full-stack platforms at the
+            intersection of forensic precision and product craft — for
+            high-stakes environments and the businesses I found.
+          </p>
+
+          <div
+            className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
+            style={{ animationDelay: "0.45s" }}
+          >
+            <a
+              href="#work"
+              data-cursor="view"
+              className="group relative overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span className="relative z-10">Inspect the work</span>
+            </a>
+            <a
+              href="#contact"
+              data-cursor="contact"
+              className="group flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
+            >
+              Initialize contact
+              <span className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+            <a
+              href="/resume.pdf"
+              className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
+            >
+              Resume ↗
+            </a>
           </div>
         </div>
 
-        <h2
-          className="max-w-5xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-8xl animate-fade-up"
-          style={{ animationDelay: "0.15s" }}
-        >
-          Building intelligent systems that{" "}
-          <span className="italic font-light text-muted-foreground">see</span>{" "}
-          the invisible.
-        </h2>
-
-        <p
-          className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
-          style={{ animationDelay: "0.3s" }}
-        >
-          I engineer AI, cybersecurity, and full-stack platforms at the
-          intersection of forensic precision and product craft — for
-          high-stakes environments and the businesses I found.
-        </p>
-
-        <div
-          className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
-          style={{ animationDelay: "0.45s" }}
-        >
-          <a
-            href="#work"
-            className="group relative overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span className="relative z-10">Inspect the work</span>
-          </a>
-          <a
-            href="#contact"
-            className="group flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
-          >
-            Initialize contact
-            <span className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-          <a
-            href="/resume.pdf"
-            className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
-          >
-            Resume ↗
-          </a>
-        </div>
+        {/* Portrait — case-file dossier */}
+        <Portrait />
       </div>
+
 
       {/* Bottom meta strip */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
