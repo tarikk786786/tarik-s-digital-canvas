@@ -1,6 +1,7 @@
 // Server-only news aggregator.
-// Primary:  NewsData.io   (pub_...)
-// Backup:   GNews         (32-char hex key)
+// Primary:  NewsData.io               (pub_...)
+// Backup:   GNews                     (32-char hex key)
+// Mirror:   saurav.tech/NewsAPI       (keyless, JSON snapshot of newsapi.org)
 //
 // Never returns keys to browser. Keys are only read inside handler().
 // - 5s per-provider timeout
