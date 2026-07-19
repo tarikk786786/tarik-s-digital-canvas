@@ -143,11 +143,12 @@ export function Hero() {
       {/* Bottom meta strip */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
         <div className="grid grid-cols-2 gap-x-10 gap-y-4 md:grid-cols-4">
-          <MetaItem label="Location" value="Remote / Global" />
-          <MetaItem label="Currently" value="Founding at Nexus Labs" />
-          <MetaItem label="Focus" value="AI + Forensics" />
-          <MetaItem label="Timezone" value="UTC+06 · +/− 3h flex" />
+          <MetaItem label="Location" value="India · Remote-friendly" />
+          <MetaItem label="Currently" value="Founding Dezo.in" />
+          <MetaItem label="Focus" value="AI · Forensics · Product" />
+          <MetaItem label="Timezone" value="UTC+05:30" />
         </div>
+
         <div className="flex items-center gap-3">
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
             scroll
