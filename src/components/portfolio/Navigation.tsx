@@ -43,13 +43,10 @@ export function Navigation() {
                   "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
               }}
             />
-            <span className="relative grid size-9 place-items-center overflow-hidden rounded-full border border-border-strong bg-background shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-all duration-500 group-hover:shadow-[0_0_32px_-4px_var(--accent)]">
-              <img
-                src={logoAsset.url}
-                alt="Tarik Islam"
-                className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
+            <span className="relative grid size-9 place-items-center overflow-hidden rounded-full border border-border-strong bg-background font-mono text-[12px] font-semibold tracking-[0.15em] text-accent shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-all duration-500 group-hover:shadow-[0_0_32px_-4px_var(--accent)]">
+              TI
             </span>
+
           </span>
 
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:block">
