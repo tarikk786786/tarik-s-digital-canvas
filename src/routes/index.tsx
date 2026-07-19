@@ -38,6 +38,8 @@ function Index() {
           <PathSelector />
           <LogoMarquee />
           <Reveal><Capabilities /></Reveal>
+          <Reveal><ForensicDomains /></Reveal>
+
           <Reveal><Dezo /></Reveal>
           <Reveal><Projects /></Reveal>
           <Reveal><Timeline /></Reveal>
