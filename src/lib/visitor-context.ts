@@ -2,6 +2,9 @@
 // labeled as approximate. No fingerprinting, no persistent identifiers beyond
 // a simple "visited before" flag.
 
+import { UAParser } from "ua-parser-js";
+
+
 export type ReferrerFamily =
   | "github"
   | "linkedin"
