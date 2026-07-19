@@ -392,8 +392,174 @@ function Portrait({ ambient = false }: { ambient?: boolean }) {
         className="pointer-events-none absolute right-[28%] bottom-[24%] size-1 rounded-full bg-accent/50 animate-float-slow"
         style={{ animationDelay: "1.8s" }}
       />
+
+      {/* ============ WORKING-WITH-DATA HUD (only in side-column mode) ============ */}
+      {!ambient && <DataHud />}
     </div>
   );
 }
+
+/* Live data-stream, metrics, and waveform anchored around the laptop area
+   to convey "actively working with data". Pure CSS/SVG, no external libs. */
+function DataHud() {
+  const codeLines = [
+    "> scan.evidence --hash sha256",
+    "  ├─ matched  423 / 512  artefacts",
+    "  └─ integrity  OK  · chain verified",
+    "> model.infer(threat_vector)",
+    "  ▓▓▓▓▓▓▓▓▓░  92.4%  confidence",
+    "> pipeline.commit  →  vault.sealed",
+  ];
+
+  return (
+    <>
+      {/* Streaming code panel — top-right, near head/laptop line */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[2%] top-[8%] hidden w-[260px] rounded-xl border border-accent/25 bg-background/55 p-3 font-mono text-[10px] leading-[1.55] text-accent/90 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--accent)_60%,transparent)] backdrop-blur-md md:block animate-float-slow"
+        style={{ animationDelay: "0.4s" }}
+      >
+        <div className="mb-2 flex items-center justify-between">
+          <span className="flex items-center gap-1.5">
+            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
+            <span className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+              stream · live
+            </span>
+          </span>
+          <span className="text-[9px] text-muted-foreground">tty/0</span>
+        </div>
+        <div className="space-y-0.5 text-foreground/80">
+          {codeLines.map((l, i) => (
+            <div
+              key={i}
+              className="animate-fade-in whitespace-pre"
+              style={{ animationDelay: `${0.6 + i * 0.35}s` }}
+            >
+              {l}
+            </div>
+          ))}
+          <div className="mt-1 flex items-center gap-1 text-accent">
+            <span>$</span>
+            <span className="inline-block h-3 w-1.5 animate-pulse bg-accent" />
+          </div>
+        </div>
+      </div>
+
+      {/* Live metric chip — right, mid */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[6%] top-[52%] hidden rounded-lg border border-border/60 bg-background/60 px-3 py-2 backdrop-blur-md md:block animate-float-slow"
+        style={{ animationDelay: "1.2s" }}
+      >
+        <div className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+          throughput
+        </div>
+        <div className="font-mono text-sm text-foreground">
+          1.42<span className="text-muted-foreground"> gb/s</span>
+        </div>
+        <div className="mt-1 h-1 w-24 overflow-hidden rounded-full bg-border/50">
+          <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-accent to-[#a48bff]" />
+        </div>
+      </div>
+
+      {/* Data waveform anchored at the laptop */}
+      <svg
+        aria-hidden
+        viewBox="0 0 240 40"
+        className="pointer-events-none absolute bottom-[18%] left-[8%] hidden w-[180px] opacity-80 md:block"
+      >
+        <defs>
+          <linearGradient id="waveFade" x1="0" x2="1">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
+            <stop offset="50%" stopColor="var(--accent)" stopOpacity="1" />
+            <stop offset="100%" stopColor="#a48bff" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <g fill="url(#waveFade)">
+          {Array.from({ length: 40 }).map((_, i) => {
+            const h = 6 + Math.abs(Math.sin(i * 0.9)) * 26;
+            return (
+              <rect
+                key={i}
+                x={i * 6}
+                y={20 - h / 2}
+                width="2.4"
+                height={h}
+                rx="1"
+                style={{
+                  animation: `wave-pulse 1.4s ease-in-out ${i * 0.05}s infinite`,
+                  transformOrigin: "center",
+                }}
+              />
+            );
+          })}
+        </g>
+      </svg>
+
+      {/* Floating data tokens — subtle numeric packets around subject */}
+      <div className="pointer-events-none absolute inset-0 hidden md:block">
+        {[
+          { t: "0xA7·F3", x: "12%", y: "34%", d: "0.2s" },
+          { t: "SHA-256", x: "68%", y: "28%", d: "1.1s" },
+          { t: "AES-GCM", x: "72%", y: "70%", d: "2.0s" },
+          { t: "AI · v4.2", x: "6%",  y: "62%", d: "0.8s" },
+        ].map((tok) => (
+          <span
+            key={tok.t}
+            className="absolute rounded-md border border-accent/30 bg-background/50 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-accent/90 backdrop-blur-sm animate-float-slow"
+            style={{ left: tok.x, top: tok.y, animationDelay: tok.d }}
+          >
+            {tok.t}
+          </span>
+        ))}
+      </div>
+
+      {/* Data beams connecting hands → HUD (evokes "sending data") */}
+      <svg
+        aria-hidden
+        viewBox="0 0 600 640"
+        className="pointer-events-none absolute inset-0 size-full opacity-60"
+      >
+        <defs>
+          <linearGradient id="beam" x1="0" x2="1">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.9" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M300 470 C 380 420, 460 300, 540 150"
+          fill="none"
+          stroke="url(#beam)"
+          strokeWidth="0.8"
+          strokeDasharray="2 6"
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            from="0"
+            to="-40"
+            dur="2.4s"
+            repeatCount="indefinite"
+          />
+        </path>
+        <path
+          d="M300 490 C 240 500, 160 460, 90 380"
+          fill="none"
+          stroke="url(#beam)"
+          strokeWidth="0.8"
+          strokeDasharray="2 6"
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            from="0"
+            to="40"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+        </path>
+      </svg>
+    </>
+  );
+}
+
 
 
