@@ -195,32 +195,84 @@ function Portrait() {
 
   return (
     <div
-      className="relative mx-auto w-full max-w-[440px] animate-fade-up"
+      className="relative mx-auto w-full max-w-[460px] animate-fade-up"
       style={{ animationDelay: "0.6s" }}
     >
+      {/* Ambient halo behind portrait */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-16 -z-10 animate-halo"
+        style={{
+          background:
+            "radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--accent) 45%, transparent) 0%, transparent 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+
+      {/* Rotating conic ring */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-4 -z-10 rounded-full opacity-70 animate-spin-slow"
+        style={{
+          background:
+            "conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--accent) 80%, transparent) 60deg, transparent 120deg, transparent 240deg, color-mix(in oklab, #a48bff 70%, transparent) 300deg, transparent 360deg)",
+          mask: "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
+          WebkitMask:
+            "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
+        }}
+      />
+
+      {/* Orbital dashed ring */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-8 -z-10 animate-spin-reverse"
+      >
+        <svg viewBox="0 0 100 100" className="size-full opacity-40">
+          <circle
+            cx="50"
+            cy="50"
+            r="48"
+            fill="none"
+            stroke="var(--accent)"
+            strokeWidth="0.25"
+            strokeDasharray="0.6 2.2"
+          />
+        </svg>
+      </div>
+
       {/* Corner brackets */}
       <div aria-hidden className="pointer-events-none absolute -inset-3 z-20">
-        {["top-0 left-0 border-t border-l", "top-0 right-0 border-t border-r", "bottom-0 left-0 border-b border-l", "bottom-0 right-0 border-b border-r"].map((c) => (
-          <span key={c} className={`absolute size-4 border-accent ${c}`} />
+        {[
+          "top-0 left-0 border-t border-l",
+          "top-0 right-0 border-t border-r",
+          "bottom-0 left-0 border-b border-l",
+          "bottom-0 right-0 border-b border-r",
+        ].map((c) => (
+          <span key={c} className={`absolute size-5 border-accent ${c}`} />
         ))}
       </div>
 
       {/* Floating metadata chips */}
-      <div className="pointer-events-none absolute -left-6 top-6 z-30 hidden md:block">
-        <div className="rotate-[-4deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-accent shadow-elevated backdrop-blur">
+      <div className="pointer-events-none absolute -left-8 top-8 z-30 hidden md:block">
+        <div className="rotate-[-4deg] border border-accent/50 bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-accent shadow-elevated backdrop-blur">
           Subject · 001
         </div>
       </div>
-      <div className="pointer-events-none absolute -right-4 bottom-10 z-30 hidden md:block">
+      <div className="pointer-events-none absolute -right-6 bottom-14 z-30 hidden md:block">
         <div className="rotate-[3deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground shadow-elevated backdrop-blur">
           Status · Available
+        </div>
+      </div>
+      <div className="pointer-events-none absolute -left-4 bottom-32 z-30 hidden lg:block">
+        <div className="rotate-[-2deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground shadow-elevated backdrop-blur">
+          Signal · Strong
         </div>
       </div>
 
       <div
         ref={ref}
         data-cursor="dossier"
-        className="group relative overflow-hidden border border-border-strong bg-surface transition-transform duration-500 ease-out will-change-transform"
+        className="group relative overflow-hidden border border-border-strong bg-surface shadow-[0_40px_120px_-30px_color-mix(in_oklab,var(--accent)_45%,transparent)] transition-transform duration-500 ease-out will-change-transform"
         style={{ transformStyle: "preserve-3d" }}
       >
         <img
@@ -228,27 +280,29 @@ function Portrait() {
           alt="Portrait of Tarik Islam"
           loading="eager"
           decoding="async"
-          className="aspect-[4/5] w-full object-cover object-center saturate-[0.85] contrast-[1.05] transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+          className="aspect-[4/5] w-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
         />
 
-        {/* Scan tint + duotone wash */}
+        {/* Subtle duotone lift (kept low so face reads cleanly) */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 mix-blend-color"
+          className="pointer-events-none absolute inset-0 mix-blend-soft-light"
           style={{
             background:
-              "linear-gradient(180deg, color-mix(in oklab, var(--accent) 25%, transparent) 0%, transparent 60%, color-mix(in oklab, #6a5cff 20%, transparent) 100%)",
+              "linear-gradient(180deg, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 55%, color-mix(in oklab, #6a5cff 22%, transparent) 100%)",
           }}
         />
-        {/* Scanlines */}
+
+        {/* Very subtle scanlines */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-30"
+          className="pointer-events-none absolute inset-0 opacity-[0.12]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 3px)",
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 1px, transparent 1px, transparent 4px)",
           }}
         />
+
         {/* Vignette */}
         <div
           aria-hidden
@@ -259,8 +313,28 @@ function Portrait() {
           }}
         />
 
+        {/* Traveling scan line */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70 mix-blend-screen animate-scan-sweep"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--accent) 55%, transparent) 50%, transparent 100%)",
+          }}
+        />
+
+        {/* Data ticks along the left edge */}
+        <div className="pointer-events-none absolute inset-y-6 left-2 z-10 flex flex-col justify-between">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span
+              key={i}
+              className={`block h-px ${i % 2 === 0 ? "w-3 bg-accent/70" : "w-1.5 bg-foreground/30"}`}
+            />
+          ))}
+        </div>
+
         {/* Bottom dossier bar */}
-        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-border/70 bg-background/70 px-4 py-3 backdrop-blur-md">
+        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-accent/20 bg-background/75 px-4 py-3 backdrop-blur-md">
           <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
             <span>File · TI-2026</span>
             <span className="flex items-center gap-1.5 text-accent">
@@ -269,7 +343,8 @@ function Portrait() {
             </span>
           </div>
           <p className="mt-1.5 font-display text-sm text-foreground">
-            Tarik Islam · <span className="text-muted-foreground">Operator</span>
+            Tarik Islam ·{" "}
+            <span className="text-muted-foreground">Operator</span>
           </p>
         </div>
 
