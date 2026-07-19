@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-
+import { Link } from "@tanstack/react-router";
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -12,13 +11,14 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const links = [
-    { href: "#work", label: "Work" },
-    { href: "#capabilities", label: "Capabilities" },
-    { href: "#timeline", label: "Timeline" },
-    { href: "#lab", label: "AI Lab" },
-    { href: "#contact", label: "Contact" },
+  const links: { to: string; label: string; route?: boolean }[] = [
+    { to: "/#work", label: "Work" },
+    { to: "/#capabilities", label: "Capabilities" },
+    { to: "/skills", label: "Skills", route: true },
+    { to: "/certifications", label: "Credentials", route: true },
+    { to: "/#contact", label: "Contact" },
   ];
+
 
   return (
     <nav
@@ -55,17 +55,30 @@ export function Navigation() {
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {l.label}
-              <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
-            </a>
-          ))}
+          {links.map((l) =>
+            l.route ? (
+              <Link
+                key={l.to}
+                to={l.to}
+                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
+                activeProps={{ className: "text-foreground" }}
+              >
+                {l.label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ) : (
+              <a
+                key={l.to}
+                href={l.to}
+                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {l.label}
+                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              </a>
+            ),
+          )}
         </div>
+
 
         <a
           href="#contact"
