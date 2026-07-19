@@ -479,12 +479,13 @@ function DataHud() {
         </defs>
         <g fill="url(#waveFade)">
           {Array.from({ length: 40 }).map((_, i) => {
-            const h = 6 + Math.abs(Math.sin(i * 0.9)) * 26;
+            const h = Number((6 + Math.abs(Math.sin(i * 0.9)) * 26).toFixed(3));
+            const y = Number((20 - h / 2).toFixed(3));
             return (
               <rect
                 key={i}
                 x={i * 6}
-                y={20 - h / 2}
+                y={y}
                 width="2.4"
                 height={h}
                 rx="1"
