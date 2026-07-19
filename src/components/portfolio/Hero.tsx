@@ -40,16 +40,28 @@ export function Hero() {
       id="top"
       className="grain-overlay aurora-bg relative flex min-h-dvh flex-col justify-between overflow-hidden px-6 pb-16 pt-32 md:px-10"
     >
-      {/* Massive parallax wordmark — pushed below hero content on mobile so it never overlaps the eyebrow/heading */}
+      {/* Massive parallax wordmark — centered, sized to fit any viewport,
+          edge-faded so it reads as an intentional background layer, not clipped text. */}
       <div
         ref={wordmarkRef}
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[55%] -z-0 select-none opacity-[0.025] transition-transform duration-300 ease-out md:top-24 md:opacity-[0.04]"
+        className="pointer-events-none absolute inset-x-0 top-[58%] -z-0 flex justify-center select-none transition-transform duration-300 ease-out md:top-20"
+        style={{
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)",
+          maskImage:
+            "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)",
+        }}
       >
-        <h1 className="whitespace-nowrap text-[26vw] font-black uppercase leading-none tracking-tighter md:text-[22vw]">
-          Tarik Islam
+        <h1
+          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.06em] text-foreground/[0.06] md:text-foreground/[0.08]"
+          style={{ fontSize: "clamp(56px, 9.5vw, 180px)" }}
+        >
+          Tarik&nbsp;Islam
         </h1>
+
       </div>
+
 
       {/* Floating particles */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
