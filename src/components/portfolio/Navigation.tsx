@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import logoAsset from "@/assets/logo.jpg.asset.json";
+
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -28,9 +30,10 @@ export function Navigation() {
     >
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-6 md:px-10">
         <a href="#top" className="group flex items-center gap-3">
-          <span className="grid size-7 place-items-center border border-border-strong bg-surface font-mono text-[10px] font-medium text-foreground transition-colors group-hover:border-accent group-hover:text-accent">
-            TI
+          <span className="grid size-8 place-items-center overflow-hidden rounded-full border border-border-strong bg-surface transition-all duration-500 group-hover:border-accent group-hover:shadow-[0_0_20px_-4px_var(--accent)]">
+            <img src={logoAsset.url} alt="Tarik Islam" className="size-full object-cover transition-transform duration-700 group-hover:scale-110" />
           </span>
+
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:block">
             Tarik Islam / Protocol v4
           </span>

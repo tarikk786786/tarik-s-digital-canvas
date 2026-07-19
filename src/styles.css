@@ -198,6 +198,16 @@
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
+@keyframes breathe {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.04); filter: brightness(1.12); }
+}
+
+@utility animate-breathe {
+  animation: breathe 4.5s ease-in-out infinite;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
