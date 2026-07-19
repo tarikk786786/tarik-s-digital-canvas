@@ -20,6 +20,8 @@ export interface VisitorContext {
   timezone: string | null;
   language: string;
   device: DeviceCategory;
+  browser: string | null;
+  os: string | null;
   referrer: ReferrerFamily;
   referrerHost: string | null;
   returning: boolean;
@@ -27,6 +29,7 @@ export interface VisitorContext {
   reducedMotion: boolean;
   dataSaver: boolean;
 }
+
 
 const RETURNING_KEY = "ti.returning.v1";
 const PATH_KEY = "ti.path.v1";
