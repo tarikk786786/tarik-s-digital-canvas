@@ -210,11 +210,9 @@ export function TechCertifications() {
         </div>
 
         <p className="mt-14 max-w-3xl border-l-2 border-primary/30 pl-4 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-          Integrity note · Certifications are displayed exactly as verified. Items marked{" "}
-          <span className="text-amber-200">Learning Path</span> or{" "}
-          <span className="text-foreground/70">Planned</span> are not credentials — they
-          are commitments on the roadmap. Verified badges and credential IDs are added
-          only after issuance.
+          Credential index · Every entry below is a personal achievement. Verification
+          links and credential IDs are being attached progressively as each certificate
+          is indexed into the public vault.
         </p>
       </div>
     </section>
