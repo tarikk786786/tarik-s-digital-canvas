@@ -29,9 +29,27 @@ export function Navigation() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-6 md:px-10">
-        <a href="#top" className="group flex items-center gap-3">
-          <span className="grid size-8 place-items-center overflow-hidden rounded-full border border-border-strong bg-surface transition-all duration-500 group-hover:border-accent group-hover:shadow-[0_0_20px_-4px_var(--accent)]">
-            <img src={logoAsset.url} alt="Tarik Islam" className="size-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <a href="#top" className="group relative flex items-center gap-3">
+          <span className="relative grid size-11 place-items-center">
+            {/* rotating conic ring */}
+            <span
+              aria-hidden
+              className="absolute inset-0 rounded-full opacity-80 animate-spin-slow"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--accent) 90%, transparent) 90deg, transparent 180deg, color-mix(in oklab, #a48bff 70%, transparent) 270deg, transparent 360deg)",
+                mask: "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
+                WebkitMask:
+                  "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
+              }}
+            />
+            <span className="relative grid size-9 place-items-center overflow-hidden rounded-full border border-border-strong bg-background shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-all duration-500 group-hover:shadow-[0_0_32px_-4px_var(--accent)]">
+              <img
+                src={logoAsset.url}
+                alt="Tarik Islam"
+                className="size-full object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+            </span>
           </span>
 
           <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:block">
