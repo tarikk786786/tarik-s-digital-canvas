@@ -175,189 +175,211 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 }
 
 function Portrait() {
-  const ref = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const fgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const wrap = wrapRef.current;
+    if (!wrap) return;
     const onMove = (e: MouseEvent) => {
-      const r = el.getBoundingClientRect();
+      const r = wrap.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(1200px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateZ(0)`;
+      if (imgRef.current)
+        imgRef.current.style.transform = `translate3d(${px * -10}px, ${py * -6}px, 0)`;
+      if (fgRef.current)
+        fgRef.current.style.transform = `translate3d(${px * 14}px, ${py * 8}px, 0)`;
     };
     const onLeave = () => {
-      el.style.transform = "perspective(1200px) rotateY(0) rotateX(0)";
+      if (imgRef.current) imgRef.current.style.transform = "translate3d(0,0,0)";
+      if (fgRef.current) fgRef.current.style.transform = "translate3d(0,0,0)";
     };
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", onLeave);
+    wrap.addEventListener("mousemove", onMove);
+    wrap.addEventListener("mouseleave", onLeave);
     return () => {
-      el.removeEventListener("mousemove", onMove);
-      el.removeEventListener("mouseleave", onLeave);
+      wrap.removeEventListener("mousemove", onMove);
+      wrap.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
+  // Radial + linear feather so portrait dissolves into the scene
+  const feather =
+    "radial-gradient(120% 90% at 55% 40%, #000 40%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.35) 78%, transparent 92%)";
+
   return (
     <div
-      className="relative mx-auto w-full max-w-[460px] animate-fade-up"
-      style={{ animationDelay: "0.6s" }}
+      ref={wrapRef}
+      className="relative mx-auto h-[520px] w-full max-w-[640px] animate-fade-up md:h-[640px]"
+      style={{ animationDelay: "0.5s" }}
+      aria-label="Portrait of Tarik Islam embedded in the scene"
     >
-      {/* Ambient halo behind portrait */}
+      {/* Deep atmospheric glow — soft rim light behind subject */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -inset-16 -z-10 animate-halo"
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            "radial-gradient(50% 50% at 50% 50%, color-mix(in oklab, var(--accent) 45%, transparent) 0%, transparent 70%)",
-          filter: "blur(40px)",
+            "radial-gradient(45% 55% at 55% 42%, color-mix(in oklab, var(--accent) 32%, transparent) 0%, transparent 70%)",
+          filter: "blur(30px)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 animate-halo"
+        style={{
+          background:
+            "radial-gradient(30% 40% at 65% 30%, color-mix(in oklab, #a48bff 30%, transparent) 0%, transparent 75%)",
+          filter: "blur(50px)",
         }}
       />
 
-      {/* Rotating conic ring */}
-      <div
+      {/* Background fingerprint + neural lines (behind subject) */}
+      <svg
         aria-hidden
-        className="pointer-events-none absolute -inset-4 -z-10 rounded-full opacity-70 animate-spin-slow"
-        style={{
-          background:
-            "conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--accent) 80%, transparent) 60deg, transparent 120deg, transparent 240deg, color-mix(in oklab, #a48bff 70%, transparent) 300deg, transparent 360deg)",
-          mask: "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
-          WebkitMask:
-            "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
-        }}
-      />
-
-      {/* Orbital dashed ring */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-8 -z-10 animate-spin-reverse"
+        viewBox="0 0 600 640"
+        className="pointer-events-none absolute inset-0 -z-10 size-full opacity-[0.35]"
       >
-        <svg viewBox="0 0 100 100" className="size-full opacity-40">
-          <circle
-            cx="50"
-            cy="50"
-            r="48"
-            fill="none"
-            stroke="var(--accent)"
-            strokeWidth="0.25"
-            strokeDasharray="0.6 2.2"
-          />
-        </svg>
-      </div>
-
-      {/* Corner brackets */}
-      <div aria-hidden className="pointer-events-none absolute -inset-3 z-20">
-        {[
-          "top-0 left-0 border-t border-l",
-          "top-0 right-0 border-t border-r",
-          "bottom-0 left-0 border-b border-l",
-          "bottom-0 right-0 border-b border-r",
-        ].map((c) => (
-          <span key={c} className={`absolute size-5 border-accent ${c}`} />
-        ))}
-      </div>
-
-      {/* Floating metadata chips */}
-      <div className="pointer-events-none absolute -left-8 top-8 z-30 hidden md:block">
-        <div className="rotate-[-4deg] border border-accent/50 bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-accent shadow-elevated backdrop-blur">
-          Subject · 001
-        </div>
-      </div>
-      <div className="pointer-events-none absolute -right-6 bottom-14 z-30 hidden md:block">
-        <div className="rotate-[3deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground shadow-elevated backdrop-blur">
-          Status · Available
-        </div>
-      </div>
-      <div className="pointer-events-none absolute -left-4 bottom-32 z-30 hidden lg:block">
-        <div className="rotate-[-2deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground shadow-elevated backdrop-blur">
-          Signal · Strong
-        </div>
-      </div>
-
-      <div
-        ref={ref}
-        data-cursor="dossier"
-        className="group relative overflow-hidden border border-border-strong bg-surface shadow-[0_40px_120px_-30px_color-mix(in_oklab,var(--accent)_45%,transparent)] transition-transform duration-500 ease-out will-change-transform"
-        style={{ transformStyle: "preserve-3d" }}
-      >
-        <img
-          src={profileImage}
-          alt="Portrait of Tarik Islam"
-          loading="eager"
-          decoding="async"
-          className="aspect-[4/5] w-full object-cover object-center transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
-        />
-
-        {/* Subtle duotone lift (kept low so face reads cleanly) */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-          style={{
-            background:
-              "linear-gradient(180deg, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 55%, color-mix(in oklab, #6a5cff 22%, transparent) 100%)",
-          }}
-        />
-
-        {/* Very subtle scanlines */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(0deg, rgba(255,255,255,0.35) 0px, rgba(255,255,255,0.35) 1px, transparent 1px, transparent 4px)",
-          }}
-        />
-
-        {/* Vignette */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0,0,0,0.55) 100%)",
-          }}
-        />
-
-        {/* Traveling scan line */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-70 mix-blend-screen animate-scan-sweep"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--accent) 55%, transparent) 50%, transparent 100%)",
-          }}
-        />
-
-        {/* Data ticks along the left edge */}
-        <div className="pointer-events-none absolute inset-y-6 left-2 z-10 flex flex-col justify-between">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <span
-              key={i}
-              className={`block h-px ${i % 2 === 0 ? "w-3 bg-accent/70" : "w-1.5 bg-foreground/30"}`}
-            />
+        <defs>
+          <radialGradient id="fpFade" cx="55%" cy="40%" r="60%">
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.9" />
+            <stop offset="70%" stopColor="var(--accent)" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+          </radialGradient>
+          <linearGradient id="netFade" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#a48bff" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {/* fingerprint arcs */}
+        <g fill="none" stroke="url(#fpFade)" strokeWidth="0.6">
+          {Array.from({ length: 14 }).map((_, i) => {
+            const r = 60 + i * 22;
+            return (
+              <ellipse
+                key={i}
+                cx="330"
+                cy="260"
+                rx={r}
+                ry={r * 1.15}
+                strokeDasharray={i % 2 === 0 ? "3 6" : "1 4"}
+              />
+            );
+          })}
+        </g>
+        {/* neural connections */}
+        <g stroke="url(#netFade)" strokeWidth="0.5" fill="none">
+          <path d="M40 120 L200 200 L340 140 L500 260" />
+          <path d="M80 500 L220 420 L380 480 L540 380" />
+          <path d="M60 300 L180 340 L300 300 L460 360" />
+        </g>
+        <g fill="var(--accent)">
+          {[
+            [40, 120], [200, 200], [340, 140], [500, 260],
+            [80, 500], [220, 420], [380, 480], [540, 380],
+            [60, 300], [460, 360],
+          ].map(([cx, cy], i) => (
+            <circle key={i} cx={cx} cy={cy} r="1.6" opacity="0.8" />
           ))}
-        </div>
+        </g>
+      </svg>
 
-        {/* Bottom dossier bar */}
-        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-accent/20 bg-background/75 px-4 py-3 backdrop-blur-md">
-          <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-            <span>File · TI-2026</span>
-            <span className="flex items-center gap-1.5 text-accent">
-              <span className="size-1.5 rounded-full bg-accent animate-pulse-dot" />
-              Live
-            </span>
-          </div>
-          <p className="mt-1.5 font-display text-sm text-foreground">
-            Tarik Islam ·{" "}
-            <span className="text-muted-foreground">Operator</span>
-          </p>
-        </div>
+      {/* The subject — cut-out portrait, feathered edges, no frame */}
+      <img
+        ref={imgRef}
+        src={profileImage}
+        alt="Tarik Islam"
+        loading="eager"
+        decoding="async"
+        className="absolute inset-0 size-full object-contain object-bottom transition-transform duration-500 ease-out will-change-transform"
+        style={{
+          WebkitMaskImage: feather,
+          maskImage: feather,
+          filter:
+            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 30%, transparent)) contrast(1.05) saturate(1.05)",
+        }}
+      />
 
-        {/* Top left classification tag */}
-        <div className="absolute left-3 top-3 z-10 border border-accent/60 bg-background/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.3em] text-accent backdrop-blur">
-          Classified · Public
-        </div>
-      </div>
+      {/* Soft rim light on subject edge */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-screen"
+        style={{
+          background:
+            "radial-gradient(60% 40% at 35% 30%, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 60%)",
+        }}
+      />
+
+      {/* Atmospheric fog — bottom fade into the page */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--background) 55%, transparent) 55%, var(--background) 100%)",
+        }}
+      />
+      {/* Left fade into text column */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-0 w-1/3"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--background) 0%, transparent 100%)",
+        }}
+      />
+
+      {/* Foreground neural filaments in front of subject (subtle) */}
+      <svg
+        ref={fgRef}
+        aria-hidden
+        viewBox="0 0 600 640"
+        className="pointer-events-none absolute inset-0 size-full opacity-40 transition-transform duration-500 ease-out will-change-transform"
+      >
+        <g fill="none" stroke="var(--accent)" strokeWidth="0.4" opacity="0.7">
+          <path d="M120 60 Q 260 180 420 90" strokeDasharray="1 5" />
+          <path d="M80 580 Q 260 500 520 600" strokeDasharray="1 5" />
+        </g>
+        <g fill="var(--accent)">
+          <circle cx="120" cy="60" r="1.4" />
+          <circle cx="420" cy="90" r="1.4" />
+          <circle cx="80" cy="580" r="1.4" />
+          <circle cx="520" cy="600" r="1.4" />
+        </g>
+      </svg>
+
+      {/* Traveling scan line — subtle atmospheric layer */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-30 mix-blend-screen animate-scan-sweep"
+        style={{
+          background:
+            "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--accent) 45%, transparent) 50%, transparent 100%)",
+        }}
+      />
+
+      {/* Fine texture / grain */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)",
+        }}
+      />
+
+      {/* Floating particles around subject */}
+      <span className="pointer-events-none absolute left-[18%] top-[22%] size-1 rounded-full bg-accent animate-float-slow" />
+      <span
+        className="pointer-events-none absolute right-[16%] top-[40%] size-0.5 rounded-full bg-accent/70 animate-float-slow"
+        style={{ animationDelay: "1s" }}
+      />
+      <span
+        className="pointer-events-none absolute right-[28%] bottom-[24%] size-1 rounded-full bg-accent/50 animate-float-slow"
+        style={{ animationDelay: "1.8s" }}
+      />
     </div>
   );
+}
 }
 
