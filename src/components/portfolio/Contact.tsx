@@ -1,3 +1,11 @@
+import {
+  WHATSAPP_URL,
+  INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
+  GITHUB_URL,
+  GITHUB_HANDLE,
+} from "@/lib/contact-links";
+
 export function Contact() {
   return (
     <section
@@ -25,29 +33,42 @@ export function Contact() {
             you can't outsource — I'd like to hear about it.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-6">
+          <div className="mt-10 flex flex-wrap items-center gap-4">
             <a
-              href="mailto:hello@tarikislam.dev"
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="Message on WhatsApp"
               className="group flex items-center gap-4 border border-accent bg-accent px-8 py-4 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
             >
-              hello@tarikislam.dev
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
+              WhatsApp my team
+              <span className="transition-transform group-hover:translate-x-1">→</span>
             </a>
             <a
-              href="#"
-              className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="Open Instagram"
+              className="border border-border-strong px-6 py-4 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground/80 transition-colors hover:border-accent hover:text-accent"
             >
-              Schedule a call ↗
+              Instagram ↗
+            </a>
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="Open GitHub"
+              className="border border-border-strong px-6 py-4 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground/80 transition-colors hover:border-accent hover:text-accent"
+            >
+              GitHub ↗
             </a>
           </div>
 
           <div className="mt-20 grid w-full grid-cols-2 gap-8 border-t border-border pt-8 md:grid-cols-4">
-            <Detail label="Encryption" value="PGP key on request" />
-            <Detail label="Signal" value="@tarik.42" />
-            <Detail label="LinkedIn" value="/in/tarikislam" />
-            <Detail label="GitHub" value="@tarikislam" />
+            <Detail label="WhatsApp" value="+91 91144 11026" href={WHATSAPP_URL} />
+            <Detail label="Instagram" value={`@${INSTAGRAM_HANDLE}`} href={INSTAGRAM_URL} />
+            <Detail label="GitHub" value={`@${GITHUB_HANDLE}`} href={GITHUB_URL} />
+            <Detail label="Response time" value="Under 24 hours" />
           </div>
         </div>
       </div>
@@ -55,13 +76,33 @@ export function Contact() {
   );
 }
 
-function Detail({ label, value }: { label: string; value: string }) {
+function Detail({
+  label,
+  value,
+  href,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  const body = <p className="mt-1.5 text-sm text-foreground">{value}</p>;
   return (
     <div>
       <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
         {label}
       </p>
-      <p className="mt-1.5 text-sm text-foreground">{value}</p>
+      {href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="transition-colors hover:text-accent"
+        >
+          {body}
+        </a>
+      ) : (
+        body
+      )}
     </div>
   );
 }
