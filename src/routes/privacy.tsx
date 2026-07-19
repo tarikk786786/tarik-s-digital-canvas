@@ -75,6 +75,10 @@ export const Route = createFileRoute("/privacy")({
           body: "When you send a message through the contact form or WhatsApp, that message is used only to reply to you.",
         },
         {
+          heading: "Your controls",
+          body: "Visit /privacy-controls to review which optional signals are active, toggle each one, and clear local personalization at any time.",
+        },
+        {
           heading: "Your rights",
           body: "You can request deletion of any data associated with a message you sent by contacting Tarik directly.",
         },
