@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import profileAsset from "@/assets/profile.jpg.asset.json";
+import profileImage from "@/assets/tarik-portrait.jpg";
 
 const ROLES = [
   "Forensic Scientist",
