@@ -15,6 +15,8 @@ import { CustomCursor } from "@/components/portfolio/CustomCursor";
 import { LivingBackground } from "@/components/portfolio/LivingBackground";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { Reveal } from "@/components/portfolio/Reveal";
+import { ConsentBanner } from "@/components/privacy/ConsentBanner";
+import { PathSelector } from "@/components/portfolio/PathSelector";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -31,6 +33,7 @@ function Index() {
         <div className="relative z-10">
           <Navigation />
           <Hero />
+          <PathSelector />
           <LogoMarquee />
           <Reveal><Capabilities /></Reveal>
           <Reveal><Dezo /></Reveal>
@@ -42,6 +45,7 @@ function Index() {
           <Footer />
         </div>
       </main>
+      <ConsentBanner />
     </>
   );
 }
