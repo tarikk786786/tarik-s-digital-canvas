@@ -20,6 +20,7 @@ import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ConsentBanner } from "@/components/privacy/ConsentBanner";
 import { PathSelector } from "@/components/portfolio/PathSelector";
+import { SmoothScroll } from "@/components/portfolio/SmoothScroll";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -29,6 +30,7 @@ function Index() {
   return (
     <>
       <CinematicIntro />
+      <SmoothScroll />
       <CustomCursor />
       <CommandPalette />
       <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden">
