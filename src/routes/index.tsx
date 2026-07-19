@@ -3,6 +3,8 @@ import { Navigation } from "@/components/portfolio/Navigation";
 import { Hero } from "@/components/portfolio/Hero";
 import { LogoMarquee } from "@/components/portfolio/LogoMarquee";
 import { Capabilities } from "@/components/portfolio/Capabilities";
+import { ForensicDomains } from "@/components/portfolio/ForensicDomains";
+
 import { Dezo } from "@/components/portfolio/Dezo";
 import { Projects } from "@/components/portfolio/Projects";
 import { Timeline } from "@/components/portfolio/Timeline";
@@ -36,6 +38,8 @@ function Index() {
           <PathSelector />
           <LogoMarquee />
           <Reveal><Capabilities /></Reveal>
+          <Reveal><ForensicDomains /></Reveal>
+
           <Reveal><Dezo /></Reveal>
           <Reveal><Projects /></Reveal>
           <Reveal><Timeline /></Reveal>
