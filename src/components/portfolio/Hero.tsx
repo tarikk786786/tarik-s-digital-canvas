@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
+import { Magnetic } from "@/components/portfolio/Magnetic";
 
 const ROLES = [
   "Forensic Scientist",
@@ -112,23 +113,23 @@ export function Hero() {
             className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
             style={{ animationDelay: "0.45s" }}
           >
-            <a
+            <Magnetic
               href="#work"
               data-cursor="view"
-              className="group relative overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="group relative inline-block overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground shadow-[0_10px_40px_-10px_hsl(var(--accent)/0.7)] transition-shadow hover:shadow-[0_20px_60px_-10px_hsl(var(--accent)/0.9)]"
             >
               <span className="relative z-10">Inspect the work</span>
-            </a>
-            <a
+            </Magnetic>
+            <Magnetic
               href="#contact"
               data-cursor="contact"
-              className="group flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
+              className="group inline-flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
             >
               Initialize contact
               <span className="transition-transform group-hover:translate-x-1">
                 →
               </span>
-            </a>
+            </Magnetic>
             <a
               href="/resume.pdf"
               className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
@@ -137,6 +138,7 @@ export function Hero() {
             </a>
           </div>
         </div>
+
 
         {/* Portrait — embedded scene figure (ambient on mobile, side-column on desktop) */}
         <div className="pointer-events-none absolute inset-0 -z-[1] opacity-40 lg:hidden">
