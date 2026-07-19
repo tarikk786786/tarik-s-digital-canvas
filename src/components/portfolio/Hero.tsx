@@ -559,9 +559,152 @@ function DataHud() {
           />
         </path>
       </svg>
+
+      {/* ============ SYSTEM METERS — left column ============ */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-[2%] top-[12%] hidden w-[190px] space-y-2 md:block animate-float-slow"
+        style={{ animationDelay: "0.6s" }}
+      >
+        <div className="rounded-lg border border-border/60 bg-background/60 p-2.5 backdrop-blur-md">
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+              system
+            </span>
+            <span className="flex items-center gap-1 font-mono text-[9px] text-emerald-400">
+              <span className="size-1 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
+              online
+            </span>
+          </div>
+          {[
+            { l: "cpu", v: 62, c: "from-accent to-[#a48bff]" },
+            { l: "gpu", v: 78, c: "from-[#a48bff] to-accent" },
+            { l: "mem", v: 41, c: "from-accent/80 to-emerald-400/70" },
+            { l: "net", v: 88, c: "from-emerald-400 to-accent" },
+          ].map((m) => (
+            <div key={m.l} className="mb-1 last:mb-0">
+              <div className="flex items-center justify-between font-mono text-[9px]">
+                <span className="uppercase tracking-[0.2em] text-muted-foreground">{m.l}</span>
+                <span className="text-foreground/80">{m.v}%</span>
+              </div>
+              <div className="mt-0.5 h-1 w-full overflow-hidden rounded-full bg-border/40">
+                <div
+                  className={`h-full rounded-full bg-gradient-to-r ${m.c}`}
+                  style={{ width: `${m.v}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Fingerprint match panel */}
+        <div className="rounded-lg border border-accent/25 bg-background/60 p-2.5 backdrop-blur-md">
+          <div className="mb-1 flex items-center justify-between">
+            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+              biometric
+            </span>
+            <span className="font-mono text-[9px] text-accent">98.7%</span>
+          </div>
+          <svg viewBox="0 0 100 40" className="w-full">
+            <g fill="none" stroke="var(--accent)" strokeWidth="0.5" opacity="0.85">
+              {Array.from({ length: 7 }).map((_, i) => (
+                <ellipse key={i} cx="50" cy="22" rx={6 + i * 5} ry={4 + i * 3} />
+              ))}
+            </g>
+            <line x1="0" y1="20" x2="100" y2="20" stroke="var(--accent)" strokeWidth="0.6">
+              <animate attributeName="y1" values="4;36;4" dur="2.4s" repeatCount="indefinite" />
+              <animate attributeName="y2" values="4;36;4" dur="2.4s" repeatCount="indefinite" />
+            </line>
+          </svg>
+          <div className="mt-0.5 font-mono text-[8.5px] uppercase tracking-[0.22em] text-muted-foreground">
+            ridge · minutiae · match
+          </div>
+        </div>
+      </div>
+
+      {/* ============ RADAR + NEURAL GRAPH — bottom-right ============ */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[3%] bottom-[8%] hidden w-[220px] space-y-2 md:block animate-float-slow"
+        style={{ animationDelay: "1.6s" }}
+      >
+        <div className="rounded-lg border border-accent/25 bg-background/60 p-2.5 backdrop-blur-md">
+          <div className="mb-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.24em]">
+            <span className="text-muted-foreground">threat · radar</span>
+            <span className="text-emerald-400">clear</span>
+          </div>
+          <svg viewBox="0 0 100 100" className="mx-auto w-24">
+            <defs>
+              <radialGradient id="rGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.35" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="46" fill="none" stroke="var(--accent)" strokeOpacity="0.5" strokeWidth="0.5" />
+            <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" strokeOpacity="0.35" strokeWidth="0.4" />
+            <circle cx="50" cy="50" r="18" fill="none" stroke="var(--accent)" strokeOpacity="0.25" strokeWidth="0.4" />
+            <line x1="50" y1="4" x2="50" y2="96" stroke="var(--accent)" strokeOpacity="0.2" strokeWidth="0.3" />
+            <line x1="4" y1="50" x2="96" y2="50" stroke="var(--accent)" strokeOpacity="0.2" strokeWidth="0.3" />
+            <g style={{ transformOrigin: "50px 50px", animation: "spin-slow 4s linear infinite" }}>
+              <path d="M50 50 L50 4 A46 46 0 0 1 92 34 Z" fill="url(#rGrad)" />
+            </g>
+            <circle cx="70" cy="34" r="1.4" fill="var(--accent)" />
+            <circle cx="32" cy="66" r="1.2" fill="#a48bff" />
+            <circle cx="60" cy="72" r="1" fill="var(--accent)" opacity="0.8" />
+          </svg>
+        </div>
+
+        <div className="rounded-lg border border-border/60 bg-background/60 p-2.5 backdrop-blur-md">
+          <div className="mb-1 font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+            neural · inference
+          </div>
+          <svg viewBox="0 0 200 60" className="w-full">
+            {[10, 30, 50].map((y, li) =>
+              [1, 2, 3, 4, 5].map((c) => (
+                <circle
+                  key={`${li}-${c}`}
+                  cx={20 + c * 32}
+                  cy={y + (c % 2 ? 5 : -5)}
+                  r="1.6"
+                  fill="var(--accent)"
+                  opacity={0.4 + (c % 3) * 0.2}
+                />
+              )),
+            )}
+            <g stroke="var(--accent)" strokeOpacity="0.35" strokeWidth="0.3" fill="none">
+              {[1, 2, 3, 4].map((c) => (
+                <g key={c}>
+                  <line x1={20 + c * 32} y1={15} x2={20 + (c + 1) * 32} y2={25} />
+                  <line x1={20 + c * 32} y1={35} x2={20 + (c + 1) * 32} y2={45} />
+                  <line x1={20 + c * 32} y1={55} x2={20 + (c + 1) * 32} y2={35} />
+                </g>
+              ))}
+            </g>
+          </svg>
+          <div className="mt-0.5 flex items-center justify-between font-mono text-[9px] text-muted-foreground">
+            <span>layers · 12</span>
+            <span className="text-accent">loss 0.021</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ============ STATUS TICKER — bottom center ============ */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-[10%] bottom-[3%] hidden items-center justify-between rounded-md border border-border/50 bg-background/50 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground backdrop-blur-md md:flex"
+      >
+        <span className="flex items-center gap-1.5">
+          <span className="size-1 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
+          uptime 42d 07h
+        </span>
+        <span>lat · 12ms</span>
+        <span>vault · sealed</span>
+        <span className="text-accent">rls · enforced</span>
+      </div>
     </>
   );
 }
+
 
 
 
