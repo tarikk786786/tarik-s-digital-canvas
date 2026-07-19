@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import profileImage from "@/assets/tarik-portrait.jpg";
+import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
 
 const ROLES = [
