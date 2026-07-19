@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import profileImage from "@/assets/tarik-portrait.jpg";
+import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
 
 const ROLES = [
   "Forensic Scientist",
@@ -104,6 +105,8 @@ export function Hero() {
             intersection of forensic precision and product craft — for
             high-stakes environments and the businesses I found.
           </p>
+          <ArrivalGreeting />
+
 
           <div
             className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
