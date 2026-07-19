@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import profileAsset from "@/assets/profile.jpg.asset.json";
 
 const ROLES = [
   "Forensic Scientist",
@@ -65,71 +66,79 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] flex-1 flex flex-col justify-center">
-        <div className="mb-8 flex items-center gap-4 animate-fade-up">
-          <span className="h-px w-10 bg-accent" />
-          <div className="h-[1.5em] overflow-hidden">
-            <div
-              className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-              style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
-            >
-              {ROLES.map((r) => (
-                <p
-                  key={r}
-                  className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
-                >
-                  {r}
-                </p>
-              ))}
+      <div className="relative z-10 mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+        <div className="flex flex-col justify-center">
+          <div className="mb-8 flex items-center gap-4 animate-fade-up">
+            <span className="h-px w-10 bg-accent" />
+            <div className="h-[1.5em] overflow-hidden">
+              <div
+                className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
+              >
+                {ROLES.map((r) => (
+                  <p
+                    key={r}
+                    className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
+                  >
+                    {r}
+                  </p>
+                ))}
+              </div>
             </div>
+          </div>
+
+          <h2
+            className="max-w-3xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-[5.5rem] animate-fade-up"
+            style={{ animationDelay: "0.15s" }}
+          >
+            Building intelligent systems that{" "}
+            <span className="italic font-light text-muted-foreground">see</span>{" "}
+            the invisible.
+          </h2>
+
+          <p
+            className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
+            style={{ animationDelay: "0.3s" }}
+          >
+            I engineer AI, cybersecurity, and full-stack platforms at the
+            intersection of forensic precision and product craft — for
+            high-stakes environments and the businesses I found.
+          </p>
+
+          <div
+            className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
+            style={{ animationDelay: "0.45s" }}
+          >
+            <a
+              href="#work"
+              data-cursor="view"
+              className="group relative overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span className="relative z-10">Inspect the work</span>
+            </a>
+            <a
+              href="#contact"
+              data-cursor="contact"
+              className="group flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
+            >
+              Initialize contact
+              <span className="transition-transform group-hover:translate-x-1">
+                →
+              </span>
+            </a>
+            <a
+              href="/resume.pdf"
+              className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
+            >
+              Resume ↗
+            </a>
           </div>
         </div>
 
-        <h2
-          className="max-w-5xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-8xl animate-fade-up"
-          style={{ animationDelay: "0.15s" }}
-        >
-          Building intelligent systems that{" "}
-          <span className="italic font-light text-muted-foreground">see</span>{" "}
-          the invisible.
-        </h2>
-
-        <p
-          className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
-          style={{ animationDelay: "0.3s" }}
-        >
-          I engineer AI, cybersecurity, and full-stack platforms at the
-          intersection of forensic precision and product craft — for
-          high-stakes environments and the businesses I found.
-        </p>
-
-        <div
-          className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
-          style={{ animationDelay: "0.45s" }}
-        >
-          <a
-            href="#work"
-            className="group relative overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground transition-transform hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <span className="relative z-10">Inspect the work</span>
-          </a>
-          <a
-            href="#contact"
-            className="group flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
-          >
-            Initialize contact
-            <span className="transition-transform group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-          <a
-            href="/resume.pdf"
-            className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
-          >
-            Resume ↗
-          </a>
-        </div>
+        {/* Portrait — case-file dossier */}
+        <Portrait />
       </div>
+
 
       {/* Bottom meta strip */}
       <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
@@ -160,3 +169,116 @@ function MetaItem({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
+
+function Portrait() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width - 0.5;
+      const py = (e.clientY - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(1200px) rotateY(${px * 8}deg) rotateX(${-py * 8}deg) translateZ(0)`;
+    };
+    const onLeave = () => {
+      el.style.transform = "perspective(1200px) rotateY(0) rotateX(0)";
+    };
+    el.addEventListener("mousemove", onMove);
+    el.addEventListener("mouseleave", onLeave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
+
+  return (
+    <div
+      className="relative mx-auto w-full max-w-[440px] animate-fade-up"
+      style={{ animationDelay: "0.6s" }}
+    >
+      {/* Corner brackets */}
+      <div aria-hidden className="pointer-events-none absolute -inset-3 z-20">
+        {["top-0 left-0 border-t border-l", "top-0 right-0 border-t border-r", "bottom-0 left-0 border-b border-l", "bottom-0 right-0 border-b border-r"].map((c) => (
+          <span key={c} className={`absolute size-4 border-accent ${c}`} />
+        ))}
+      </div>
+
+      {/* Floating metadata chips */}
+      <div className="pointer-events-none absolute -left-6 top-6 z-30 hidden md:block">
+        <div className="rotate-[-4deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-accent shadow-elevated backdrop-blur">
+          Subject · 001
+        </div>
+      </div>
+      <div className="pointer-events-none absolute -right-4 bottom-10 z-30 hidden md:block">
+        <div className="rotate-[3deg] border border-border-strong bg-surface-elevated/90 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.3em] text-foreground shadow-elevated backdrop-blur">
+          Status · Available
+        </div>
+      </div>
+
+      <div
+        ref={ref}
+        data-cursor="dossier"
+        className="group relative overflow-hidden border border-border-strong bg-surface transition-transform duration-500 ease-out will-change-transform"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        <img
+          src={profileAsset.url}
+          alt="Portrait of Tarik Islam"
+          loading="eager"
+          decoding="async"
+          className="aspect-[4/5] w-full object-cover object-center saturate-[0.85] contrast-[1.05] transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+        />
+
+        {/* Scan tint + duotone wash */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 mix-blend-color"
+          style={{
+            background:
+              "linear-gradient(180deg, color-mix(in oklab, var(--accent) 25%, transparent) 0%, transparent 60%, color-mix(in oklab, #6a5cff 20%, transparent) 100%)",
+          }}
+        />
+        {/* Scanlines */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 3px)",
+          }}
+        />
+        {/* Vignette */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(0,0,0,0.55) 100%)",
+          }}
+        />
+
+        {/* Bottom dossier bar */}
+        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-border/70 bg-background/70 px-4 py-3 backdrop-blur-md">
+          <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
+            <span>File · TI-2026</span>
+            <span className="flex items-center gap-1.5 text-accent">
+              <span className="size-1.5 rounded-full bg-accent animate-pulse-dot" />
+              Live
+            </span>
+          </div>
+          <p className="mt-1.5 font-display text-sm text-foreground">
+            Tarik Islam · <span className="text-muted-foreground">Operator</span>
+          </p>
+        </div>
+
+        {/* Top left classification tag */}
+        <div className="absolute left-3 top-3 z-10 border border-accent/60 bg-background/70 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.3em] text-accent backdrop-blur">
+          Classified · Public
+        </div>
+      </div>
+    </div>
+  );
+}
+
