@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import profileAsset from "@/assets/profile.jpg.asset.json";
+import profileImage from "@/assets/tarik-portrait.jpg";
 
 const ROLES = [
   "Forensic Scientist",
@@ -277,7 +277,7 @@ function Portrait() {
         style={{ transformStyle: "preserve-3d" }}
       >
         <img
-          src={profileAsset.url}
+          src={profileImage}
           alt="Portrait of Tarik Islam"
           loading="eager"
           decoding="async"
