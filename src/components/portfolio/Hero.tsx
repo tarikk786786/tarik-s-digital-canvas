@@ -40,13 +40,13 @@ export function Hero() {
       id="top"
       className="grain-overlay aurora-bg relative flex min-h-dvh flex-col justify-between overflow-hidden px-6 pb-16 pt-32 md:px-10"
     >
-      {/* Massive parallax wordmark */}
+      {/* Massive parallax wordmark — pushed below hero content on mobile so it never overlaps the eyebrow/heading */}
       <div
         ref={wordmarkRef}
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-24 -z-0 select-none opacity-[0.04] transition-transform duration-300 ease-out"
+        className="pointer-events-none absolute inset-x-0 top-[55%] -z-0 select-none opacity-[0.025] transition-transform duration-300 ease-out md:top-24 md:opacity-[0.04]"
       >
-        <h1 className="whitespace-nowrap text-[22vw] font-black uppercase leading-none tracking-tighter">
+        <h1 className="whitespace-nowrap text-[26vw] font-black uppercase leading-none tracking-tighter md:text-[22vw]">
           Tarik Islam
         </h1>
       </div>
@@ -479,12 +479,13 @@ function DataHud() {
         </defs>
         <g fill="url(#waveFade)">
           {Array.from({ length: 40 }).map((_, i) => {
-            const h = 6 + Math.abs(Math.sin(i * 0.9)) * 26;
+            const h = Number((6 + Math.abs(Math.sin(i * 0.9)) * 26).toFixed(3));
+            const y = Number((20 - h / 2).toFixed(3));
             return (
               <rect
                 key={i}
                 x={i * 6}
-                y={20 - h / 2}
+                y={y}
                 width="2.4"
                 height={h}
                 rx="1"
