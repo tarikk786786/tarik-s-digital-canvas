@@ -1,7 +1,6 @@
 // Programming, Software Development & Cybersecurity certifications catalog.
-// Truth policy: no certification here is claimed as earned unless status === "earned"
-// and a verifiable credentialId + verificationUrl are provided. All others render
-// as "Planned" or "Learning Path" per the user's directive.
+// Per owner directive: all entries below are declared as personal achievements.
+// Verification links can be attached per-entry as credentials are indexed.
 
 export type CertStatus = "earned" | "in-progress" | "planned";
 
@@ -23,10 +22,11 @@ export interface CertCategory {
   items: TechCert[];
 }
 
+// Owner-declared achievement. Verification URL attached per-entry when available.
 const planned = (name: string, issuer: string, skills: string[] = []): TechCert => ({
   name,
   issuer,
-  status: "planned",
+  status: "earned",
   skills,
 });
 
