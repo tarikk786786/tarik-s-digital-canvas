@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import logoAsset from "@/assets/logo.jpg.asset.json";
+
 
 
 export function Navigation() {
