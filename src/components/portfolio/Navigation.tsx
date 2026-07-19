@@ -32,6 +32,7 @@ export function Navigation() {
     { to: "/#capabilities", label: "Capabilities" },
     { to: "/skills", label: "Skills", route: true },
     { to: "/certifications", label: "Credentials", route: true },
+    { to: "/news", label: "Intel Feed", route: true },
     { to: "/#contact", label: "Contact" },
   ];
 
