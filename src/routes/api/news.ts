@@ -228,6 +228,80 @@ async function callBackup(key: string): Promise<NewsArticle[]> {
   return out;
 }
 
+/* ------------------------------------------------------------------ */
+/* Mirror: SauravKanchan/NewsAPI (keyless newsapi.org snapshots)      */
+/* ------------------------------------------------------------------ */
+
+const MirrorItem = z
+  .object({
+    title: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    url: z.string().nullable().optional(),
+    urlToImage: z.string().nullable().optional(),
+    publishedAt: z.string().nullable().optional(),
+    source: z.object({ name: z.string().nullable().optional() }).passthrough().optional(),
+  })
+  .passthrough();
+
+const MirrorResp = z
+  .object({
+    articles: z.array(MirrorItem).optional().default([]),
+  })
+  .passthrough();
+
+// Mirror has no keyword search — pull tech/science headlines from a few
+// English-speaking regions and let classify() drop everything off-topic.
+const MIRROR_ENDPOINTS: readonly string[] = [
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/us.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/in.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/technology/gb.json",
+  "https://saurav.tech/NewsAPI/top-headlines/category/science/us.json",
+  "https://saurav.tech/NewsAPI/everything/bbc-news.json",
+];
+
+async function callMirror(): Promise<NewsArticle[]> {
+  const settled = await Promise.allSettled(
+    MIRROR_ENDPOINTS.map(async (endpoint) => {
+      const res = await fetchWithTimeout(endpoint, 5000);
+      if (!res.ok) throw new Error(`mirror_http_${res.status}`);
+      const raw = await res.json();
+      const parsed = MirrorResp.safeParse(raw);
+      if (!parsed.success) throw new Error("mirror_bad_shape");
+      return parsed.data.articles ?? [];
+    }),
+  );
+
+  const out: NewsArticle[] = [];
+  for (const result of settled) {
+    if (result.status !== "fulfilled") continue;
+    for (const it of result.value) {
+      const url = safeUrl(it.url);
+      const title = sanitizeText(it.title, 200);
+      const description = sanitizeText(it.description, 400);
+      if (!url || !title) continue;
+      const cls = classify(`${title} ${description}`);
+      if (!cls) continue;
+      out.push({
+        id: hashId(url),
+        title,
+        description,
+        url,
+        imageUrl: safeUrl(it.urlToImage) ?? undefined,
+        source: sanitizeText(it.source?.name ?? "Unknown", 80),
+        publishedAt: sanitizeText(it.publishedAt, 40) || new Date().toISOString(),
+        category: cls.category,
+        relevanceScore: cls.score,
+        provider: "mirror",
+      });
+    }
+  }
+  return out;
+}
+
+function mergeAll(...groups: NewsArticle[][]): NewsArticle[] {
+  return mergeDedupe(groups.flat(), []);
+}
+
 function mergeDedupe(a: NewsArticle[], b: NewsArticle[]): NewsArticle[] {
   const seenUrl = new Set<string>();
   const seenTitle = new Set<string>();
