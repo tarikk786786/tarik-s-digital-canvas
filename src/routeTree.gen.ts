@@ -15,9 +15,11 @@ import { Route as SecurityRouteImport } from './routes/security'
 import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as PrivacyControlsRouteImport } from './routes/privacy-controls'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiNewsRouteImport } from './routes/api/news'
 
 const SkillsRoute = SkillsRouteImport.update({
   id: '/skills',
@@ -49,6 +51,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CertificationsRoute = CertificationsRouteImport.update({
   id: '/certifications',
   path: '/certifications',
@@ -64,40 +71,51 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiNewsRoute = ApiNewsRouteImport.update({
+  id: '/api/news',
+  path: '/api/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/news': typeof ApiNewsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/news': typeof ApiNewsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
   '/resume': typeof ResumeRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/news': typeof ApiNewsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,46 +123,54 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/news'
     | '/privacy'
     | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/news'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/news'
     | '/privacy'
     | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/news'
   id:
     | '__root__'
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/news'
     | '/privacy'
     | '/privacy-controls'
     | '/resume'
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/news'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
   CertificationsRoute: typeof CertificationsRoute
+  NewsRoute: typeof NewsRoute
   PrivacyRoute: typeof PrivacyRoute
   PrivacyControlsRoute: typeof PrivacyControlsRoute
   ResumeRoute: typeof ResumeRoute
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillsRoute: typeof SkillsRoute
+  ApiNewsRoute: typeof ApiNewsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -191,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/certifications': {
       id: '/certifications'
       path: '/certifications'
@@ -212,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/news': {
+      id: '/api/news'
+      path: '/api/news'
+      fullPath: '/api/news'
+      preLoaderRoute: typeof ApiNewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -219,12 +259,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
   CertificationsRoute: CertificationsRoute,
+  NewsRoute: NewsRoute,
   PrivacyRoute: PrivacyRoute,
   PrivacyControlsRoute: PrivacyControlsRoute,
   ResumeRoute: ResumeRoute,
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillsRoute: SkillsRoute,
+  ApiNewsRoute: ApiNewsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
