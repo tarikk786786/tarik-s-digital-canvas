@@ -138,9 +138,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Portrait — case-file dossier */}
-        <Portrait />
+        {/* Portrait — embedded scene figure (ambient on mobile, side-column on desktop) */}
+        <div className="pointer-events-none absolute inset-0 -z-[1] opacity-40 lg:hidden">
+          <Portrait ambient />
+        </div>
+        <div className="hidden lg:block">
+          <Portrait />
+        </div>
       </div>
+
 
 
       {/* Bottom meta strip */}
@@ -174,12 +180,13 @@ function MetaItem({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Portrait() {
+function Portrait({ ambient = false }: { ambient?: boolean }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const fgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+    if (ambient) return;
     const wrap = wrapRef.current;
     if (!wrap) return;
     const onMove = (e: MouseEvent) => {
@@ -201,17 +208,22 @@ function Portrait() {
       wrap.removeEventListener("mousemove", onMove);
       wrap.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [ambient]);
 
   // Radial + linear feather so portrait dissolves into the scene
   const feather =
-    "radial-gradient(120% 90% at 55% 40%, #000 40%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.35) 78%, transparent 92%)";
+    "radial-gradient(120% 90% at 55% 40%, #000 45%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0.4) 82%, transparent 95%)";
 
   return (
     <div
       ref={wrapRef}
-      className="relative mx-auto h-[520px] w-full max-w-[640px] animate-fade-up md:h-[640px]"
-      style={{ animationDelay: "0.5s" }}
+      className={
+        ambient
+          ? "absolute inset-0"
+          : "relative mx-auto h-[520px] w-full max-w-[640px] animate-fade-up md:h-[640px]"
+      }
+      style={ambient ? undefined : { animationDelay: "0.5s" }}
+
       aria-label="Portrait of Tarik Islam embedded in the scene"
     >
       {/* Deep atmospheric glow — soft rim light behind subject */}
@@ -296,7 +308,9 @@ function Portrait() {
           WebkitMaskImage: feather,
           maskImage: feather,
           filter:
-            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 30%, transparent)) contrast(1.05) saturate(1.05)",
+            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 35%, transparent)) drop-shadow(0 0 24px color-mix(in oklab, var(--accent) 22%, transparent)) contrast(1.08) saturate(1.08)",
+
+
         }}
       />
 
