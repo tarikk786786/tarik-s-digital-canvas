@@ -163,9 +163,9 @@
   background: linear-gradient(90deg, #22D3EE, #3B82F6, #8B5CF6);
   background-size: 200% 100%;
   transition: background-position 300ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-@utility bg-gradient-cta:hover {
-  background-position: 100% 0;
+  &:hover {
+    background-position: 100% 0;
+  }
 }
 @utility text-gradient-primary {
   background: linear-gradient(135deg, #22D3EE 0%, #3B82F6 42%, #A78BFA 100%);
