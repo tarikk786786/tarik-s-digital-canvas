@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
 import { Magnetic } from "@/components/portfolio/Magnetic";
+import { Meteors } from "@/components/portfolio/Meteors";
+import { TextReveal } from "@/components/portfolio/TextReveal";
+
 
 const ROLES = [
   "Forensic Scientist",
@@ -63,6 +66,9 @@ export function Hero() {
       </div>
 
 
+      {/* Meteor shower — atmospheric depth */}
+      <Meteors count={12} />
+
       {/* Floating particles */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
         <span className="absolute left-[12%] top-[28%] size-1 rounded-full bg-accent animate-float-slow" />
@@ -79,6 +85,7 @@ export function Hero() {
           style={{ animationDelay: "0.6s" }}
         />
       </div>
+
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
         <div className="flex flex-col justify-center">
@@ -102,13 +109,12 @@ export function Hero() {
           </div>
 
           <h2
-            className="max-w-3xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-[5.5rem] animate-fade-up"
-            style={{ animationDelay: "0.15s" }}
+            className="max-w-3xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-[5.5rem]"
           >
-            Building intelligent systems that{" "}
-            <span className="italic font-light text-muted-foreground">see</span>{" "}
-            the invisible.
+            <TextReveal text="Building intelligent systems that" className="block text-gradient-flow" stagger={0.05} />
+            <TextReveal text="see the invisible." className="block italic font-light text-muted-foreground" delay={0.35} stagger={0.06} />
           </h2>
+
 
           <p
             className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
