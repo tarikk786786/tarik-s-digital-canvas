@@ -20,8 +20,10 @@ export const Route = createFileRoute("/news")({
           "Crime, forensics, cybersecurity, and web-development headlines curated for practitioners.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "/news" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: "/news" }],
   }),
   component: NewsPage,
 });
