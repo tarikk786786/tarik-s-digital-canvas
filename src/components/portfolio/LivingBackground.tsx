@@ -37,7 +37,7 @@ export function LivingBackground() {
     window.addEventListener("resize", resize);
 
     // stars
-    const stars = Array.from({ length: 90 }, () => ({
+    const stars = Array.from({ length: 110 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       r: Math.random() * 1.2 + 0.2,
@@ -45,18 +45,85 @@ export function LivingBackground() {
       d: Math.random() * Math.PI * 2,
     }));
 
+    // shooting stars
+    type Shooter = { x: number; y: number; vx: number; vy: number; life: number; max: number };
+    const shooters: Shooter[] = [];
+    const spawnShooter = () => {
+      const fromLeft = Math.random() > 0.5;
+      const y = Math.random() * window.innerHeight * 0.6;
+      const speed = 8 + Math.random() * 6;
+      shooters.push({
+        x: fromLeft ? -40 : window.innerWidth + 40,
+        y,
+        vx: fromLeft ? speed : -speed,
+        vy: 2 + Math.random() * 1.5,
+        life: 0,
+        max: 80,
+      });
+    };
+    let shooterTimer = 0;
+
     let raf = 0;
     const tick = (now: number) => {
       if (ctx && canvas) {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        // draw stars with parallax + twinkle, cache positions for links
+        const pts: { x: number; y: number; r: number }[] = [];
         for (const st of stars) {
           const twinkle = 0.5 + Math.sin(now * 0.001 * st.s + st.d) * 0.5;
           const px = st.x + (mx - 0.5) * 20 * st.s;
           const py = st.y + (my - 0.5) * 20 * st.s;
-          ctx.fillStyle = `rgba(200,240,255,${twinkle * 0.55})`;
+          ctx.fillStyle = `rgba(200,240,255,${twinkle * 0.6})`;
           ctx.beginPath();
           ctx.arc(px, py, st.r, 0, Math.PI * 2);
           ctx.fill();
+          pts.push({ x: px, y: py, r: st.r });
+        }
+
+        // constellation links — connect near neighbors (neural net vibe)
+        ctx.lineWidth = 0.35;
+        const maxD = 130;
+        for (let i = 0; i < pts.length; i++) {
+          const a = pts[i];
+          for (let j = i + 1; j < Math.min(i + 6, pts.length); j++) {
+            const b = pts[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const d = Math.hypot(dx, dy);
+            if (d < maxD) {
+              const alpha = (1 - d / maxD) * 0.22;
+              ctx.strokeStyle = `rgba(140,220,255,${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // shooting stars
+        shooterTimer++;
+        if (shooterTimer > 220 && Math.random() < 0.02) {
+          spawnShooter();
+          shooterTimer = 0;
+        }
+        for (let i = shooters.length - 1; i >= 0; i--) {
+          const s = shooters[i];
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life++;
+          const tailLen = 90;
+          const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.vx * 6, s.y - s.vy * 6);
+          grad.addColorStop(0, "rgba(180,240,255,0.9)");
+          grad.addColorStop(1, "rgba(180,240,255,0)");
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(s.x - (s.vx / Math.hypot(s.vx, s.vy)) * tailLen, s.y - (s.vy / Math.hypot(s.vx, s.vy)) * tailLen);
+          ctx.stroke();
+          if (s.life > s.max) shooters.splice(i, 1);
         }
       }
 
@@ -70,6 +137,7 @@ export function LivingBackground() {
 
       if (!reduced) raf = requestAnimationFrame(tick);
     };
+
     raf = requestAnimationFrame(tick);
 
     return () => {
