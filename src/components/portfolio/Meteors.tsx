@@ -1,12 +1,17 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Diagonal meteor shower rendered with pure CSS. Cheap, GPU-friendly.
- * Respects reduced-motion via the global media query in styles.css.
+ * Random values are generated only on the client after mount so SSR
+ * and hydration DOM match exactly.
  */
 export function Meteors({ count = 14 }: { count?: number }) {
-  const meteors = useMemo(
-    () =>
+  const [meteors, setMeteors] = useState<
+    Array<{ left: number; top: number; delay: number; duration: number; length: number }>
+  >([]);
+
+  useEffect(() => {
+    setMeteors(
       Array.from({ length: count }, () => ({
         left: Math.random() * 100,
         top: Math.random() * -40 - 5,
@@ -14,8 +19,8 @@ export function Meteors({ count = 14 }: { count?: number }) {
         duration: 4 + Math.random() * 6,
         length: 60 + Math.random() * 120,
       })),
-    [count],
-  );
+    );
+  }, [count]);
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
