@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Portfolio of Tarik Islam — building intelligent software, AI systems, cybersecurity platforms, and digital products that solve real-world problems.",
       },
       { name: "author", content: "Tarik Islam" },
-      { name: "theme-color", content: "#0a0d10" },
+      { name: "theme-color", content: "#070A0F" },
       {
         property: "og:title",
         content:
@@ -130,7 +130,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300..800;1,300..800&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap",
       },
     ],
 
