@@ -48,7 +48,7 @@ export function Hero() {
       <div
         ref={wordmarkRef}
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[58%] -z-0 flex justify-center select-none transition-transform duration-300 ease-out md:top-20"
+        className="pointer-events-none absolute inset-x-0 bottom-[6%] -z-0 flex justify-center select-none transition-transform duration-300 ease-out md:bottom-[10%]"
         style={{
           WebkitMaskImage:
             "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)",
@@ -57,13 +57,14 @@ export function Hero() {
         }}
       >
         <h1
-          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.06em] text-foreground/[0.06] md:text-foreground/[0.08]"
+          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.06em] text-foreground/[0.04] md:text-foreground/[0.06]"
           style={{ fontSize: "clamp(56px, 9.5vw, 180px)" }}
         >
           Tarik&nbsp;Islam
         </h1>
 
       </div>
+
 
 
       {/* Meteor shower — atmospheric depth */}
