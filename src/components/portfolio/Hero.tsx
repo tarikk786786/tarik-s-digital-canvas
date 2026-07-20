@@ -3,6 +3,7 @@ import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
 import { Magnetic } from "@/components/portfolio/Magnetic";
 import { Meteors } from "@/components/portfolio/Meteors";
+import { SkillNetwork } from "@/components/portfolio/SkillNetwork";
 import { TextReveal } from "@/components/portfolio/TextReveal";
 
 
@@ -66,6 +67,9 @@ export function Hero() {
       </div>
 
 
+
+      {/* Skill neural network — presentational background layer */}
+      <SkillNetwork className="opacity-40 md:opacity-60" />
 
       {/* Meteor shower — atmospheric depth */}
       <Meteors count={12} />
