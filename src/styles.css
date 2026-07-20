@@ -252,3 +252,35 @@
   0%, 100% { transform: scaleY(0.4); opacity: 0.5; }
   50%      { transform: scaleY(1);   opacity: 1; }
 }
+
+@keyframes meteor {
+  0%   { transform: translate3d(0, 0, 0) rotate(215deg); opacity: 0; }
+  10%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translate3d(-700px, 700px, 0) rotate(215deg); opacity: 0; }
+}
+
+@keyframes beam-flow {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1400; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@utility text-gradient-flow {
+  background: linear-gradient(
+    90deg,
+    var(--color-foreground) 0%,
+    color-mix(in oklab, var(--accent) 90%, white) 45%,
+    var(--color-foreground) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease-in-out infinite;
+}
+
