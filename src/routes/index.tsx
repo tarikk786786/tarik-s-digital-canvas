@@ -23,6 +23,8 @@ import { PathSelector } from "@/components/portfolio/PathSelector";
 import { SmoothScroll } from "@/components/portfolio/SmoothScroll";
 import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
 import { ReturningVisitorCard } from "@/components/portfolio/ReturningVisitorCard";
+import { Spotlight } from "@/components/portfolio/Spotlight";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -38,6 +40,8 @@ function Index() {
       <CommandPalette />
       <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden">
         <LivingBackground />
+        <Spotlight />
+
         <div className="relative z-10">
           <Navigation />
           <Hero />
