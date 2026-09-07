@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, X, ArrowUpRight, Terminal } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 
 const NAV_LINKS = [
+  { label: "About", href: "#about" },
+  { label: "Journey", href: "#journey" },
   { label: "Work", href: "#work" },
   { label: "Capabilities", href: "#capabilities" },
-  { label: "Domains", href: "#domains" },
+  { label: "Forensics", href: "#domains" },
   { label: "Dezo.in", href: "#dezo" },
   { label: "Skills", href: "/skills", isRoute: true },
   { label: "Credentials", href: "/certifications", isRoute: true },
-  { label: "News Feed", href: "/news", isRoute: true },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -55,7 +56,7 @@ export function Navigation() {
         </a>
 
         {/* CENTER/RIGHT: Nav links */}
-        <nav aria-label="Main" className="hidden lg:flex items-center gap-7">
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-6">
           {NAV_LINKS.map((item) =>
             item.isRoute ? (
               <Link key={item.href} to={item.href} className={linkClass}>
