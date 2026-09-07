@@ -1,734 +1,271 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
-import { ArrivalGreeting } from "@/components/portfolio/ArrivalGreeting";
-import { Magnetic } from "@/components/portfolio/Magnetic";
-import { Meteors } from "@/components/portfolio/Meteors";
-import { SkillNetwork } from "@/components/portfolio/SkillNetwork";
-import { TextReveal } from "@/components/portfolio/TextReveal";
-
+import { ForensicCanvas3D } from "./ForensicCanvas3D";
+import { TiltCard3D } from "./TiltCard3D";
+import { Shield, Terminal, ArrowUpRight, Cpu, Activity, Clock } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/contact-links";
 
 const ROLES = [
   "Forensic Scientist",
   "Cybersecurity Engineer",
-  "AI Developer",
-  "Full Stack Developer",
-  "AI Researcher",
-  "Founder",
+  "AI Developer & Researcher",
+  "Founder & CEO, Dezo.in",
+  "Full Stack Systems Architect",
+  "Zero-Trust Defender",
 ];
 
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
-  const wordmarkRef = useRef<HTMLDivElement>(null);
+  const [timeIST, setTimeIST] = useState("");
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setRoleIndex((i) => (i + 1) % ROLES.length);
-    }, 2400);
-    return () => clearInterval(id);
-  }, []);
+    const roleInterval = setInterval(() => {
+      setRoleIndex((current) => (current + 1) % ROLES.length);
+    }, 2800);
 
-  useEffect(() => {
-    const el = wordmarkRef.current;
-    if (!el) return;
-    const onMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 20;
-      const y = (e.clientY / window.innerHeight - 0.5) * 10;
-      el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    const updateClock = () => {
+      const now = new Date();
+      const istString = now.toLocaleTimeString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      setTimeIST(istString);
     };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
+    updateClock();
+    const clockInterval = setInterval(updateClock, 1000);
+
+    return () => {
+      clearInterval(roleInterval);
+      clearInterval(clockInterval);
+    };
   }, []);
 
   return (
     <header
       id="top"
-      className="grain-overlay aurora-bg relative flex min-h-dvh flex-col justify-between overflow-hidden px-6 pb-16 pt-32 md:px-10"
+      className="relative min-h-[95vh] w-full flex flex-col justify-between pt-28 md:pt-36 pb-12 overflow-hidden bg-[#0C0E12] border-b border-white/5"
     >
-      {/* Massive parallax wordmark — centered, sized to fit any viewport,
-          edge-faded so it reads as an intentional background layer, not clipped text. */}
-      <div
-        ref={wordmarkRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-[6%] -z-0 flex justify-center select-none transition-transform duration-300 ease-out md:bottom-[10%]"
-        style={{
-          WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)",
-          maskImage:
-            "linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%)",
-        }}
-      >
-        <h1
-          className="whitespace-nowrap text-center font-black uppercase leading-[0.85] tracking-[-0.06em] text-foreground/[0.04] md:text-foreground/[0.06]"
-          style={{ fontSize: "clamp(56px, 9.5vw, 180px)" }}
-        >
-          Tarik&nbsp;Islam
-        </h1>
-
+      {/* Background 3D Ambient Canvas Grid & Gradient Mesh */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
+        <div className="absolute -top-32 -left-32 size-[38rem] rounded-full blur-3xl opacity-30 bg-radial from-accent/25 via-accent/5 to-transparent" />
+        <div className="absolute top-1/3 -right-32 size-[42rem] rounded-full blur-3xl opacity-20 bg-radial from-blue-500/20 via-blue-500/5 to-transparent" />
+        <div className="absolute inset-0 grid-bg opacity-40" />
       </div>
 
+      <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col lg:grid lg:grid-cols-12 items-center gap-12 lg:gap-8 relative z-10">
+        
+        {/* LEFT COLUMN: 7 Columns - Hero Copy & Action Deck */}
+        <div className="w-full lg:col-span-7 flex flex-col justify-center">
+          
+          {/* Holographic Verification Badge */}
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-accent/10 backdrop-blur-md shadow-[0_0_20px_rgba(232,168,56,0.2)]">
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-accent" />
+              </span>
+              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent font-bold">
+                PROTOCOL 001 · VERIFIED PRACTITIONER
+              </span>
+            </div>
 
+            {timeIST && (
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 font-mono text-[10px] text-muted-foreground">
+                <Clock className="size-3 text-accent" />
+                <span>IST {timeIST} (INDIA)</span>
+              </div>
+            )}
+          </div>
 
-      {/* Skill neural network — presentational background layer */}
-      <SkillNetwork className="opacity-40 md:opacity-60" />
-
-      {/* Meteor shower — atmospheric depth */}
-      <Meteors count={12} />
-
-      {/* Floating particles */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
-        <span className="absolute left-[12%] top-[28%] size-1 rounded-full bg-accent animate-float-slow" />
-        <span
-          className="absolute right-[18%] top-[38%] size-0.5 rounded-full bg-accent/60 animate-float-slow"
-          style={{ animationDelay: "1.2s" }}
-        />
-        <span
-          className="absolute left-[68%] top-[70%] size-1 rounded-full bg-accent/40 animate-float-slow"
-          style={{ animationDelay: "2s" }}
-        />
-        <span
-          className="absolute left-[38%] top-[80%] size-0.5 rounded-full bg-accent/50 animate-float-slow"
-          style={{ animationDelay: "0.6s" }}
-        />
-      </div>
-
-
-      <div className="relative z-10 mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 items-center gap-14 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
-        <div className="flex flex-col justify-center">
-          <div className="mb-8 flex items-center gap-4 animate-fade-up">
-            <span className="h-px w-10 bg-accent" />
-            <div className="h-[1.5em] overflow-hidden">
+          {/* Role Ticker */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="h-px w-10 bg-accent shadow-[0_0_8px_var(--accent)]" />
+            <div className="h-7 overflow-hidden relative w-full font-mono text-sm md:text-base uppercase tracking-[0.25em] text-accent font-semibold">
               <div
-                className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                style={{ transform: `translateY(-${roleIndex * 1.5}em)` }}
+                className="flex flex-col transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                style={{ transform: `translateY(-${roleIndex * 28}px)` }}
               >
-                {ROLES.map((r) => (
-                  <p
-                    key={r}
-                    className="flex h-[1.5em] items-center font-mono text-xs uppercase leading-none tracking-[0.3em] text-accent"
-                  >
-                    {r}
-                  </p>
+                {ROLES.map((role) => (
+                  <span key={role} className="h-7 flex items-center shrink-0 drop-shadow-[0_0_12px_rgba(232,168,56,0.3)]">
+                    {role}
+                  </span>
                 ))}
               </div>
             </div>
           </div>
 
-          <h2
-            className="max-w-3xl text-5xl font-medium leading-[0.92] tracking-tighter text-balance md:text-7xl lg:text-[5.5rem]"
-          >
-            <TextReveal text="Building intelligent systems that" className="block text-gradient-flow" stagger={0.05} />
-            <TextReveal text="see the invisible." className="block italic font-light text-muted-foreground" delay={0.35} stagger={0.06} />
-          </h2>
+          {/* Main Headline */}
+          <h1 className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-extrabold tracking-tighter leading-[0.96] mb-8 text-foreground">
+            Building intelligent <br className="hidden sm:block" />
+            systems that{" "}
+            <span className="italic font-light text-gradient-flow">
+              see the invisible.
+            </span>
+          </h1>
 
-
-          <p
-            className="mt-8 max-w-xl text-base leading-relaxed text-muted-foreground text-pretty animate-fade-up md:text-lg"
-            style={{ animationDelay: "0.3s" }}
-          >
-            I engineer AI, cybersecurity, and full-stack platforms at the
-            intersection of forensic precision and product craft — for
-            high-stakes environments and the businesses I found.
+          {/* Subtitle & Value Proposition */}
+          <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl text-pretty">
+            I engineer <strong className="text-foreground font-semibold">autonomous AI architectures</strong>, <strong className="text-foreground font-semibold">cybersecurity platforms</strong>, and <strong className="text-foreground font-semibold">full-stack systems</strong> with forensic-grade auditability — crafted for mission-critical stakes and the ventures I found.
           </p>
-          <ArrivalGreeting />
 
-
-          <div
-            className="mt-12 flex flex-wrap items-center gap-4 animate-fade-up"
-            style={{ animationDelay: "0.45s" }}
-          >
-            <Magnetic
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center gap-4 md:gap-5 font-mono text-xs uppercase tracking-[0.2em]">
+            <a
               href="#work"
-              data-cursor="view"
-              className="group relative inline-block overflow-hidden border border-accent bg-accent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-accent-foreground shadow-[0_10px_40px_-10px_hsl(var(--accent)/0.7)] transition-shadow hover:shadow-[0_20px_60px_-10px_hsl(var(--accent)/0.9)]"
+              className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-md bg-accent text-[#0C0E12] font-bold shadow-[0_0_30px_rgba(232,168,56,0.35)] hover:bg-accent-glow hover:shadow-[0_0_45px_rgba(232,168,56,0.55)] transition-all active:scale-[0.98] cursor-pointer"
             >
-              <span className="relative z-10">Inspect the work</span>
-            </Magnetic>
-            <Magnetic
-              href="#contact"
-              data-cursor="contact"
-              className="group inline-flex items-center gap-3 border border-border bg-transparent px-6 py-3.5 font-mono text-[11px] uppercase tracking-[0.25em] text-foreground transition-colors hover:border-accent hover:text-accent"
+              <span>INSPECT CASE FILES</span>
+              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+
+            <a
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-7 py-4 rounded-md border border-white/15 bg-white/5 hover:border-accent hover:bg-accent/10 text-foreground transition-all active:scale-[0.98] cursor-pointer"
             >
-              Initialize contact
-              <span className="transition-transform group-hover:translate-x-1">
-                →
-              </span>
-            </Magnetic>
+              <span>DIRECT WHATSAPP</span>
+              <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+            </a>
+
             <a
               href="/resume.pdf"
-              className="ml-1 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground underline-offset-8 hover:text-foreground hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-4 text-muted-foreground hover:text-accent transition-colors flex items-center gap-1.5 underline underline-offset-8 decoration-white/20 hover:decoration-accent"
             >
-              Resume ↗
+              <span>DOSSIER / CV</span>
+              <ArrowUpRight className="size-3.5" />
             </a>
+          </div>
+
+          {/* Live System Tags */}
+          <div className="mt-10 pt-6 border-t border-white/10 flex flex-wrap items-center gap-4 text-muted-foreground font-mono text-[11px]">
+            <span className="flex items-center gap-1.5">
+              <Shield className="size-3.5 text-accent" />
+              <span>ZERO-TRUST ARCHITECTURE</span>
+            </span>
+            <span className="text-white/20">/</span>
+            <span className="flex items-center gap-1.5">
+              <Cpu className="size-3.5 text-blue-400" />
+              <span>AUTONOMOUS AGENTS</span>
+            </span>
+            <span className="text-white/20">/</span>
+            <span className="flex items-center gap-1.5">
+              <Activity className="size-3.5 text-emerald-400" />
+              <span>DIGITAL EVIDENCE CHAIN</span>
+            </span>
           </div>
         </div>
 
+        {/* RIGHT COLUMN: 5 Columns - 3D Interactive Portrait & Cyber HUD */}
+        <div className="w-full lg:col-span-5 relative flex flex-col items-center justify-center mt-6 lg:mt-0">
+          <TiltCard3D
+            className="w-full max-w-md lg:max-w-none"
+            glowColor="rgba(232, 168, 56, 0.25)"
+            tiltIntensity={15}
+          >
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C]/90 to-[#0C0E12]/95 p-6 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden group">
+              
+              {/* Top HUD Bar */}
+              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+                <div className="flex items-center gap-2">
+                  <Terminal className="size-3 text-accent" />
+                  <span className="text-foreground font-semibold">TARIK.ISLAM.OBJ</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="text-emerald-400">BIOMETRIC MATCH 99.8%</span>
+                </div>
+              </div>
 
-        {/* Portrait — embedded scene figure (ambient on mobile, side-column on desktop) */}
-        <div className="pointer-events-none absolute inset-0 -z-[1] opacity-40 lg:hidden">
-          <Portrait ambient />
+              {/* Portrait Container with Ambient Holographic Glow & Radar Rings */}
+              <div className="relative w-full aspect-[4/5] flex items-end justify-center overflow-hidden rounded-xl bg-black/40 border border-white/5">
+                
+                {/* Background 3D Mini Particle Sphere in Portrait Frame */}
+                <div className="absolute inset-0 -z-0 opacity-40 pointer-events-none">
+                  <ForensicCanvas3D className="min-h-full" />
+                </div>
+
+                {/* Radar Grid Circles */}
+                <svg className="absolute inset-0 size-full pointer-events-none opacity-25" viewBox="0 0 400 500">
+                  <circle cx="200" cy="250" r="160" fill="none" stroke="var(--accent)" strokeWidth="0.5" strokeDasharray="3 6" />
+                  <circle cx="200" cy="250" r="110" fill="none" stroke="var(--accent)" strokeWidth="0.5" strokeDasharray="2 4" />
+                  <circle cx="200" cy="250" r="60" fill="none" stroke="var(--accent)" strokeWidth="0.5" />
+                  <line x1="200" y1="50" x2="200" y2="450" stroke="var(--accent)" strokeWidth="0.5" strokeOpacity="0.4" />
+                  <line x1="40" y1="250" x2="360" y2="250" stroke="var(--accent)" strokeWidth="0.5" strokeOpacity="0.4" />
+                </svg>
+
+                {/* Portrait Image with Mask Blend */}
+                <img
+                  src={profileImage}
+                  alt="Tarik Islam — Forensic Scientist, AI Developer & Cybersecurity Engineer"
+                  className="relative z-10 object-contain object-bottom w-full h-full max-h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.9)] filter contrast-[1.08] saturate-[1.05] transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+
+                {/* Scanning Laser Beam Effect */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-transparent via-accent/20 to-transparent animate-scan-sweep opacity-70" />
+
+                {/* Floating Telemetry Chips */}
+                <div className="absolute top-4 left-4 z-20 px-2.5 py-1 rounded bg-[#0C0E12]/80 border border-white/10 font-mono text-[9px] text-accent backdrop-blur-md">
+                  DNA · DIGITAL EVIDENCE
+                </div>
+
+                <div className="absolute bottom-4 right-4 z-20 px-2.5 py-1 rounded bg-[#0C0E12]/80 border border-white/10 font-mono text-[9px] text-emerald-400 backdrop-blur-md flex items-center gap-1.5">
+                  <span className="size-1 rounded-full bg-emerald-400" />
+                  SHA-256 VERIFIED
+                </div>
+              </div>
+
+              {/* Bottom Telemetry Gauges */}
+              <div className="mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-2 text-center font-mono text-[9px] text-muted-foreground uppercase">
+                <div className="p-2 rounded bg-white/[0.02] border border-white/5">
+                  <p className="text-foreground font-bold text-xs">FOUNDER</p>
+                  <p className="text-[8px] text-accent">DEZO.IN</p>
+                </div>
+                <div className="p-2 rounded bg-white/[0.02] border border-white/5">
+                  <p className="text-foreground font-bold text-xs">7 DOMAINS</p>
+                  <p className="text-[8px] text-blue-400">FORENSICS</p>
+                </div>
+                <div className="p-2 rounded bg-white/[0.02] border border-white/5">
+                  <p className="text-foreground font-bold text-xs">ZERO-TRUST</p>
+                  <p className="text-[8px] text-emerald-400">SECURE</p>
+                </div>
+              </div>
+            </div>
+          </TiltCard3D>
         </div>
-        <div className="hidden lg:block">
-          <Portrait />
-        </div>
+
       </div>
 
+      {/* BOTTOM RIBBON: Full-Width Forensic Credentials Bar */}
+      <div className="w-full mt-14 pt-6 border-t border-white/10 px-6 md:px-12 lg:px-16">
+        <div className="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-y-4 gap-x-8 font-mono text-xs uppercase tracking-widest text-muted-foreground">
+          <div className="flex items-center gap-3 text-accent">
+            <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+            <span>CORE PILLARS</span>
+          </div>
 
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            <span className="text-foreground font-semibold">01 / DIGITAL FORENSICS</span>
+            <span className="text-white/20 hidden md:inline">•</span>
+            <span className="text-foreground font-semibold">02 / CYBERSECURITY DEFENSE</span>
+            <span className="text-white/20 hidden md:inline">•</span>
+            <span className="text-foreground font-semibold">03 / APPLIED AI & AGENTS</span>
+            <span className="text-white/20 hidden md:inline">•</span>
+            <span className="text-foreground font-semibold">04 / DEZO.IN VENTURE</span>
+            <span className="text-white/20 hidden md:inline">•</span>
+            <span className="text-foreground font-semibold">05 / FULL-STACK SYSTEMS</span>
+          </div>
 
-      {/* Bottom meta strip */}
-      <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col gap-6 border-t border-border pt-8 md:flex-row md:items-end md:justify-between">
-        <div className="grid grid-cols-2 gap-x-10 gap-y-4 md:grid-cols-4">
-          <MetaItem label="Location" value="India · Remote-friendly" />
-          <MetaItem label="Currently" value="Founding Dezo.in" />
-          <MetaItem label="Focus" value="AI · Forensics · Product" />
-          <MetaItem label="Timezone" value="UTC+05:30" />
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            scroll
-          </span>
-          <div className="h-16 w-px origin-top bg-accent/50 animate-line-reveal" />
+          <div className="hidden xl:flex items-center gap-2 text-[10px] text-accent/80">
+            <span>LOCATION: INDIA (GLOBAL CLIENTELE)</span>
+          </div>
         </div>
       </div>
     </header>
   );
 }
-
-function MetaItem({ label, value }: { label: string; value: string }) {
-  return (
-    <div>
-      <p className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-1.5 text-sm text-foreground">{value}</p>
-    </div>
-  );
-}
-
-function Portrait({ ambient = false }: { ambient?: boolean }) {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const fgRef = useRef<SVGSVGElement>(null);
-
-  useEffect(() => {
-    if (ambient) return;
-    const wrap = wrapRef.current;
-    if (!wrap) return;
-    const onMove = (e: MouseEvent) => {
-      const r = wrap.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      if (imgRef.current)
-        imgRef.current.style.transform = `translate3d(${px * -10}px, ${py * -6}px, 0)`;
-      if (fgRef.current)
-        fgRef.current.style.transform = `translate3d(${px * 14}px, ${py * 8}px, 0)`;
-    };
-    const onLeave = () => {
-      if (imgRef.current) imgRef.current.style.transform = "translate3d(0,0,0)";
-      if (fgRef.current) fgRef.current.style.transform = "translate3d(0,0,0)";
-    };
-    wrap.addEventListener("mousemove", onMove);
-    wrap.addEventListener("mouseleave", onLeave);
-    return () => {
-      wrap.removeEventListener("mousemove", onMove);
-      wrap.removeEventListener("mouseleave", onLeave);
-    };
-  }, [ambient]);
-
-  // Radial + linear feather so portrait dissolves into the scene
-  const feather =
-    "radial-gradient(120% 90% at 55% 40%, #000 45%, rgba(0,0,0,0.9) 65%, rgba(0,0,0,0.4) 82%, transparent 95%)";
-
-  return (
-    <div
-      ref={wrapRef}
-      className={
-        ambient
-          ? "absolute inset-0"
-          : "relative mx-auto h-[520px] w-full max-w-[640px] animate-fade-up md:h-[640px]"
-      }
-      style={ambient ? undefined : { animationDelay: "0.5s" }}
-
-      aria-label="Portrait of Tarik Islam embedded in the scene"
-    >
-      {/* Deep atmospheric glow — soft rim light behind subject */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(45% 55% at 55% 42%, color-mix(in oklab, var(--accent) 32%, transparent) 0%, transparent 70%)",
-          filter: "blur(30px)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 animate-halo"
-        style={{
-          background:
-            "radial-gradient(30% 40% at 65% 30%, color-mix(in oklab, #a48bff 30%, transparent) 0%, transparent 75%)",
-          filter: "blur(50px)",
-        }}
-      />
-
-      {/* Background fingerprint + neural lines (behind subject) */}
-      <svg
-        aria-hidden
-        viewBox="0 0 600 640"
-        className="pointer-events-none absolute inset-0 -z-10 size-full opacity-[0.35]"
-      >
-        <defs>
-          <radialGradient id="fpFade" cx="55%" cy="40%" r="60%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.9" />
-            <stop offset="70%" stopColor="var(--accent)" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-          </radialGradient>
-          <linearGradient id="netFade" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#a48bff" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        {/* fingerprint arcs */}
-        <g fill="none" stroke="url(#fpFade)" strokeWidth="0.6">
-          {Array.from({ length: 14 }).map((_, i) => {
-            const r = 60 + i * 22;
-            return (
-              <ellipse
-                key={i}
-                cx="330"
-                cy="260"
-                rx={r}
-                ry={r * 1.15}
-                strokeDasharray={i % 2 === 0 ? "3 6" : "1 4"}
-              />
-            );
-          })}
-        </g>
-        {/* neural connections */}
-        <g stroke="url(#netFade)" strokeWidth="0.5" fill="none">
-          <path d="M40 120 L200 200 L340 140 L500 260" />
-          <path d="M80 500 L220 420 L380 480 L540 380" />
-          <path d="M60 300 L180 340 L300 300 L460 360" />
-        </g>
-        <g fill="var(--accent)">
-          {[
-            [40, 120], [200, 200], [340, 140], [500, 260],
-            [80, 500], [220, 420], [380, 480], [540, 380],
-            [60, 300], [460, 360],
-          ].map(([cx, cy], i) => (
-            <circle key={i} cx={cx} cy={cy} r="1.6" opacity="0.8" />
-          ))}
-        </g>
-      </svg>
-
-      {/* The subject — cut-out portrait, feathered edges, no frame */}
-      <img
-        ref={imgRef}
-        src={profileImage}
-        alt="Tarik Islam"
-        loading="eager"
-        decoding="async"
-        className="absolute inset-0 size-full object-contain object-bottom transition-transform duration-500 ease-out will-change-transform"
-        style={{
-          WebkitMaskImage: feather,
-          maskImage: feather,
-          filter:
-            "drop-shadow(0 30px 60px color-mix(in oklab, var(--accent) 35%, transparent)) drop-shadow(0 0 24px color-mix(in oklab, var(--accent) 22%, transparent)) contrast(1.08) saturate(1.08)",
-
-
-        }}
-      />
-
-      {/* Soft rim light on subject edge */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 mix-blend-screen"
-        style={{
-          background:
-            "radial-gradient(60% 40% at 35% 30%, color-mix(in oklab, var(--accent) 22%, transparent) 0%, transparent 60%)",
-        }}
-      />
-
-      {/* Atmospheric fog — bottom fade into the page */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--background) 55%, transparent) 55%, var(--background) 100%)",
-        }}
-      />
-      {/* Left fade into text column */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-1/3"
-        style={{
-          background:
-            "linear-gradient(90deg, var(--background) 0%, transparent 100%)",
-        }}
-      />
-
-      {/* Foreground neural filaments in front of subject (subtle) */}
-      <svg
-        ref={fgRef}
-        aria-hidden
-        viewBox="0 0 600 640"
-        className="pointer-events-none absolute inset-0 size-full opacity-40 transition-transform duration-500 ease-out will-change-transform"
-      >
-        <g fill="none" stroke="var(--accent)" strokeWidth="0.4" opacity="0.7">
-          <path d="M120 60 Q 260 180 420 90" strokeDasharray="1 5" />
-          <path d="M80 580 Q 260 500 520 600" strokeDasharray="1 5" />
-        </g>
-        <g fill="var(--accent)">
-          <circle cx="120" cy="60" r="1.4" />
-          <circle cx="420" cy="90" r="1.4" />
-          <circle cx="80" cy="580" r="1.4" />
-          <circle cx="520" cy="600" r="1.4" />
-        </g>
-      </svg>
-
-      {/* Traveling scan line — subtle atmospheric layer */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 opacity-30 mix-blend-screen animate-scan-sweep"
-        style={{
-          background:
-            "linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--accent) 45%, transparent) 50%, transparent 100%)",
-        }}
-      />
-
-      {/* Fine texture / grain */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 3px)",
-        }}
-      />
-
-      {/* Floating particles around subject */}
-      <span className="pointer-events-none absolute left-[18%] top-[22%] size-1 rounded-full bg-accent animate-float-slow" />
-      <span
-        className="pointer-events-none absolute right-[16%] top-[40%] size-0.5 rounded-full bg-accent/70 animate-float-slow"
-        style={{ animationDelay: "1s" }}
-      />
-      <span
-        className="pointer-events-none absolute right-[28%] bottom-[24%] size-1 rounded-full bg-accent/50 animate-float-slow"
-        style={{ animationDelay: "1.8s" }}
-      />
-
-      {/* ============ WORKING-WITH-DATA HUD (only in side-column mode) ============ */}
-      {!ambient && <DataHud />}
-    </div>
-  );
-}
-
-/* Live data-stream, metrics, and waveform anchored around the laptop area
-   to convey "actively working with data". Pure CSS/SVG, no external libs. */
-function DataHud() {
-  const codeLines = [
-    "> scan.evidence --hash sha256",
-    "  ├─ matched  423 / 512  artefacts",
-    "  └─ integrity  OK  · chain verified",
-    "> model.infer(threat_vector)",
-    "  ▓▓▓▓▓▓▓▓▓░  92.4%  confidence",
-    "> pipeline.commit  →  vault.sealed",
-  ];
-
-  return (
-    <>
-      {/* Streaming code panel — top-right, near head/laptop line */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[2%] top-[8%] hidden w-[260px] rounded-xl border border-accent/25 bg-background/55 p-3 font-mono text-[10px] leading-[1.55] text-accent/90 shadow-[0_10px_40px_-15px_color-mix(in_oklab,var(--accent)_60%,transparent)] backdrop-blur-md md:block animate-float-slow"
-        style={{ animationDelay: "0.4s" }}
-      >
-        <div className="mb-2 flex items-center justify-between">
-          <span className="flex items-center gap-1.5">
-            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
-            <span className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-              stream · live
-            </span>
-          </span>
-          <span className="text-[9px] text-muted-foreground">tty/0</span>
-        </div>
-        <div className="space-y-0.5 text-foreground/80">
-          {codeLines.map((l, i) => (
-            <div
-              key={i}
-              className="animate-fade-in whitespace-pre"
-              style={{ animationDelay: `${0.6 + i * 0.35}s` }}
-            >
-              {l}
-            </div>
-          ))}
-          <div className="mt-1 flex items-center gap-1 text-accent">
-            <span>$</span>
-            <span className="inline-block h-3 w-1.5 animate-pulse bg-accent" />
-          </div>
-        </div>
-      </div>
-
-      {/* Live metric chip — right, mid */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[6%] top-[52%] hidden rounded-lg border border-border/60 bg-background/60 px-3 py-2 backdrop-blur-md md:block animate-float-slow"
-        style={{ animationDelay: "1.2s" }}
-      >
-        <div className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-          throughput
-        </div>
-        <div className="font-mono text-sm text-foreground">
-          1.42<span className="text-muted-foreground"> gb/s</span>
-        </div>
-        <div className="mt-1 h-1 w-24 overflow-hidden rounded-full bg-border/50">
-          <div className="h-full w-2/3 rounded-full bg-gradient-to-r from-accent to-[#a48bff]" />
-        </div>
-      </div>
-
-      {/* Data waveform anchored at the laptop */}
-      <svg
-        aria-hidden
-        viewBox="0 0 240 40"
-        className="pointer-events-none absolute bottom-[18%] left-[8%] hidden w-[180px] opacity-80 md:block"
-      >
-        <defs>
-          <linearGradient id="waveFade" x1="0" x2="1">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-            <stop offset="50%" stopColor="var(--accent)" stopOpacity="1" />
-            <stop offset="100%" stopColor="#a48bff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <g fill="url(#waveFade)">
-          {Array.from({ length: 40 }).map((_, i) => {
-            const h = Number((6 + Math.abs(Math.sin(i * 0.9)) * 26).toFixed(3));
-            const y = Number((20 - h / 2).toFixed(3));
-            return (
-              <rect
-                key={i}
-                x={i * 6}
-                y={y}
-                width="2.4"
-                height={h}
-                rx="1"
-                style={{
-                  animation: `wave-pulse 1.4s ease-in-out ${i * 0.05}s infinite`,
-                  transformOrigin: "center",
-                }}
-              />
-            );
-          })}
-        </g>
-      </svg>
-
-      {/* Floating data tokens — subtle numeric packets around subject */}
-      <div className="pointer-events-none absolute inset-0 hidden md:block">
-        {[
-          { t: "0xA7·F3", x: "12%", y: "34%", d: "0.2s" },
-          { t: "SHA-256", x: "68%", y: "28%", d: "1.1s" },
-          { t: "AES-GCM", x: "72%", y: "70%", d: "2.0s" },
-          { t: "AI · v4.2", x: "6%",  y: "62%", d: "0.8s" },
-        ].map((tok) => (
-          <span
-            key={tok.t}
-            className="absolute rounded-md border border-accent/30 bg-background/50 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.2em] text-accent/90 backdrop-blur-sm animate-float-slow"
-            style={{ left: tok.x, top: tok.y, animationDelay: tok.d }}
-          >
-            {tok.t}
-          </span>
-        ))}
-      </div>
-
-      {/* Data beams connecting hands → HUD (evokes "sending data") */}
-      <svg
-        aria-hidden
-        viewBox="0 0 600 640"
-        className="pointer-events-none absolute inset-0 size-full opacity-60"
-      >
-        <defs>
-          <linearGradient id="beam" x1="0" x2="1">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.9" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M300 470 C 380 420, 460 300, 540 150"
-          fill="none"
-          stroke="url(#beam)"
-          strokeWidth="0.8"
-          strokeDasharray="2 6"
-        >
-          <animate
-            attributeName="stroke-dashoffset"
-            from="0"
-            to="-40"
-            dur="2.4s"
-            repeatCount="indefinite"
-          />
-        </path>
-        <path
-          d="M300 490 C 240 500, 160 460, 90 380"
-          fill="none"
-          stroke="url(#beam)"
-          strokeWidth="0.8"
-          strokeDasharray="2 6"
-        >
-          <animate
-            attributeName="stroke-dashoffset"
-            from="0"
-            to="40"
-            dur="3s"
-            repeatCount="indefinite"
-          />
-        </path>
-      </svg>
-
-      {/* ============ SYSTEM METERS — left column ============ */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-[2%] top-[12%] hidden w-[190px] space-y-2 md:block animate-float-slow"
-        style={{ animationDelay: "0.6s" }}
-      >
-        <div className="rounded-lg border border-border/60 bg-background/60 p-2.5 backdrop-blur-md">
-          <div className="mb-1.5 flex items-center justify-between">
-            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-              system
-            </span>
-            <span className="flex items-center gap-1 font-mono text-[9px] text-emerald-400">
-              <span className="size-1 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
-              online
-            </span>
-          </div>
-          {[
-            { l: "cpu", v: 62, c: "from-accent to-[#a48bff]" },
-            { l: "gpu", v: 78, c: "from-[#a48bff] to-accent" },
-            { l: "mem", v: 41, c: "from-accent/80 to-emerald-400/70" },
-            { l: "net", v: 88, c: "from-emerald-400 to-accent" },
-          ].map((m) => (
-            <div key={m.l} className="mb-1 last:mb-0">
-              <div className="flex items-center justify-between font-mono text-[9px]">
-                <span className="uppercase tracking-[0.2em] text-muted-foreground">{m.l}</span>
-                <span className="text-foreground/80">{m.v}%</span>
-              </div>
-              <div className="mt-0.5 h-1 w-full overflow-hidden rounded-full bg-border/40">
-                <div
-                  className={`h-full rounded-full bg-gradient-to-r ${m.c}`}
-                  style={{ width: `${m.v}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Fingerprint match panel */}
-        <div className="rounded-lg border border-accent/25 bg-background/60 p-2.5 backdrop-blur-md">
-          <div className="mb-1 flex items-center justify-between">
-            <span className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-              biometric
-            </span>
-            <span className="font-mono text-[9px] text-accent">98.7%</span>
-          </div>
-          <svg viewBox="0 0 100 40" className="w-full">
-            <g fill="none" stroke="var(--accent)" strokeWidth="0.5" opacity="0.85">
-              {Array.from({ length: 7 }).map((_, i) => (
-                <ellipse key={i} cx="50" cy="22" rx={6 + i * 5} ry={4 + i * 3} />
-              ))}
-            </g>
-            <line x1="0" y1="20" x2="100" y2="20" stroke="var(--accent)" strokeWidth="0.6">
-              <animate attributeName="y1" values="4;36;4" dur="2.4s" repeatCount="indefinite" />
-              <animate attributeName="y2" values="4;36;4" dur="2.4s" repeatCount="indefinite" />
-            </line>
-          </svg>
-          <div className="mt-0.5 font-mono text-[8.5px] uppercase tracking-[0.22em] text-muted-foreground">
-            ridge · minutiae · match
-          </div>
-        </div>
-      </div>
-
-      {/* ============ RADAR + NEURAL GRAPH — bottom-right ============ */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[3%] bottom-[8%] hidden w-[220px] space-y-2 md:block animate-float-slow"
-        style={{ animationDelay: "1.6s" }}
-      >
-        <div className="rounded-lg border border-accent/25 bg-background/60 p-2.5 backdrop-blur-md">
-          <div className="mb-1 flex items-center justify-between font-mono text-[9px] uppercase tracking-[0.24em]">
-            <span className="text-muted-foreground">threat · radar</span>
-            <span className="text-emerald-400">clear</span>
-          </div>
-          <svg viewBox="0 0 100 100" className="mx-auto w-24">
-            <defs>
-              <radialGradient id="rGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.35" />
-                <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="46" fill="none" stroke="var(--accent)" strokeOpacity="0.5" strokeWidth="0.5" />
-            <circle cx="50" cy="50" r="32" fill="none" stroke="var(--accent)" strokeOpacity="0.35" strokeWidth="0.4" />
-            <circle cx="50" cy="50" r="18" fill="none" stroke="var(--accent)" strokeOpacity="0.25" strokeWidth="0.4" />
-            <line x1="50" y1="4" x2="50" y2="96" stroke="var(--accent)" strokeOpacity="0.2" strokeWidth="0.3" />
-            <line x1="4" y1="50" x2="96" y2="50" stroke="var(--accent)" strokeOpacity="0.2" strokeWidth="0.3" />
-            <g style={{ transformOrigin: "50px 50px", animation: "spin-slow 4s linear infinite" }}>
-              <path d="M50 50 L50 4 A46 46 0 0 1 92 34 Z" fill="url(#rGrad)" />
-            </g>
-            <circle cx="70" cy="34" r="1.4" fill="var(--accent)" />
-            <circle cx="32" cy="66" r="1.2" fill="#a48bff" />
-            <circle cx="60" cy="72" r="1" fill="var(--accent)" opacity="0.8" />
-          </svg>
-        </div>
-
-        <div className="rounded-lg border border-border/60 bg-background/60 p-2.5 backdrop-blur-md">
-          <div className="mb-1 font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-            neural · inference
-          </div>
-          <svg viewBox="0 0 200 60" className="w-full">
-            {[10, 30, 50].map((y, li) =>
-              [1, 2, 3, 4, 5].map((c) => (
-                <circle
-                  key={`${li}-${c}`}
-                  cx={20 + c * 32}
-                  cy={y + (c % 2 ? 5 : -5)}
-                  r="1.6"
-                  fill="var(--accent)"
-                  opacity={0.4 + (c % 3) * 0.2}
-                />
-              )),
-            )}
-            <g stroke="var(--accent)" strokeOpacity="0.35" strokeWidth="0.3" fill="none">
-              {[1, 2, 3, 4].map((c) => (
-                <g key={c}>
-                  <line x1={20 + c * 32} y1={15} x2={20 + (c + 1) * 32} y2={25} />
-                  <line x1={20 + c * 32} y1={35} x2={20 + (c + 1) * 32} y2={45} />
-                  <line x1={20 + c * 32} y1={55} x2={20 + (c + 1) * 32} y2={35} />
-                </g>
-              ))}
-            </g>
-          </svg>
-          <div className="mt-0.5 flex items-center justify-between font-mono text-[9px] text-muted-foreground">
-            <span>layers · 12</span>
-            <span className="text-accent">loss 0.021</span>
-          </div>
-        </div>
-      </div>
-
-      {/* ============ STATUS TICKER — bottom center ============ */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-[10%] bottom-[3%] hidden items-center justify-between rounded-md border border-border/50 bg-background/50 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground backdrop-blur-md md:flex"
-      >
-        <span className="flex items-center gap-1.5">
-          <span className="size-1 rounded-full bg-emerald-400 shadow-[0_0_6px_currentColor]" />
-          uptime 42d 07h
-        </span>
-        <span>lat · 12ms</span>
-        <span>vault · sealed</span>
-        <span className="text-accent">rls · enforced</span>
-      </div>
-    </>
-  );
-}
-
-
-
-

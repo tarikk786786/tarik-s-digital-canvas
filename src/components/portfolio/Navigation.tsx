@@ -1,5 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { Menu, X, ArrowUpRight, Terminal } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/contact-links";
+
+const NAV_LINKS = [
+  { label: "Work", href: "#work" },
+  { label: "Capabilities", href: "#capabilities" },
+  { label: "Domains", href: "#domains" },
+  { label: "Dezo.in", href: "#dezo" },
+  { label: "Skills", href: "/skills", isRoute: true },
+  { label: "Credentials", href: "/certifications", isRoute: true },
+  { label: "News Feed", href: "/news", isRoute: true },
+  { label: "Contact", href: "#contact" },
+];
 
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
@@ -7,176 +20,124 @@ export function Navigation() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll while mobile menu is open, close on Esc
-  useEffect(() => {
-    if (!open) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
-
-  const links: { to: string; label: string; route?: boolean }[] = [
-    { to: "/#work", label: "Work" },
-    { to: "/#capabilities", label: "Capabilities" },
-    { to: "/skills", label: "Skills", route: true },
-    { to: "/certifications", label: "Credentials", route: true },
-    { to: "/news", label: "Intel Feed", route: true },
-    { to: "/#contact", label: "Contact" },
-  ];
+  const linkClass =
+    "group relative font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-accent font-medium";
+  const underline = (
+    <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full shadow-[0_0_8px_var(--accent)]" />
+  );
 
   return (
-    <nav
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-all duration-500 ${
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? "border-border bg-background/80 backdrop-blur-xl"
-          : "border-transparent bg-transparent"
+          ? "border-b border-white/10 bg-[#0C0E12]/85 backdrop-blur-xl shadow-lg"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between px-6 md:px-10">
-        <a href="#top" onClick={() => setOpen(false)} className="group relative flex items-center gap-3">
-          <span className="relative grid size-11 place-items-center">
-            <span
-              aria-hidden
-              className="absolute inset-0 rounded-full opacity-80 animate-spin-slow"
-              style={{
-                background:
-                  "conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--accent) 90%, transparent) 90deg, transparent 180deg, color-mix(in oklab, #a48bff 70%, transparent) 270deg, transparent 360deg)",
-                mask: "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
-                WebkitMask:
-                  "radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1px))",
-              }}
-            />
-            <span className="relative grid size-9 place-items-center overflow-hidden rounded-full border border-border-strong bg-background font-mono text-[12px] font-semibold tracking-[0.15em] text-accent shadow-[0_0_24px_-6px_color-mix(in_oklab,var(--accent)_60%,transparent)] transition-all duration-500 group-hover:shadow-[0_0_32px_-4px_var(--accent)]">
-              TI
+      <div className="mx-auto flex h-16 md:h-20 max-w-[1600px] items-center justify-between px-6 md:px-12">
+        {/* LEFT: Logo mark */}
+        <a href="/#top" className="flex items-center gap-3.5 group">
+          <span className="relative grid size-9 place-items-center rounded-full border border-accent/40 bg-[#14161C] font-mono text-xs font-bold text-accent shadow-[0_0_16px_rgba(232,168,56,0.25)] group-hover:border-accent group-hover:shadow-[0_0_24px_rgba(232,168,56,0.45)] transition-all">
+            TI
+          </span>
+          <div className="flex flex-col">
+            <span className="font-display font-bold text-sm text-foreground tracking-tight group-hover:text-accent transition-colors">
+              Tarik Islam
             </span>
-          </span>
-          <span className="hidden font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:block">
-            Tarik Islam / Protocol v4
-          </span>
+            <span className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.25em] text-muted-foreground">
+              Forensics · Cyber · AI
+            </span>
+          </div>
         </a>
 
-        <div className="hidden items-center gap-8 md:flex">
-          {links.map((l) =>
-            l.route ? (
-              <Link
-                key={l.to}
-                to={l.to}
-                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
-                activeProps={{ className: "text-foreground" }}
-              >
-                {l.label}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+        {/* CENTER/RIGHT: Nav links */}
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-7">
+          {NAV_LINKS.map((item) =>
+            item.isRoute ? (
+              <Link key={item.href} to={item.href} className={linkClass}>
+                {item.label}
+                {underline}
               </Link>
             ) : (
-              <a
-                key={l.to}
-                href={l.to}
-                className="group relative font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {l.label}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-accent transition-all duration-300 group-hover:w-full" />
+              <a key={item.href} href={item.href} className={linkClass}>
+                {item.label}
+                {underline}
               </a>
-            ),
+            )
           )}
-        </div>
+        </nav>
 
-        <div className="flex items-center gap-2">
+        {/* FAR RIGHT: Availability Badge & Quick CTA */}
+        <div className="flex items-center gap-4">
           <a
-            href="#contact"
-            className="group hidden items-center gap-2 border border-border bg-surface/50 px-3 py-1.5 transition-colors hover:border-accent hover:bg-accent/5 sm:flex"
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-accent/30 bg-accent/10 font-mono text-[10px] uppercase tracking-[0.2em] text-accent hover:bg-accent/20 transition-all shadow-[0_0_12px_rgba(232,168,56,0.15)]"
           >
             <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-pulse-dot rounded-full bg-accent" />
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-accent" />
             </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-foreground">
-              Available Q3 26
-            </span>
+            <span>AVAILABLE Q3 '26</span>
           </a>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile hamburger button */}
           <button
             type="button"
-            onClick={() => setOpen((v) => !v)}
-            aria-expanded={open}
-            aria-controls="mobile-nav"
-            aria-label={open ? "Close menu" : "Open menu"}
-            className="grid size-11 place-items-center border border-border bg-surface/40 text-foreground transition-colors hover:border-accent hover:text-accent md:hidden"
+            aria-label="Toggle Navigation Menu"
+            onClick={() => setOpen(!open)}
+            className="grid size-10 place-items-center rounded-lg border border-white/10 bg-white/5 text-foreground hover:border-accent hover:text-accent transition-colors lg:hidden cursor-pointer"
           >
-            <span aria-hidden className="relative block h-3 w-5">
-              <span
-                className={`absolute left-0 top-0 h-px w-full bg-current transition-transform duration-300 ${
-                  open ? "translate-y-[6px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-current transition-opacity duration-200 ${
-                  open ? "opacity-0" : "opacity-100"
-                }`}
-              />
-              <span
-                className={`absolute bottom-0 left-0 h-px w-full bg-current transition-transform duration-300 ${
-                  open ? "-translate-y-[6px] -rotate-45" : ""
-                }`}
-              />
-            </span>
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile drawer */}
-      <div
-        id="mobile-nav"
-        className={`md:hidden overflow-hidden border-t border-border/70 bg-background/95 backdrop-blur-xl transition-[max-height,opacity] duration-300 ${
-          open ? "max-h-[80vh] opacity-100" : "pointer-events-none max-h-0 opacity-0"
-        }`}
-      >
-        <ul className="flex flex-col px-6 py-4">
-          {links.map((l) => (
-            <li key={l.to} className="border-b border-border/40 last:border-b-0">
-              {l.route ? (
+      {/* Mobile Slide-Down Menu */}
+      {open && (
+        <div className="border-b border-white/10 bg-[#0C0E12]/95 backdrop-blur-2xl px-6 py-6 lg:hidden animate-fade-in">
+          <nav aria-label="Mobile" className="flex flex-col space-y-4">
+            {NAV_LINKS.map((item) =>
+              item.isRoute ? (
                 <Link
-                  to={l.to}
+                  key={item.href}
+                  to={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-4 font-mono text-xs uppercase tracking-[0.25em] text-foreground hover:text-accent"
+                  className="font-mono text-sm uppercase tracking-[0.25em] text-foreground hover:text-accent py-2 border-b border-white/5 transition-colors"
                 >
-                  {l.label}
+                  {item.label}
                 </Link>
               ) : (
                 <a
-                  href={l.to}
+                  key={item.href}
+                  href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-4 font-mono text-xs uppercase tracking-[0.25em] text-foreground hover:text-accent"
+                  className="font-mono text-sm uppercase tracking-[0.25em] text-foreground hover:text-accent py-2 border-b border-white/5 transition-colors"
                 >
-                  {l.label}
+                  {item.label}
                 </a>
-              )}
-            </li>
-          ))}
-          <li className="pt-4">
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="flex items-center justify-center gap-2 border border-accent bg-accent px-4 py-3 font-mono text-[10px] uppercase tracking-[0.25em] text-accent-foreground"
-            >
-              <span className="size-1.5 rounded-full bg-accent-foreground" />
-              Available Q3 26
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+              )
+            )}
+            <div className="pt-3">
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setOpen(false)}
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-widest font-bold"
+              >
+                <span>DIRECT WHATSAPP</span>
+                <ArrowUpRight className="size-4" />
+              </a>
+            </div>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }

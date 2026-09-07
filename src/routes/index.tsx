@@ -3,47 +3,35 @@ import { lazy, Suspense } from "react";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { Hero } from "@/components/portfolio/Hero";
 import { LogoMarquee } from "@/components/portfolio/LogoMarquee";
+import { LiveForensicScanner } from "@/components/portfolio/LiveForensicScanner";
 import { Capabilities } from "@/components/portfolio/Capabilities";
-import { CinematicIntro } from "@/components/portfolio/CinematicIntro";
-import { CustomCursor } from "@/components/portfolio/CustomCursor";
-import { LivingBackground } from "@/components/portfolio/LivingBackground";
-import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ConsentBanner } from "@/components/privacy/ConsentBanner";
-import { PathSelector } from "@/components/portfolio/PathSelector";
-import { SmoothScroll } from "@/components/portfolio/SmoothScroll";
-import { ScrollProgress } from "@/components/portfolio/ScrollProgress";
-import { ReturningVisitorCard } from "@/components/portfolio/ReturningVisitorCard";
-import { Spotlight } from "@/components/portfolio/Spotlight";
 import { Footer } from "@/components/portfolio/Footer";
+import { CyberTerminal } from "@/components/portfolio/CyberTerminal";
 
-// Defer heavier below-the-fold sections so they don't block the hero paint.
-const ForensicDomains = lazy(() =>
-  import("@/components/portfolio/ForensicDomains").then((m) => ({ default: m.ForensicDomains })),
+// Defer heavier below-the-fold sections for instant initial paint
+const Projects = lazy(() =>
+  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
 );
-const TechCertifications = lazy(() =>
-  import("@/components/portfolio/TechCertifications").then((m) => ({ default: m.TechCertifications })),
+const ForensicDomains = lazy(() =>
+  import("@/components/portfolio/ForensicDomains").then((m) => ({ default: m.ForensicDomains }))
 );
 const Dezo = lazy(() =>
-  import("@/components/portfolio/Dezo").then((m) => ({ default: m.Dezo })),
+  import("@/components/portfolio/Dezo").then((m) => ({ default: m.Dezo }))
 );
-const Projects = lazy(() =>
-  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects })),
-);
-const Timeline = lazy(() =>
-  import("@/components/portfolio/Timeline").then((m) => ({ default: m.Timeline })),
-);
-const Lab = lazy(() =>
-  import("@/components/portfolio/Lab").then((m) => ({ default: m.Lab })),
-);
-const Testimonials = lazy(() =>
-  import("@/components/portfolio/Testimonials").then((m) => ({ default: m.Testimonials })),
+const TechCertifications = lazy(() =>
+  import("@/components/portfolio/TechCertifications").then((m) => ({ default: m.TechCertifications }))
 );
 const Contact = lazy(() =>
-  import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact })),
+  import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact }))
 );
 
-const SectionFallback = () => <div aria-hidden className="h-[40vh] w-full" />;
+const SectionFallback = () => (
+  <div aria-hidden className="h-[30vh] w-full flex items-center justify-center">
+    <span className="size-6 border-2 border-accent/40 border-t-accent rounded-full animate-spin" />
+  </div>
+);
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -52,36 +40,56 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <CinematicIntro />
-      <SmoothScroll />
-      <ScrollProgress />
-      <CustomCursor />
-      <CommandPalette />
       <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden">
-        <LivingBackground />
-        <Spotlight />
-
         <div className="relative z-10">
           <Navigation />
           <Hero />
-          <PathSelector />
           <LogoMarquee />
-          <Reveal><Capabilities /></Reveal>
+          
+          {/* Live Interactive Telemetry & Forensic Audit Engine */}
+          <LiveForensicScanner />
+
+          {/* Capabilities Matrix */}
+          <Reveal>
+            <Capabilities />
+          </Reveal>
+
+          {/* Featured Case Files / Projects Showcase */}
           <Suspense fallback={<SectionFallback />}>
-            <Reveal><ForensicDomains /></Reveal>
-            <Reveal><TechCertifications /></Reveal>
-            <Reveal><Dezo /></Reveal>
-            <Reveal><Projects /></Reveal>
-            <Reveal><Timeline /></Reveal>
-            <Reveal><Lab /></Reveal>
-            <Reveal><Testimonials /></Reveal>
-            <Reveal><Contact /></Reveal>
+            <Reveal>
+              <Projects />
+            </Reveal>
+
+            {/* Forensic Science Domains Atlas */}
+            <Reveal>
+              <ForensicDomains />
+            </Reveal>
+
+            {/* Dezo.in Studio */}
+            <Reveal>
+              <Dezo />
+            </Reveal>
+
+            {/* Technical & Cybersecurity Certifications */}
+            <Reveal>
+              <TechCertifications />
+            </Reveal>
+
+            {/* Direct Contact Deck */}
+            <Reveal>
+              <Contact />
+            </Reveal>
           </Suspense>
+
           <Footer />
         </div>
       </main>
+
+      {/* Interactive Cyber-Forensic Terminal HUD */}
+      <CyberTerminal />
+
+      {/* Privacy & Compliance Consent */}
       <ConsentBanner />
-      <ReturningVisitorCard />
     </>
   );
 }

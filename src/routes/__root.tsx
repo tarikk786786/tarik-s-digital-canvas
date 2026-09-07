@@ -13,25 +13,24 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PageTransition } from "@/components/portfolio/PageTransition";
 
-
 function NotFoundComponent() {
   return (
-    <div className="grain-overlay flex min-h-dvh items-center justify-center bg-background px-6">
+    <div className="grain-overlay flex min-h-dvh items-center justify-center bg-[#0C0E12] px-6">
       <div className="max-w-md text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
-          Protocol 404 — Signal lost
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
+          PROTOCOL 404 — SIGNAL LOST
         </p>
-        <h1 className="mt-6 text-6xl font-medium tracking-tighter text-foreground">
-          Off the record.
+        <h1 className="mt-6 font-display text-5xl font-bold tracking-tighter text-foreground">
+          Off the Record.
         </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist in the archive.
+        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+          The requested forensic dossier or endpoint does not exist in the public archive.
         </p>
         <Link
           to="/"
-          className="mt-8 inline-flex items-center gap-3 border border-accent bg-accent/5 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.25em] text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="mt-8 inline-flex items-center gap-3 px-6 py-3 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-[0.25em] font-bold shadow-[0_0_20px_rgba(232,168,56,0.3)] hover:bg-accent-glow transition-all"
         >
-          Return to base
+          Return to Base Enclave
         </Link>
       </div>
     </div>
@@ -46,13 +45,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-dvh items-center justify-center bg-background px-6">
+    <div className="flex min-h-dvh items-center justify-center bg-[#0C0E12] px-6">
       <div className="max-w-md text-center">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-destructive">
-          Runtime exception
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-red-400">
+          RUNTIME INTERCEPTION
         </p>
-        <h1 className="mt-4 text-2xl font-medium tracking-tight text-foreground">
-          Something interrupted the transmission.
+        <h1 className="mt-4 font-display text-2xl font-bold tracking-tight text-foreground">
+          Telemetry stream interrupted.
         </h1>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <button
@@ -60,15 +59,15 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="border border-accent bg-accent px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-accent-foreground transition-colors hover:bg-accent/90"
+            className="px-6 py-2.5 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent-glow transition-all"
           >
-            Retry
+            Re-authenticate
           </button>
           <a
             href="/"
-            className="border border-border px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.2em] text-foreground transition-colors hover:bg-secondary"
+            className="px-6 py-2.5 rounded-md border border-white/15 text-foreground font-mono text-xs uppercase tracking-widest hover:bg-white/5 transition-all"
           >
-            Home
+            Home Enclave
           </a>
         </div>
       </div>
@@ -80,42 +79,67 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       {
-        title:
-          "Tarik Islam — Forensic Scientist, AI Developer & Cybersecurity Engineer",
+        title: "Tarik Islam — Forensic Scientist, AI Systems Architect & Cybersecurity Engineer",
       },
       {
         name: "description",
         content:
-          "Portfolio of Tarik Islam — building intelligent software, AI systems, cybersecurity platforms, and digital products that solve real-world problems.",
+          "Official portfolio of Tarik Islam — Founder of Dezo.in, Forensic Scientist, Cybersecurity Engineer, and AI Developer building high-assurance intelligent software, autonomous agent architectures, and cryptographic systems.",
+      },
+      {
+        name: "keywords",
+        content:
+          "Tarik Islam, Forensic Scientist, Cybersecurity Engineer, AI Developer, Autonomous AI Agents, Digital Forensics, Dezo.in, Memory Forensics, Incident Response, Zero Trust Architecture, AppSec, Threat Hunting, Full Stack Developer, React 19, TypeScript, Python, Rust, Cryptography, NIST SP 800-86, ISO 27037, India AI",
       },
       { name: "author", content: "Tarik Islam" },
-      { name: "theme-color", content: "#070A0F" },
+      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      { name: "theme-color", content: "#0C0E12" },
+      { name: "color-scheme", content: "dark" },
+
+      // Open Graph Metadata
+      { property: "og:site_name", content: "Tarik Islam — Digital Canvas" },
+      { property: "og:type", content: "profile" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:url", content: "https://tarik-s-digital-canvas.vercel.app" },
       {
         property: "og:title",
-        content:
-          "Tarik Islam — Forensic Scientist, AI Developer & Cybersecurity Engineer",
+        content: "Tarik Islam — Forensic Scientist, AI Systems Architect & Cybersecurity Engineer",
       },
       {
         property: "og:description",
         content:
-          "Building intelligent software, AI systems, cybersecurity platforms, and scalable businesses.",
+          "Engineering autonomous AI systems, zero-trust cybersecurity platforms, and digital forensics pipelines with evidence-backed reproducibility.",
       },
-      { property: "og:type", content: "website" },
-      { property: "og:site_name", content: "Tarik Islam" },
+      {
+        property: "og:image",
+        content: "https://tarik-s-digital-canvas.vercel.app/android-chrome-512x512.png",
+      },
+      { property: "og:image:width", content: "512" },
+      { property: "og:image:height", content: "512" },
+      { property: "og:image:alt", content: "Tarik Islam — Digital Canvas Profile" },
+
+      // Twitter Cards
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@tarik_islam_786" },
+      { name: "twitter:creator", content: "@tarik_islam_786" },
       {
         name: "twitter:title",
-        content: "Tarik Islam — Forensic Scientist, AI Developer",
+        content: "Tarik Islam — Forensic Scientist & AI Developer",
       },
       {
         name: "twitter:description",
         content:
-          "Building intelligent software, AI systems, and cybersecurity platforms that solve real-world problems.",
+          "Building intelligent software, AI agent systems, and cybersecurity platforms that solve real-world problems.",
+      },
+      {
+        name: "twitter:image",
+        content: "https://tarik-s-digital-canvas.vercel.app/android-chrome-512x512.png",
       },
     ],
     links: [
+      { rel: "canonical", href: "https://tarik-s-digital-canvas.vercel.app" },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
@@ -130,7 +154,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap",
+        href: "https://api.fontshare.com/v2/css?f[]=satoshi@400;500;700;900&f[]=general-sans@400;500;600&display=swap",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap",
       },
     ],
 
@@ -139,17 +167,68 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@type": "Person",
-          name: "Tarik Islam",
-          jobTitle: [
-            "Forensic Scientist",
-            "Cybersecurity Engineer",
-            "AI Developer",
-            "Full Stack Developer",
-            "Founder",
+          "@graph": [
+            {
+              "@type": "Person",
+              "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+              name: "Tarik Islam",
+              url: "https://tarik-s-digital-canvas.vercel.app",
+              jobTitle: [
+                "Forensic Scientist",
+                "Cybersecurity Engineer",
+                "AI Systems Architect",
+                "Full Stack Developer",
+                "Founder & CEO",
+              ],
+              worksFor: {
+                "@type": "Organization",
+                name: "Dezo.in",
+                url: "https://dezo.in",
+              },
+              sameAs: [
+                "https://github.com/tarikk786786",
+                "https://instagram.com/tarik_islam_786",
+                "https://dezo.in",
+              ],
+              description:
+                "Forensic scientist and AI developer engineering secure-by-design intelligent software, autonomous agents, and cryptographic chain-of-custody platforms.",
+              knowsAbout: [
+                "Digital Forensics",
+                "Cybersecurity Engineering",
+                "Autonomous AI Agents",
+                "Zero Trust Architecture",
+                "Memory Forensics",
+                "Incident Response",
+                "Full Stack Development",
+                "TypeScript",
+                "React 19",
+                "Python",
+                "Rust",
+              ],
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "IN",
+              },
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://tarik-s-digital-canvas.vercel.app/#website",
+              url: "https://tarik-s-digital-canvas.vercel.app",
+              name: "Tarik Islam — Forensic Scientist, AI Developer & Founder",
+              publisher: {
+                "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+              },
+            },
+            {
+              "@type": "ProfilePage",
+              "@id": "https://tarik-s-digital-canvas.vercel.app/#webpage",
+              url: "https://tarik-s-digital-canvas.vercel.app",
+              name: "Tarik Islam — Digital Canvas Dossier",
+              mainEntity: {
+                "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+              },
+            },
           ],
-          description:
-            "Building intelligent software, AI systems, cybersecurity platforms, and scalable businesses that solve real-world problems.",
         }),
       },
     ],
@@ -189,6 +268,5 @@ function RootComponent() {
         <Outlet />
       </PageTransition>
     </QueryClientProvider>
-
   );
 }
