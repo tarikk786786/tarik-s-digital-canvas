@@ -10,7 +10,7 @@ interface TiltCard3DProps {
 export function TiltCard3D({
   children,
   className = "",
-  glowColor = "rgba(232, 168, 56, 0.15)",
+  glowColor = "rgba(98, 230, 255, 0.15)",
   tiltIntensity = 12,
 }: TiltCard3DProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);

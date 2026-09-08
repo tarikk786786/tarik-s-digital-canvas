@@ -140,8 +140,8 @@
 /* Warm ambient glow — replaces the old aurora gradient */
 @utility warm-glow {
   background:
-    radial-gradient(ellipse 50% 40% at 25% 30%, rgba(232, 168, 56, 0.08), transparent 50%),
-    radial-gradient(ellipse 40% 50% at 75% 60%, rgba(110, 142, 247, 0.06), transparent 50%);
+    radial-gradient(ellipse 50% 40% at 25% 30%, rgba(98, 230, 255, 0.06), transparent 50%),
+    radial-gradient(ellipse 40% 50% at 75% 60%, rgba(155, 140, 255, 0.05), transparent 50%);
 }
 
 /* Fine grid backdrop */
@@ -154,11 +154,11 @@
 
 /* Gradient utilities */
 @utility bg-gradient-primary {
-  background: linear-gradient(135deg, #E8A838 0%, #D4842C 50%, #6E8EF7 100%);
+  background: linear-gradient(135deg, #62E6FF 0%, #38BDF8 50%, #9B8CFF 100%);
 }
 
 @utility bg-gradient-cta {
-  background: linear-gradient(90deg, #E8A838, #D4842C);
+  background: linear-gradient(90deg, #62E6FF, #38BDF8);
   transition: filter 300ms var(--ease-premium);
   &:hover {
     filter: brightness(1.1);
@@ -166,7 +166,7 @@
 }
 
 @utility text-gradient-primary {
-  background: linear-gradient(135deg, #E8A838 0%, #F0C060 40%, #6E8EF7 100%);
+  background: linear-gradient(135deg, #62E6FF 0%, #A5F3FC 40%, #9B8CFF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -176,7 +176,7 @@
   border: 1px solid transparent;
   background:
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(135deg, rgba(232, 168, 56, 0.3), rgba(110, 142, 247, 0.15), rgba(255, 255, 255, 0.05)) border-box;
+    linear-gradient(135deg, rgba(98, 230, 255, 0.35), rgba(155, 140, 255, 0.2), rgba(255, 255, 255, 0.05)) border-box;
 }
 
 @utility text-balance {

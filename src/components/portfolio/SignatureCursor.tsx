@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 
 export function SignatureCursor() {
   const [enabled, setEnabled] = useState(false);
+  const [hasMoved, setHasMoved] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [isPointerDown, setIsPointerDown] = useState(false);
@@ -28,6 +29,7 @@ export function SignatureCursor() {
     setEnabled(true);
 
     const onMouseMove = (e: MouseEvent) => {
+      setHasMoved(true);
       mousePos.current = { x: e.clientX, y: e.clientY };
       if (dotRef.current) {
         dotRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
@@ -82,7 +84,7 @@ export function SignatureCursor() {
     };
   }, []);
 
-  if (!enabled) return null;
+  if (!enabled || !hasMoved) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden select-none">
@@ -92,12 +94,16 @@ export function SignatureCursor() {
         className="fixed top-0 left-0 -ml-1 -mt-1 size-2 rounded-full bg-[#62E6FF] shadow-[0_0_8px_rgba(98,230,255,0.9)] transition-opacity duration-150 will-change-transform"
         style={{
           opacity: isPointerDown ? 0.4 : 1,
+          transform: "translate3d(-100px, -100px, 0)",
         }}
       />
 
       {/* Outer Reactive Ring */}
       <div
         ref={ringRef}
+        style={{
+          transform: "translate3d(-100px, -100px, 0)",
+        }}
         className={`fixed top-0 left-0 flex items-center justify-center rounded-full border transition-all duration-200 will-change-transform ${
           isHovered
             ? "border-[#62E6FF]/80 bg-[#62E6FF]/10 scale-125 shadow-[0_0_20px_rgba(98,230,255,0.25)]"

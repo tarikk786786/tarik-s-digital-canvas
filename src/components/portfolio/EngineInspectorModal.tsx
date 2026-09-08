@@ -162,20 +162,6 @@ export function EngineInspectorModal() {
 
   return (
     <>
-      {/* Floating Trigger Button */}
-      <button
-        type="button"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="View the Architecture Engine"
-        className="fixed bottom-6 left-6 z-40 group flex items-center gap-2 px-3.5 py-2 rounded-full border border-white/10 bg-[#14161C]/90 backdrop-blur-xl text-foreground font-mono text-[11px] shadow-[0_8px_32px_rgba(0,0,0,0.8)] hover:border-accent hover:text-accent transition-all active:scale-95 cursor-pointer"
-      >
-        <Code2 className="size-3.5 text-accent" />
-        <span className="font-bold tracking-wider uppercase">VIEW THE ENGINE</span>
-        <span className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-muted-foreground">
-          Press E
-        </span>
-      </button>
-
       {/* Inspector Modal Overlay */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in">

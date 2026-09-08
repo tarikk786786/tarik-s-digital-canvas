@@ -33,11 +33,11 @@ export function Contact() {
   return (
     <section
       id="contact"
-      className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 bg-[#0C0E12] border-t border-white/5 overflow-hidden"
+      className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 bg-[#050608] border-t border-white/5 overflow-hidden"
     >
       {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 size-[40rem] rounded-full blur-3xl opacity-15 bg-radial from-accent/20 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 right-0 size-[36rem] rounded-full blur-3xl opacity-10 bg-radial from-blue-500/20 to-transparent pointer-events-none" />
+      <div className="absolute top-1/2 left-0 size-[40rem] rounded-full blur-3xl opacity-15 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 right-0 size-[36rem] rounded-full blur-3xl opacity-10 bg-radial from-[#9B8CFF]/15 to-transparent pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto">
         
@@ -174,10 +174,10 @@ export function Contact() {
 
           {/* RIGHT: Interactive Quick Message Composer (7 cols) */}
           <div className="lg:col-span-7">
-            <TiltCard3D glowColor="rgba(232, 168, 56, 0.2)" tiltIntensity={8}>
+            <TiltCard3D glowColor="rgba(98, 230, 255, 0.2)" tiltIntensity={8}>
               <form
                 onSubmit={handleWhatsAppSend}
-                className="p-8 md:p-10 rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C]/95 to-[#0F1116] backdrop-blur-2xl shadow-2xl space-y-6"
+                className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-2xl shadow-2xl space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <div className="flex items-center gap-2">
@@ -212,10 +212,10 @@ export function Contact() {
                     <select
                       value={inquiryType}
                       onChange={(e) => setInquiryType(e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[#14161C] font-sans text-sm text-foreground focus:outline-none focus:border-accent transition-colors"
+                      className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[#0A0D12] font-sans text-sm text-foreground focus:outline-none focus:border-accent transition-colors"
                     >
-                      <option>AI Systems & LLM Architecture</option>
-                      <option>Cybersecurity & Threat Audit</option>
+                      <option>AI Systems &amp; LLM Architecture</option>
+                      <option>Cybersecurity &amp; Threat Audit</option>
                       <option>Digital Forensics Consultation</option>
                       <option>Dezo.in Product Studio Inquiry</option>
                       <option>Full Stack System Build</option>
@@ -240,7 +240,7 @@ export function Contact() {
                 <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-widest font-bold shadow-[0_0_24px_rgba(232,168,56,0.3)] hover:bg-accent-glow hover:shadow-[0_0_36px_rgba(232,168,56,0.5)] transition-all active:scale-[0.98] cursor-pointer"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-md bg-accent text-[#050608] font-mono text-xs uppercase tracking-widest font-bold shadow-[0_0_24px_rgba(98,230,255,0.3)] hover:bg-accent-glow hover:shadow-[0_0_36px_rgba(98,230,255,0.5)] transition-all active:scale-[0.98] cursor-pointer"
                   >
                     <span>DISPATCH VIA WHATSAPP</span>
                     <Send className="size-4" />

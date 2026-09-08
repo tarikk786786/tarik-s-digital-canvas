@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Volume2, VolumeX, Eye, Terminal, Search } from "lucide-react";
+import { Volume2, VolumeX, Eye, Terminal, Search, Code2 } from "lucide-react";
 import { soundEngine } from "@/lib/sound-engine";
 import { getDirectorMode, setDirectorMode, DirectorMode } from "@/lib/director-mode";
 
@@ -75,6 +75,11 @@ export function SystemHUD() {
     soundEngine.playClick();
   };
 
+  const openEngineInspector = () => {
+    window.dispatchEvent(new CustomEvent("tarik:open-engine-inspector"));
+    soundEngine.playClick();
+  };
+
   const openCommandPalette = () => {
     window.dispatchEvent(new CustomEvent("tarik:open-command-palette"));
     soundEngine.playClick();
@@ -106,7 +111,7 @@ export function SystemHUD() {
       </div>
 
       {/* Right: Interactive System Toggles */}
-      <div className="flex items-center gap-4 text-muted-foreground">
+      <div className="flex items-center gap-3.5 text-muted-foreground">
         {/* Audio Toggle */}
         <button
           type="button"
@@ -129,6 +134,19 @@ export function SystemHUD() {
         >
           <Eye className="size-3.5 text-[#9B8CFF]" />
           <span>MODE: {directorMode.slice(0, 4)}</span>
+        </button>
+
+        <span className="text-white/10">|</span>
+
+        {/* Engine Inspector */}
+        <button
+          type="button"
+          onClick={openEngineInspector}
+          className="flex items-center gap-1 hover:text-[#62E6FF] transition-colors cursor-pointer"
+          title="Inspect Architecture Engine (E)"
+        >
+          <Code2 className="size-3.5 text-[#62E6FF]" />
+          <span>ENGINE [E]</span>
         </button>
 
         <span className="text-white/10">|</span>

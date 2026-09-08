@@ -77,7 +77,7 @@ const PROJECTS: Project[] = [
     ],
     tags: ["Cybersecurity", "Zero Trust", "eBPF", "Graph Neural Net", "MITRE ATT&CK"],
     status: "IN BUILD",
-    statusColor: "text-blue-400 border-blue-500/30 bg-blue-500/10",
+    statusColor: "text-[#62E6FF] border-[#62E6FF]/30 bg-[#62E6FF]/10",
     metrics: { label: "Detection Latency", value: "< 24ms" },
   },
   {
@@ -95,7 +95,7 @@ const PROJECTS: Project[] = [
     ],
     tags: ["Computer Vision", "PyTorch", "Forensic Biology", "3D Geometry"],
     status: "IN BUILD",
-    statusColor: "text-amber-400 border-amber-500/30 bg-amber-500/10",
+    statusColor: "text-[#9B8CFF] border-[#9B8CFF]/30 bg-[#9B8CFF]/10",
     metrics: { label: "Minutiae Accuracy", value: "99.4%" },
   },
   {
@@ -128,24 +128,24 @@ export function Projects() {
   const filtered = filter === "all" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
 
   return (
-    <section id="work" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden">
+    <section id="work" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 right-0 size-[32rem] rounded-full blur-3xl opacity-20 bg-radial from-accent/20 to-transparent pointer-events-none" />
-      <div className="absolute bottom-10 left-0 size-[28rem] rounded-full blur-3xl opacity-15 bg-radial from-blue-500/20 to-transparent pointer-events-none" />
+      <div className="absolute top-1/4 right-0 size-[32rem] rounded-full blur-3xl opacity-20 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
+      <div className="absolute bottom-10 left-0 size-[28rem] rounded-full blur-3xl opacity-15 bg-radial from-[#9B8CFF]/15 to-transparent pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto">
         
         {/* Section Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>
-            <SectionHead num="02" label="VERIFIED CASE FILES">
+            <SectionHead num="04" label="VERIFIED CASE FILES">
               Featured Systems, <br className="hidden sm:block" />
               <span className="italic font-light text-gradient-flow">Venture & Applied R&D</span>
             </SectionHead>
           </div>
 
           {/* Interactive Filter Pills */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-lg border border-white/10 bg-[#14161C]/80 backdrop-blur-md font-mono text-[11px] uppercase tracking-wider">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-lg border border-white/10 bg-[#0A0D12] backdrop-blur-md font-mono text-[11px] uppercase tracking-wider">
             {[
               { id: "all", label: "ALL FILES" },
               { id: "venture", label: "VENTURE" },
@@ -159,7 +159,7 @@ export function Projects() {
                 onClick={() => setFilter(f.id)}
                 className={`px-3.5 py-1.5 rounded-md transition-all cursor-pointer ${
                   filter === f.id
-                    ? "bg-accent text-[#0C0E12] font-bold shadow-[0_0_16px_rgba(232,168,56,0.35)]"
+                    ? "bg-accent text-[#050608] font-bold shadow-[0_0_16px_rgba(98,230,255,0.35)]"
                     : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                 }`}
               >
@@ -181,10 +181,10 @@ export function Projects() {
               >
                 <TiltCard3D
                   className="h-full"
-                  glowColor={proj.category === "venture" ? "rgba(232, 168, 56, 0.2)" : "rgba(110, 142, 247, 0.2)"}
+                  glowColor={proj.category === "venture" ? "rgba(98, 230, 255, 0.2)" : "rgba(155, 140, 255, 0.2)"}
                   tiltIntensity={10}
                 >
-                  <article className="h-full flex flex-col justify-between p-8 md:p-10 rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C]/80 to-[#101217]/90 backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-accent/40 group">
+                  <article className="h-full flex flex-col justify-between p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-xl shadow-xl transition-all duration-300 hover:border-[#62E6FF]/40 group">
                     
                     <div>
                       {/* Card Top Metadata */}

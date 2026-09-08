@@ -9,7 +9,7 @@ const CAPABILITIES = [
     desc: "Deep investigations across digital artifacts, cryptographic integrity, and evidence preservation. NIST SP 800-86 and ISO/IEC 27037 compliant chain-of-custody workflows.",
     tags: ["Threat Hunting", "Memory Forensics", "Incident Response", "Chain of Custody"],
     deliverables: "Court-ready dossiers, root-cause autopsy reports, evidentiary hashing",
-    accentColor: "rgba(110, 142, 247, 0.2)",
+    accentColor: "rgba(98, 230, 255, 0.2)",
   },
   {
     id: "02",
@@ -18,7 +18,7 @@ const CAPABILITIES = [
     desc: "Zero Trust architecture, proactive threat modeling, AppSec, red/blue team toolchains, and defense-in-depth security architectures for mission-critical enterprise systems.",
     tags: ["Zero Trust", "OWASP Top 10", "SIEM/SOAR", "Penetration Testing"],
     deliverables: "Threat surface minimization, hardened API contracts, automated defense",
-    accentColor: "rgba(34, 211, 238, 0.2)",
+    accentColor: "rgba(98, 230, 255, 0.2)",
   },
   {
     id: "03",
@@ -27,7 +27,7 @@ const CAPABILITIES = [
     desc: "Autonomous agentic workflows, deterministic RAG pipelines, fine-tuned transformer models, and applied computer vision — from research prototypes to production inference.",
     tags: ["Autonomous LLMs", "PyTorch", "RAG Pipelines", "Agentic Workflows"],
     deliverables: "Domain-adapted neural agents, vector retrieval engines, model safety",
-    accentColor: "rgba(232, 168, 56, 0.2)",
+    accentColor: "rgba(155, 140, 255, 0.2)",
   },
   {
     id: "04",
@@ -36,7 +36,7 @@ const CAPABILITIES = [
     desc: "High-performance, type-safe full-stack platforms with strict performance budgets, microsecond state hydration, responsive aesthetics, and robust API design.",
     tags: ["TypeScript", "React 19", "Rust", "PostgreSQL", "TanStack"],
     deliverables: "Deterministic web platforms, edge computing layers, scalable databases",
-    accentColor: "rgba(245, 158, 11, 0.2)",
+    accentColor: "rgba(98, 230, 255, 0.2)",
   },
   {
     id: "05",
@@ -45,7 +45,7 @@ const CAPABILITIES = [
     desc: "Eliminating manual operational friction with resilient event-driven pipelines, ETL ingestion pipelines, automated compliance testing, and microservice orchestration.",
     tags: ["Distributed Workflows", "Serverless", "Event Streaming", "ETL"],
     deliverables: "Resilient asynchronous jobs, real-time alerting, continuous audits",
-    accentColor: "rgba(110, 142, 247, 0.2)",
+    accentColor: "rgba(110, 231, 183, 0.2)",
   },
   {
     id: "06",
@@ -54,15 +54,15 @@ const CAPABILITIES = [
     desc: "Building Dezo.in from 0→1. Bridging deep technical engineering with sharp product instincts, user experience, strategic go-to-market, and sustainable unit economics.",
     tags: ["0→1 Strategy", "Dezo.in", "Product Engineering", "Venture Execution"],
     deliverables: "Audited production MVPs, brand narrative, scalable architecture",
-    accentColor: "rgba(232, 168, 56, 0.25)",
+    accentColor: "rgba(98, 230, 255, 0.2)",
   },
 ];
 
 export function Capabilities() {
   return (
-    <section id="capabilities" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden">
+    <section id="capabilities" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
       {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[42rem] rounded-full blur-3xl opacity-10 bg-radial from-accent/20 to-transparent pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[42rem] rounded-full blur-3xl opacity-10 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto">
         <SectionHead num="01" label="CORE CAPABILITY MATRIX">
@@ -80,11 +80,11 @@ export function Capabilities() {
                 glowColor={c.accentColor}
                 tiltIntensity={8}
               >
-                <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C]/80 to-[#101217]/90 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-accent/40 group">
+                <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-[#62E6FF]/40 group">
                   <div>
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
-                      <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-[#0C0E12] transition-colors shadow-inner">
+                      <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-[#050608] transition-colors shadow-inner">
                         <Icon className="size-5" />
                       </div>
                       <span className="font-mono text-xs font-bold tracking-[0.25em] text-accent/80">
