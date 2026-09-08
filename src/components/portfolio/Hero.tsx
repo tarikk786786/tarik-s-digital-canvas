@@ -6,12 +6,12 @@ import { Shield, Terminal, ArrowUpRight, Cpu, Activity, Clock } from "lucide-rea
 import { WHATSAPP_URL } from "@/lib/contact-links";
 
 const ROLES = [
+  "Multidisciplinary Technologist",
   "Forensic Scientist",
   "Cybersecurity Engineer",
-  "AI Developer & Researcher",
+  "AI Systems Builder",
   "Founder & CEO, Dezo.in",
-  "Full Stack Systems Architect",
-  "Zero-Trust Defender",
+  "Full-Stack Systems Architect",
 ];
 
 export function Hero() {
@@ -108,7 +108,7 @@ export function Hero() {
 
           {/* Subtitle & Value Proposition */}
           <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl text-pretty">
-            I engineer <strong className="text-foreground font-semibold">autonomous AI architectures</strong>, <strong className="text-foreground font-semibold">cybersecurity platforms</strong>, and <strong className="text-foreground font-semibold">full-stack systems</strong> with forensic-grade auditability — crafted for mission-critical stakes and the ventures I found.
+            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — multidisciplinary technologist, forensic scientist, cybersecurity engineer, and founder of <strong className="text-accent font-semibold">Dezo.in</strong>. Engineering secure intelligent software with an evidence-first mindset.
           </p>
 
           {/* Action CTAs */}

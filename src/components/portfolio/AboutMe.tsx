@@ -1,53 +1,75 @@
 import { TiltCard3D } from "./TiltCard3D";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
-import { Sparkles, Compass, Shield, Brain, Rocket, Award, MapPin, Clock, ArrowUpRight } from "lucide-react";
+import {
+  Sparkles,
+  Compass,
+  Shield,
+  Brain,
+  Repeat,
+  MapPin,
+  Clock,
+  ArrowUpRight,
+  Layers,
+  CheckCircle2,
+  Terminal,
+} from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 
-const PILLARS_ABOUT = [
+const PHILOSOPHY_PILLARS = [
   {
     icon: Compass,
-    title: "Evidence Over Assumptions",
-    subtitle: "FORENSIC MINDSET",
-    desc: "In forensics, an assumption is an investigation's fatal flaw. I bring that same non-negotiable standard to software engineering: deterministic reproducibility, auditable pipelines, and verifiable data provenance.",
+    title: "Evidence over assumptions.",
+    subtitle: "FORENSIC RIGOR",
+    accent: "text-amber-400",
+    borderGlow: "hover:border-amber-400/50",
+    desc: "Question assumptions, understand the underlying system, verify what is true, and build solutions that can withstand scrutiny with mathematical and cryptographic certainty.",
   },
   {
     icon: Shield,
-    title: "Security as an Aesthetic Constraint",
-    subtitle: "DEFENSE-IN-DEPTH",
-    desc: "Security isn't a badge pasted on at the end. It dictates architecture, data flow, API contracts, and user experience. If a system cannot defend itself against adversaries, it isn't ready for production.",
+    title: "Security by design.",
+    subtitle: "ZERO-TRUST DEFENSE",
+    accent: "text-blue-400",
+    borderGlow: "hover:border-blue-400/50",
+    desc: "Defending systems against adversaries from the architectural bedrock. Security is never an afterthought or a badge — it dictates data flow, API contracts, and trust boundaries.",
   },
   {
     icon: Brain,
-    title: "AI That Earns Its Place",
-    subtitle: "INTELLIGENT SYSTEMS",
-    desc: "I build autonomous agent architectures, local model workflows, and RAG retrieval pipelines that have measurable leverage — eliminating weeks of human friction rather than producing synthetic hype.",
+    title: "Intelligence with purpose.",
+    subtitle: "AI SYSTEMS & AGENTS",
+    accent: "text-emerald-400",
+    borderGlow: "hover:border-emerald-400/50",
+    desc: "Building systems that reason, retrieve verified knowledge, automate complex workflows, and assist real-world human decisions — not synthetic hype or empty parlor tricks.",
   },
   {
-    icon: Rocket,
-    title: "A Small Studio Inside One Mind",
-    subtitle: "FOUNDER CRAFT",
-    desc: "Founding Dezo.in allows me to operate with relentless momentum. I bridge deep scientific thinking with 0→1 execution, product design, and business architecture without corporate bureaucracy.",
+    icon: Repeat,
+    title: "Build, measure, improve.",
+    subtitle: "CONTINUOUS ITERATION",
+    accent: "text-purple-400",
+    borderGlow: "hover:border-purple-400/50",
+    desc: "Constantly researching, experimenting, building, testing, breaking, learning, and rebuilding. Relentless momentum applied to craft technology that endures.",
   },
 ];
 
 const FAST_FACTS = [
-  { label: "Identity", value: "Forensic Scientist & AI Architect" },
+  { label: "Identity", value: "Multidisciplinary Technologist" },
+  { label: "Disciplines", value: "Forensics · Cyber · AI · Full Stack" },
   { label: "Venture", value: "Founder & CEO, Dezo.in" },
   { label: "Location", value: "India (Operating Globally)" },
   { label: "Timezone", value: "IST (UTC +05:30)" },
-  { label: "Core Focus", value: "Forensic Science · AI · Cyber Defense" },
-  { label: "Work Ethic", value: "Quiet obsession, audit-grade craft" },
+  { label: "Mission", value: "Build technology that matters" },
 ];
 
 export function AboutMe() {
   return (
-    <section id="about" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden">
-      {/* Ambient background lighting */}
-      <div className="absolute top-0 left-1/3 size-[38rem] rounded-full blur-3xl opacity-15 bg-radial from-accent/20 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 size-[32rem] rounded-full blur-3xl opacity-10 bg-radial from-blue-500/20 to-transparent pointer-events-none" />
+    <section
+      id="about"
+      className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden"
+    >
+      {/* Background ambient accents */}
+      <div className="absolute top-0 left-1/4 size-[40rem] rounded-full blur-3xl opacity-15 bg-radial from-accent/20 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 size-[36rem] rounded-full blur-3xl opacity-10 bg-radial from-blue-500/20 to-transparent pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto">
-        
         {/* Section Header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
@@ -55,23 +77,26 @@ export function AboutMe() {
               01 /
             </span>
             <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-              ABOUT TARIK ISLAM
+              WHO I AM
             </span>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.05] max-w-4xl">
-            A small studio <br className="hidden sm:block" />
-            <span className="italic font-light text-gradient-flow">inside one mind.</span>
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.05] max-w-5xl">
+            Who I Am — <br className="hidden sm:block" />
+            <span className="italic font-light text-gradient-flow">
+              Building technology that matters.
+            </span>
           </h2>
+          <p className="mt-6 font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl font-normal leading-relaxed text-pretty">
+            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — a multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and entrepreneur.
+          </p>
         </div>
 
-        {/* Top Story Split */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
-          
-          {/* Portrait Showcase Card (5 cols) */}
-          <div className="lg:col-span-5">
-            <TiltCard3D glowColor="rgba(232, 168, 56, 0.25)" tiltIntensity={12}>
+        {/* Story Split Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-20">
+          {/* Left Column: Portrait & Foundation Card (5 cols) */}
+          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
+            <TiltCard3D glowColor="rgba(232, 168, 56, 0.25)" tiltIntensity={10}>
               <div className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C] to-[#0E1015] p-6 backdrop-blur-2xl shadow-2xl overflow-hidden group">
-                
                 {/* Visual Frame */}
                 <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-black/50 border border-white/10 flex items-end justify-center">
                   <img
@@ -79,11 +104,11 @@ export function AboutMe() {
                     alt="Tarik Islam Portrait"
                     className="relative z-10 object-contain object-bottom w-full h-full max-h-full drop-shadow-2xl filter contrast-105 group-hover:scale-105 transition-transform duration-700"
                   />
-                  {/* Subtle amber gradient mask at bottom */}
+                  {/* Amber gradient base */}
                   <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0E1015] via-[#0E1015]/80 to-transparent z-20" />
-                  
-                  {/* Floating Identity Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 z-30 p-3 rounded-lg bg-[#14161C]/90 backdrop-blur-md border border-white/10 flex items-center justify-between">
+
+                  {/* Floating Identity Pill */}
+                  <div className="absolute bottom-4 left-4 right-4 z-30 p-3.5 rounded-lg bg-[#14161C]/95 backdrop-blur-md border border-white/10 flex items-center justify-between shadow-xl">
                     <div>
                       <h4 className="font-display font-bold text-sm text-foreground">Tarik Islam</h4>
                       <p className="font-mono text-[10px] text-accent">Founder & CEO, Dezo.in</p>
@@ -92,58 +117,109 @@ export function AboutMe() {
                   </div>
                 </div>
 
-                {/* Quick Bio Footer inside Card */}
+                {/* Card Coordinates Bar */}
                 <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between text-muted-foreground font-mono text-[10px]">
                   <span className="flex items-center gap-1.5">
                     <MapPin className="size-3 text-accent" />
-                    <span>INDIA (GLOBAL)</span>
+                    <span>INDIA (GLOBAL ENCLAVE)</span>
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock className="size-3 text-blue-400" />
-                    <span>UTC +05:30</span>
+                    <span>IST (UTC +05:30)</span>
                   </span>
                 </div>
               </div>
             </TiltCard3D>
+
+            {/* Fast Facts Card */}
+            <div className="p-6 rounded-2xl border border-white/10 bg-[#14161C]/80 backdrop-blur-xl shadow-xl">
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-accent mb-4">
+                <Terminal className="size-3.5" />
+                <span>DOSSIER METADATA</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {FAST_FACTS.map((fact) => (
+                  <div key={fact.label} className="p-3 rounded-lg border border-white/5 bg-white/[0.02]">
+                    <p className="font-mono text-[9px] uppercase tracking-wider text-accent/80 mb-0.5">
+                      {fact.label}
+                    </p>
+                    <p className="font-sans font-semibold text-xs text-foreground/90 leading-tight">
+                      {fact.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Narrative & Manifesto (7 cols) */}
+          {/* Right Column: Full Narrative & Detailed Story (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            
-            <div className="p-6 md:p-8 rounded-2xl border border-white/10 bg-[#14161C]/80 backdrop-blur-xl shadow-xl">
-              <div className="flex items-center gap-2 text-accent font-mono text-xs uppercase tracking-widest mb-4">
+            {/* Story Card 1: The Evidence-First Mindset */}
+            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#14161C]/90 backdrop-blur-xl shadow-xl space-y-5">
+              <div className="flex items-center gap-2 text-accent font-mono text-xs uppercase tracking-widest">
                 <Sparkles className="size-4" />
-                <span>MY MANIFESTO</span>
+                <span>INTERSECTION OF DISCIPLINES</span>
               </div>
-              <blockquote className="font-display text-2xl md:text-3xl text-foreground font-bold leading-snug tracking-tight mb-6">
-                “Great technology should feel <em className="italic font-light text-gradient-flow">inevitable</em> to the people who rely on it — and invisible to the problems it removes.”
-              </blockquote>
-              <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
-                I operate at the intersection of <strong className="text-foreground">forensic science</strong>, <strong className="text-foreground">cybersecurity</strong>, and <strong className="text-foreground">autonomous artificial intelligence</strong>. What began with investigating physical evidence and digital crime scenes evolved into engineering software systems built with the same uncompromising standard: complete auditability, zero-trust integrity, and relentless utility.
+              <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed">
+                My work sits at the intersection of <strong className="text-foreground font-semibold">forensic science, cybersecurity, artificial intelligence, and full-stack systems engineering</strong>. I approach technology with an evidence-first mindset: question assumptions, understand the underlying system, verify what is true, and build solutions that can withstand scrutiny.
               </p>
             </div>
 
-            {/* Fast Facts Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {FAST_FACTS.map((fact) => (
-                <div key={fact.label} className="p-4 rounded-xl border border-white/5 bg-white/[0.02]">
-                  <p className="font-mono text-[9px] uppercase tracking-widest text-accent mb-1">
-                    {fact.label}
-                  </p>
-                  <p className="font-display font-semibold text-xs text-foreground/90">
-                    {fact.value}
-                  </p>
+            {/* Story Card 2: Evolution & The Three Dimensions */}
+            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#14161C]/90 backdrop-blur-xl shadow-xl space-y-5">
+              <div className="flex items-center gap-2 text-blue-400 font-mono text-xs uppercase tracking-widest">
+                <Layers className="size-4" />
+                <span>THE EVOLUTION</span>
+              </div>
+              <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
+                My journey has evolved from understanding <strong className="text-foreground font-semibold">physical and digital evidence</strong> to engineering <strong className="text-foreground font-semibold">secure intelligent systems</strong>.
+              </p>
+              <div className="space-y-3 pt-2 font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="size-4 text-accent shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground">Forensic Science:</strong> Taught me the non-negotiable importance of evidence, precision, reproducibility, and chain of custody.
+                  </div>
                 </div>
-              ))}
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground">Cybersecurity:</strong> Extended that investigative thinking into proactively defending systems against adversaries in real time.
+                  </div>
+                </div>
+                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
+                  <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-1" />
+                  <div>
+                    <strong className="text-foreground">Artificial Intelligence:</strong> Opened another dimension — building systems that can reason, retrieve information, automate complex workflows, and assist with real-world decisions.
+                  </div>
+                </div>
+              </div>
+              <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed pt-2">
+                Today, I bring those disciplines together through <strong className="text-foreground font-semibold">software engineering, AI systems, cybersecurity, automation, and product development</strong>.
+              </p>
             </div>
 
-            {/* Direct Connect Callout */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
+            {/* Story Card 3: Dezo.in & Complete Systems Thinking */}
+            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#14161C]/90 backdrop-blur-xl shadow-xl space-y-5">
+              <div className="flex items-center gap-2 text-amber-400 font-mono text-xs uppercase tracking-widest">
+                <Compass className="size-4" />
+                <span>DEZO.IN & SYSTEMS ARCHITECTURE</span>
+              </div>
+              <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed">
+                I am also the founder of <strong className="text-accent font-semibold">Dezo.in</strong>, where I am building an AI-native product studio focused on creating secure, intelligent, and useful software products.
+              </p>
+              <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
+                I don't see technology as isolated pieces of code. I see it as a <strong className="text-foreground font-semibold">complete system</strong> — the architecture, security, intelligence, user experience, data, automation, business model, and the people who ultimately depend on it.
+              </p>
+            </div>
+
+            {/* Call to Action Row */}
+            <div className="pt-2 flex flex-wrap items-center gap-4 font-mono text-xs uppercase tracking-[0.2em]">
               <a
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md bg-accent text-[#0C0E12] font-mono text-xs font-bold uppercase tracking-wider hover:bg-accent-glow transition-all shadow-[0_0_20px_rgba(232,168,56,0.3)] cursor-pointer"
+                className="inline-flex items-center gap-2 px-7 py-4 rounded-md bg-accent text-[#0C0E12] font-bold shadow-[0_0_24px_rgba(232,168,56,0.35)] hover:bg-accent-glow hover:shadow-[0_0_36px_rgba(232,168,56,0.5)] transition-all active:scale-[0.98] cursor-pointer"
               >
                 <span>CONNECT WITH TARIK</span>
                 <ArrowUpRight className="size-4" />
@@ -151,42 +227,52 @@ export function AboutMe() {
 
               <a
                 href="#journey"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-md border border-white/10 bg-white/5 text-foreground font-mono text-xs uppercase tracking-wider hover:border-accent transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-4 rounded-md border border-white/15 bg-white/5 text-foreground hover:border-accent hover:bg-accent/10 transition-colors"
               >
-                <span>VIEW MY JOURNEY</span>
+                <span>EXPLORE MY JOURNEY</span>
+              </a>
+
+              <a
+                href="#work"
+                className="inline-flex items-center gap-2 px-6 py-4 rounded-md border border-white/10 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span>VIEW CASE FILES</span>
               </a>
             </div>
-
           </div>
-
         </div>
 
-        {/* 4 Core Pillars of How Tarik Thinks & Builds */}
-        <div>
-          <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-accent mb-8 flex items-center gap-2">
-            <span>HOW I THINK & OPERATE</span>
-            <span className="h-px flex-1 bg-white/10" />
-          </h3>
+        {/* 4 Core Tenets of the Philosophy */}
+        <div className="mb-20">
+          <div className="mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-accent mb-2 flex items-center gap-2">
+              <span>MY CORE PHILOSOPHY</span>
+              <span className="h-px flex-1 bg-white/10" />
+            </h3>
+            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+              My philosophy is simple:
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PILLARS_ABOUT.map((p) => {
+            {PHILOSOPHY_PILLARS.map((p) => {
               const Icon = p.icon;
               return (
                 <div
                   key={p.title}
-                  className="p-6 rounded-xl border border-white/10 bg-gradient-to-b from-[#14161C]/80 to-[#101217] backdrop-blur-md hover:border-accent/40 transition-all flex flex-col justify-between group"
+                  className={`p-7 rounded-2xl border border-white/10 bg-gradient-to-b from-[#14161C]/90 to-[#101217] backdrop-blur-md transition-all duration-300 flex flex-col justify-between group ${p.borderGlow}`}
                 >
                   <div>
-                    <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-[#0C0E12] transition-colors">
-                      <Icon className="size-5" />
+                    <div className="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                      <Icon className={`size-6 ${p.accent}`} />
                     </div>
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-accent/80 block mb-1">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground block mb-2">
                       {p.subtitle}
                     </span>
-                    <h4 className="font-display font-bold text-lg text-foreground mb-3">
+                    <h4 className="font-display font-bold text-xl text-foreground mb-3 leading-snug">
                       {p.title}
                     </h4>
-                    <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+                    <p className="font-sans text-xs sm:text-sm text-muted-foreground leading-relaxed">
                       {p.desc}
                     </p>
                   </div>
@@ -196,6 +282,33 @@ export function AboutMe() {
           </div>
         </div>
 
+        {/* Concluding Manifesto Callout Banner */}
+        <div className="relative rounded-3xl border border-accent/30 bg-gradient-to-br from-[#1A1813] via-[#14161C] to-[#0E1015] p-8 md:p-14 shadow-[0_20px_80px_rgba(232,168,56,0.12)] overflow-hidden">
+          {/* Subtle geometric lines */}
+          <div className="absolute top-0 right-0 size-96 bg-radial from-accent/10 to-transparent blur-2xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent font-semibold">
+              DAILY OPERATING IMPERATIVE
+            </p>
+
+            <blockquote className="font-display text-2xl sm:text-3xl md:text-4xl text-foreground font-bold leading-tight tracking-tight">
+              “I am constantly researching, experimenting, building, testing, breaking, learning, and rebuilding. <br />
+              <span className="text-muted-foreground font-light italic">
+                My goal is not simply to follow technology.
+              </span>”
+            </blockquote>
+
+            <div className="pt-2">
+              <p className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground leading-[1.02]">
+                My goal is to build{" "}
+                <span className="italic font-light text-gradient-flow">
+                  technology that matters.
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

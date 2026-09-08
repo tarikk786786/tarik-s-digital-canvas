@@ -4,7 +4,7 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
+  { label: "Who I Am", href: "#about" },
   { label: "Journey", href: "#journey" },
   { label: "Work", href: "#work" },
   { label: "Capabilities", href: "#capabilities" },

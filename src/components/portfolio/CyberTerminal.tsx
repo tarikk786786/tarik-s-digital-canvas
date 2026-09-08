@@ -63,11 +63,11 @@ export function CyberTerminal() {
 
       case "bio":
         output = (
-          <div className="space-y-1 text-foreground/90">
-            <p><span className="text-accent font-bold">NAME:</span> Tarik Islam</p>
-            <p><span className="text-accent font-bold">ROLES:</span> Forensic Scientist | Cybersecurity Engineer | AI Developer | Founder</p>
-            <p><span className="text-accent font-bold">LOCATION:</span> India (IST UTC+05:30)</p>
-            <p><span className="text-accent font-bold">MISSION:</span> Fusing forensic scrutiny with cutting-edge software craft to build AI-native systems that withstand adversarial conditions.</p>
+          <div className="space-y-2 text-foreground/90 font-mono text-[11px] leading-relaxed">
+            <p><span className="text-accent font-bold">IDENTITY:</span> Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, and Founder of Dezo.in.</p>
+            <p><span className="text-accent font-bold">MINDSET:</span> Evidence-first. Question assumptions, understand the underlying system, verify what is true, and build solutions that withstand scrutiny.</p>
+            <p><span className="text-accent font-bold">PHILOSOPHY:</span> Evidence over assumptions · Security by design · Intelligence with purpose · Build, measure, improve.</p>
+            <p><span className="text-accent font-bold">MISSION:</span> "My goal is not simply to follow technology. My goal is to build technology that matters."</p>
           </div>
         );
         break;

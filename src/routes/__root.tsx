@@ -81,17 +81,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       {
-        title: "Tarik Islam — Forensic Scientist, AI Systems Architect & Cybersecurity Engineer",
+        title: "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer & AI Builder",
       },
       {
         name: "description",
         content:
-          "Official portfolio of Tarik Islam — Founder of Dezo.in, Forensic Scientist, Cybersecurity Engineer, and AI Developer building high-assurance intelligent software, autonomous agent architectures, and cryptographic systems.",
+          "Official portfolio of Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, and Founder of Dezo.in. Building technology that matters with an evidence-first mindset.",
       },
       {
         name: "keywords",
         content:
-          "Tarik Islam, Forensic Scientist, Cybersecurity Engineer, AI Developer, Autonomous AI Agents, Digital Forensics, Dezo.in, Memory Forensics, Incident Response, Zero Trust Architecture, AppSec, Threat Hunting, Full Stack Developer, React 19, TypeScript, Python, Rust, Cryptography, NIST SP 800-86, ISO 27037, India AI",
+          "Tarik Islam, Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, Autonomous AI Agents, Digital Forensics, Dezo.in, Memory Forensics, Incident Response, Zero Trust Architecture, AppSec, Full Stack Systems, React 19, TypeScript, Python, Rust, Cryptography, India AI",
       },
       { name: "author", content: "Tarik Islam" },
       { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
@@ -105,12 +105,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:url", content: "https://tarik-s-digital-canvas.vercel.app" },
       {
         property: "og:title",
-        content: "Tarik Islam — Forensic Scientist, AI Systems Architect & Cybersecurity Engineer",
+        content: "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist & AI Builder",
       },
       {
         property: "og:description",
         content:
-          "Engineering autonomous AI systems, zero-trust cybersecurity platforms, and digital forensics pipelines with evidence-backed reproducibility.",
+          "Evidence over assumptions. Security by design. Intelligence with purpose. Build, measure, improve. Building technology that matters.",
       },
       {
         property: "og:image",
@@ -174,10 +174,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Tarik Islam",
               url: "https://tarik-s-digital-canvas.vercel.app",
               jobTitle: [
+                "Multidisciplinary Technologist",
                 "Forensic Scientist",
                 "Cybersecurity Engineer",
-                "AI Systems Architect",
-                "Full Stack Developer",
+                "AI Systems Builder",
+                "Full Stack Systems Architect",
                 "Founder & CEO",
               ],
               worksFor: {
@@ -191,7 +192,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "https://dezo.in",
               ],
               description:
-                "Forensic scientist and AI developer engineering secure-by-design intelligent software, autonomous agents, and cryptographic chain-of-custody platforms.",
+                "Multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and founder of Dezo.in. Building technology that matters.",
               knowsAbout: [
                 "Digital Forensics",
                 "Cybersecurity Engineering",
