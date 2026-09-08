@@ -34,6 +34,7 @@ import {
 import { WHATSAPP_URL } from "@/lib/contact-links";
 import { soundEngine } from "@/lib/sound-engine";
 import { PROFILE } from "@/lib/profile";
+import { ForensicLabSimulator } from "./ForensicLabSimulator";
 import {
   FORENSIC_SPECIALTIES,
   WHY_I_CHOSE_TECH,
@@ -534,6 +535,11 @@ export function AboutMe() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Live Interactive Forensic Laboratory Suite */}
+          <div className="mt-8">
+            <ForensicLabSimulator />
           </div>
         </div>
 
