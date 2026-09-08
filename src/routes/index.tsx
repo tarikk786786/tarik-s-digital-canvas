@@ -46,6 +46,12 @@ const Contact = lazy(() =>
 
 import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
 import { EngineInspectorModal } from "@/components/portfolio/EngineInspectorModal";
+import { WorldCollapseClimax } from "@/components/portfolio/WorldCollapseClimax";
+import { SystemHUD } from "@/components/portfolio/SystemHUD";
+import { CommandPalette } from "@/components/portfolio/CommandPalette";
+import { LiveSystemStatus } from "@/components/portfolio/LiveSystemStatus";
+import { ProjectBriefForm } from "@/components/portfolio/ProjectBriefForm";
+import { SmartLoader } from "@/components/portfolio/SmartLoader";
 
 const SectionFallback = () => (
   <div aria-hidden className="h-[30vh] w-full flex items-center justify-center">
@@ -60,41 +66,44 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
-      <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden">
+      {/* Smart Loading Experience */}
+      <SmartLoader />
+
+      <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden pb-12">
         <div className="relative z-10">
           <Navigation />
           
-          {/* Main Hero with 3D Canvas, IST Clock & Portrait HUD */}
+          {/* Main Hero with 3D Core, IST Clock & Portrait HUD */}
           <Hero />
           
           {/* Tarik Islam Personal Identity & Tenets Marquee */}
           <LogoMarquee />
 
-          {/* Dedicated About Tarik Islam: Persona, Manifesto, & Mindset */}
+          {/* Chapter 01: IDENTITY — Dedicated About Tarik Islam */}
           <Reveal>
             <AboutMe />
           </Reveal>
 
-          {/* Chronological Evolution & Personal Journey */}
+          {/* Chapter 02: EXPLORATION — Chronological Evolution & Personal Journey */}
           <Reveal>
             <PersonalTimeline />
           </Reveal>
           
-          {/* Part 3: Vision & Ambition — 3D Intelligence Core & Convergence Architecture */}
+          {/* Part 3: Vision & Ambition — 3D Intelligence Core */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <VisionAmbition3D />
             </Reveal>
           </Suspense>
 
-          {/* Part 4: How I Build — Tools, Architecture & Living Digital Laboratory */}
+          {/* Chapter 03: SYSTEMS — How I Build: Tools, Architecture & Living Digital Laboratory */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <HowIBuildLab />
             </Reveal>
           </Suspense>
 
-          {/* Part 5: Screens, Products & SEO — Digital Showroom & Discovery Architecture */}
+          {/* Chapter 05: LAB — Screens, Products & SEO: Digital Showroom */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <ScreensAndSeoShowroom />
@@ -109,7 +118,7 @@ function Index() {
             <Capabilities />
           </Reveal>
 
-          {/* Featured Case Files / Projects Showcase */}
+          {/* Chapter 04: WORK — Featured Case Files / Projects Showcase */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <Projects />
@@ -140,7 +149,12 @@ function Index() {
               <TarikIntelligence />
             </Reveal>
 
-            {/* Direct Contact Deck */}
+            {/* Part 9: World Collapse Architectural Convergence */}
+            <Reveal>
+              <WorldCollapseClimax />
+            </Reveal>
+
+            {/* Chapter 06: CONNECT — Direct Contact Deck */}
             <Reveal>
               <Contact />
             </Reveal>
@@ -149,6 +163,18 @@ function Index() {
           <Footer />
         </div>
       </main>
+
+      {/* Persistent System HUD */}
+      <SystemHUD />
+
+      {/* Global Command Palette */}
+      <CommandPalette />
+
+      {/* Live System Status & Telemetry Modal */}
+      <LiveSystemStatus />
+
+      {/* Conversational Project Brief Intake Builder */}
+      <ProjectBriefForm />
 
       {/* Interactive Cyber-Forensic Terminal HUD */}
       <CyberTerminal />

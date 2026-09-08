@@ -57,48 +57,47 @@
 :root {
   --radius: 0.625rem;
 
-  /* Core neutrals — warm dark editorial */
-  --background: #0C0E12;
-  --surface: #14161C;
-  --surface-elevated: #1A1D24;
+  /* Tarik Design System Canonical Palette */
+  /* Base Neutrals */
+  --background: #050608;        /* Void */
+  --surface-deep: #0A0D12;     /* Deep Surface */
+  --surface: #11151C;          /* Standard Surface */
+  --surface-elevated: #181E27; /* Elevated Interactive Surface */
   --foreground: #EDEEF1;
 
-  --card: #111318;
+  --card: #0A0D12;
   --card-foreground: #EDEEF1;
-  --popover: #111318;
+  --popover: #0A0D12;
   --popover-foreground: #EDEEF1;
 
   --primary: #EDEEF1;
-  --primary-foreground: #0C0E12;
+  --primary-foreground: #050608;
 
-  --secondary: #14161C;
-  --secondary-foreground: #EDEEF1;
+  --secondary: #9B8CFF;        /* Soft Violet — AI / Intelligence */
+  --secondary-foreground: #050608;
+  --secondary-glow: #C4B5FD;
+  --secondary-deep: #6D28D9;
 
-  --muted: #14161C;
-  --muted-foreground: #6B7280;
+  --muted: #11151C;
+  --muted-foreground: #9CA3AF;
 
-  /* Primary accent — amber / gold (forensic evidence-marker warmth) */
-  --accent: #E8A838;
-  --accent-foreground: #0C0E12;
-  --accent-glow: #F0C060;
-  --accent-deep: #C08020;
+  /* Primary Signature Accent — Electric Cyan */
+  --accent: #62E6FF;
+  --accent-foreground: #050608;
+  --accent-glow: #A5F3FC;
+  --accent-deep: #0284C7;
 
-  /* Secondary accent — periwinkle blue (analytical, cool counterpoint) */
-  --blue: #6E8EF7;
-  --blue-bright: #8EAAFB;
-  --blue-deep: #4A6CD4;
-
-  /* Warm conversion accent */
-  --warm: #E8A838;
-  --warm-soft: #F0C060;
-
-  --destructive: #EF4444;
+  /* Semantic */
+  --success: #6EE7B7;
+  --warning: #F6C85F;
+  --destructive: #FF7070;
   --destructive-foreground: #EDEEF1;
 
-  --border: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --input: rgba(255, 255, 255, 0.07);
-  --ring: #E8A838;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --border-accent: rgba(98, 230, 255, 0.35);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #62E6FF;
 }
 
 @layer base {
@@ -307,6 +306,36 @@
   animation: gradient-shift 8s ease-in-out infinite;
 }
 
+/* ━━━ Tarik Glass & Depth System ━━━ */
+@utility tarik-glass {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+@utility tarik-glass-interactive {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  &:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(98, 230, 255, 0.35);
+    box-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(98, 230, 255, 0.3);
+  }
+}
+
+@utility depth-0 { z-index: 0; }
+@utility depth-1 { z-index: 10; }
+@utility depth-2 { z-index: 20; }
+@utility depth-3 { z-index: 30; }
+@utility depth-4 { z-index: 40; }
+@utility depth-5 { z-index: 50; }
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -316,3 +345,4 @@
     scroll-behavior: auto !important;
   }
 }
+

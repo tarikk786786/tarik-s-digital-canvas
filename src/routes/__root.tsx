@@ -14,6 +14,8 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PageTransition } from "@/components/portfolio/PageTransition";
 import { initSmoothScroll } from "../lib/lenis-scroll";
 import { initDeveloperConsole } from "../lib/developer-console";
+import { initDirectorMode } from "../lib/director-mode";
+import { SignatureCursor } from "@/components/portfolio/SignatureCursor";
 
 function NotFoundComponent() {
   return (
@@ -261,21 +263,23 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
-
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   useEffect(() => {
     const destroyScroll = initSmoothScroll();
     const destroyConsole = initDeveloperConsole();
+    const destroyDirector = initDirectorMode();
     return () => {
       destroyScroll?.();
       destroyConsole?.();
+      destroyDirector?.();
     };
   }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
+      <SignatureCursor />
       <PageTransition>
         <Outlet />
       </PageTransition>

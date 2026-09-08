@@ -34,6 +34,14 @@ export function CyberTerminal() {
     }
   }, [isOpen, history]);
 
+  useEffect(() => {
+    const handleToggle = () => {
+      setIsOpen((prev) => !prev);
+    };
+    window.addEventListener("tarik:open-terminal", handleToggle);
+    return () => window.removeEventListener("tarik:open-terminal", handleToggle);
+  }, []);
+
   const handleCommand = (rawCmd: string) => {
     const cmd = rawCmd.trim();
     if (!cmd) return;
@@ -53,8 +61,11 @@ export function CyberTerminal() {
             <p><span className="text-foreground font-bold">bio</span> - Read Tarik Islam's profile and background</p>
             <p><span className="text-foreground font-bold">skills</span> - Inspect core competencies across forensics, cyber & AI</p>
             <p><span className="text-foreground font-bold">projects</span> - Display highlighted case files & venture</p>
+            <p><span className="text-foreground font-bold">brief</span> - Launch conversational project intake builder</p>
+            <p><span className="text-foreground font-bold">specs</span> - Inspect client device, GPU, and runtime telemetry</p>
+            <p><span className="text-foreground font-bold">status</span> - Launch live system diagnostic overlay</p>
+            <p><span className="text-foreground font-bold">director [mode]</span> - Set experience mode (experience | minimal | performance)</p>
             <p><span className="text-foreground font-bold">contact</span> - Retrieve verified communication coordinates</p>
-            <p><span className="text-foreground font-bold">dezo</span> - Information about Dezo.in studio</p>
             <p><span className="text-foreground font-bold">hash &lt;text&gt;</span> - Compute client-side SHA-256 fingerprint</p>
             <p><span className="text-foreground font-bold">clear</span> - Flush terminal screen buffer</p>
           </div>
@@ -130,6 +141,45 @@ export function CyberTerminal() {
             FINGERPRINT: <span className="font-mono text-foreground font-bold">0x{hex}6b9e248a7f10d4c8</span> (Input: "{textToHash}")
           </p>
         );
+        break;
+      }
+
+      case "brief":
+        window.dispatchEvent(new CustomEvent("tarik:open-project-brief"));
+        output = <p className="text-emerald-400">Dispatching Conversational Brief Intake Interface...</p>;
+        break;
+
+      case "status":
+        window.dispatchEvent(new CustomEvent("tarik:open-system-status"));
+        output = <p className="text-cyan-400">Mounting System Diagnostics HUD...</p>;
+        break;
+
+      case "specs": {
+        const cores = navigator.hardwareConcurrency || "Unknown";
+        const memory = (navigator as unknown as { deviceMemory?: number }).deviceMemory ? `${(navigator as unknown as { deviceMemory: number }).deviceMemory} GB` : "Standard";
+        output = (
+          <div className="space-y-1 text-xs">
+            <p className="text-accent font-bold">CLIENT RUNTIME SPECIFICATIONS:</p>
+            <p>├─ Platform: {navigator.platform}</p>
+            <p>├─ Hardware Cores: {cores}</p>
+            <p>├─ Device Memory: {memory}</p>
+            <p>├─ Resolution: {window.innerWidth} x {window.innerHeight} (DPR: {window.devicePixelRatio})</p>
+            <p>└─ Audio Synthesizer: Web Audio API (Active)</p>
+          </div>
+        );
+        break;
+      }
+
+      case "director": {
+        const valid = ["experience", "minimal", "performance"];
+        if (valid.includes(args)) {
+          localStorage.setItem("tarik_director_mode", args);
+          document.documentElement.dataset.directorMode = args;
+          window.dispatchEvent(new CustomEvent("tarik:director-mode-change", { detail: { mode: args } }));
+          output = <p className="text-emerald-400">Director Experience Mode switched to: [{args.toUpperCase()}]</p>;
+        } else {
+          output = <p className="text-amber-400">Usage: director &lt;experience | minimal | performance&gt;</p>;
+        }
         break;
       }
 

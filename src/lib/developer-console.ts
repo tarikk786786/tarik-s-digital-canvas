@@ -90,12 +90,17 @@ export function initDeveloperConsole(callbacks?: {
 
     // Check Single Key Shortcuts
     if (!e.ctrlKey && !e.metaKey && !e.altKey) {
-      if (e.key === "a" || e.key === "A") {
+      if (e.key === "`" || e.key === "~" || e.key === "t" || e.key === "T") {
+        e.preventDefault();
+        callbacks?.onOpenTerminal?.() ?? window.dispatchEvent(new CustomEvent("tarik:open-terminal"));
+      } else if (e.key === "a" || e.key === "A") {
         callbacks?.onOpenAskTarik?.() ?? window.dispatchEvent(new CustomEvent("tarik:open-ask-ai"));
       } else if (e.key === "e" || e.key === "E") {
         callbacks?.onOpenEngineInspector?.() ?? window.dispatchEvent(new CustomEvent("tarik:open-engine-inspector"));
-      } else if (e.key === "t" || e.key === "T") {
-        callbacks?.onOpenTerminal?.() ?? window.dispatchEvent(new CustomEvent("tarik:open-terminal"));
+      } else if (e.key === "b" || e.key === "B") {
+        window.dispatchEvent(new CustomEvent("tarik:open-project-brief"));
+      } else if (e.key === "s" || e.key === "S") {
+        window.dispatchEvent(new CustomEvent("tarik:open-system-status"));
       }
     }
   };

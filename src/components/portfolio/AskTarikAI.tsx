@@ -12,16 +12,28 @@ import {
   Zap,
   CornerDownLeft,
   ChevronRight,
+  Compass,
 } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
+import { soundEngine } from "@/lib/sound-engine";
+
+export type Persona = "founder" | "developer" | "recruiter" | "beginner";
 
 interface Message {
   id: string;
   sender: "user" | "ai";
   text: string;
+  persona?: Persona;
   citations?: { label: string; href: string }[];
   timestamp: string;
 }
+
+const PERSONA_CONFIG: Record<Persona, { label: string; hint: string }> = {
+  developer: { label: "Developer", hint: "Code architecture, stack trade-offs & technical rigor" },
+  founder: { label: "Founder", hint: "0→1 velocity, product studio & business defensibility" },
+  recruiter: { label: "Recruiter", hint: "Verified competencies, track record & leadership" },
+  beginner: { label: "Beginner", hint: "Clear plain English analogies without cryptic jargon" },
+};
 
 const PRESET_QUESTIONS = [
   "What does Tarik build?",
@@ -99,7 +111,7 @@ const KNOWLEDGE_BASE = [
   {
     keywords: ["tech", "stack", "tools", "languages", "code", "react", "typescript", "python", "rust"],
     answer:
-      "Core stack: TypeScript, React 19, Next.js / TanStack Start, Tailwind CSS, Three.js / WebGL, Python, Rust, PostgreSQL, and Vercel Edge. Every tool is selected for deterministic performance, type safety, and verifiable reliability.",
+      "Core stack: TypeScript, React 19, Next.js / TanStack Start, Tailwind CSS v4, Three.js / WebGL, Python, Rust, PostgreSQL, and Vercel Edge. Every tool is selected for deterministic performance, type safety, and verifiable reliability.",
     citations: [
       { label: "Technology Universe (#how-i-build)", href: "#how-i-build" },
       { label: "Skills Inventory (/skills)", href: "/skills" },
@@ -120,11 +132,13 @@ export function AskTarikAI() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [persona, setPersona] = useState<Persona>("developer");
+  const [activeSection, setActiveSection] = useState("Dossier Overview");
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       sender: "ai",
-      text: "Hello. I am Tarik's interactive portfolio guide, grounded directly in his verified case files, technical architecture, and philosophy. How can I assist your investigation today?",
+      text: "Hello. I am Tarik's interactive portfolio guide, grounded directly in his verified case files, technical architecture, and philosophy. Choose an audience lens above and ask anything about his work.",
       citations: [
         { label: "Overview (#about)", href: "#about" },
         { label: "Execution Engine (#execution)", href: "#execution" },
@@ -144,10 +158,31 @@ export function AskTarikAI() {
     }
   }, [messages, isOpen, isTyping]);
 
-  // Listen for global shortcut 'A'
+  // Track currently active section in page
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["contact", "showroom", "work", "how-i-build", "journey", "about", "top"];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
+            setActiveSection(id.toUpperCase());
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Listen for global shortcut
   useEffect(() => {
     const handleCustomOpen = () => {
       setIsOpen((prev) => !prev);
+      soundEngine.playClick();
       setTimeout(() => inputRef.current?.focus(), 150);
     };
     window.addEventListener("tarik:open-ask-ai", handleCustomOpen);
@@ -169,6 +204,7 @@ export function AskTarikAI() {
       setMessages((prev) => [...prev, userMsg]);
       setQuery("");
       setIsTyping(true);
+      soundEngine.playClick();
 
       // Semantic matching algorithm
       const lowerQ = q.toLowerCase();
@@ -186,239 +222,220 @@ export function AskTarikAI() {
         }
       }
 
-      // Default fallback if no match
-      let responseText = bestMatch.answer;
+      let baseText = bestMatch.answer;
       let responseCitations = bestMatch.citations;
 
       if (maxScore <= 0) {
-        responseText = `Tarik approaches software, AI, and cybersecurity as unified engineering disciplines. You can review his full portfolio dossiers directly, or connect with him directly on WhatsApp to discuss your specific question: "${q}".`;
+        baseText = `Tarik approaches software, AI, and cybersecurity as unified engineering disciplines. You can review his full dossiers directly, or connect with him on WhatsApp to discuss: "${q}".`;
         responseCitations = [
           { label: "Selected Work (#work)", href: "#work" },
           { label: "Direct WhatsApp", href: WHATSAPP_URL },
         ];
       }
 
-      // Simulated streaming delay for authentic AI cognitive feel
+      // Modulate response based on selected Persona
+      let modulatedText = baseText;
+      if (persona === "developer") {
+        modulatedText += " [Technical Architecture]: Core engineering utilizes React 19, TanStack Start, TypeScript strictness, custom Three.js WebGL shaders, and cryptographic auditability.";
+      } else if (persona === "founder") {
+        modulatedText += " [Venture Perspective]: Built for 0→1 execution velocity, defensible IP, high unit economics, and solving genuine market pain points via Dezo.in.";
+      } else if (persona === "recruiter") {
+        modulatedText += " [Competency Audit]: Verified background combining forensic precision, incident response security, autonomous AI development, and cross-functional team delivery.";
+      } else if (persona === "beginner") {
+        modulatedText += " [In Plain English]: Think of it like a digital detective who doesn't just find clues, but actually builds the tools and AI to keep computer systems safe.";
+      }
+
       setTimeout(() => {
         const aiMsg: Message = {
           id: `ai-${Date.now()}`,
           sender: "ai",
-          text: responseText,
+          text: modulatedText,
+          persona,
           citations: responseCitations,
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         };
         setMessages((prev) => [...prev, aiMsg]);
         setIsTyping(false);
-      }, 450);
+        soundEngine.playAiChime();
+      }, 400);
     },
-    [isTyping]
+    [isTyping, persona]
   );
 
-  const copyToClipboard = (id: string, text: string) => {
+  const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
+    soundEngine.playClick();
     setTimeout(() => setCopiedId(null), 2000);
   };
 
   return (
     <>
-      {/* Floating Launcher Button */}
-      <button
-        type="button"
-        onClick={() => {
-          setIsOpen(!isOpen);
-          if (!isOpen) setTimeout(() => inputRef.current?.focus(), 150);
-        }}
-        aria-label="Open Ask Tarik AI Knowledge Assistant"
-        className="fixed bottom-6 right-6 md:right-24 z-40 group flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-accent/40 bg-[#14161C]/95 backdrop-blur-xl text-foreground font-mono text-xs shadow-[0_8px_32px_rgba(0,0,0,0.8),0_0_24px_rgba(232,168,56,0.25)] hover:border-accent hover:shadow-[0_0_36px_rgba(232,168,56,0.45)] transition-all active:scale-95 cursor-pointer"
-      >
-        <span className="relative flex size-2.5">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
-          <span className="relative inline-flex size-2.5 rounded-full bg-accent" />
-        </span>
-        <span className="font-bold text-accent tracking-wider">ASK TARIK // AI</span>
-        <span className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded bg-white/10 text-muted-foreground border border-white/5">
-          Press A
-        </span>
-      </button>
+      {/* Floating Ask Tarik AI Pill */}
+      <div className="fixed bottom-6 left-6 z-40">
+        <button
+          type="button"
+          onClick={() => {
+            setIsOpen((prev) => !prev);
+            soundEngine.playClick();
+          }}
+          className="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#0A0D12]/90 hover:bg-[#11151C] border border-[#9B8CFF]/40 shadow-[0_0_24px_rgba(155,140,255,0.25)] text-foreground backdrop-blur-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+        >
+          <span className="relative flex size-2">
+            <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#9B8CFF] opacity-75" />
+            <span className="relative inline-flex size-2 rounded-full bg-[#9B8CFF]" />
+          </span>
+          <Bot className="size-4 text-[#9B8CFF]" />
+          <span className="font-mono text-xs uppercase tracking-widest text-[#9B8CFF] font-bold">
+            {isOpen ? "CLOSE AI" : "ASK TARIK AI"}
+          </span>
+        </button>
+      </div>
 
-      {/* Slide-Up Chat Modal / Drawer */}
+      {/* AI Assistant Modal */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/70 backdrop-blur-sm animate-fade-in">
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="ask-tarik-title"
-            className="w-full sm:max-w-2xl h-[90vh] sm:h-[620px] rounded-t-2xl sm:rounded-2xl border border-white/10 bg-[#0E1015] flex flex-col shadow-[0_25px_80px_rgba(0,0,0,0.95)] overflow-hidden"
-          >
-            {/* Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-[#14161C]/90 backdrop-blur-md flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-accent/10 border border-accent/30 text-accent">
-                  <Sparkles className="size-4" />
-                </div>
-                <div>
-                  <h3 id="ask-tarik-title" className="font-mono text-xs font-bold text-foreground tracking-wider uppercase">
-                    TARIK.AI // KNOWLEDGE COGNITION
-                  </h3>
-                  <div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
-                    <span className="size-1.5 rounded-full bg-emerald-400" />
-                    <span>ZERO HALLUCINATION POLICY · 99.8% PRECISION</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close dialog"
-                  className="p-1.5 rounded-lg border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors cursor-pointer"
-                >
-                  <X className="size-4" />
-                </button>
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Ask Tarik AI Guide"
+          className="fixed bottom-20 left-4 right-4 md:right-auto md:left-6 z-50 w-auto md:w-[480px] h-[580px] max-h-[85vh] flex flex-col rounded-xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden font-mono text-xs animate-fade-in"
+        >
+          {/* Header */}
+          <div className="px-4 py-3 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bot className="size-4 text-[#9B8CFF]" />
+              <div>
+                <p className="font-bold text-foreground text-xs">ASK TARIK AI // KNOWLEDGE ENGINE</p>
+                <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                  <Compass className="size-3 text-[#62E6FF]" />
+                  <span>Context: {activeSection}</span>
+                </p>
               </div>
             </div>
-
-            {/* Quick Suggestion Chips */}
-            <div className="px-6 py-2.5 border-b border-white/5 bg-[#12141A] overflow-x-auto scrollbar-none flex items-center gap-2">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">
-                PROMPTS:
-              </span>
-              {PRESET_QUESTIONS.map((q) => (
-                <button
-                  key={q}
-                  type="button"
-                  onClick={() => handleAsk(q)}
-                  className="px-2.5 py-1 rounded-full border border-white/10 bg-white/[0.02] hover:border-accent hover:text-accent font-mono text-[10px] text-foreground/80 shrink-0 transition-all cursor-pointer whitespace-nowrap"
-                >
-                  {q}
-                </button>
-              ))}
-            </div>
-
-            {/* Message Conversation Stream */}
-            <div className="flex-1 p-6 overflow-y-auto space-y-4 font-sans text-sm">
-              {messages.map((m) => (
-                <div
-                  key={m.id}
-                  className={`flex gap-3 ${m.sender === "user" ? "justify-end" : "justify-start"}`}
-                >
-                  {m.sender === "ai" && (
-                    <div className="size-8 rounded-full bg-accent/10 border border-accent/30 text-accent flex items-center justify-center shrink-0 mt-0.5">
-                      <Bot className="size-4" />
-                    </div>
-                  )}
-
-                  <div
-                    className={`max-w-[85%] rounded-2xl p-4 space-y-2.5 ${
-                      m.sender === "user"
-                        ? "bg-accent text-[#0C0E12] font-medium ml-auto"
-                        : "bg-[#161820] border border-white/10 text-foreground/95"
-                    }`}
-                  >
-                    <p className="leading-relaxed text-pretty text-sm">{m.text}</p>
-
-                    {/* Citations & Evidence Links */}
-                    {m.citations && m.citations.length > 0 && (
-                      <div className="pt-2 border-t border-white/10 flex flex-wrap gap-2">
-                        <span className="font-mono text-[9px] text-accent uppercase tracking-wider block w-full">
-                          VERIFIED CITATIONS:
-                        </span>
-                        {m.citations.map((c) => (
-                          <a
-                            key={c.label}
-                            href={c.href}
-                            onClick={() => {
-                              if (c.href.startsWith("#")) setIsOpen(false);
-                            }}
-                            target={c.href.startsWith("http") ? "_blank" : undefined}
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-black/40 border border-white/10 font-mono text-[10px] text-accent hover:bg-accent/20 transition-colors"
-                          >
-                            <span>{c.label}</span>
-                            <ArrowUpRight className="size-2.5" />
-                          </a>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Footer Info */}
-                    <div className="flex items-center justify-between text-[10px] opacity-60 font-mono pt-1">
-                      <span>{m.timestamp}</span>
-                      {m.sender === "ai" && (
-                        <button
-                          type="button"
-                          onClick={() => copyToClipboard(m.id, m.text)}
-                          className="hover:text-accent transition-colors flex items-center gap-1 cursor-pointer"
-                        >
-                          {copiedId === m.id ? (
-                            <>
-                              <Check className="size-3 text-emerald-400" />
-                              <span>Copied</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="size-3" />
-                              <span>Copy</span>
-                            </>
-                          )}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {m.sender === "user" && (
-                    <div className="size-8 rounded-full bg-white/10 border border-white/20 text-foreground flex items-center justify-center shrink-0 mt-0.5">
-                      <User className="size-4" />
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              {isTyping && (
-                <div className="flex gap-3">
-                  <div className="size-8 rounded-full bg-accent/10 border border-accent/30 text-accent flex items-center justify-center shrink-0">
-                    <Bot className="size-4" />
-                  </div>
-                  <div className="p-4 rounded-2xl bg-[#161820] border border-white/10 flex items-center gap-2">
-                    <span className="size-2 rounded-full bg-accent animate-bounce" />
-                    <span className="size-2 rounded-full bg-accent animate-bounce [animation-delay:0.2s]" />
-                    <span className="size-2 rounded-full bg-accent animate-bounce [animation-delay:0.4s]" />
-                    <span className="font-mono text-xs text-muted-foreground ml-2">Reasoning across dossier...</span>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
-
-            {/* Input Form */}
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleAsk(query);
-              }}
-              className="p-4 border-t border-white/10 bg-[#14161C]/90 backdrop-blur-md flex items-center gap-2"
+            <button
+              type="button"
+              onClick={() => setIsOpen(false)}
+              className="p-1 rounded hover:bg-white/10 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             >
-              <input
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Ask about Tarik's work, AI approach, forensics, or stack..."
-                className="flex-1 bg-[#0A0C10] border border-white/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-accent font-sans"
-              />
-              <button
-                type="submit"
-                disabled={!query.trim() || isTyping}
-                aria-label="Send query"
-                className="px-5 py-3 rounded-xl bg-accent text-[#0C0E12] font-bold font-mono text-xs uppercase tracking-wider flex items-center gap-1.5 hover:bg-accent-glow transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-              >
-                <span>SEND</span>
-                <Send className="size-3.5" />
-              </button>
-            </form>
+              <X className="size-4" />
+            </button>
           </div>
+
+          {/* Persona Lens Switcher */}
+          <div className="px-3 py-2 border-b border-white/5 bg-black/20 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">LENS:</span>
+            {(["developer", "founder", "recruiter", "beginner"] as Persona[]).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => {
+                  setPersona(p);
+                  soundEngine.playClick();
+                }}
+                className={`px-2.5 py-1 rounded text-[10px] uppercase tracking-wider font-bold transition-all shrink-0 cursor-pointer ${
+                  persona === p
+                    ? "bg-[#9B8CFF] text-[#050608] shadow-[0_0_12px_rgba(155,140,255,0.4)]"
+                    : "bg-white/5 text-muted-foreground hover:text-foreground"
+                }`}
+                title={PERSONA_CONFIG[p].hint}
+              >
+                {PERSONA_CONFIG[p].label}
+              </button>
+            ))}
+          </div>
+
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"} space-y-1`}
+              >
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
+                  <span>{m.sender === "user" ? "YOU" : "TARIK.AI"}</span>
+                  {m.persona && (
+                    <span className="text-[#9B8CFF] font-bold uppercase tracking-wider">[{m.persona}]</span>
+                  )}
+                  <span>{m.timestamp}</span>
+                </div>
+                <div
+                  className={`max-w-[85%] p-3 rounded-lg leading-relaxed ${
+                    m.sender === "user"
+                      ? "bg-[#62E6FF]/10 text-foreground border border-[#62E6FF]/30"
+                      : "bg-white/[0.03] text-foreground/90 border border-white/5"
+                  }`}
+                >
+                  <p>{m.text}</p>
+                  {m.citations && (
+                    <div className="mt-3 pt-2 border-t border-white/10 flex flex-wrap gap-2 text-[10px]">
+                      {m.citations.map((c) => (
+                        <a
+                          key={c.label}
+                          href={c.href}
+                          onClick={() => {
+                            if (c.href.startsWith("#")) {
+                              setIsOpen(false);
+                            }
+                          }}
+                          className="inline-flex items-center gap-1 text-[#62E6FF] hover:underline"
+                        >
+                          {c.label} <ArrowUpRight className="size-3" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+            {isTyping && (
+              <div className="text-[#9B8CFF] text-xs animate-pulse flex items-center gap-1.5">
+                <Bot className="size-3.5" />
+                <span>Grounded RAG synthesis in progress...</span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Preset Questions Bar */}
+          <div className="px-3 py-1.5 border-t border-white/5 bg-white/[0.01] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">SUGGEST:</span>
+            {PRESET_QUESTIONS.map((q) => (
+              <button
+                key={q}
+                type="button"
+                onClick={() => handleAsk(q)}
+                className="px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-muted-foreground hover:text-foreground text-[10px] whitespace-nowrap transition-colors shrink-0 cursor-pointer"
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+
+          {/* Input Form */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleAsk(query);
+            }}
+            className="flex items-center gap-2 p-3 border-t border-white/10 bg-white/[0.02]"
+          >
+            <ChevronRight className="size-4 text-[#9B8CFF] shrink-0 animate-pulse" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Inquire about architecture, stack, or experience..."
+              className="flex-1 bg-transparent text-xs text-foreground focus:outline-none placeholder:text-muted-foreground/50 font-mono"
+            />
+            <button
+              type="submit"
+              disabled={isTyping || !query.trim()}
+              className="p-1.5 rounded bg-[#9B8CFF] text-[#050608] hover:bg-[#C4B5FD] transition-colors disabled:opacity-30 cursor-pointer"
+            >
+              <CornerDownLeft className="size-3.5 font-bold" />
+            </button>
+          </form>
         </div>
       )}
     </>
