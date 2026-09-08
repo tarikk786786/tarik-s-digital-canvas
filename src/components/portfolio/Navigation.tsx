@@ -23,12 +23,33 @@ const NAV_LINKS = [
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const prefers = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setReducedMotion(prefers);
+    }
+  }, []);
+
+  const toggleReducedMotion = () => {
+    const nextState = !reducedMotion;
+    setReducedMotion(nextState);
+    if (typeof document !== "undefined") {
+      if (nextState) {
+        document.documentElement.classList.add("reduce-motion");
+      } else {
+        document.documentElement.classList.remove("reduce-motion");
+      }
+    }
+    window.dispatchEvent(new CustomEvent("tarik:toggle-motion", { detail: { reduced: nextState } }));
+  };
 
   const linkClass =
     "group relative font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-accent font-medium";
@@ -77,8 +98,18 @@ export function Navigation() {
           )}
         </nav>
 
-        {/* FAR RIGHT: Availability Badge & Quick CTA */}
-        <div className="flex items-center gap-4">
+        {/* FAR RIGHT: Reduce Motion Toggle & Availability Badge */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={toggleReducedMotion}
+            aria-label={reducedMotion ? "Enable full motion" : "Reduce motion for accessibility"}
+            className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 font-mono text-[9px] uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-white/20 transition-all cursor-pointer"
+          >
+            <span className={`size-1.5 rounded-full ${reducedMotion ? "bg-amber-400" : "bg-emerald-400"}`} />
+            <span>{reducedMotion ? "MOTION: REDUCED" : "MOTION: 3D"}</span>
+          </button>
+
           <a
             href={WHATSAPP_URL}
             target="_blank"
