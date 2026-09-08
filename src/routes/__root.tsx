@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PageTransition } from "@/components/portfolio/PageTransition";
+import { initSmoothScroll } from "../lib/lenis-scroll";
+import { initDeveloperConsole } from "../lib/developer-console";
 
 function NotFoundComponent() {
   return (
@@ -262,6 +264,15 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    const destroyScroll = initSmoothScroll();
+    const destroyConsole = initDeveloperConsole();
+    return () => {
+      destroyScroll?.();
+      destroyConsole?.();
+    };
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

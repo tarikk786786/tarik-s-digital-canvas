@@ -37,9 +37,15 @@ const TechCertifications = lazy(() =>
 const ExecutionEngine = lazy(() =>
   import("@/components/portfolio/ExecutionEngine").then((m) => ({ default: m.ExecutionEngine }))
 );
+const TarikIntelligence = lazy(() =>
+  import("@/components/portfolio/TarikIntelligence").then((m) => ({ default: m.TarikIntelligence }))
+);
 const Contact = lazy(() =>
   import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact }))
 );
+
+import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
+import { EngineInspectorModal } from "@/components/portfolio/EngineInspectorModal";
 
 const SectionFallback = () => (
   <div aria-hidden className="h-[30vh] w-full flex items-center justify-center">
@@ -129,6 +135,11 @@ function Index() {
               <ExecutionEngine />
             </Reveal>
 
+            {/* Curated Intelligence Radar — What I'm Watching */}
+            <Reveal>
+              <TarikIntelligence />
+            </Reveal>
+
             {/* Direct Contact Deck */}
             <Reveal>
               <Contact />
@@ -141,6 +152,12 @@ function Index() {
 
       {/* Interactive Cyber-Forensic Terminal HUD */}
       <CyberTerminal />
+
+      {/* Interactive Ask Tarik AI Knowledge Guide */}
+      <AskTarikAI />
+
+      {/* Live Systems Engine Inspector Modal */}
+      <EngineInspectorModal />
 
       {/* Privacy & Compliance Consent */}
       <ConsentBanner />

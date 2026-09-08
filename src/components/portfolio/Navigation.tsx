@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { label: "Skills", href: "/skills", isRoute: true },
   { label: "Credentials", href: "/certifications", isRoute: true },
   { label: "Execution", href: "#execution" },
+  { label: "Radar", href: "#intelligence" },
   { label: "Contact", href: "#contact" },
 ];
 
