@@ -1,4 +1,6 @@
 import { TiltCard3D } from "./TiltCard3D";
+import photoLab from "@/assets/tarik-photo-lab.jpg";
+import photoWorking from "@/assets/tarik-photo-working.jpg";
 import {
   Compass,
   Shield,
@@ -13,8 +15,11 @@ import {
   Cpu,
   Fingerprint,
   Sparkles,
+  Maximize2,
+  Monitor,
 } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
+import { soundEngine } from "@/lib/sound-engine";
 
 const PHILOSOPHY_PILLARS = [
   {
@@ -61,6 +66,13 @@ const ENCLAVE_SPECS = [
 ];
 
 export function AboutMe() {
+  const openLabLightbox = () => {
+    soundEngine.playClick();
+    window.dispatchEvent(
+      new CustomEvent("tarik:open-lab-lightbox", { detail: { monitor: 1 } })
+    );
+  };
+
   return (
     <section
       id="about"
@@ -88,7 +100,7 @@ export function AboutMe() {
             </span>
           </h2>
           <p className="mt-6 font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl font-normal leading-relaxed text-pretty">
-            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — a multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and entrepreneur.
+            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — a multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and founder of <strong className="text-[#62E6FF] font-semibold">Dezo.in</strong>.
           </p>
         </div>
 
@@ -97,29 +109,37 @@ export function AboutMe() {
           {/* Left Column: Authentic Identity Enclave & Dossier (5 cols) */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
             <TiltCard3D glowColor="rgba(98, 230, 255, 0.2)" tiltIntensity={8}>
-              <div className="relative rounded-2xl border border-white/10 bg-[#0A0D12] p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-hidden group">
+              <div className="relative rounded-2xl border border-white/15 bg-[#0A0D12] p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-hidden group">
                 {/* Dossier Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6 font-mono text-[11px]">
                   <div className="flex items-center gap-2 text-[#62E6FF]">
                     <Fingerprint className="size-4" />
                     <span className="font-bold tracking-widest uppercase">DOSSIER // TARIK.ISLAM</span>
                   </div>
-                  <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/30 text-[#6EE7B7] text-[10px] font-semibold">
+                  <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/30 text-[#6EE7B7] text-[10px] font-semibold">
                     <span className="size-1.5 rounded-full bg-[#6EE7B7] animate-pulse" />
-                    ACTIVE ENCLAVE
+                    VERIFIED PRACTITIONER
                   </span>
                 </div>
 
-                {/* Identity Card Interior */}
+                {/* Identity Card Interior with Authentic Working Photo */}
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
-                    <div className="size-16 rounded-xl border border-[#62E6FF]/30 bg-[#62E6FF]/10 flex items-center justify-center font-display text-2xl font-bold text-[#62E6FF] shadow-[0_0_20px_rgba(98,230,255,0.2)]">
-                      TI
+                    {/* Authentic Portrait Image of Tarik Working */}
+                    <div className="relative size-20 sm:size-24 rounded-2xl overflow-hidden border-2 border-[#62E6FF]/40 shadow-[0_0_24px_rgba(98,230,255,0.25)] shrink-0 group/avatar">
+                      <img
+                        src={photoWorking}
+                        alt="Tarik Islam — Multidisciplinary Technologist & Systems Engineer"
+                        className="size-full object-cover object-center filter contrast-[1.08] saturate-[1.03] transition-transform duration-500 group-hover/avatar:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#050608]/60 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute bottom-1 right-1 size-3 rounded-full bg-[#6EE7B7] border-2 border-[#0A0D12]" title="Active Practitioner" />
                     </div>
+
                     <div>
-                      <h3 className="font-display font-bold text-xl text-foreground">Tarik Islam</h3>
-                      <p className="font-mono text-xs text-[#62E6FF] font-medium">Founder &amp; CEO, Dezo.in</p>
-                      <p className="font-sans text-xs text-muted-foreground mt-0.5">Multidisciplinary Technologist &amp; Systems Engineer</p>
+                      <h3 className="font-display font-bold text-xl sm:text-2xl text-foreground">Tarik Islam</h3>
+                      <p className="font-mono text-xs text-[#62E6FF] font-medium mt-0.5">Founder &amp; CEO, Dezo.in</p>
+                      <p className="font-sans text-xs text-muted-foreground mt-0.5">Forensic Scientist · Cyber Engineer · AI Builder</p>
                     </div>
                   </div>
 
@@ -167,6 +187,55 @@ export function AboutMe() {
               </div>
             </TiltCard3D>
 
+            {/* Authentic Lab Command Center Card (Real Photo Evidence) */}
+            <div className="p-5 sm:p-6 rounded-2xl border border-white/15 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-4">
+              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] font-semibold">
+                <div className="flex items-center gap-2">
+                  <Monitor className="size-3.5" />
+                  <span>AUTHENTIC WORKSTATION EVIDENCE</span>
+                </div>
+                <span className="text-[#6EE7B7]">4-DISPLAYS</span>
+              </div>
+
+              {/* Photo Preview Container */}
+              <div
+                onClick={openLabLightbox}
+                className="relative rounded-xl overflow-hidden border border-white/10 group cursor-pointer aspect-[16/10]"
+              >
+                <img
+                  src={photoLab}
+                  alt="Tarik Islam engineering workstation with 4 monitors"
+                  className="size-full object-cover object-center filter contrast-[1.06] transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Laser scanline */}
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-transparent via-[#62E6FF]/20 to-transparent animate-scan-sweep opacity-75" />
+
+                {/* Hover inspect banner */}
+                <div className="absolute inset-0 bg-[#050608]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 font-mono text-xs text-[#62E6FF] font-bold">
+                  <Maximize2 className="size-4" />
+                  <span>INSPECT FULL HD TELEMETRY</span>
+                </div>
+
+                <div className="absolute bottom-2 left-2 z-10 px-2 py-0.5 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#6EE7B7] flex items-center gap-1">
+                  <span className="size-1 rounded-full bg-[#6EE7B7]" />
+                  <span>SHA-256 VERIFIED</span>
+                </div>
+              </div>
+
+              <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+                Tarik's multi-display digital laboratory in India. Dedicated physical command matrix for forensic bitstream analysis, AI agent orchestration, and full-stack software development.
+              </p>
+
+              <button
+                type="button"
+                onClick={openLabLightbox}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-[#62E6FF]/30 bg-[#62E6FF]/5 hover:bg-[#62E6FF]/15 text-[#62E6FF] font-mono text-xs uppercase tracking-widest font-semibold transition-all cursor-pointer"
+              >
+                <span>INSPECT COMMAND MATRIX (HD)</span>
+                <Maximize2 className="size-3.5" />
+              </button>
+            </div>
+
             {/* Evidence Standards Card */}
             <div className="p-6 rounded-2xl border border-white/10 bg-[#0A0D12]/80 backdrop-blur-xl shadow-xl">
               <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] mb-3 font-semibold">
@@ -174,7 +243,7 @@ export function AboutMe() {
                 <span>EVIDENTIARY STANDARDS &amp; PROTOCOLS</span>
               </div>
               <p className="font-sans text-xs text-muted-foreground leading-relaxed mb-4">
-                Operating under rigorous verification frameworks adapted from forensic crime laboratories to enterprise digital environments.
+                Operating under rigorous verification frameworks adapted from forensic crime laboratories to enterprise digital software environments.
               </p>
               <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
                 <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">

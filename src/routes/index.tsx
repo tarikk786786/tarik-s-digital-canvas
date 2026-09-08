@@ -52,6 +52,7 @@ import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { LiveSystemStatus } from "@/components/portfolio/LiveSystemStatus";
 import { ProjectBriefForm } from "@/components/portfolio/ProjectBriefForm";
 import { SmartLoader } from "@/components/portfolio/SmartLoader";
+import { LabLightboxModal } from "@/components/portfolio/LabLightboxModal";
 
 const SectionFallback = () => (
   <div aria-hidden className="h-[30vh] w-full flex items-center justify-center">
@@ -187,6 +188,9 @@ function Index() {
 
       {/* Privacy & Compliance Consent */}
       <ConsentBanner />
+
+      {/* Laboratory Command Matrix Lightbox Modal */}
+      <LabLightboxModal />
     </>
   );
 }

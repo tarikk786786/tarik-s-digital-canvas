@@ -27,7 +27,10 @@ import {
   XCircle,
   Play,
   Pause,
+  Monitor,
+  Maximize2,
 } from "lucide-react";
+import photoLab from "@/assets/tarik-photo-lab.jpg";
 
 // ==========================================
 // 1. TECHNOLOGY STACK CLUSTERS DATA
@@ -369,6 +372,12 @@ export function HowIBuildLab() {
   const [isConverged, setIsConverged] = useState<boolean>(false);
   const [showTarikSingularity, setShowTarikSingularity] = useState<boolean>(false);
   const [fpsCount, setFpsCount] = useState<number>(60);
+
+  const openLabLightbox = (monitorId: number = 1) => {
+    window.dispatchEvent(
+      new CustomEvent("tarik:open-lab-lightbox", { detail: { monitor: monitorId } })
+    );
+  };
 
   // Simulation timer
   useEffect(() => {
@@ -860,6 +869,88 @@ export function HowIBuildLab() {
                   {idx < arr.length - 1 && <span className="text-white/30 text-xs">→</span>}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ==========================================
+            1.5 PHYSICAL COMMAND MATRIX (AUTHENTIC EVIDENCE)
+        ========================================== */}
+        <div className="mb-20 rounded-2xl border border-white/15 bg-gradient-to-br from-[#0A0D12]/95 to-[#050608]/95 p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Col: Photo with Scanline Sweep and Hotspot Trigger */}
+            <div
+              onClick={() => openLabLightbox(1)}
+              className="lg:col-span-7 relative rounded-xl overflow-hidden border border-white/10 group cursor-pointer aspect-[16/10]"
+            >
+              <img
+                src={photoLab}
+                alt="Tarik Islam engineering workstation with 4 monitors"
+                className="size-full object-cover object-center filter contrast-[1.06] transition-transform duration-700 group-hover:scale-[1.03]"
+              />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-transparent via-[#62E6FF]/25 to-transparent animate-scan-sweep opacity-75" />
+
+              {/* Badges */}
+              <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#62E6FF] backdrop-blur-md flex items-center gap-1.5">
+                <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
+                <span>4-MONITOR COMMAND MATRIX // PHYSICAL LAB</span>
+              </div>
+
+              <div className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#6EE7B7] backdrop-blur-md flex items-center gap-1.5">
+                <span className="size-1 rounded-full bg-[#6EE7B7]" />
+                <span>SHA-256 VERIFIED</span>
+              </div>
+
+              {/* Hover inspect banner */}
+              <div className="absolute inset-0 bg-[#050608]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 font-mono text-xs text-[#62E6FF] font-bold">
+                <Maximize2 className="size-4" />
+                <span>CLICK TO INSPECT FULL HD LAB &amp; TELEMETRY</span>
+              </div>
+            </div>
+
+            {/* Right Col: Evidentiary Specs & Narrative */}
+            <div className="lg:col-span-5 space-y-5">
+              <div className="flex items-center gap-2 font-mono text-xs text-[#62E6FF] uppercase tracking-widest font-semibold">
+                <Monitor className="size-4" />
+                <span>PHYSICAL WORKBENCH ANCHOR</span>
+              </div>
+
+              <h3 className="font-display text-2xl sm:text-3xl font-bold text-foreground leading-tight">
+                Where theoretical architecture meets physical reality.
+              </h3>
+
+              <p className="font-sans text-sm text-muted-foreground leading-relaxed">
+                Every line of code, zero-trust security perimeter, and AI agent workflow in this portfolio was engineered from Tarik's private laboratory in India.
+              </p>
+
+              {/* 4-node breakdown list */}
+              <div className="space-y-2 pt-1 font-mono text-xs">
+                <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[#62E6FF]">MONITOR 01:</span>
+                  <span className="text-foreground text-[11px]">Neural Threat Radar &amp; Graph</span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[#62E6FF]">MONITOR 02:</span>
+                  <span className="text-foreground text-[11px]">ISO/IEC 27037 Case Evidence</span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[#62E6FF]">MONITOR 03:</span>
+                  <span className="text-foreground text-[11px]">Systems IDE Runtime &amp; Rust</span>
+                </div>
+                <div className="flex items-center justify-between p-2 rounded-lg bg-white/[0.02] border border-white/5">
+                  <span className="text-[#62E6FF]">MONITOR 04:</span>
+                  <span className="text-foreground text-[11px]">Dezo.in Product Incubation</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => openLabLightbox(1)}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-lg border border-[#62E6FF]/40 bg-[#62E6FF]/10 hover:bg-[#62E6FF]/20 text-[#62E6FF] font-mono text-xs uppercase tracking-widest font-bold transition-all shadow-[0_0_20px_rgba(98,230,255,0.15)] cursor-pointer"
+              >
+                <span>INSPECT WORKBENCH (FULL HD)</span>
+                <Maximize2 className="size-4" />
+              </button>
             </div>
           </div>
         </div>

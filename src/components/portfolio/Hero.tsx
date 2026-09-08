@@ -1,11 +1,26 @@
 import { useEffect, useState } from "react";
+import photoLab from "@/assets/tarik-photo-lab.jpg";
+import photoWorking from "@/assets/tarik-photo-working.jpg";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { TarikCore3D } from "./TarikCore3D";
 import { TiltCard3D } from "./TiltCard3D";
-import { ScrambleText } from "./ScrambleText";
 import { MagneticButton } from "./MagneticButton";
-import { Shield, Terminal, ArrowUpRight, Cpu, Activity, Clock, Box } from "lucide-react";
+import {
+  Shield,
+  Terminal,
+  ArrowUpRight,
+  Cpu,
+  Activity,
+  Clock,
+  Box,
+  Monitor,
+  User,
+  Maximize2,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
+import { soundEngine } from "@/lib/sound-engine";
 
 const ROLES = [
   "Multidisciplinary Technologist",
@@ -16,10 +31,42 @@ const ROLES = [
   "Full-Stack Systems Architect",
 ];
 
+const LAB_HOTSPOTS = [
+  {
+    id: 1,
+    name: "NEURAL THREAT RADAR",
+    tag: "MONITOR 01 // TOP LEFT",
+    desc: "Heuristic packet triage, spatial graph clustering & sub-ms inference.",
+    pos: { top: "18%", left: "21%" },
+  },
+  {
+    id: 2,
+    name: "CASE EVIDENCE CHAIN",
+    tag: "MONITOR 02 // CENTER LEFT",
+    desc: "ISO/IEC 27037 compliant bitstream audit & SHA-256 twin-hash logging.",
+    pos: { top: "48%", left: "27%" },
+  },
+  {
+    id: 3,
+    name: "SYSTEMS RUNTIME",
+    tag: "MONITOR 03 // CENTER RIGHT",
+    desc: "React 19, TypeScript, Rust & Python with zero compilation drift.",
+    pos: { top: "43%", left: "73%" },
+  },
+  {
+    id: 4,
+    name: "DEZO.IN PRODUCT LAB",
+    tag: "MONITOR 04 // FAR RIGHT",
+    desc: "AI product studio incubation, agent workflows & design systems.",
+    pos: { top: "22%", left: "84%" },
+  },
+];
+
 export function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [timeIST, setTimeIST] = useState("");
-  const [viewMode, setViewMode] = useState<"portrait" | "core">("portrait");
+  const [viewMode, setViewMode] = useState<"lab" | "core" | "portrait">("lab");
+  const [activePin, setActivePin] = useState<number | null>(null);
 
   useEffect(() => {
     const roleInterval = setInterval(() => {
@@ -49,6 +96,14 @@ export function Hero() {
   const openBrief = () => {
     window.dispatchEvent(new CustomEvent("tarik:open-project-brief"));
   };
+
+  const openLabLightbox = (monitorId?: number) => {
+    window.dispatchEvent(
+      new CustomEvent("tarik:open-lab-lightbox", { detail: { monitor: monitorId || 1 } })
+    );
+  };
+
+  const currentHotspot = activePin ? LAB_HOTSPOTS.find((h) => h.id === activePin) : null;
 
   return (
     <header
@@ -168,46 +223,198 @@ export function Hero() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: 5 Columns - 3D Interactive Portrait or The Tarik Core */}
+        {/* RIGHT COLUMN: 5 Columns - 3D Interactive Portrait / Lab Workstation Matrix */}
         <div className="w-full lg:col-span-5 relative flex flex-col items-center justify-center mt-6 lg:mt-0">
           <TiltCard3D
             className="w-full max-w-md lg:max-w-none"
-            glowColor="rgba(98, 230, 255, 0.2)"
-            tiltIntensity={12}
+            glowColor="rgba(98, 230, 255, 0.25)"
+            tiltIntensity={10}
           >
-            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-[#0A0D12]/95 to-[#050608]/95 p-6 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.8)] overflow-hidden group">
-              {/* Top HUD Bar with View Toggle */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4 font-mono text-[10px] text-muted-foreground uppercase tracking-widest">
+            <div className="relative rounded-2xl border border-white/15 bg-gradient-to-b from-[#0A0D12]/95 to-[#050608]/95 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.85)] overflow-hidden group">
+              {/* Top HUD Bar with 3-Way Mode Switcher */}
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3.5 mb-4 font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
                 <div className="flex items-center gap-2">
                   <Terminal className="size-3 text-[#62E6FF]" />
                   <span className="text-foreground font-semibold">
-                    {viewMode === "portrait" ? "TARIK.ISLAM.OBJ" : "TARIK.CORE.3D"}
+                    {viewMode === "lab"
+                      ? "LAB.WORKSTATION.OBJ"
+                      : viewMode === "core"
+                      ? "TARIK.CORE.3D"
+                      : "TARIK.PORTRAIT.OBJ"}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+
+                {/* 3-Way Mode Selector Pills */}
+                <div className="flex items-center gap-1 bg-white/5 p-0.5 rounded-lg border border-white/10">
                   <button
                     type="button"
-                    onClick={() => setViewMode(viewMode === "portrait" ? "core" : "portrait")}
-                    className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-[#62E6FF] transition-colors cursor-pointer"
+                    onClick={() => {
+                      setViewMode("lab");
+                      soundEngine.playClick();
+                    }}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all cursor-pointer text-[10px] font-semibold ${
+                      viewMode === "lab"
+                        ? "bg-[#62E6FF] text-[#050608] shadow-[0_0_12px_rgba(98,230,255,0.4)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Monitor className="size-3" />
+                    <span>LAB</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setViewMode("core");
+                      soundEngine.playClick();
+                    }}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all cursor-pointer text-[10px] font-semibold ${
+                      viewMode === "core"
+                        ? "bg-[#62E6FF] text-[#050608] shadow-[0_0_12px_rgba(98,230,255,0.4)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
                   >
                     <Box className="size-3" />
-                    <span>{viewMode === "portrait" ? "VIEW 3D CORE" : "VIEW PORTRAIT"}</span>
+                    <span>3D CORE</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setViewMode("portrait");
+                      soundEngine.playClick();
+                    }}
+                    className={`flex items-center gap-1 px-2.5 py-1 rounded-md transition-all cursor-pointer text-[10px] font-semibold ${
+                      viewMode === "portrait"
+                        ? "bg-[#62E6FF] text-[#050608] shadow-[0_0_12px_rgba(98,230,255,0.4)]"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <User className="size-3" />
+                    <span>PORTRAIT</span>
                   </button>
                 </div>
               </div>
 
-              {/* View Switcher: Portrait vs The Tarik Core 3D */}
-              <div className="relative w-full aspect-[4/5] flex items-center justify-center overflow-hidden rounded-xl bg-black/40 border border-white/5">
-                {viewMode === "core" ? (
-                  <TarikCore3D className="w-full h-full" />
-                ) : (
-                  <>
+              {/* View Container */}
+              <div className="relative w-full aspect-[4/5] flex items-center justify-center overflow-hidden rounded-xl bg-black/50 border border-white/10">
+                {/* 1. LAB WORKSTATION VIEW (AUTHENTIC 4-MONITOR COMMAND LAB) */}
+                {viewMode === "lab" && (
+                  <div className="relative size-full overflow-hidden flex items-center justify-center">
+                    {/* Authentic Photo */}
+                    <img
+                      src={photoLab}
+                      alt="Tarik Islam at his multi-monitor engineering and forensic workstation"
+                      className="size-full object-cover object-center filter contrast-[1.07] saturate-[1.04] select-none transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+
+                    {/* Laser Scan Sweep Effect */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-transparent via-[#62E6FF]/25 to-transparent animate-scan-sweep opacity-75" />
+
+                    {/* Interactive Telemetry Hotspot Pins */}
+                    {LAB_HOTSPOTS.map((h) => {
+                      const isActive = activePin === h.id;
+                      return (
+                        <button
+                          key={h.id}
+                          type="button"
+                          onClick={() => {
+                            setActivePin(isActive ? null : h.id);
+                            soundEngine.playClick();
+                          }}
+                          onMouseEnter={() => setActivePin(h.id)}
+                          style={{ top: h.pos.top, left: h.pos.left }}
+                          className="absolute -translate-x-1/2 -translate-y-1/2 z-20 group/pin cursor-pointer"
+                          title={`Click to inspect ${h.name}`}
+                        >
+                          <span className="relative flex size-5 md:size-6 items-center justify-center">
+                            <span
+                              className={`absolute inline-flex size-full rounded-full transition-opacity ${
+                                isActive
+                                  ? "bg-[#62E6FF] animate-ping opacity-80"
+                                  : "bg-[#62E6FF]/50 group-hover/pin:animate-ping opacity-40"
+                              }`}
+                            />
+                            <span
+                              className={`relative inline-flex size-3 md:size-3.5 rounded-full border-2 border-[#050608] items-center justify-center font-mono text-[8px] font-bold transition-all ${
+                                isActive
+                                  ? "bg-[#62E6FF] text-[#050608] scale-125 shadow-[0_0_12px_#62E6FF]"
+                                  : "bg-[#0A0D12] text-[#62E6FF] border-[#62E6FF] group-hover/pin:scale-110"
+                              }`}
+                            >
+                              {h.id}
+                            </span>
+                          </span>
+
+                          {/* Hover Tooltip */}
+                          <div
+                            className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-44 p-2 rounded-lg bg-[#0A0D12]/95 border border-[#62E6FF]/40 text-left font-mono backdrop-blur-md shadow-2xl transition-all pointer-events-none ${
+                              isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 group-hover/pin:opacity-100 group-hover/pin:translate-y-0"
+                            }`}
+                          >
+                            <div className="text-[9px] text-[#62E6FF] font-bold">{h.tag}</div>
+                            <div className="text-[10px] text-foreground font-sans font-semibold mt-0.5">{h.name}</div>
+                            <div className="text-[9px] text-muted-foreground font-sans mt-0.5 leading-snug">{h.desc}</div>
+                          </div>
+                        </button>
+                      );
+                    })}
+
+                    {/* Top Watermark Badge */}
+                    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#62E6FF] backdrop-blur-md flex items-center gap-1.5">
+                      <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
+                      <span>4-MONITOR COMMAND MATRIX</span>
+                    </div>
+
+                    {/* Expand Fullscreen Button */}
+                    <button
+                      type="button"
+                      onClick={() => openLabLightbox(activePin || 1)}
+                      className="absolute top-3 right-3 z-10 p-1.5 rounded-lg bg-[#050608]/85 border border-white/10 text-muted-foreground hover:text-[#62E6FF] hover:border-[#62E6FF]/50 transition-colors backdrop-blur-md cursor-pointer"
+                      title="Inspect Workstation in High Resolution"
+                    >
+                      <Maximize2 className="size-3.5" />
+                    </button>
+
+                    {/* Bottom Dynamic Hotspot Telemetry Drawer */}
+                    <div className="absolute inset-x-3 bottom-3 z-10 p-2.5 rounded-lg bg-[#050608]/90 border border-white/15 backdrop-blur-md font-mono text-[10px] text-muted-foreground flex items-center justify-between">
+                      {currentHotspot ? (
+                        <div className="truncate flex items-center gap-2">
+                          <span className="size-1.5 rounded-full bg-[#6EE7B7]" />
+                          <span className="text-[#62E6FF] font-bold">{currentHotspot.tag}:</span>
+                          <span className="text-foreground truncate">{currentHotspot.name}</span>
+                        </div>
+                      ) : (
+                        <div className="truncate flex items-center gap-2">
+                          <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
+                          <span>HOVER OR TAP PINS TO INSPECT TELEMETRY</span>
+                        </div>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => openLabLightbox(activePin || 1)}
+                        className="shrink-0 text-[9px] text-[#62E6FF] hover:underline uppercase ml-2 cursor-pointer font-bold"
+                      >
+                        INSPECT [HD] ↗
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. 3D CORE VIEW */}
+                {viewMode === "core" && (
+                  <TarikCore3D className="size-full" />
+                )}
+
+                {/* 3. PORTRAIT VIEW */}
+                {viewMode === "portrait" && (
+                  <div className="relative size-full overflow-hidden flex items-center justify-center">
                     {/* Background 3D Ambient Canvas */}
                     <div className="absolute inset-0 -z-0 opacity-50 pointer-events-none flex items-center justify-center">
                       <TarikCore3D className="w-full h-full opacity-60 scale-75" />
                     </div>
 
-                    {/* Portrait Image */}
+                    {/* Cutout Portrait Image */}
                     <img
                       src={profileImage}
                       alt="Tarik Islam — Forensic Scientist, AI Developer & Cybersecurity Engineer"
@@ -226,15 +433,15 @@ export function Hero() {
                       <span className="size-1 rounded-full bg-[#6EE7B7]" />
                       SHA-256 VERIFIED
                     </div>
-                  </>
+                  </div>
                 )}
               </div>
 
               {/* Bottom Card Footer */}
               <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between font-mono text-[10px] text-muted-foreground">
                 <span className="flex items-center gap-1.5">
-                  <span className="size-1.5 rounded-full bg-[#62E6FF]" />
-                  <span>IDENTITY: VERIFIED</span>
+                  <span className="size-1.5 rounded-full bg-[#6EE7B7]" />
+                  <span>IDENTITY: VERIFIED PRACTITIONER</span>
                 </span>
                 <span className="text-foreground/80">INDIA // GLOBAL</span>
               </div>
