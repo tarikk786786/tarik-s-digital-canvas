@@ -25,34 +25,20 @@ export const PROFILE = {
   availability: "Available for selected high-stakes collaborations & architecture audits",
   focus: "Forensics · Cybersecurity · AI Systems · Full Stack",
 
-  // Academic Degrees & Scientific Qualifications (Excellence in Domain Mastery)
+  // Academic Degrees & Scientific Qualifications (Chronological Progression: B.Sc -> M.Sc -> MCA -> M.Tech)
   education: [
     {
-      degree: "M.Tech",
-      field: "Cybersecurity & Artificial Intelligence",
-      level: "Postgraduate Engineering",
+      degree: "B.Sc",
+      field: "Forensic Science",
+      level: "Bachelor of Science",
       status: "completed",
       highlights:
-        "Specialized in advanced defensive cyber architecture, neural inference, autonomous agent reasoning, and zero-trust engineering.",
+        "Rigorous foundation in empirical scientific investigation, dactyloscopy minutiae, forensic ballistics, questioned document examination, and crime scene reconstruction.",
       competencies: [
-        "AI Reasoning Architectures",
-        "Threat Modeling & Mitigation",
-        "Applied Cryptography",
-        "Kernel-Level Telemetry",
-      ],
-    },
-    {
-      degree: "MCA",
-      field: "Computer Applications & Software Systems",
-      level: "Master of Computer Applications",
-      status: "completed",
-      highlights:
-        "Specialized in distributed software architectures, database internals, algorithmic optimization, and enterprise software engineering.",
-      competencies: [
-        "Distributed Systems",
-        "Full-Stack Architecture",
-        "Database Optimization",
-        "Object-Oriented & Functional Design",
+        "Dactyloscopy & Ridge Analysis",
+        "Forensic Ballistics & Toolmarks",
+        "Questioned Documents & ESDA",
+        "Physical Evidence Preservation",
       ],
     },
     {
@@ -70,17 +56,31 @@ export const PROFILE = {
       ],
     },
     {
-      degree: "B.Sc",
-      field: "Forensic Science",
-      level: "Bachelor of Science",
+      degree: "MCA",
+      field: "Computer Applications & Software Systems",
+      level: "Master of Computer Applications",
       status: "completed",
       highlights:
-        "Rigorous foundation in empirical scientific investigation, dactyloscopy minutiae, forensic ballistics, questioned document examination, and crime scene reconstruction.",
+        "Specialized in distributed software architectures, database internals, algorithmic optimization, and enterprise software engineering.",
       competencies: [
-        "Dactyloscopy & Ridge Analysis",
-        "Forensic Ballistics & Toolmarks",
-        "Questioned Documents & ESDA",
-        "Physical Evidence Preservation",
+        "Distributed Systems",
+        "Full-Stack Architecture",
+        "Database Optimization",
+        "Object-Oriented & Functional Design",
+      ],
+    },
+    {
+      degree: "M.Tech",
+      field: "Cybersecurity & Artificial Intelligence",
+      level: "Postgraduate Engineering",
+      status: "completed",
+      highlights:
+        "Specialized in advanced defensive cyber architecture, neural inference, autonomous agent reasoning, and zero-trust engineering.",
+      competencies: [
+        "AI Reasoning Architectures",
+        "Threat Modeling & Mitigation",
+        "Applied Cryptography",
+        "Kernel-Level Telemetry",
       ],
     },
   ] as AcademicCredential[],

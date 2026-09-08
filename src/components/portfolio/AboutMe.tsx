@@ -561,7 +561,7 @@ export function AboutMe() {
 
           {/* Degrees Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {PROFILE.education.map((deg) => (
+            {PROFILE.education.map((deg, idx) => (
               <div
                 key={deg.degree}
                 className="p-6 rounded-2xl border border-white/15 bg-[#0A0D12] hover:border-[#62E6FF]/50 transition-all duration-300 flex flex-col justify-between group shadow-lg"
@@ -569,7 +569,7 @@ export function AboutMe() {
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3 font-mono text-[10px]">
                     <span className="font-bold tracking-wider text-[#62E6FF]">
-                      {deg.level.toUpperCase()}
+                      0{idx + 1} // {deg.level.toUpperCase()}
                     </span>
                     <span className="px-2 py-0.5 rounded-full bg-[#6EE7B7]/10 text-[#6EE7B7] border border-[#6EE7B7]/20 font-semibold text-[9px]">
                       {deg.status.toUpperCase()}

@@ -45,7 +45,7 @@ export const Route = createFileRoute("/resume")({
       {
         name: "description",
         content:
-          "Official curriculum vitae of Tarik Islam — M.Tech Cybersecurity & AI, MCA, M.Sc & B.Sc Forensic Science. CEH, CHFI, OSCP certified practitioner, specialized in Forensic Toxicology, Dactyloscopy, Serology, and AI systems engineering.",
+          "Official curriculum vitae of Tarik Islam — B.Sc & M.Sc Forensic Science, MCA, M.Tech Cybersecurity & AI. CEH, CHFI, OSCP certified practitioner, specialized in Forensic Toxicology, Dactyloscopy, Serology, and AI systems engineering.",
       },
       { property: "og:title", content: "Official Résumé — Tarik Islam" },
       {
@@ -207,7 +207,7 @@ function ResumePage() {
                   <div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-mono text-[10px] text-[#62E6FF] print:text-black font-semibold">
-                        {edu.level.toUpperCase()}
+                        0{idx + 1} // {edu.level.toUpperCase()}
                       </span>
                       <span className="px-2 py-0.5 rounded bg-white/5 print:bg-neutral-200 font-mono text-[10px] text-[#6EE7B7] print:text-black font-semibold">
                         {edu.status.toUpperCase()}
