@@ -70,15 +70,15 @@ const PROJECTS: Project[] = [
     description:
       "Autonomous cybersecurity telemetry platform that maps real-time network packets and host anomalies against the MITRE ATT&CK framework. Employs local transformer models for zero-day behavioral detection without transmitting sensitive telemetry outside the security perimeter.",
     architecture: [
-      "eBPF-based low-overhead Linux kernel packet inspection",
-      "Real-time graph neural network for lateral movement detection",
-      "Automated incident isolation playbooks via Zero-Trust network policies",
-      "Local quantized LLM for automated threat intelligence summarization",
+      "Network packet inspection and anomaly detection",
+      "MITRE ATT&CK framework correlation engine",
+      "Automated incident response with Zero-Trust policies",
+      "Local ML models for threat intelligence analysis",
     ],
     tags: ["Cybersecurity", "Zero Trust", "eBPF", "Graph Neural Net", "MITRE ATT&CK"],
     status: "IN BUILD",
     statusColor: "text-[#62E6FF] border-[#62E6FF]/30 bg-[#62E6FF]/10",
-    metrics: { label: "Detection Latency", value: "< 24ms" },
+    metrics: { label: "Stage", value: "In Development" },
   },
   {
     id: "biotrace",
@@ -96,7 +96,7 @@ const PROJECTS: Project[] = [
     tags: ["Computer Vision", "PyTorch", "Forensic Biology", "3D Geometry"],
     status: "IN BUILD",
     statusColor: "text-[#9B8CFF] border-[#9B8CFF]/30 bg-[#9B8CFF]/10",
-    metrics: { label: "Minutiae Accuracy", value: "99.4%" },
+    metrics: { label: "Stage", value: "Research & Development" },
   },
   {
     id: "canvas",
@@ -105,7 +105,7 @@ const PROJECTS: Project[] = [
     categoryLabel: "OPEN SOURCE · WEB ENGINEERING",
     tagline: "The high-performance portfolio you are exploring right now.",
     description:
-      "Engineered from first principles with TanStack Start, React 19, custom 3D hardware-accelerated Canvas shaders, and full WCAG 2.1 AA accessibility compliance. Zero heavy 3D engine overhead with sub-second hydration times and 100% SEO optimization.",
+      "Engineered with TanStack Start, React 19, custom 3D WebGL shaders, and Tailwind CSS v4. Optimized for performance with code-split bundles and server-side rendering.",
     architecture: [
       "Full-stack SSR with Nitro & Cloudflare Workers edge deployment",
       "Custom 3D perspective projection engine in pure TypeScript",
@@ -117,7 +117,7 @@ const PROJECTS: Project[] = [
     statusColor: "text-emerald-400 border-emerald-500/30 bg-emerald-500/10",
     href: "https://github.com/tarikk786786/tarik-s-digital-canvas",
     github: "https://github.com/tarikk786786/tarik-s-digital-canvas",
-    metrics: { label: "Performance", value: "100/100 Core Web Vitals" },
+    metrics: { label: "Stack", value: "TanStack Start + Three.js" },
   },
 ];
 

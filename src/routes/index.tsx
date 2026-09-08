@@ -74,88 +74,88 @@ function Index() {
         <div className="relative z-10">
           <Navigation />
           
-          {/* Main Hero with 3D Core, IST Clock & Portrait HUD */}
+          {/* Hero — 3D Core, IST Clock & Portrait HUD */}
           <Hero />
           
-          {/* Tarik Islam Personal Identity & Tenets Marquee */}
+          {/* Identity Ticker — Professional Tenets Marquee */}
           <LogoMarquee />
 
-          {/* Chapter 01: IDENTITY — Dedicated About Tarik Islam */}
+          {/* Section 01: IDENTITY — About Tarik Islam */}
           <Reveal>
             <AboutMe />
           </Reveal>
 
-          {/* Chapter 02: EXPLORATION — Chronological Evolution & Personal Journey */}
+          {/* Section 02: JOURNEY — Chronological Evolution & Personal Timeline */}
           <Reveal>
             <PersonalTimeline />
           </Reveal>
           
-          {/* Part 3: Vision & Ambition — 3D Intelligence Core */}
+          {/* Section 03: VISION — Ambition & 3D Intelligence Core */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <VisionAmbition3D />
             </Reveal>
           </Suspense>
 
-          {/* Chapter 03: SYSTEMS — How I Build: Tools, Architecture & Living Digital Laboratory */}
+          {/* Section 04: SYSTEMS — How I Build: Tools, Architecture & Lab */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <HowIBuildLab />
             </Reveal>
           </Suspense>
 
-          {/* Chapter 05: LAB — Screens, Products & SEO: Digital Showroom */}
+          {/* Section 05: PRODUCTS — Digital Showroom & Case Studies */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <ScreensAndSeoShowroom />
             </Reveal>
           </Suspense>
 
-          {/* Live Interactive Telemetry & Forensic Audit Engine */}
+          {/* Section 06: TELEMETRY — Interactive Forensic Demo */}
           <LiveForensicScanner />
 
-          {/* Core Capabilities Matrix */}
+          {/* Section 06b: CAPABILITIES — Core Skills Matrix */}
           <Reveal>
             <Capabilities />
           </Reveal>
 
-          {/* Chapter 04: WORK — Featured Case Files / Projects Showcase */}
+          {/* Section 07: WORK — Projects, Domains & Certifications */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <Projects />
             </Reveal>
 
-            {/* Forensic Science Domains Atlas */}
+            {/* Section 07b: Forensic Science Domains */}
             <Reveal>
               <ForensicDomains />
             </Reveal>
 
-            {/* Dezo.in Studio Section */}
+            {/* Section 07c: Dezo.in Studio */}
             <Reveal>
               <Dezo />
             </Reveal>
 
-            {/* Technical & Cybersecurity Certifications */}
+            {/* Section 07d: Learning Roadmap & Certifications */}
             <Reveal>
               <TechCertifications />
             </Reveal>
 
-            {/* Part 6: Execution — Build. Learn. Evolve. Operating System */}
+            {/* Section 08: EXECUTION — Build. Learn. Evolve. */}
             <Reveal>
               <ExecutionEngine />
             </Reveal>
 
-            {/* Curated Intelligence Radar — What I'm Watching */}
+            {/* Section 09: INTELLIGENCE — Curated Radar */}
             <Reveal>
               <TarikIntelligence />
             </Reveal>
 
-            {/* Part 9: World Collapse Architectural Convergence */}
+            {/* Section 10: CONVERGENCE — Where It All Connects */}
             <Reveal>
               <WorldCollapseClimax />
             </Reveal>
 
-            {/* Chapter 06: CONNECT — Direct Contact Deck */}
+            {/* Section 11: CONNECT — Direct Contact */}
             <Reveal>
               <Contact />
             </Reveal>

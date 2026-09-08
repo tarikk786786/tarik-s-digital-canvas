@@ -66,26 +66,26 @@ const PRODUCTS: ShowroomProduct[] = [
     problem:
       "Modern businesses struggle to convert raw AI models into defensible, high-assurance software products with verifiable outputs and zero hallucinations.",
     research:
-      "Analyzed failure points in LLM production systems: 68% of enterprise rollouts stall due to ungrounded prompts, state desynchronization, and lack of verifiable audit trails.",
+      "Studied common failure modes in LLM production systems: ungrounded prompts, state desynchronization, and lack of verifiable audit trails.",
     architecture:
       "Event-driven microservices architecture coupling deterministic Zod-validated API contracts with streaming edge inference and persistent vector knowledge stores.",
     technology: ["React 19", "TypeScript", "Next.js", "Python", "PyTorch", "Tailwind CSS", "PostgreSQL"],
-    performance: "140ms LCP · 99.4% Grounding Accuracy · Sub-20ms API response",
+    performance: "Optimized for speed with edge deployment and streaming inference",
     result:
       "A flagship AI product studio driving commercial products with built-in auditability, deterministic evaluation, and enterprise-grade resilience.",
     layers: [
       { name: "UI Presentation Layer", tag: "FRONTEND", detail: "React 19 Server Components, bespoke typography & fluid glassmorphism", color: "#E8A838" },
       { name: "Component Primitive Layer", tag: "SYSTEM", detail: "Radix UI accessible headless controls & responsive Tailwind tokens", color: "#38BDF8" },
       { name: "State & Cache Layer", tag: "QUERY", detail: "TanStack Query optimistic updates, microsecond hydration & client stores", color: "#10B981" },
-      { name: "RPC & Contract Gateway", tag: "GATEWAY", detail: "Zod-enforced request validation, JWT authentication & rate limiting", color: "#6366F1" },
-      { name: "Neural Inference Engine", tag: "COGNITION", detail: "Autonomous reasoning agent loops, vector RAG & streaming tokens", color: "#A855F7" },
-      { name: "Infrastructure & Edge", tag: "DEV-OPS", detail: "Docker containerization, PostgreSQL ACID storage & Vercel global edge CDN", color: "#EC4899" },
+      { name: "RPC & Contract Gateway", tag: "GATEWAY", detail: "Zod-enforced request validation, JWT authentication & rate limiting", color: "#9B8CFF" },
+      { name: "Neural Inference Engine", tag: "COGNITION", detail: "RAG pipeline with source-grounded retrieval and streaming output", color: "#A855F7" },
+      { name: "Infrastructure & Edge", tag: "DEV-OPS", detail: "Docker containerization, PostgreSQL ACID storage & Vercel global edge CDN", color: "#FF7070" },
     ],
   },
   {
     id: "forensickit",
     name: "Aegis-DF (ForensicKit)",
-    category: "CRYPTOGRAPHIC EVIDENCE ENGINE",
+    category: "DIGITAL FORENSICS TOOLKIT",
     tagline: "Bitstream verification, volatile memory triage & court-ready chain of custody",
     color: "#38BDF8",
     hexColor: 0x38bdf8,
@@ -98,16 +98,16 @@ const PRODUCTS: ShowroomProduct[] = [
     architecture:
       "Low-level memory parser written in Rust/Python with deterministic state extraction, twin-hash generation, and automated markdown evidence dossier generation.",
     technology: ["Python", "Rust", "SQLite", "Cryptographic Hashing", "CLI & Web HUD", "ISO/IEC 27037"],
-    performance: "100% Bitstream Accuracy · Instant Hash Matching · Zero Target Modification",
+    performance: "Designed for bitstream integrity with SHA-256 and Blake3 verification",
     result:
-      "Audit-grade digital forensic toolkit generating court-admissible evidence packages with unbroken chain of custody in under 60 seconds.",
+      "Digital forensic toolkit designed to generate evidence packages with documented chain of custody following ISO/IEC 27037 standards.",
     layers: [
       { name: "Investigation HUD", tag: "INTERFACE", detail: "High-contrast terminal UI & web timeline visualizer for incident responders", color: "#38BDF8" },
       { name: "Artifact Extraction", tag: "PARSER", detail: "Registry, volatile memory heap, and process hollow analysis primitives", color: "#10B981" },
       { name: "Cryptographic Tree", tag: "INTEGRITY", detail: "Parallel SHA-256 and Blake3 bitstream verification and tamper seals", color: "#E8A838" },
-      { name: "Custody Ledger", tag: "BLOCK", detail: "Immutable chronological custody log conforming to ISO/IEC 27037 standards", color: "#6366F1" },
+      { name: "Custody Ledger", tag: "BLOCK", detail: "Immutable chronological custody log conforming to ISO/IEC 27037 standards", color: "#9B8CFF" },
       { name: "OS Isolation Layer", tag: "KERNEL", detail: "Hardware write-blocking and read-only physical memory access drivers", color: "#A855F7" },
-      { name: "Secure Storage", tag: "VAULT", detail: "Encrypted evidence vault with multi-signature verification protocols", color: "#EC4899" },
+      { name: "Secure Storage", tag: "VAULT", detail: "Encrypted evidence vault with multi-signature verification protocols", color: "#FF7070" },
     ],
   },
   {
@@ -122,20 +122,20 @@ const PRODUCTS: ShowroomProduct[] = [
     problem:
       "Security Operations Centers suffer from alert fatigue, false positives, and delayed mitigation responses during sophisticated multi-vector zero-day attacks.",
     research:
-      "Evaluated packet behavior during DDoS, credential stuffing, and API injection attacks to design a heuristic scoring engine with 0.8ms inspection time.",
+      "Evaluated packet behavior during DDoS, credential stuffing, and API injection attacks to design a heuristic scoring engine.",
     architecture:
       "Distributed packet inspection proxy feeding real-time anomaly scores into automated firewall tarpit rules with WebSocket telemetry streaming.",
     technology: ["TypeScript", "WebSockets", "ML Classification", "Tailwind CSS", "Redis", "Zero Trust"],
-    performance: "0.85ms Packet Inspection · 0.00% Zero-Day Escape · 1,400+ Deflections/sec",
+    performance: "Designed for low-latency packet inspection with automated threat response",
     result:
       "Live operational security cockpit delivering sub-second threat isolation and automated remediation for high-value enterprise endpoints.",
     layers: [
-      { name: "SOC Visual Radar", tag: "CANVAS", detail: "Real-time WebGL particle radar mapping global adversary telemetry", color: "#10B981" },
+      { name: "SOC Visual Radar", tag: "CANVAS", detail: "Real-time threat visualization dashboard with geographic mapping", color: "#10B981" },
       { name: "Alert Aggregator", tag: "STREAM", detail: "Deduplication engine collapsing 10,000 alerts into actionable threat incidents", color: "#38BDF8" },
       { name: "Zero-Trust Enforcer", tag: "POLICY", detail: "Dynamic privilege revocation and instantaneous device quarantine rules", color: "#E8A838" },
-      { name: "Packet Inspection Engine", tag: "HEURISTIC", detail: "Deep packet inspection comparing against STRIDE threat taxonomy", color: "#6366F1" },
+      { name: "Packet Inspection Engine", tag: "HEURISTIC", detail: "Deep packet inspection comparing against STRIDE threat taxonomy", color: "#9B8CFF" },
       { name: "Fast In-Memory Cache", tag: "REDIS", detail: "Sub-millisecond sliding-window rate limiters and IP reputation lookups", color: "#A855F7" },
-      { name: "Secure Edge Tarpit", tag: "NETWORK", detail: "Automated adversary throttling and honeypot redirection infrastructure", color: "#EC4899" },
+      { name: "Secure Edge Tarpit", tag: "NETWORK", detail: "Automated adversary throttling and honeypot redirection infrastructure", color: "#FF7070" },
     ],
   },
   {
@@ -155,7 +155,7 @@ const PRODUCTS: ShowroomProduct[] = [
     architecture:
       "Server-Side Rendered TanStack Start app with React 19, code-split WebGL bundles, zero artificial CSS blur, and sub-second edge deployment.",
     technology: ["TanStack Start", "React 19", "Three.js", "TypeScript", "Tailwind CSS", "Nitro", "Vercel"],
-    performance: "100 Lighthouse SEO · 60 FPS WebGL · Instant First Paint · Zero CLS",
+    performance: "Optimized for fast SSR, smooth 3D rendering, and structured SEO metadata",
     result:
       "A living multidisciplinary showcase demonstrating high-level craftsmanship, architectural coherence, and production engineering excellence.",
     layers: [
@@ -163,8 +163,8 @@ const PRODUCTS: ShowroomProduct[] = [
       { name: "Procedural 3D Canvas", tag: "THREE.JS", detail: "Custom WebGL singularity core, orbital particle networks & gyro rings", color: "#E8A838" },
       { name: "Interactive Telemetry", tag: "SIMULATION", detail: "Live forensic audit engines, reactive architecture explorers & state dials", color: "#38BDF8" },
       { name: "Type-Safe Routing", tag: "TANSTACK", detail: "TanStack Start and Router with strict loaders and search params", color: "#10B981" },
-      { name: "Structured Metadata", tag: "SEO / AI", detail: "JSON-LD Schema.org graphs for Google, Bing, and AI Search engines", color: "#6366F1" },
-      { name: "Edge Serverless Engine", tag: "NITRO / VERCEL", detail: "High-performance Nitro engine compiled to global edge serverless worker", color: "#EC4899" },
+      { name: "Structured Metadata", tag: "SEO / AI", detail: "JSON-LD Schema.org graphs for Google, Bing, and AI Search engines", color: "#9B8CFF" },
+      { name: "Edge Serverless Engine", tag: "NITRO / VERCEL", detail: "High-performance Nitro engine compiled to global edge serverless worker", color: "#FF7070" },
     ],
   },
 ];

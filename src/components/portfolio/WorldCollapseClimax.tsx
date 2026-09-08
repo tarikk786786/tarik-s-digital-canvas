@@ -23,7 +23,7 @@ export function WorldCollapseClimax() {
         {/* Eyebrow Label */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#62E6FF]/30 bg-[#62E6FF]/5 text-[#62E6FF] font-mono text-[11px] uppercase tracking-[0.25em]">
           <Sparkles className="size-3.5" />
-          <span>THE ARCHITECTURAL CONVERGENCE</span>
+          <span>WHERE IT ALL CONNECTS</span>
         </div>
 
         {/* 4 Pillars Convergence Visual */}

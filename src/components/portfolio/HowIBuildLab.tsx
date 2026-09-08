@@ -100,8 +100,8 @@ const TECH_CLUSTERS: TechCluster[] = [
     category: "Full-Stack Engineering",
     code: "LAYER // 03 · STRUCTURE",
     tagline: "Deterministic Systems, Fluid Interfaces & 0→1 Craft",
-    color: "#F59E0B",
-    hexColor: 0xf59e0b,
+    color: "#F6C85F",
+    hexColor: 0xf6c85f,
     textColor: "text-amber-400",
     borderColor: "border-amber-500/40 hover:border-amber-400",
     icon: Code2,
@@ -143,8 +143,8 @@ const TECH_CLUSTERS: TechCluster[] = [
     category: "Digital Forensics",
     code: "LAYER // 05 · EVIDENCE",
     tagline: "Evidence Over Assumptions & Chain-of-Custody Rigor",
-    color: "#34D399",
-    hexColor: 0x34d399,
+    color: "#6EE7B7",
+    hexColor: 0x6ee7b7,
     textColor: "text-emerald-300",
     borderColor: "border-emerald-400/40 hover:border-emerald-300",
     icon: Search,
@@ -164,8 +164,8 @@ const TECH_CLUSTERS: TechCluster[] = [
     category: "Infrastructure & Cloud",
     code: "LAYER // 06 · EXECUTION",
     tagline: "Automated Pipelines, Edge Distribution & Resilience",
-    color: "#EC4899",
-    hexColor: 0xec4899,
+    color: "#FF7070",
+    hexColor: 0xff7070,
     textColor: "text-pink-400",
     borderColor: "border-pink-500/40 hover:border-pink-400",
     icon: Server,
@@ -208,7 +208,7 @@ const ARCHITECTURE_FLOWS: Record<
 > = {
   ai: {
     title: "AI Neural Reasoning & Retrieval Loop",
-    category: "AUTONOMOUS REASONING ARCHITECTURE",
+    category: "AI RETRIEVAL & REASONING",
     tagline: "Source-grounded RAG with deterministic tool execution and self-correction",
     color: "#10B981",
     accent: "text-emerald-400",
@@ -220,15 +220,15 @@ const ARCHITECTURE_FLOWS: Record<
       { title: "VERIFIED OUTPUT", tag: "DELIVER", desc: "Stream type-safe structured JSON with citations to client", status: "idle" },
     ],
     telemetry: [
-      { label: "Token Generation", value: "84.2 t/s" },
-      { label: "Vector Latency", value: "4.8 ms" },
-      { label: "Hallucination Risk", value: "0.00%" },
-      { label: "Grounding Score", value: "99.4%" },
+      { label: "Retrieval", value: "Source-Grounded" },
+      { label: "Architecture", value: "RAG Pipeline" },
+      { label: "Validation", value: "Citation-Verified" },
+      { label: "Output Format", value: "Structured JSON" },
     ],
   },
   cyber: {
     title: "Zero-Trust Threat Defense Engine",
-    category: "PERIMETER & INTRUSION MITIGATION",
+    category: "SECURITY & ZERO-TRUST",
     tagline: "Continuous cryptographic verification and active packet deflection",
     color: "#38BDF8",
     accent: "text-sky-400",
@@ -240,17 +240,17 @@ const ARCHITECTURE_FLOWS: Record<
       { title: "SECURE DATA VAULT", tag: "CIPHER", desc: "Deliver decrypted payload inside isolated memory enclave", status: "idle" },
     ],
     telemetry: [
-      { label: "Mitigation Rate", value: "100.0%" },
-      { label: "Inspection Latency", value: "0.85 ms" },
-      { label: "Anomalies Blocked", value: "1,429" },
-      { label: "Trust State", value: "ENFORCED" },
+      { label: "Policy", value: "Zero-Trust" },
+      { label: "Inspection", value: "Deep Packet" },
+      { label: "Response", value: "Auto-Isolate" },
+      { label: "Trust Model", value: "Verify Always" },
     ],
   },
   fullstack: {
     title: "Full-Stack Deterministic Pipeline",
     category: "END-TO-END REACT 19 ARCHITECTURE",
     tagline: "Microsecond hydration, strict type contracts, and ACID database transactions",
-    color: "#F59E0B",
+    color: "#F6C85F",
     accent: "text-amber-400",
     steps: [
       { title: "USER INTERFACE", tag: "CLIENT", desc: "React 19 Server Components with optimistic UI and immediate paint", status: "complete" },
@@ -270,7 +270,7 @@ const ARCHITECTURE_FLOWS: Record<
     title: "Digital Evidence Chain of Custody",
     category: "INVESTIGATION & AUDIT ENGINE",
     tagline: "Bitstream verification, cryptographic hashing, and court-ready documentation",
-    color: "#34D399",
+    color: "#6EE7B7",
     accent: "text-emerald-300",
     steps: [
       { title: "EVIDENCE SEIZURE", tag: "PHYSICAL", desc: "Hardware write-blocking and environmental preservation", status: "complete" },
@@ -280,17 +280,17 @@ const ARCHITECTURE_FLOWS: Record<
       { title: "LEGAL DOSSIER", tag: "PROOF", desc: "Generate court-ready evidence report with unbroken chain of custody", status: "idle" },
     ],
     telemetry: [
-      { label: "Bitstream Match", value: "100.0%" },
-      { label: "SHA-256 Match", value: "VERIFIED" },
-      { label: "Integrity Seal", value: "TAMPER-PROOF" },
-      { label: "Chain Status", value: "UNBROKEN" },
+      { label: "Hash Method", value: "SHA-256 + SHA-512" },
+      { label: "Imaging", value: "Bit-for-Bit" },
+      { label: "Standard", value: "ISO/IEC 27037" },
+      { label: "Documentation", value: "Court-Ready" },
     ],
   },
   cloud: {
     title: "Continuous Cloud & Edge Deployment",
     category: "INFRASTRUCTURE & ORCHESTRATION",
     tagline: "From Git commit to global edge CDN with automated quality gates",
-    color: "#EC4899",
+    color: "#FF7070",
     accent: "text-pink-400",
     steps: [
       { title: "GIT COMMIT", tag: "PUSH", desc: "Cryptographically signed commit with conventional changelog message", status: "complete" },
@@ -300,10 +300,10 @@ const ARCHITECTURE_FLOWS: Record<
       { title: "ACTIVE OBSERVABILITY", tag: "LIVE", desc: "Real-time synthetic monitoring, error boundaries & instant rollbacks", status: "idle" },
     ],
     telemetry: [
-      { label: "Deploy Time", value: "7.2 s" },
-      { label: "Edge Locations", value: "100+" },
-      { label: "Build Status", value: "PASSING" },
-      { label: "Downtime", value: "0.00%" },
+      { label: "Deploy", value: "Atomic" },
+      { label: "Edge", value: "Global CDN" },
+      { label: "Pipeline", value: "CI/CD Gated" },
+      { label: "Rollback", value: "Instant" },
     ],
   },
 };
@@ -794,7 +794,7 @@ export function HowIBuildLab() {
   return (
     <section
       id="how-i-build"
-      className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden"
+      className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0A0D12] overflow-hidden"
     >
       {/* Soft background ambient lighting */}
       <div className="absolute top-1/4 left-1/3 size-[40rem] rounded-full blur-3xl opacity-15 bg-radial from-emerald-500/20 to-transparent pointer-events-none" />
@@ -893,7 +893,7 @@ export function HowIBuildLab() {
               {/* Badges */}
               <div className="absolute top-3 left-3 z-10 px-2.5 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#62E6FF] backdrop-blur-md flex items-center gap-1.5">
                 <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
-                <span>4-MONITOR COMMAND MATRIX // PHYSICAL LAB</span>
+                <span>PHYSICAL WORKSTATION</span>
               </div>
 
               <div className="absolute bottom-3 right-3 z-10 px-2.5 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#6EE7B7] backdrop-blur-md flex items-center gap-1.5">
@@ -978,7 +978,7 @@ export function HowIBuildLab() {
                 onClick={isConverged ? resetConvergence : triggerConvergence}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded text-xs font-mono font-semibold transition-all cursor-pointer ${
                   isConverged
-                    ? "bg-accent text-[#0C0E12] shadow-[0_0_16px_rgba(232,168,56,0.5)]"
+                    ? "bg-accent text-[#0A0D12] shadow-[0_0_16px_rgba(232,168,56,0.5)]"
                     : "border border-accent/50 text-accent hover:bg-accent/10"
                 }`}
               >
@@ -1040,7 +1040,7 @@ export function HowIBuildLab() {
                   <div className="flex flex-wrap items-center justify-center gap-4">
                     <a
                       href="#work"
-                      className="flex items-center gap-2 px-6 py-3 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent/90 transition-all shadow-[0_0_20px_rgba(232,168,56,0.4)]"
+                      className="flex items-center gap-2 px-6 py-3 rounded-md bg-accent text-[#0A0D12] font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent/90 transition-all shadow-[0_0_20px_rgba(232,168,56,0.4)]"
                     >
                       <span>EXPLORE VERIFIED PROJECTS</span>
                       <ArrowRight className="size-4" />
@@ -1194,7 +1194,7 @@ export function HowIBuildLab() {
           </div>
 
           {/* Simulation Mode Selector Bar */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#14161C]/80 backdrop-blur-md mb-8">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#11151C]/80 backdrop-blur-md mb-8">
             {[
               { id: "ai", label: "01 / AI NEURAL REASONING", icon: Brain },
               { id: "cyber", label: "02 / ZERO-TRUST SHIELD", icon: ShieldCheck },
@@ -1214,7 +1214,7 @@ export function HowIBuildLab() {
                   }}
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-lg font-mono text-xs uppercase tracking-wider transition-all cursor-pointer ${
                     isSelected
-                      ? "bg-accent text-[#0C0E12] font-bold shadow-[0_0_15px_rgba(232,168,56,0.35)]"
+                      ? "bg-accent text-[#0A0D12] font-bold shadow-[0_0_15px_rgba(232,168,56,0.35)]"
                       : "text-muted-foreground hover:text-foreground hover:bg-white/5"
                   }`}
                 >
@@ -1283,7 +1283,7 @@ export function HowIBuildLab() {
                       <span
                         className={`font-mono text-[9px] px-1.5 py-0.5 rounded ${
                           isActive
-                            ? "bg-accent text-[#0C0E12] font-bold"
+                            ? "bg-accent text-[#0A0D12] font-bold"
                             : "bg-white/5 text-muted-foreground"
                         }`}
                       >
@@ -1471,7 +1471,7 @@ export function HowIBuildLab() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-white/10">
             <a
               href="#work"
-              className="flex items-center gap-2 px-7 py-3.5 rounded-md bg-accent text-[#0C0E12] font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent/90 transition-all shadow-[0_0_24px_rgba(232,168,56,0.35)]"
+              className="flex items-center gap-2 px-7 py-3.5 rounded-md bg-accent text-[#0A0D12] font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent/90 transition-all shadow-[0_0_24px_rgba(232,168,56,0.35)]"
             >
               <span>INSPECT SELECTED WORK</span>
               <ArrowRight className="size-4" />

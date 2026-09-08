@@ -8,17 +8,17 @@ export function LiveForensicScanner() {
   const [metrics, setMetrics] = useState({
     threats: 0,
     integrity: 100,
-    latency: "11.4ms",
-    memory: "384MB",
-    tokens: "1,240/s",
+    latency: "—",
+    memory: "—",
+    tokens: "—",
   });
 
   const STEPS = [
-    "> INITIATING ZERO-TRUST INTEGRITY PROBE...",
+    "> INITIATING INTEGRITY VERIFICATION DEMO...",
     "> SCANNING FORENSIC ARTIFACTS & SYSTEM HASHES...",
     "> VERIFYING SHA-256 EVIDENCE CHAIN-OF-CUSTODY...",
-    "> EVALUATING NEURAL MODEL WEIGHTS & RAG LATENCY...",
-    "> CRYPTOGRAPHIC AUDIT COMPLETE: STATUS OPTIMAL [100% SECURE]",
+    "> EVALUATING SYSTEM CONFIGURATION & DEPENDENCIES...",
+    "> DEMONSTRATION COMPLETE: ALL CHECKS PASSED",
   ];
 
   const runAudit = () => {
@@ -41,16 +41,16 @@ export function LiveForensicScanner() {
         setMetrics({
           threats: 0,
           integrity: 100,
-          latency: `${(Math.random() * 8 + 8).toFixed(1)}ms`,
-          memory: `${Math.floor(Math.random() * 50 + 360)}MB`,
-          tokens: `${Math.floor(Math.random() * 200 + 1150)}/s`,
+          latency: "Demo",
+          memory: "Demo",
+          tokens: "Demo",
         });
       }
     }, 450);
   };
 
   return (
-    <section className="relative w-full py-12 px-6 md:px-10 lg:px-16 border-y border-white/5 bg-[#0C0E12] overflow-hidden">
+    <section className="relative w-full py-12 px-6 md:px-10 lg:px-16 border-y border-white/5 bg-[#0A0D12] overflow-hidden">
       {/* Background cyber grid & glow */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
       <div className="absolute -left-20 top-1/2 -translate-y-1/2 size-96 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
@@ -58,24 +58,24 @@ export function LiveForensicScanner() {
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row items-stretch gap-8">
         
         {/* Left: Audit Command Controller */}
-        <div className="flex-1 flex flex-col justify-between p-6 md:p-8 rounded-xl border border-white/10 bg-[#14161C]/90 backdrop-blur-xl shadow-2xl">
+        <div className="flex-1 flex flex-col justify-between p-6 md:p-8 rounded-xl border border-white/10 bg-[#11151C]/90 backdrop-blur-xl shadow-2xl">
           <div>
             <div className="flex items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-accent">
                 <Shield className="size-4 text-accent animate-pulse" />
-                <span>FORENSIC TELEMETRY & AUDIT ENGINE</span>
+                <span>FORENSIC AUDIT DEMO</span>
               </div>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 font-mono text-[10px] text-emerald-400">
                 <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" />
-                SYSTEM SECURE
+                INTERACTIVE DEMO
               </span>
             </div>
 
             <h3 className="font-display text-2xl md:text-3xl font-bold tracking-tight text-foreground mb-3">
-              Interactive Evidence & Threat Verification
+              Interactive Forensic Audit Experience
             </h3>
             <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
-              Simulate an audit of digital forensics protocols, zero-trust cryptographic chains, and neural pipeline latency verified for high-stakes enterprise applications.
+              Explore how digital forensics protocols, cryptographic chain-of-custody verification, and system integrity checks work in practice. This is an interactive demonstration.
             </p>
           </div>
 
@@ -106,7 +106,7 @@ export function LiveForensicScanner() {
 
         {/* Right: Live Telemetry Metrics Grid */}
         <div className="flex-1 grid grid-cols-2 gap-4">
-          <div className="p-5 rounded-xl border border-white/10 bg-[#14161C]/60 backdrop-blur-md flex flex-col justify-between">
+          <div className="p-5 rounded-xl border border-white/10 bg-[#11151C]/60 backdrop-blur-md flex flex-col justify-between">
             <div className="flex items-center justify-between text-muted-foreground">
               <span className="font-mono text-[10px] uppercase tracking-wider">Integrity Score</span>
               <CheckCircle className="size-4 text-emerald-400" />
@@ -122,7 +122,7 @@ export function LiveForensicScanner() {
             <span className="font-mono text-[10px] text-muted-foreground">Chain of custody uncompromised</span>
           </div>
 
-          <div className="p-5 rounded-xl border border-white/10 bg-[#14161C]/60 backdrop-blur-md flex flex-col justify-between">
+          <div className="p-5 rounded-xl border border-white/10 bg-[#11151C]/60 backdrop-blur-md flex flex-col justify-between">
             <div className="flex items-center justify-between text-muted-foreground">
               <span className="font-mono text-[10px] uppercase tracking-wider">Zero-Trust Anomalies</span>
               <Shield className="size-4 text-accent" />
@@ -138,7 +138,7 @@ export function LiveForensicScanner() {
             <span className="font-mono text-[10px] text-muted-foreground">All threat vectors mitigated</span>
           </div>
 
-          <div className="p-5 rounded-xl border border-white/10 bg-[#14161C]/60 backdrop-blur-md flex flex-col justify-between">
+          <div className="p-5 rounded-xl border border-white/10 bg-[#11151C]/60 backdrop-blur-md flex flex-col justify-between">
             <div className="flex items-center justify-between text-muted-foreground">
               <span className="font-mono text-[10px] uppercase tracking-wider">Inference Latency</span>
               <Activity className="size-4 text-blue-400" />
@@ -154,7 +154,7 @@ export function LiveForensicScanner() {
             <span className="font-mono text-[10px] text-muted-foreground">Edge model response time</span>
           </div>
 
-          <div className="p-5 rounded-xl border border-white/10 bg-[#14161C]/60 backdrop-blur-md flex flex-col justify-between">
+          <div className="p-5 rounded-xl border border-white/10 bg-[#11151C]/60 backdrop-blur-md flex flex-col justify-between">
             <div className="flex items-center justify-between text-muted-foreground">
               <span className="font-mono text-[10px] uppercase tracking-wider">Memory Allocation</span>
               <Cpu className="size-4 text-amber-400" />
