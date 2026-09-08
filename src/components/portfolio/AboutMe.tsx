@@ -118,9 +118,8 @@ export function AboutMe() {
       id="about"
       className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden"
     >
-      {/* Background ambient accents */}
-      <div className="absolute top-0 left-1/4 size-[40rem] rounded-full blur-3xl opacity-10 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 size-[36rem] rounded-full blur-3xl opacity-10 bg-radial from-[#9B8CFF]/15 to-transparent pointer-events-none" />
+      {/* Background ambient accents — Pure optical radial mesh */}
+      <div className="absolute inset-0 pointer-events-none ambient-mesh-split opacity-70" />
 
       <div className="relative max-w-[1600px] mx-auto">
         {/* Section Header */}
@@ -149,7 +148,7 @@ export function AboutMe() {
           {/* Left Column: Authentic Identity Enclave & Dossier (5 cols) */}
           <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
             <TiltCard3D glowColor="rgba(98, 230, 255, 0.2)" tiltIntensity={8}>
-              <div className="relative rounded-2xl border border-white/15 bg-[#0A0D12] p-6 md:p-8 backdrop-blur-2xl shadow-2xl overflow-hidden group">
+              <div className="relative rounded-2xl border border-white/10 bg-[#0A0D12] p-6 md:p-8 shadow-2xl overflow-hidden group">
                 {/* Dossier Header */}
                 <div className="flex items-center justify-between pb-4 border-b border-white/10 mb-6 font-mono text-[11px]">
                   <div className="flex items-center gap-2 text-[#62E6FF]">
@@ -228,7 +227,7 @@ export function AboutMe() {
             </TiltCard3D>
 
             {/* Authentic Lab Command Center Card */}
-            <div className="p-5 sm:p-6 rounded-2xl border border-white/15 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-4">
+            <div className="p-5 sm:p-6 rounded-2xl border border-white/10 bg-[#0A0D12] shadow-xl space-y-4">
               <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] font-semibold">
                 <div className="flex items-center gap-2">
                   <Monitor className="size-3.5" />
@@ -277,7 +276,7 @@ export function AboutMe() {
             </div>
 
             {/* Evidence Standards Card */}
-            <div className="p-6 rounded-2xl border border-white/10 bg-[#0A0D12]/80 backdrop-blur-xl shadow-xl">
+            <div className="p-6 rounded-2xl border border-white/10 bg-[#0A0D12] shadow-xl">
               <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] mb-3 font-semibold">
                 <Terminal className="size-3.5" />
                 <span>EVIDENTIARY STANDARDS &amp; PROTOCOLS</span>
@@ -356,7 +355,7 @@ export function AboutMe() {
             </div>
 
             {/* Story Card 2: Dezo.in & The Complete System */}
-            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-5">
+            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12] shadow-xl space-y-5">
               <div className="flex items-center gap-2 text-[#9B8CFF] font-mono text-xs uppercase tracking-widest font-semibold">
                 <Compass className="size-4" />
                 <span>DEZO.IN &amp; PRODUCT CRAFT</span>
@@ -687,7 +686,7 @@ export function AboutMe() {
               return (
                 <div
                   key={p.title}
-                  className={`p-7 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-md transition-all duration-300 flex flex-col justify-between group ${p.borderGlow}`}
+                  className={`p-7 rounded-2xl border border-white/10 bg-[#0A0D12] transition-all duration-300 flex flex-col justify-between group ${p.borderGlow}`}
                 >
                   <div>
                     <div className="size-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
@@ -712,7 +711,7 @@ export function AboutMe() {
         {/* Concluding Manifesto Callout Banner */}
         <div className="relative rounded-3xl border border-[#62E6FF]/30 bg-gradient-to-br from-[#0A1017] via-[#0A0D12] to-[#050608] p-8 md:p-14 shadow-[0_20px_80px_rgba(98,230,255,0.12)] overflow-hidden">
           {/* Subtle geometric lines */}
-          <div className="absolute top-0 right-0 size-96 bg-radial from-[#62E6FF]/10 to-transparent blur-2xl pointer-events-none" />
+          <div className="absolute top-0 right-0 size-96 bg-radial from-[#62E6FF]/12 to-transparent pointer-events-none" />
 
           <div className="relative z-10 max-w-4xl space-y-6">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-[#62E6FF] font-semibold">

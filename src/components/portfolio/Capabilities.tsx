@@ -78,8 +78,8 @@ export function Capabilities() {
 
   return (
     <section id="expertise" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[42rem] rounded-full blur-3xl opacity-10 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
+      {/* Ambient background glow — Pure optical radial falloff */}
+      <div className="absolute inset-0 pointer-events-none ambient-mesh-cyan opacity-60" />
 
       <div className="relative max-w-[1600px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
@@ -89,7 +89,7 @@ export function Capabilities() {
           </SectionHead>
 
           {/* Interactive Tab Switcher */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] backdrop-blur-md font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
             {[
               { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
               { id: "osint", label: "OSINT ARSENAL", icon: Terminal },
@@ -128,7 +128,7 @@ export function Capabilities() {
                   glowColor={c.accentColor}
                   tiltIntensity={8}
                 >
-                  <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-[#62E6FF]/40 group">
+                  <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-[#0A0D12] shadow-lg transition-all duration-300 hover:border-[#62E6FF]/40 group">
                     <div>
                       {/* Header */}
                       <div className="flex items-center justify-between mb-6">

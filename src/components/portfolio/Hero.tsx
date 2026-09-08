@@ -110,11 +110,9 @@ export function Hero() {
       id="top"
       className="relative min-h-[95vh] w-full flex flex-col justify-between pt-28 md:pt-36 pb-12 overflow-hidden bg-[#050608] border-b border-white/5"
     >
-      {/* Background Ambient Gradient Mesh */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0">
-        <div className="absolute -top-32 -left-32 size-[38rem] rounded-full blur-[140px] opacity-20 bg-gradient-to-r from-[#62E6FF] via-[#9B8CFF] to-transparent" />
-        <div className="absolute top-1/3 -right-32 size-[42rem] rounded-full blur-[140px] opacity-15 bg-gradient-to-l from-[#9B8CFF] via-[#62E6FF] to-transparent" />
-        <div className="absolute inset-0 grid-bg opacity-30" />
+      {/* Background Ambient Gradient Mesh — Pure Optical Radial Falloff without GPU Blur Banding */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-0 ambient-mesh-hero">
+        <div className="absolute inset-0 grid-bg opacity-25" />
       </div>
 
       <div className="flex-1 w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 flex flex-col lg:grid lg:grid-cols-12 items-center gap-12 lg:gap-8 relative z-10">
@@ -122,7 +120,7 @@ export function Hero() {
         <div className="w-full lg:col-span-7 flex flex-col justify-center">
           {/* Verification Badge */}
           <div className="flex flex-wrap items-center gap-3 mb-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#62E6FF]/30 bg-[#62E6FF]/10 backdrop-blur-md shadow-[0_0_20px_rgba(98,230,255,0.15)]">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-pill">
               <span className="relative flex size-2">
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#62E6FF] opacity-75" />
                 <span className="relative inline-flex size-2 rounded-full bg-[#62E6FF]" />
@@ -149,7 +147,7 @@ export function Hero() {
                 style={{ transform: `translateY(-${roleIndex * 28}px)` }}
               >
                 {ROLES.map((role) => (
-                  <span key={role} className="h-7 flex items-center shrink-0 drop-shadow-[0_0_12px_rgba(98,230,255,0.3)]">
+                  <span key={role} className="h-7 flex items-center shrink-0">
                     {role}
                   </span>
                 ))}
@@ -230,7 +228,7 @@ export function Hero() {
             glowColor="rgba(98, 230, 255, 0.25)"
             tiltIntensity={10}
           >
-            <div className="relative rounded-2xl border border-white/15 bg-gradient-to-b from-[#0A0D12]/95 to-[#050608]/95 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_20px_80px_rgba(0,0,0,0.85)] overflow-hidden group">
+            <div className="relative rounded-2xl border border-white/10 bg-gradient-to-b from-[#0A0D12] to-[#050608] p-5 sm:p-6 shadow-[0_20px_80px_rgba(0,0,0,0.85)] overflow-hidden group">
               {/* Top HUD Bar with 3-Way Mode Switcher */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3.5 mb-4 font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
                 <div className="flex items-center gap-2">
@@ -308,8 +306,8 @@ export function Hero() {
                       className="size-full object-cover object-center filter contrast-[1.07] saturate-[1.04] select-none transition-transform duration-700 group-hover:scale-[1.03]"
                     />
 
-                    {/* Laser Scan Sweep Effect */}
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-transparent via-[#62E6FF]/25 to-transparent animate-scan-sweep opacity-75" />
+                    {/* Precision Laser Scanline — Crisp 2px Optical Sweep */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#62E6FF] to-transparent shadow-[0_0_12px_#62E6FF] animate-scan-sweep opacity-90" />
 
                     {/* Interactive Telemetry Hotspot Pins */}
                     {LAB_HOTSPOTS.map((h) => {
@@ -348,7 +346,7 @@ export function Hero() {
 
                           {/* Hover Tooltip */}
                           <div
-                            className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-44 p-2 rounded-lg bg-[#0A0D12]/95 border border-[#62E6FF]/40 text-left font-mono backdrop-blur-md shadow-2xl transition-all pointer-events-none ${
+                            className={`absolute left-1/2 -translate-x-1/2 top-full mt-2 w-44 p-2.5 rounded-lg glass-panel-dark text-left font-mono shadow-2xl transition-all pointer-events-none z-30 ${
                               isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 group-hover/pin:opacity-100 group-hover/pin:translate-y-0"
                             }`}
                           >
@@ -361,7 +359,7 @@ export function Hero() {
                     })}
 
                     {/* Top Watermark Badge */}
-                    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#62E6FF] backdrop-blur-md flex items-center gap-1.5">
+                    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded glass-panel-dark font-mono text-[9px] text-[#62E6FF] flex items-center gap-1.5">
                       <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
                       <span>4-MONITOR COMMAND MATRIX</span>
                     </div>
@@ -370,14 +368,14 @@ export function Hero() {
                     <button
                       type="button"
                       onClick={() => openLabLightbox(activePin || 1)}
-                      className="absolute top-3 right-3 z-10 p-1.5 rounded-lg bg-[#050608]/85 border border-white/10 text-muted-foreground hover:text-[#62E6FF] hover:border-[#62E6FF]/50 transition-colors backdrop-blur-md cursor-pointer"
+                      className="absolute top-3 right-3 z-10 p-1.5 rounded-lg glass-panel-dark text-muted-foreground hover:text-[#62E6FF] hover:border-[#62E6FF]/50 transition-colors cursor-pointer"
                       title="Inspect Workstation in High Resolution"
                     >
                       <Maximize2 className="size-3.5" />
                     </button>
 
                     {/* Bottom Dynamic Hotspot Telemetry Drawer */}
-                    <div className="absolute inset-x-3 bottom-3 z-10 p-2.5 rounded-lg bg-[#050608]/90 border border-white/15 backdrop-blur-md font-mono text-[10px] text-muted-foreground flex items-center justify-between">
+                    <div className="absolute inset-x-3 bottom-3 z-10 p-2.5 rounded-lg glass-panel-dark font-mono text-[10px] text-muted-foreground flex items-center justify-between">
                       {currentHotspot ? (
                         <div className="truncate flex items-center gap-2">
                           <span className="size-1.5 rounded-full bg-[#6EE7B7]" />
@@ -414,22 +412,25 @@ export function Hero() {
                       <TarikCore3D className="w-full h-full opacity-60 scale-75" />
                     </div>
 
+                    {/* Ambient Glow behind Cutout */}
+                    <div className="absolute inset-0 bg-radial from-[#62E6FF]/10 via-transparent to-transparent pointer-events-none" />
+
                     {/* Cutout Portrait Image */}
                     <img
                       src={profileImage}
                       alt="Tarik Islam — Forensic Scientist, AI Developer & Cybersecurity Engineer"
-                      className="relative z-10 object-contain object-bottom w-full h-full max-h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)] filter contrast-[1.06] saturate-[1.05] transition-transform duration-700 group-hover:scale-[1.02]"
+                      className="relative z-10 object-contain object-bottom w-full h-full max-h-full filter contrast-[1.06] saturate-[1.05] transition-transform duration-700 group-hover:scale-[1.02]"
                     />
 
-                    {/* Laser Beam Effect */}
-                    <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-transparent via-[#62E6FF]/20 to-transparent animate-scan-sweep opacity-70" />
+                    {/* Precision Laser Scanline — Crisp 2px Optical Sweep */}
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-[#62E6FF] to-transparent shadow-[0_0_12px_#62E6FF] animate-scan-sweep opacity-80" />
 
                     {/* Floating Telemetry Chips */}
-                    <div className="absolute top-4 left-4 z-20 px-2.5 py-1 rounded bg-[#0A0D12]/85 border border-white/10 font-mono text-[9px] text-[#62E6FF] backdrop-blur-md">
+                    <div className="absolute top-4 left-4 z-20 px-2.5 py-1 rounded glass-panel-dark font-mono text-[9px] text-[#62E6FF]">
                       DNA · DIGITAL EVIDENCE
                     </div>
 
-                    <div className="absolute bottom-4 right-4 z-20 px-2.5 py-1 rounded bg-[#0A0D12]/85 border border-white/10 font-mono text-[9px] text-[#6EE7B7] backdrop-blur-md flex items-center gap-1.5">
+                    <div className="absolute bottom-4 right-4 z-20 px-2.5 py-1 rounded glass-panel-dark font-mono text-[9px] text-[#6EE7B7] flex items-center gap-1.5">
                       <span className="size-1 rounded-full bg-[#6EE7B7]" />
                       SHA-256 VERIFIED
                     </div>

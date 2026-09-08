@@ -164,7 +164,7 @@ export function EngineInspectorModal() {
     <>
       {/* Inspector Modal Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md animate-fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-md backdrop-saturate-150 animate-fade-in">
           <div
             role="dialog"
             aria-modal="true"
@@ -172,7 +172,7 @@ export function EngineInspectorModal() {
             className="w-full max-w-5xl max-h-[90vh] rounded-2xl border border-white/10 bg-[#0E1015] flex flex-col shadow-[0_30px_100px_rgba(0,0,0,0.95)] overflow-hidden"
           >
             {/* Modal Header */}
-            <div className="px-6 py-4 border-b border-white/10 bg-[#14161C]/90 backdrop-blur-md flex items-center justify-between">
+            <div className="px-6 py-4 border-b border-white/10 bg-[#11151C] flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-sky-500/10 border border-sky-500/30 text-sky-400">
                   <Cpu className="size-4" />

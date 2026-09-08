@@ -207,7 +207,7 @@ export function CyberTerminal() {
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#14161C]/90 hover:bg-[#1A1D24] border border-accent/40 shadow-[0_0_24px_rgba(232,168,56,0.25)] text-foreground backdrop-blur-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#11151C]/85 hover:bg-[#181E27] border border-[#62E6FF]/40 shadow-[0_8px_30px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] text-foreground backdrop-blur-xl backdrop-saturate-150 transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <span className="relative flex size-2">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-75" />
@@ -223,7 +223,7 @@ export function CyberTerminal() {
       {/* Terminal Modal Window */}
       {isOpen && (
         <div
-          className={`fixed z-50 transition-all duration-300 flex flex-col rounded-xl border border-accent/30 bg-[#0C0E12]/95 backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.8)] overflow-hidden ${
+          className={`fixed z-50 transition-all duration-300 flex flex-col rounded-xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_25px_70px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.1)] overflow-hidden ${
             isMaximized
               ? "inset-4 md:inset-10"
               : "bottom-20 right-4 left-4 md:left-auto md:right-8 w-auto md:w-[620px] h-[520px]"

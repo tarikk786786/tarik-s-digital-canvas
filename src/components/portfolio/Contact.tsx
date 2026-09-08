@@ -39,9 +39,8 @@ export function Contact() {
       id="contact"
       className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 bg-[#050608] border-t border-white/5 overflow-hidden"
     >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-0 size-[40rem] rounded-full blur-3xl opacity-15 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 right-0 size-[36rem] rounded-full blur-3xl opacity-10 bg-radial from-[#9B8CFF]/15 to-transparent pointer-events-none" />
+      {/* Background ambient lighting — Pure optical radial mesh */}
+      <div className="absolute inset-0 pointer-events-none ambient-mesh-split opacity-60" />
 
       <div className="relative max-w-[1600px] mx-auto">
         
@@ -215,7 +214,7 @@ export function Contact() {
             <TiltCard3D glowColor="rgba(98, 230, 255, 0.2)" tiltIntensity={8}>
               <form
                 onSubmit={handleWhatsAppSend}
-                className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-2xl shadow-2xl space-y-6"
+                className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12] shadow-2xl space-y-6"
               >
                 <div className="flex items-center justify-between border-b border-white/10 pb-4">
                   <div className="flex items-center gap-2">

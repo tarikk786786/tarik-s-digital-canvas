@@ -526,10 +526,9 @@ export function ExecutionEngine() {
       aria-label="Part 6: Execution & Operating System"
       className="relative w-full py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0C0E12] overflow-hidden select-none"
     >
-      {/* Ambient background glows */}
-      <div className="absolute top-0 right-1/4 size-[44rem] rounded-full blur-3xl opacity-15 bg-radial from-amber-500/20 via-amber-500/5 to-transparent pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/6 size-[40rem] rounded-full blur-3xl opacity-10 bg-radial from-sky-500/20 via-sky-500/5 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+      {/* Ambient background glows — Pure optical radial mesh */}
+      <div className="absolute inset-0 pointer-events-none ambient-mesh-split opacity-50" />
+      <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto z-10 space-y-24">
         {/* ============================================================ */}

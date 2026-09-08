@@ -31,8 +31,8 @@ export function Dezo() {
       id="dezo"
       className="relative overflow-hidden border-b border-white/5 py-28 md:py-36 px-6 md:px-12 lg:px-16 bg-[#050608]"
     >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 right-10 size-[36rem] rounded-full blur-3xl opacity-15 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
+      {/* Background ambient lighting — Pure optical radial falloff */}
+      <div className="absolute inset-0 pointer-events-none ambient-mesh-cyan opacity-40" />
 
       <div className="relative mx-auto max-w-[1600px]">
         <SectionHead num="03" label="VENTURE LOG · DEZO.IN">
@@ -45,7 +45,7 @@ export function Dezo() {
           {/* Left: Dossier Card with 3D Tilt (7 cols) */}
           <div className="lg:col-span-7">
             <TiltCard3D glowColor="rgba(98, 230, 255, 0.2)" tiltIntensity={8} className="h-full">
-              <div className="h-full relative rounded-2xl border border-white/10 border-l-4 border-l-accent bg-gradient-to-br from-[#0A0D12] to-[#050608] p-8 md:p-10 backdrop-blur-2xl shadow-2xl flex flex-col justify-between">
+              <div className="h-full relative rounded-2xl border border-white/10 border-l-4 border-l-accent bg-gradient-to-br from-[#0A0D12] to-[#050608] p-8 md:p-10 shadow-2xl flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-6">
                     <span className="text-accent font-bold flex items-center gap-2">
@@ -106,7 +106,7 @@ export function Dezo() {
 
           {/* Right: Operating Principles & Studio Telemetry (5 cols) */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-6">
-            <div className="p-8 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-xl">
+            <div className="p-8 rounded-2xl border border-white/10 bg-[#0A0D12]">
               <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent font-semibold mb-6 flex items-center gap-2">
                 <Shield className="size-4" />
                 <span>OPERATING PRINCIPLES</span>
@@ -130,7 +130,7 @@ export function Dezo() {
             </div>
 
             {/* Studio Metrics Deck */}
-            <div className="grid grid-cols-3 gap-3 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] backdrop-blur-xl text-center">
+            <div className="grid grid-cols-3 gap-3 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] text-center">
               <div>
                 <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground mb-1">
                   STAGE

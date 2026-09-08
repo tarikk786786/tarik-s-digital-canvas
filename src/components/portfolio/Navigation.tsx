@@ -42,7 +42,7 @@ export function Navigation() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? "border-b border-white/10 bg-[#050608]/90 backdrop-blur-xl shadow-lg"
+          ? "border-b border-white/[0.08] bg-[#050608]/80 backdrop-blur-xl backdrop-saturate-150 shadow-[0_4px_30px_rgba(0,0,0,0.5),inset_0_-1px_0_0_rgba(255,255,255,0.04)]"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -135,7 +135,7 @@ export function Navigation() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="border-b border-white/10 bg-[#050608]/95 px-6 py-6 lg:hidden backdrop-blur-2xl">
+        <div className="border-b border-white/10 bg-[#050608]/90 px-6 py-6 lg:hidden backdrop-blur-xl backdrop-saturate-150">
           <nav className="flex flex-col gap-4">
             {NAV_LINKS.map((item) => (
               <a

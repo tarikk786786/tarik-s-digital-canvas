@@ -248,7 +248,7 @@ export function CommandPalette() {
       role="dialog"
       aria-modal="true"
       aria-label="Command Palette"
-      className="fixed inset-0 z-[9999] flex items-start justify-center pt-20 px-4 bg-[#050608]/80 backdrop-blur-md"
+      className="fixed inset-0 z-[9999] flex items-start justify-center pt-20 px-4 bg-[#050608]/80 backdrop-blur-md backdrop-saturate-150"
       onClick={() => setIsOpen(false)}
     >
       <div

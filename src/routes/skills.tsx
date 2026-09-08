@@ -346,7 +346,7 @@ function SkillDrawer({
       role="dialog"
       aria-modal="true"
       aria-label={`Skill details for ${name}`}
-      className="fixed inset-0 z-[80] flex items-end justify-center bg-background/70 backdrop-blur-md md:items-center"
+      className="fixed inset-0 z-[80] flex items-end justify-center bg-background/70 backdrop-blur-md backdrop-saturate-150 md:items-center"
       onClick={onClose}
     >
       <div

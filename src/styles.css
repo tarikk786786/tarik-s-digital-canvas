@@ -306,20 +306,69 @@
   animation: gradient-shift 8s ease-in-out infinite;
 }
 
-/* ━━━ Tarik Glass & Depth System ━━━ */
+/* ━━━ Visually Perfect Glass & Depth System ━━━ */
+@utility glass-card {
+  background: rgba(10, 13, 18, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 0 rgba(255, 255, 255, 0.10);
+}
+
+@utility glass-nav {
+  background: rgba(5, 6, 8, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+@utility glass-pill {
+  background: rgba(98, 230, 255, 0.08);
+  border: 1px solid rgba(98, 230, 255, 0.25);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  box-shadow: 0 0 20px rgba(98, 230, 255, 0.12), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+}
+
+@utility glass-panel-dark {
+  background: rgba(10, 13, 18, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+}
+
+@utility ambient-mesh-hero {
+  background:
+    radial-gradient(ellipse 70% 55% at 12% 15%, rgba(98, 230, 255, 0.12) 0%, rgba(98, 230, 255, 0.02) 45%, transparent 70%),
+    radial-gradient(ellipse 65% 50% at 88% 30%, rgba(155, 140, 255, 0.10) 0%, rgba(155, 140, 255, 0.02) 50%, transparent 75%),
+    radial-gradient(ellipse 55% 45% at 50% 90%, rgba(110, 231, 183, 0.04) 0%, transparent 65%);
+}
+
+@utility ambient-mesh-cyan {
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(98, 230, 255, 0.08) 0%, rgba(98, 230, 255, 0.01) 50%, transparent 70%);
+}
+
+@utility ambient-mesh-split {
+  background:
+    radial-gradient(ellipse 55% 45% at 20% 30%, rgba(98, 230, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 45% at 80% 70%, rgba(155, 140, 255, 0.06) 0%, transparent 60%);
+}
+
 @utility tarik-glass {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
 }
 
 @utility tarik-glass-interactive {
   background: rgba(255, 255, 255, 0.035);
   border: 1px solid rgba(255, 255, 255, 0.10);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
   transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   &:hover {

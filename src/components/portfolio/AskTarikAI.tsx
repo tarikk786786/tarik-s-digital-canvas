@@ -279,7 +279,7 @@ export function AskTarikAI() {
             setIsOpen((prev) => !prev);
             soundEngine.playClick();
           }}
-          className="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#0A0D12]/90 hover:bg-[#11151C] border border-[#9B8CFF]/40 shadow-[0_0_24px_rgba(155,140,255,0.25)] text-foreground backdrop-blur-xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
+          className="group flex items-center gap-3 px-4 py-2.5 rounded-full bg-[#0A0D12]/85 hover:bg-[#11151C] border border-[#9B8CFF]/40 shadow-[0_8px_30px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.15)] text-foreground backdrop-blur-xl backdrop-saturate-150 transition-all hover:scale-105 active:scale-95 cursor-pointer"
         >
           <span className="relative flex size-2">
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#9B8CFF] opacity-75" />
@@ -298,7 +298,7 @@ export function AskTarikAI() {
           role="dialog"
           aria-modal="true"
           aria-label="Ask Tarik AI Guide"
-          className="fixed bottom-20 left-4 right-4 md:right-auto md:left-6 z-50 w-auto md:w-[480px] h-[580px] max-h-[85vh] flex flex-col rounded-xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-2xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] overflow-hidden font-mono text-xs animate-fade-in"
+          className="fixed bottom-20 left-4 right-4 md:right-auto md:left-6 z-50 w-auto md:w-[480px] h-[580px] max-h-[85vh] flex flex-col rounded-xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_25px_70px_rgba(0,0,0,0.85),inset_0_1px_0_0_rgba(255,255,255,0.1)] overflow-hidden font-mono text-xs animate-fade-in"
         >
           {/* Header */}
           <div className="px-4 py-3 border-b border-white/10 bg-white/[0.02] flex items-center justify-between">

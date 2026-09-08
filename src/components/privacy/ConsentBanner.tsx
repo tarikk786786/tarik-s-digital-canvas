@@ -22,7 +22,7 @@ export function ConsentBanner() {
       aria-label="Privacy & Telemetry Preferences"
       className="fixed bottom-14 right-4 md:right-6 z-40 w-[calc(100vw-2rem)] max-w-sm animate-fade-in select-none"
     >
-      <div className="rounded-xl border border-white/10 bg-[#0A0D12]/95 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
+      <div className="rounded-xl border border-white/10 bg-[#0A0D12]/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.1)] backdrop-blur-2xl backdrop-saturate-150">
         <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
           <div className="flex items-center gap-2">
             <ShieldCheck className="size-3.5 text-[#62E6FF]" />
