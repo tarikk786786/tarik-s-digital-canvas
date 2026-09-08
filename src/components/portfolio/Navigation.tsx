@@ -4,11 +4,10 @@ import { WHATSAPP_URL } from "@/lib/contact-links";
 import { soundEngine } from "@/lib/sound-engine";
 
 const NAV_LINKS = [
-  { label: "IDENTITY", href: "#about" },
-  { label: "EXPLORATION", href: "#journey" },
-  { label: "SYSTEMS", href: "#how-i-build" },
+  { label: "ABOUT", href: "#about" },
   { label: "WORK", href: "#work" },
-  { label: "LAB", href: "#showroom" },
+  { label: "EXPERTISE", href: "#expertise" },
+  { label: "SYSTEMS", href: "#systems" },
   { label: "CONNECT", href: "#contact" },
 ];
 

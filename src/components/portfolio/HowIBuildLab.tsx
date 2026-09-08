@@ -793,7 +793,7 @@ export function HowIBuildLab() {
 
   return (
     <section
-      id="how-i-build"
+      id="systems"
       className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#0A0D12] overflow-hidden"
     >
       {/* Soft background ambient lighting */}
@@ -807,11 +807,11 @@ export function HowIBuildLab() {
         <div className="mb-16">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs text-emerald-400 uppercase tracking-widest px-2.5 py-1 rounded border border-emerald-500/30 bg-emerald-500/10">
-                PART 04 // DIGITAL WORKBENCH
+              <span className="font-mono text-xs text-[#62E6FF] uppercase tracking-widest px-2.5 py-1 rounded border border-[#62E6FF]/30 bg-[#62E6FF]/10 font-bold">
+                04 / SYSTEMS
               </span>
               <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-[0.25em]">
-                LIVING DIGITAL LABORATORY &amp; SYSTEMS ARCHITECTURE
+                HOW I BUILD: LIVING DIGITAL LABORATORY &amp; ARCHITECTURE
               </span>
             </div>
 

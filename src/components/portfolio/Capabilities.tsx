@@ -1,5 +1,18 @@
+import { useState } from "react";
 import { TiltCard3D } from "./TiltCard3D";
-import { ShieldAlert, Lock, BrainCircuit, Layers, Workflow, Rocket, ArrowUpRight } from "lucide-react";
+import {
+  ShieldAlert,
+  Lock,
+  BrainCircuit,
+  Layers,
+  Workflow,
+  Rocket,
+  ArrowUpRight,
+  Compass,
+  Award,
+} from "lucide-react";
+import { ForensicDomains } from "./ForensicDomains";
+import { TechCertifications } from "./TechCertifications";
 
 const CAPABILITIES = [
   {
@@ -59,74 +72,121 @@ const CAPABILITIES = [
 ];
 
 export function Capabilities() {
+  const [activeTab, setActiveTab] = useState<"capabilities" | "domains" | "certifications">("capabilities");
+
   return (
-    <section id="capabilities" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
+    <section id="expertise" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[42rem] rounded-full blur-3xl opacity-10 bg-radial from-[#62E6FF]/15 to-transparent pointer-events-none" />
 
       <div className="relative max-w-[1600px] mx-auto">
-        <SectionHead num="01" label="CORE CAPABILITY MATRIX">
-          Multidisciplinary Engineering <br className="hidden sm:block" />
-          <span className="italic font-light text-gradient-flow">Across Forensics, Cyber, AI & Systems</span>
-        </SectionHead>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+          <SectionHead num="03" label="EXPERTISE // DOMAINS & ROADMAP">
+            Multidisciplinary Engineering <br className="hidden sm:block" />
+            <span className="italic font-light text-gradient-flow">Across Forensics, Cyber, AI & Systems</span>
+          </SectionHead>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {CAPABILITIES.map((c) => {
-            const Icon = c.icon;
-            return (
-              <TiltCard3D
-                key={c.id}
-                className="h-full"
-                glowColor={c.accentColor}
-                tiltIntensity={8}
-              >
-                <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-[#62E6FF]/40 group">
-                  <div>
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-[#050608] transition-colors shadow-inner">
-                        <Icon className="size-5" />
-                      </div>
-                      <span className="font-mono text-xs font-bold tracking-[0.25em] text-accent/80">
-                        {c.id} / 06
-                      </span>
-                    </div>
-
-                    {/* Title & Desc */}
-                    <h3 className="font-display text-2xl font-bold tracking-tight text-foreground group-hover:text-accent transition-colors mb-3">
-                      {c.title}
-                    </h3>
-                    <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
-                      {c.desc}
-                    </p>
-
-                    {/* Deliverables snippet */}
-                    <div className="p-3 rounded-lg bg-black/40 border border-white/5 mb-6">
-                      <p className="font-mono text-[9px] uppercase tracking-widest text-accent mb-1">
-                        PRIMARY DELIVERABLES:
-                      </p>
-                      <p className="font-mono text-[11px] text-foreground/80">
-                        {c.deliverables}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="pt-4 border-t border-white/10 flex flex-wrap gap-1.5">
-                    {c.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5 font-mono text-[10px] text-muted-foreground group-hover:text-foreground transition-colors"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              </TiltCard3D>
-            );
-          })}
+          {/* Interactive Tab Switcher */}
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] backdrop-blur-md font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
+            {[
+              { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
+              { id: "domains", label: "FORENSIC ATLAS", icon: Compass },
+              { id: "certifications", label: "CREDENTIAL ROADMAP", icon: Award },
+            ].map((tab) => {
+              const TabIcon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all cursor-pointer ${
+                    activeTab === tab.id
+                      ? "bg-accent text-[#050608] font-bold shadow-[0_0_16px_rgba(98,230,255,0.35)]"
+                      : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                  }`}
+                >
+                  <TabIcon className="size-3.5" />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Tab 1: Core Matrix */}
+        {activeTab === "capabilities" && (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+            {CAPABILITIES.map((c) => {
+              const Icon = c.icon;
+              return (
+                <TiltCard3D
+                  key={c.id}
+                  className="h-full"
+                  glowColor={c.accentColor}
+                  tiltIntensity={8}
+                >
+                  <article className="h-full flex flex-col justify-between p-8 rounded-2xl border border-white/10 bg-[#0A0D12]/95 backdrop-blur-xl shadow-lg transition-all duration-300 hover:border-[#62E6FF]/40 group">
+                    <div>
+                      {/* Header */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-accent group-hover:bg-accent group-hover:text-[#050608] transition-colors shadow-inner">
+                          <Icon className="size-5" />
+                        </div>
+                        <span className="font-mono text-xs font-bold tracking-[0.25em] text-accent/80">
+                          {c.id} / 06
+                        </span>
+                      </div>
+
+                      {/* Title & Desc */}
+                      <h3 className="font-display text-2xl font-bold tracking-tight text-foreground group-hover:text-accent transition-colors mb-3">
+                        {c.title}
+                      </h3>
+                      <p className="font-sans text-sm text-muted-foreground leading-relaxed mb-6">
+                        {c.desc}
+                      </p>
+
+                      {/* Deliverables snippet */}
+                      <div className="p-3 rounded-lg bg-black/40 border border-white/5 mb-6">
+                        <p className="font-mono text-[9px] uppercase tracking-widest text-accent mb-1">
+                          PRIMARY DELIVERABLES:
+                        </p>
+                        <p className="font-mono text-[11px] text-foreground/80">
+                          {c.deliverables}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Tags */}
+                    <div className="pt-4 border-t border-white/10 flex flex-wrap gap-1.5">
+                      {c.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="px-2.5 py-1 rounded-full bg-white/5 border border-white/5 font-mono text-[10px] text-muted-foreground group-hover:text-foreground transition-colors"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </article>
+                </TiltCard3D>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Tab 2: Forensic Domains Atlas */}
+        {activeTab === "domains" && (
+          <div className="mt-8 animate-fade-in">
+            <ForensicDomains embedded />
+          </div>
+        )}
+
+        {/* Tab 3: Credential Roadmap */}
+        {activeTab === "certifications" && (
+          <div className="mt-8 animate-fade-in">
+            <TechCertifications embedded />
+          </div>
+        )}
       </div>
     </section>
   );

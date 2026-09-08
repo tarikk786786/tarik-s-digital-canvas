@@ -538,9 +538,9 @@ export function ExecutionEngine() {
         <div>
           <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-accent">06 /</span>
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#62E6FF]">05 /</span>
               <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-                EXECUTION & OPERATING SYSTEM
+                PHILOSOPHY // THE EXECUTION ENGINE
               </span>
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/[0.02] font-mono text-[10px] text-muted-foreground">

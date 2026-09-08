@@ -26,7 +26,7 @@ const ICONS: Record<ForensicCategoryId, React.ComponentType<{ className?: string
   specialized: Scale,
 };
 
-export function ForensicDomains() {
+export function ForensicDomains({ embedded = false }: { embedded?: boolean } = {}) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<ForensicCategoryId | "all">("all");
 
@@ -43,16 +43,16 @@ export function ForensicDomains() {
 
   const matchCount = filtered.reduce((n, c) => n + c.items.length, 0);
 
-  return (
-    <section id="domains" className="relative py-28 md:py-36">
-      <div className="container">
-        {/* Header */}
+  const content = (
+    <div className={embedded ? "w-full" : "container"}>
+      {/* Header */}
+      {!embedded ? (
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
             <div className="mb-4 flex items-center gap-3">
               <span className="h-px w-8 bg-accent/60" />
               <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-accent">
-                Section 04 · Domain Atlas
+                Section 03b · Domain Atlas
               </span>
             </div>
             <h2 className="text-balance text-4xl font-medium leading-[1.05] tracking-tight md:text-6xl">
@@ -63,15 +63,7 @@ export function ForensicDomains() {
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
               A curated atlas of {TOTAL_DOMAINS} recognized forensic disciplines
-              across seven domains. These are areas of knowledge and practice —
-              not personal certifications. Verified qualifications live in{" "}
-              <a
-                href="/certifications"
-                className="story-link text-foreground"
-              >
-                credentials
-              </a>
-              .
+              across seven domains. Empirical areas of knowledge and practice.
             </p>
           </div>
 
@@ -91,8 +83,31 @@ export function ForensicDomains() {
             </p>
           </div>
         </div>
+      ) : (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+          <div>
+            <h3 className="font-display text-xl font-bold text-foreground">
+              Forensic Science Knowledge Atlas
+            </h3>
+            <p className="font-sans text-xs text-muted-foreground mt-1">
+              Curated taxonomy of {TOTAL_DOMAINS} disciplines across 7 core forensic domains.
+            </p>
+          </div>
+          <div className="w-full sm:w-72">
+            <label className="relative block">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search disciplines…"
+                className="h-10 w-full rounded-full border border-white/10 bg-[#0A0D12] pl-9 pr-4 text-xs text-foreground placeholder:text-muted-foreground/70 outline-none focus:border-accent"
+              />
+            </label>
+          </div>
+        </div>
+      )}
 
-        {/* Category chips */}
+      {/* Category chips */}
         <div className="mt-12 flex flex-wrap gap-2">
           <Chip active={active === "all"} onClick={() => setActive("all")}>
             All Domains
@@ -216,7 +231,16 @@ export function ForensicDomains() {
           </a>
           .
         </p>
-      </div>
+    </div>
+  );
+
+  if (embedded) {
+    return content;
+  }
+
+  return (
+    <section id="domains" className="relative py-28 md:py-36">
+      {content}
     </section>
   );
 }

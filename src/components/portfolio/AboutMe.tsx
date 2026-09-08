@@ -90,7 +90,7 @@ export function AboutMe() {
               01 /
             </span>
             <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-              WHO I AM
+              ABOUT
             </span>
           </div>
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.05] max-w-5xl">
@@ -385,6 +385,89 @@ export function AboutMe() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* Evolution Milestones */}
+        <div className="mb-20">
+          <div className="mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-[#62E6FF] mb-2 flex items-center gap-2 font-semibold">
+              <span>PATHWAY OF EXPERTISE</span>
+              <span className="h-px flex-1 bg-white/10" />
+            </h3>
+            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+              Evolution across 5 core disciplines
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              {
+                step: "01",
+                title: "Forensic Science",
+                role: "Foundational Rigor",
+                desc: "Empirical observation, evidence preservation, and chain-of-custody discipline.",
+                accent: "text-[#62E6FF]",
+                tag: "FORENSICS",
+              },
+              {
+                step: "02",
+                title: "Cybersecurity",
+                role: "Defensive Architecture",
+                desc: "Zero Trust paradigms, threat modeling, packet analysis, and root-cause triage.",
+                accent: "text-[#62E6FF]",
+                tag: "SECURITY",
+              },
+              {
+                step: "03",
+                title: "AI & Agents",
+                role: "Intelligent Systems",
+                desc: "Deterministic RAG pipelines, autonomous tool loops, and verifiable inference.",
+                accent: "text-[#9B8CFF]",
+                tag: "AI / ML",
+              },
+              {
+                step: "04",
+                title: "Full-Stack Systems",
+                role: "Production Scale",
+                desc: "Strict type contracts, edge deployment, microsecond state, and high availability.",
+                accent: "text-[#6EE7B7]",
+                tag: "ENGINEERING",
+              },
+              {
+                step: "05",
+                title: "Dezo.in Studio",
+                role: "Founder & CEO",
+                desc: "Building commercial AI products with forensic auditability and venture craft.",
+                accent: "text-[#F6C85F]",
+                tag: "VENTURE",
+              },
+            ].map((m) => (
+              <div
+                key={m.step}
+                className="p-5 rounded-xl border border-white/10 bg-[#0A0D12] hover:border-white/20 transition-all flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className={`font-mono text-xs font-bold ${m.accent}`}>
+                      {m.step} //
+                    </span>
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/5">
+                      {m.tag}
+                    </span>
+                  </div>
+                  <h4 className="font-display font-bold text-base text-foreground mb-1">
+                    {m.title}
+                  </h4>
+                  <p className="font-mono text-[10px] text-accent uppercase tracking-wider mb-2">
+                    {m.role}
+                  </p>
+                  <p className="font-sans text-xs text-muted-foreground leading-relaxed">
+                    {m.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

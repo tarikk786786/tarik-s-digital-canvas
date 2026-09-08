@@ -138,7 +138,7 @@ export function Projects() {
         {/* Section Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>
-            <SectionHead num="04" label="VERIFIED CASE FILES">
+            <SectionHead num="02" label="WORK // SELECTED SYSTEMS">
               Featured Systems, <br className="hidden sm:block" />
               <span className="italic font-light text-gradient-flow">Venture & Applied R&D</span>
             </SectionHead>

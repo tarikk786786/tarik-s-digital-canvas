@@ -97,7 +97,7 @@ function CertCard({ cert }: { cert: TechCert }) {
   );
 }
 
-export function TechCertifications() {
+export function TechCertifications({ embedded = false }: { embedded?: boolean } = {}) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<string>("all");
 
@@ -130,9 +130,9 @@ export function TechCertifications() {
     })).filter((c) => c.items.length > 0);
   }, [query, active]);
 
-  return (
-    <section id="tech-certifications" className="relative py-28">
-      <div className="mx-auto max-w-7xl px-6">
+  const content = (
+    <div className={embedded ? "w-full" : "mx-auto max-w-7xl px-6"}>
+      {!embedded ? (
         <div className="flex flex-col gap-4">
           <span className="font-mono text-[11px] uppercase tracking-[0.24em] text-muted-foreground">
             § Credential Vault / Technology
@@ -155,14 +155,34 @@ export function TechCertifications() {
             </span>
           </div>
         </div>
+      ) : (
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
+          <div>
+            <h3 className="font-display text-xl font-bold text-foreground">
+              Technical Credential & Learning Roadmap
+            </h3>
+            <p className="font-sans text-xs text-muted-foreground mt-1">
+              A transparent tracking index of professional competencies across engineering, security & cloud.
+            </p>
+          </div>
+          <div className="flex items-center gap-2 font-mono text-xs">
+            <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-emerald-300">
+              {counts.earned} earned
+            </span>
+            <span className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-muted-foreground">
+              {counts.total} tracked
+            </span>
+          </div>
+        </div>
+      )}
 
-        <div className="mt-8 flex flex-col gap-3 md:flex-row md:items-center">
-          <div className="relative flex-1">
-            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search certifications, issuers, or skills…"
+      <div className="mt-8 flex flex-col gap-3 md:flex-row md:items-center">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search certifications, issuers, or skills…"
               className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/40 focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
           </div>
@@ -214,7 +234,16 @@ export function TechCertifications() {
           links and credential IDs are being attached progressively as each certificate
           is indexed into the public vault.
         </p>
-      </div>
+    </div>
+  );
+
+  if (embedded) {
+    return content;
+  }
+
+  return (
+    <section id="tech-certifications" className="relative py-28">
+      {content}
     </section>
   );
 }

@@ -4,53 +4,29 @@ import { Navigation } from "@/components/portfolio/Navigation";
 import { Hero } from "@/components/portfolio/Hero";
 import { LogoMarquee } from "@/components/portfolio/LogoMarquee";
 import { AboutMe } from "@/components/portfolio/AboutMe";
-import { PersonalTimeline } from "@/components/portfolio/PersonalTimeline";
-import { LiveForensicScanner } from "@/components/portfolio/LiveForensicScanner";
 import { Capabilities } from "@/components/portfolio/Capabilities";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { ConsentBanner } from "@/components/privacy/ConsentBanner";
 import { Footer } from "@/components/portfolio/Footer";
-import { CyberTerminal } from "@/components/portfolio/CyberTerminal";
 
 // Defer heavier below-the-fold sections for instant initial paint
-const VisionAmbition3D = lazy(() =>
-  import("@/components/portfolio/VisionAmbition3D").then((m) => ({ default: m.VisionAmbition3D }))
+const Projects = lazy(() =>
+  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
 );
 const HowIBuildLab = lazy(() =>
   import("@/components/portfolio/HowIBuildLab").then((m) => ({ default: m.HowIBuildLab }))
 );
-const ScreensAndSeoShowroom = lazy(() =>
-  import("@/components/portfolio/ScreensAndSeoShowroom").then((m) => ({ default: m.ScreensAndSeoShowroom }))
-);
-const Projects = lazy(() =>
-  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
-);
-const ForensicDomains = lazy(() =>
-  import("@/components/portfolio/ForensicDomains").then((m) => ({ default: m.ForensicDomains }))
-);
-const Dezo = lazy(() =>
-  import("@/components/portfolio/Dezo").then((m) => ({ default: m.Dezo }))
-);
-const TechCertifications = lazy(() =>
-  import("@/components/portfolio/TechCertifications").then((m) => ({ default: m.TechCertifications }))
-);
 const ExecutionEngine = lazy(() =>
   import("@/components/portfolio/ExecutionEngine").then((m) => ({ default: m.ExecutionEngine }))
-);
-const TarikIntelligence = lazy(() =>
-  import("@/components/portfolio/TarikIntelligence").then((m) => ({ default: m.TarikIntelligence }))
 );
 const Contact = lazy(() =>
   import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact }))
 );
 
-import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
-import { EngineInspectorModal } from "@/components/portfolio/EngineInspectorModal";
 import { WorldCollapseClimax } from "@/components/portfolio/WorldCollapseClimax";
-import { SystemHUD } from "@/components/portfolio/SystemHUD";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
-import { LiveSystemStatus } from "@/components/portfolio/LiveSystemStatus";
 import { ProjectBriefForm } from "@/components/portfolio/ProjectBriefForm";
+import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
 import { SmartLoader } from "@/components/portfolio/SmartLoader";
 import { LabLightboxModal } from "@/components/portfolio/LabLightboxModal";
 
@@ -74,88 +50,48 @@ function Index() {
         <div className="relative z-10">
           <Navigation />
           
-          {/* Hero — 3D Core, IST Clock & Portrait HUD */}
+          {/* Main Hero with Workstation HUD, IST Clock & 3D Core */}
           <Hero />
           
-          {/* Identity Ticker — Professional Tenets Marquee */}
+          {/* Identity & Tenets Marquee */}
           <LogoMarquee />
 
-          {/* Section 01: IDENTITY — About Tarik Islam */}
+          {/* Section 01: ABOUT — Identity, Philosophy, Laboratory Evidence & Milestones */}
           <Reveal>
             <AboutMe />
           </Reveal>
 
-          {/* Section 02: JOURNEY — Chronological Evolution & Personal Timeline */}
-          <Reveal>
-            <PersonalTimeline />
-          </Reveal>
-          
-          {/* Section 03: VISION — Ambition & 3D Intelligence Core */}
+          {/* Section 02: WORK — Selected Systems, Venture & Applied R&D (Promoted to position #2) */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
-              <VisionAmbition3D />
+              <Projects />
             </Reveal>
           </Suspense>
 
-          {/* Section 04: SYSTEMS — How I Build: Tools, Architecture & Lab */}
+          {/* Section 03: EXPERTISE — Unified Core Matrix, Forensic Domains & Credential Roadmap */}
+          <Reveal>
+            <Capabilities />
+          </Reveal>
+
+          {/* Section 04: SYSTEMS — How I Build: Living Digital Laboratory & 3D Architecture */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <HowIBuildLab />
             </Reveal>
           </Suspense>
 
-          {/* Section 05: PRODUCTS — Digital Showroom & Case Studies */}
+          {/* Section 05: PHILOSOPHY & EXECUTION — The Builder's Loop & Failure Truth */}
           <Suspense fallback={<SectionFallback />}>
-            <Reveal>
-              <ScreensAndSeoShowroom />
-            </Reveal>
-          </Suspense>
-
-          {/* Section 06: TELEMETRY — Interactive Forensic Demo */}
-          <LiveForensicScanner />
-
-          {/* Section 06b: CAPABILITIES — Core Skills Matrix */}
-          <Reveal>
-            <Capabilities />
-          </Reveal>
-
-          {/* Section 07: WORK — Projects, Domains & Certifications */}
-          <Suspense fallback={<SectionFallback />}>
-            <Reveal>
-              <Projects />
-            </Reveal>
-
-            {/* Section 07b: Forensic Science Domains */}
-            <Reveal>
-              <ForensicDomains />
-            </Reveal>
-
-            {/* Section 07c: Dezo.in Studio */}
-            <Reveal>
-              <Dezo />
-            </Reveal>
-
-            {/* Section 07d: Learning Roadmap & Certifications */}
-            <Reveal>
-              <TechCertifications />
-            </Reveal>
-
-            {/* Section 08: EXECUTION — Build. Learn. Evolve. */}
             <Reveal>
               <ExecutionEngine />
             </Reveal>
 
-            {/* Section 09: INTELLIGENCE — Curated Radar */}
-            <Reveal>
-              <TarikIntelligence />
-            </Reveal>
-
-            {/* Section 10: CONVERGENCE — Where It All Connects */}
+            {/* Architectural Convergence & Statement */}
             <Reveal>
               <WorldCollapseClimax />
             </Reveal>
 
-            {/* Section 11: CONNECT — Direct Contact */}
+            {/* Section 06: CONNECT — High-Stakes Inquiries & Direct Comms */}
             <Reveal>
               <Contact />
             </Reveal>
@@ -165,26 +101,14 @@ function Index() {
         </div>
       </main>
 
-      {/* Persistent System HUD */}
-      <SystemHUD />
-
       {/* Global Command Palette */}
       <CommandPalette />
-
-      {/* Live System Status & Telemetry Modal */}
-      <LiveSystemStatus />
 
       {/* Conversational Project Brief Intake Builder */}
       <ProjectBriefForm />
 
-      {/* Interactive Cyber-Forensic Terminal HUD */}
-      <CyberTerminal />
-
       {/* Interactive Ask Tarik AI Knowledge Guide */}
       <AskTarikAI />
-
-      {/* Live Systems Engine Inspector Modal */}
-      <EngineInspectorModal />
 
       {/* Privacy & Compliance Consent */}
       <ConsentBanner />

@@ -41,6 +41,16 @@ export function Contact() {
 
       <div className="relative max-w-[1600px] mx-auto">
         
+        {/* Section Numbering */}
+        <div className="flex items-center gap-3 mb-4">
+          <span className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#62E6FF]">
+            06 /
+          </span>
+          <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+            CONNECT
+          </span>
+        </div>
+
         {/* Availability Badge */}
         <div className="flex items-center gap-3 mb-6">
           <span className="relative flex size-2">
