@@ -13,6 +13,9 @@ import { Footer } from "@/components/portfolio/Footer";
 import { CyberTerminal } from "@/components/portfolio/CyberTerminal";
 
 // Defer heavier below-the-fold sections for instant initial paint
+const VisionAmbition3D = lazy(() =>
+  import("@/components/portfolio/VisionAmbition3D").then((m) => ({ default: m.VisionAmbition3D }))
+);
 const Projects = lazy(() =>
   import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
 );
@@ -62,6 +65,13 @@ function Index() {
             <PersonalTimeline />
           </Reveal>
           
+          {/* Part 3: Vision & Ambition — 3D Intelligence Core & Convergence Architecture */}
+          <Suspense fallback={<SectionFallback />}>
+            <Reveal>
+              <VisionAmbition3D />
+            </Reveal>
+          </Suspense>
+
           {/* Live Interactive Telemetry & Forensic Audit Engine */}
           <LiveForensicScanner />
 
