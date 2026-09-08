@@ -19,6 +19,9 @@ const VisionAmbition3D = lazy(() =>
 const HowIBuildLab = lazy(() =>
   import("@/components/portfolio/HowIBuildLab").then((m) => ({ default: m.HowIBuildLab }))
 );
+const ScreensAndSeoShowroom = lazy(() =>
+  import("@/components/portfolio/ScreensAndSeoShowroom").then((m) => ({ default: m.ScreensAndSeoShowroom }))
+);
 const Projects = lazy(() =>
   import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
 );
@@ -79,6 +82,13 @@ function Index() {
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <HowIBuildLab />
+            </Reveal>
+          </Suspense>
+
+          {/* Part 5: Screens, Products & SEO — Digital Showroom & Discovery Architecture */}
+          <Suspense fallback={<SectionFallback />}>
+            <Reveal>
+              <ScreensAndSeoShowroom />
             </Reveal>
           </Suspense>
 
