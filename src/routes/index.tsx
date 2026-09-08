@@ -16,6 +16,9 @@ import { CyberTerminal } from "@/components/portfolio/CyberTerminal";
 const VisionAmbition3D = lazy(() =>
   import("@/components/portfolio/VisionAmbition3D").then((m) => ({ default: m.VisionAmbition3D }))
 );
+const HowIBuildLab = lazy(() =>
+  import("@/components/portfolio/HowIBuildLab").then((m) => ({ default: m.HowIBuildLab }))
+);
 const Projects = lazy(() =>
   import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
 );
@@ -69,6 +72,13 @@ function Index() {
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <VisionAmbition3D />
+            </Reveal>
+          </Suspense>
+
+          {/* Part 4: How I Build — Tools, Architecture & Living Digital Laboratory */}
+          <Suspense fallback={<SectionFallback />}>
+            <Reveal>
+              <HowIBuildLab />
             </Reveal>
           </Suspense>
 
