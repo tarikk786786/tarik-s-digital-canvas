@@ -2,13 +2,17 @@ import { useState } from "react";
 import {
   WHATSAPP_URL,
   WHATSAPP_NUMBER,
+  EMAIL_ADDRESS,
+  EMAIL_URL,
+  PHONE_NUMBER,
+  LOCATION,
   INSTAGRAM_URL,
   INSTAGRAM_HANDLE,
   GITHUB_URL,
   GITHUB_HANDLE,
 } from "@/lib/contact-links";
 import { TiltCard3D } from "./TiltCard3D";
-import { Send, MessageSquare, Instagram, Github, ShieldCheck, Copy, Check, Clock, ArrowUpRight } from "lucide-react";
+import { Send, MessageSquare, Mail, Instagram, Github, ShieldCheck, Copy, Check, Clock, ArrowUpRight, MapPin } from "lucide-react";
 
 export function Contact() {
   const [name, setName] = useState("");
@@ -79,8 +83,32 @@ export function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
           {/* LEFT: Direct Coordinates Cards (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 space-y-5">
             
+            {/* Direct Verified Email Card */}
+            <a
+              href={EMAIL_URL}
+              className="group block p-6 rounded-2xl border border-white/10 bg-gradient-to-br from-[#14161C]/90 to-[#0F1116] hover:border-[#62E6FF]/50 transition-all duration-300 shadow-lg hover:shadow-[0_0_30px_rgba(98,230,255,0.15)]"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="size-10 rounded-xl bg-[#62E6FF]/10 border border-[#62E6FF]/20 flex items-center justify-center text-[#62E6FF]">
+                    <Mail className="size-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-display text-lg font-bold text-foreground group-hover:text-[#62E6FF] transition-colors">
+                      Direct Email Dispatch
+                    </h3>
+                    <p className="font-mono text-xs text-muted-foreground">{EMAIL_ADDRESS}</p>
+                  </div>
+                </div>
+                <ArrowUpRight className="size-5 text-muted-foreground group-hover:text-[#62E6FF] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+              </div>
+              <p className="font-sans text-xs text-muted-foreground">
+                Primary channel for forensic consultations, architecture audits, and Dezo.in venture briefs.
+              </p>
+            </a>
+
             {/* WhatsApp Card */}
             <a
               href={WHATSAPP_URL}
@@ -97,13 +125,13 @@ export function Contact() {
                     <h3 className="font-display text-lg font-bold text-foreground group-hover:text-emerald-400 transition-colors">
                       WhatsApp Dispatch
                     </h3>
-                    <p className="font-mono text-xs text-muted-foreground">+91 91144 11026</p>
+                    <p className="font-mono text-xs text-muted-foreground">+91 89844 73230</p>
                   </div>
                 </div>
                 <ArrowUpRight className="size-5 text-muted-foreground group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
               <p className="font-sans text-xs text-muted-foreground">
-                Instant response channel for consulting, architecture audits, and rapid triage.
+                Rapid response channel for technical collaboration, triage, and instant messaging.
               </p>
             </a>
 

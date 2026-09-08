@@ -17,6 +17,10 @@ import {
   Sparkles,
   Maximize2,
   Monitor,
+  GraduationCap,
+  Award,
+  BookOpen,
+  FileText,
 } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 import { soundEngine } from "@/lib/sound-engine";
@@ -61,7 +65,9 @@ const ENCLAVE_SPECS = [
   { label: "Role", value: "Multidisciplinary Technologist" },
   { label: "Primary Venture", value: "Founder & CEO, Dezo.in" },
   { label: "Disciplines", value: "Forensics · Cyber · AI · Systems" },
-  { label: "Base of Operations", value: "India (Operating Globally)" },
+  { label: "Base", value: "Bhubaneswar, India" },
+  { label: "Email", value: "princetarikislam@gmail.com" },
+  { label: "Contact", value: "+91 8984473230" },
   { label: "Timezone", value: "IST (UTC +05:30)" },
 ];
 
@@ -177,7 +183,7 @@ export function AboutMe() {
                 <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-muted-foreground font-mono text-[10px]">
                   <span className="flex items-center gap-1.5">
                     <MapPin className="size-3 text-[#62E6FF]" />
-                    <span>INDIA (GLOBAL ENCLAVE)</span>
+                    <span>BHUBANESWAR, INDIA</span>
                   </span>
                   <span className="flex items-center gap-1.5">
                     <Clock className="size-3 text-[#9B8CFF]" />
@@ -468,6 +474,224 @@ export function AboutMe() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Academic Foundation & Institutional Records */}
+        <div className="mb-20">
+          <div className="mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-[#62E6FF] mb-2 flex items-center gap-2 font-semibold">
+              <GraduationCap className="size-4" />
+              <span>ACADEMIC FOUNDATION &amp; INSTITUTIONAL RECORDS</span>
+              <span className="h-px flex-1 bg-white/10" />
+            </h3>
+            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+              Dual Academic Rigor: Forensic Science × Cybersecurity &amp; AI
+            </p>
+            <p className="font-sans text-sm text-muted-foreground mt-2 max-w-3xl">
+              Academic progression completing in 2024–25. A rare multidisciplinary trajectory pairing natural forensic science investigation with advanced masters-level computer applications and artificial intelligence engineering.
+            </p>
+          </div>
+
+          {/* Degrees Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            {[
+              {
+                degree: "M.Tech",
+                field: "Cybersecurity & AI",
+                institution: "GIET Gandhi College, Bhubaneswar",
+                years: "2022 – 2024-25",
+                tag: "ADVANCED MASTER",
+                color: "border-[#62E6FF]/30 hover:border-[#62E6FF]/60",
+                accent: "text-[#62E6FF]",
+                badge: "COMPLETED",
+                highlights: "Advanced defensive cyber architecture, neural inference & automated threat mitigation",
+              },
+              {
+                degree: "MCA",
+                field: "Computer Applications",
+                institution: "SOA University, Bhubaneswar",
+                years: "2021 – 2023",
+                rollNo: "SOA-MCA-2020-334781",
+                tag: "MASTER DEGREE",
+                color: "border-[#9B8CFF]/30 hover:border-[#9B8CFF]/60",
+                accent: "text-[#9B8CFF]",
+                badge: "COMPLETED",
+                highlights: "Distributed software architectures, database systems, algorithms & enterprise platforms",
+              },
+              {
+                degree: "M.Sc",
+                field: "Forensic Science",
+                institution: "Lakshay Institute",
+                years: "2020 – 2021",
+                rollNo: "MSC-FS-2021-559922",
+                tag: "MASTER OF SCIENCE",
+                color: "border-[#6EE7B7]/30 hover:border-[#6EE7B7]/60",
+                accent: "text-[#6EE7B7]",
+                badge: "COMPLETED",
+                highlights: "Advanced evidence analysis, chain-of-custody protocols, toxicological & criminal autopsy rigor",
+              },
+              {
+                degree: "B.Sc",
+                field: "Forensic Science",
+                institution: "Forensic Science Academy",
+                years: "2016 – 2019",
+                rollNo: "MSC-FS-2021-665843",
+                tag: "BACHELOR OF SCIENCE",
+                color: "border-[#F6C85F]/30 hover:border-[#F6C85F]/60",
+                accent: "text-[#F6C85F]",
+                badge: "COMPLETED",
+                highlights: "Scientific methodology, forensic ballistics, fingerprint minutiae & empirical evidence analysis",
+              },
+            ].map((deg) => (
+              <div
+                key={deg.degree}
+                className={`p-6 rounded-2xl border bg-[#0A0D12] transition-all duration-300 flex flex-col justify-between group shadow-lg ${deg.color}`}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3 font-mono text-[10px]">
+                    <span className={`font-bold tracking-wider ${deg.accent}`}>
+                      {deg.tag}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-[#6EE7B7]/10 text-[#6EE7B7] border border-[#6EE7B7]/20 font-semibold text-[9px]">
+                      {deg.badge}
+                    </span>
+                  </div>
+
+                  <h4 className="font-display font-bold text-2xl text-foreground">
+                    {deg.degree}
+                  </h4>
+                  <p className={`font-mono text-xs font-semibold ${deg.accent} mt-0.5`}>
+                    {deg.field}
+                  </p>
+
+                  <div className="mt-3 pt-3 border-t border-white/5 space-y-1 font-mono text-xs text-muted-foreground">
+                    <p className="text-foreground font-medium">{deg.institution}</p>
+                    <p className="text-[11px] text-muted-foreground">{deg.years}</p>
+                    {deg.rollNo && (
+                      <p className="text-[10px] text-muted-foreground/70">
+                        Roll: <span className="text-foreground/90 font-semibold">{deg.rollNo}</span>
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <p className="mt-4 pt-3 border-t border-white/5 font-sans text-xs text-muted-foreground leading-relaxed">
+                  {deg.highlights}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Secondary Education & Specialized Training Split */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            {/* Left: Specialized Training Institutes (6 cols) */}
+            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4">
+              <div className="flex items-center justify-between font-mono text-xs text-[#62E6FF]">
+                <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
+                  <Award className="size-4" />
+                  <span>SPECIALIZED COMPUTING &amp; TECHNICAL TRAINING</span>
+                </div>
+                <span className="text-muted-foreground text-[10px]">BHUBANESWAR</span>
+              </div>
+              <div className="space-y-3 font-sans text-xs">
+                {[
+                  {
+                    name: "Lakshay Institute",
+                    desc: "Intensive Programming & Advanced Technical Training covering core system algorithms and software development.",
+                    tag: "Programming",
+                  },
+                  {
+                    name: "Seeree Institute, Bhubaneswar",
+                    desc: "Applied computing, web architecture, and full-stack software development pipelines.",
+                    tag: "Software Engineering",
+                  },
+                  {
+                    name: "AAC Institute, Bhubaneswar",
+                    desc: "Advanced Computing Training with focus on modern systems, architecture, and network security foundations.",
+                    tag: "Advanced Computing",
+                  },
+                ].map((t) => (
+                  <div key={t.name} className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02] flex items-start justify-between gap-3">
+                    <div>
+                      <h5 className="font-display font-bold text-sm text-foreground">{t.name}</h5>
+                      <p className="font-sans text-xs text-muted-foreground mt-0.5 leading-relaxed">{t.desc}</p>
+                    </div>
+                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 font-mono text-[9px] text-[#62E6FF] shrink-0">
+                      {t.tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Foundational Schooling & Verified Credentials (6 cols) */}
+            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between font-mono text-xs text-[#9B8CFF]">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
+                    <BookOpen className="size-4" />
+                    <span>FOUNDATIONAL ACADEMIC RIGOR</span>
+                  </div>
+                  <span className="text-muted-foreground text-[10px]">CHSE / CBSE</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
+                  <div className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#9B8CFF] font-bold">12th SCIENCE</span>
+                      <span className="text-[#6EE7B7] font-semibold text-[11px]">67%</span>
+                    </div>
+                    <div className="text-foreground font-semibold mt-1">Sagar College of Science</div>
+                    <div className="text-[10px] text-muted-foreground mt-0.5">CHSE Odisha · 2015 · Roll: 202305120</div>
+                  </div>
+                  <div className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02]">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#9B8CFF] font-bold">10th MATRICULATION</span>
+                      <span className="text-[#6EE7B7] font-semibold text-[11px]">79%</span>
+                    </div>
+                    <div className="text-foreground font-semibold mt-1">Maharishi Vidya Mandir</div>
+                    <div className="text-[10px] text-muted-foreground mt-0.5">CBSE Board · 2013 · Roll: 610113</div>
+                  </div>
+                </div>
+
+                {/* Core Resume Certifications */}
+                <div className="pt-3 border-t border-white/5 space-y-2 font-mono text-xs">
+                  <span className="text-muted-foreground text-[10px] uppercase tracking-wider font-semibold">
+                    OFFICIAL RESUME CERTIFICATIONS (VERIFIED ON RECORD):
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      { code: "CEH", label: "Certified Ethical Hacker" },
+                      { code: "CHFI", label: "Computer Hacking Forensic Investigator" },
+                      { code: "OSCP", label: "Offensive Security Certified Professional" },
+                    ].map((c) => (
+                      <span
+                        key={c.code}
+                        className="px-3 py-1.5 rounded-lg border border-[#62E6FF]/30 bg-[#62E6FF]/5 text-xs text-foreground flex items-center gap-2"
+                      >
+                        <span className="font-bold text-[#62E6FF]">{c.code}</span>
+                        <span className="text-muted-foreground text-[11px]">({c.label})</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* PDF Resume Link Button */}
+              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span className="font-mono text-[11px] text-muted-foreground">
+                  Official CV &amp; Institutional transcripts
+                </span>
+                <a
+                  href="/resume"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#62E6FF]/40 bg-[#62E6FF]/10 hover:bg-[#62E6FF]/20 text-[#62E6FF] font-mono text-xs uppercase tracking-wider font-semibold transition-all"
+                >
+                  <FileText className="size-3.5" />
+                  <span>VIEW FULL RÉSUMÉ</span>
+                  <ArrowUpRight className="size-3" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 

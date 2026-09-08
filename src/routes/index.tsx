@@ -16,6 +16,11 @@ const Projects = lazy(() =>
 const HowIBuildLab = lazy(() =>
   import("@/components/portfolio/HowIBuildLab").then((m) => ({ default: m.HowIBuildLab }))
 );
+const ForensicEncyclopediaAI = lazy(() =>
+  import("@/components/portfolio/ForensicEncyclopediaAI").then((m) => ({
+    default: m.ForensicEncyclopediaAI,
+  }))
+);
 const ExecutionEngine = lazy(() =>
   import("@/components/portfolio/ExecutionEngine").then((m) => ({ default: m.ExecutionEngine }))
 );
@@ -68,12 +73,19 @@ function Index() {
             </Reveal>
           </Suspense>
 
-          {/* Section 03: EXPERTISE — Unified Core Matrix, Forensic Domains & Credential Roadmap */}
+          {/* Section 03: EXPERTISE — Unified Core Matrix, OSINT Arsenal, Forensic Domains & Roadmap */}
           <Reveal>
             <Capabilities />
           </Reveal>
 
-          {/* Section 04: SYSTEMS — How I Build: Living Digital Laboratory & 3D Architecture */}
+          {/* Section 04: AI FORENSIC CODEX — Evidence Encyclopedia, Reasoning Copilot & Hash Lab */}
+          <Suspense fallback={<SectionFallback />}>
+            <Reveal>
+              <ForensicEncyclopediaAI />
+            </Reveal>
+          </Suspense>
+
+          {/* Section 05: SYSTEMS — How I Build: Living Digital Laboratory & 3D Architecture */}
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <HowIBuildLab />

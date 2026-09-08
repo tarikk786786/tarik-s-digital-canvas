@@ -10,9 +10,11 @@ import {
   ArrowUpRight,
   Compass,
   Award,
+  Terminal,
 } from "lucide-react";
 import { ForensicDomains } from "./ForensicDomains";
 import { TechCertifications } from "./TechCertifications";
+import { OsintArsenal } from "./OsintArsenal";
 
 const CAPABILITIES = [
   {
@@ -72,7 +74,7 @@ const CAPABILITIES = [
 ];
 
 export function Capabilities() {
-  const [activeTab, setActiveTab] = useState<"capabilities" | "domains" | "certifications">("capabilities");
+  const [activeTab, setActiveTab] = useState<"capabilities" | "osint" | "domains" | "certifications">("capabilities");
 
   return (
     <section id="expertise" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
@@ -90,6 +92,7 @@ export function Capabilities() {
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] backdrop-blur-md font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
             {[
               { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
+              { id: "osint", label: "OSINT ARSENAL", icon: Terminal },
               { id: "domains", label: "FORENSIC ATLAS", icon: Compass },
               { id: "certifications", label: "CREDENTIAL ROADMAP", icon: Award },
             ].map((tab) => {
@@ -174,7 +177,14 @@ export function Capabilities() {
           </div>
         )}
 
-        {/* Tab 2: Forensic Domains Atlas */}
+        {/* Tab 2: OSINT & Information Gathering Arsenal */}
+        {activeTab === "osint" && (
+          <div className="mt-8 animate-fade-in">
+            <OsintArsenal />
+          </div>
+        )}
+
+        {/* Tab 3: Forensic Domains Atlas */}
         {activeTab === "domains" && (
           <div className="mt-8 animate-fade-in">
             <ForensicDomains embedded />

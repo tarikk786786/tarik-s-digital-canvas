@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: "ABOUT", href: "#about" },
   { label: "WORK", href: "#work" },
   { label: "EXPERTISE", href: "#expertise" },
+  { label: "FORENSICS", href: "#forensic-encyclopedia" },
   { label: "SYSTEMS", href: "#systems" },
   { label: "CONNECT", href: "#contact" },
 ];
