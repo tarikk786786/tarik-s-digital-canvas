@@ -34,6 +34,9 @@ const Dezo = lazy(() =>
 const TechCertifications = lazy(() =>
   import("@/components/portfolio/TechCertifications").then((m) => ({ default: m.TechCertifications }))
 );
+const ExecutionEngine = lazy(() =>
+  import("@/components/portfolio/ExecutionEngine").then((m) => ({ default: m.ExecutionEngine }))
+);
 const Contact = lazy(() =>
   import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact }))
 );
@@ -119,6 +122,11 @@ function Index() {
             {/* Technical & Cybersecurity Certifications */}
             <Reveal>
               <TechCertifications />
+            </Reveal>
+
+            {/* Part 6: Execution — Build. Learn. Evolve. Operating System */}
+            <Reveal>
+              <ExecutionEngine />
             </Reveal>
 
             {/* Direct Contact Deck */}

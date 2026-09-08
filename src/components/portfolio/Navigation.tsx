@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { label: "Dezo.in", href: "#dezo" },
   { label: "Skills", href: "/skills", isRoute: true },
   { label: "Credentials", href: "/certifications", isRoute: true },
+  { label: "Execution", href: "#execution" },
   { label: "Contact", href: "#contact" },
 ];
 
