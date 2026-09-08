@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { TiltCard3D } from "./TiltCard3D";
 import photoLab from "@/assets/tarik-photo-lab.jpg";
 import photoWorking from "@/assets/tarik-photo-working.jpg";
@@ -19,11 +20,25 @@ import {
   Monitor,
   GraduationCap,
   Award,
-  BookOpen,
   FileText,
+  FlaskConical,
+  Dna,
+  FileSearch,
+  ShieldAlert,
+  Scale,
+  Search,
+  Microscope,
+  ChevronRight,
+  Beaker,
 } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 import { soundEngine } from "@/lib/sound-engine";
+import { PROFILE } from "@/lib/profile";
+import {
+  FORENSIC_SPECIALTIES,
+  WHY_I_CHOSE_TECH,
+  type ForensicSpecialty,
+} from "@/content/forensic-specialties";
 
 const PHILOSOPHY_PILLARS = [
   {
@@ -71,13 +86,31 @@ const ENCLAVE_SPECS = [
   { label: "Timezone", value: "IST (UTC +05:30)" },
 ];
 
+const SPECIALTY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  toxicology: FlaskConical,
+  dactyloscopy: Fingerprint,
+  "serology-dna": Dna,
+  "questioned-documents": FileSearch,
+  ballistics: ShieldAlert,
+  "crime-scene": Scale,
+  "digital-forensics": Terminal,
+};
+
 export function AboutMe() {
+  const [selectedSpecialtyId, setSelectedSpecialtyId] = useState<string>("toxicology");
+
   const openLabLightbox = () => {
     soundEngine.playClick();
     window.dispatchEvent(
       new CustomEvent("tarik:open-lab-lightbox", { detail: { monitor: 1 } })
     );
   };
+
+  const activeSpecialty =
+    FORENSIC_SPECIALTIES.find((s) => s.id === selectedSpecialtyId) ||
+    FORENSIC_SPECIALTIES[0];
+
+  const ActiveIcon = SPECIALTY_ICONS[activeSpecialty.id] || Microscope;
 
   return (
     <section
@@ -96,17 +129,17 @@ export function AboutMe() {
               01 /
             </span>
             <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
-              ABOUT
+              ABOUT &amp; INVESTIGATIVE ORIGIN
             </span>
           </div>
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.05] max-w-5xl">
-            Who I Am — <br className="hidden sm:block" />
+            Driven by Curiosity — <br className="hidden sm:block" />
             <span className="italic font-light text-gradient-flow">
-              Building technology that matters.
+              To research, investigate &amp; engineer truth.
             </span>
           </h2>
           <p className="mt-6 font-sans text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-4xl font-normal leading-relaxed text-pretty">
-            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — a multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and founder of <strong className="text-[#62E6FF] font-semibold">Dezo.in</strong>.
+            I’m <strong className="text-foreground font-semibold">Tarik Islam</strong> — a forensic scientist, cybersecurity engineer, and AI systems builder. My journey started with a deep, instinctive curiosity to explore beneath the surface, investigate complex systems, and discover the truth through empirical research.
           </p>
         </div>
 
@@ -124,7 +157,7 @@ export function AboutMe() {
                   </div>
                   <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/30 text-[#6EE7B7] text-[10px] font-semibold">
                     <span className="size-1.5 rounded-full bg-[#6EE7B7] animate-pulse" />
-                    VERIFIED PRACTITIONER
+                    ACTIVE PRACTITIONER
                   </span>
                 </div>
 
@@ -193,12 +226,12 @@ export function AboutMe() {
               </div>
             </TiltCard3D>
 
-            {/* Authentic Lab Command Center Card (Real Photo Evidence) */}
+            {/* Authentic Lab Command Center Card */}
             <div className="p-5 sm:p-6 rounded-2xl border border-white/15 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-4">
               <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] font-semibold">
                 <div className="flex items-center gap-2">
                   <Monitor className="size-3.5" />
-                  <span>AUTHENTIC WORKSTATION EVIDENCE</span>
+                  <span>INVESTIGATION COMMAND MATRIX</span>
                 </div>
                 <span className="text-[#6EE7B7]">4-DISPLAYS</span>
               </div>
@@ -219,12 +252,12 @@ export function AboutMe() {
                 {/* Hover inspect banner */}
                 <div className="absolute inset-0 bg-[#050608]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 font-mono text-xs text-[#62E6FF] font-bold">
                   <Maximize2 className="size-4" />
-                  <span>INSPECT FULL HD TELEMETRY</span>
+                  <span>INSPECT FULL HD WORKSTATION</span>
                 </div>
 
                 <div className="absolute bottom-2 left-2 z-10 px-2 py-0.5 rounded bg-[#050608]/85 border border-white/10 font-mono text-[9px] text-[#6EE7B7] flex items-center gap-1">
                   <span className="size-1 rounded-full bg-[#6EE7B7]" />
-                  <span>SHA-256 VERIFIED</span>
+                  <span>BITSTREAM &amp; AI TELEMETRY</span>
                 </div>
               </div>
 
@@ -253,75 +286,85 @@ export function AboutMe() {
               </p>
               <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
                 <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">
-                  <div className="text-muted-foreground text-[9px]">METHODOLOGY</div>
+                  <div className="text-muted-foreground text-[9px]">DIGITAL EVIDENCE</div>
                   <div className="text-foreground font-semibold mt-0.5">ISO/IEC 27037</div>
                 </div>
                 <div className="p-2.5 rounded-lg border border-white/5 bg-white/[0.02]">
-                  <div className="text-muted-foreground text-[9px]">SECURITY AUDIT</div>
-                  <div className="text-foreground font-semibold mt-0.5">NIST SP 800-86</div>
+                  <div className="text-muted-foreground text-[9px]">CRIME LAB TESTING</div>
+                  <div className="text-foreground font-semibold mt-0.5">ISO/IEC 17025</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Narrative & Detailed Story (7 cols) */}
+          {/* Right Column: Why I Chose Tech & The Investigative Journey (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
-            {/* Story Card 1: The Evidence-First Mindset */}
-            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-5">
-              <div className="flex items-center gap-2 text-[#62E6FF] font-mono text-xs uppercase tracking-widest font-semibold">
-                <Sparkles className="size-4" />
-                <span>INTERSECTION OF DISCIPLINES</span>
+            {/* Story Card: Why I Chose Tech Main Feature */}
+            <div className="p-8 md:p-10 rounded-2xl border border-[#62E6FF]/30 bg-gradient-to-br from-[#0A1017] via-[#0A0D12] to-[#050608] shadow-[0_10px_40px_rgba(98,230,255,0.08)] space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-[#62E6FF] font-mono text-xs uppercase tracking-widest font-bold">
+                  <Search className="size-4" />
+                  <span>INVESTIGATIVE ORIGIN</span>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-[#62E6FF]/10 text-[#62E6FF] text-[10px] font-mono font-semibold border border-[#62E6FF]/20">
+                  THE TRANSITION TO TECH
+                </span>
               </div>
-              <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed">
-                My work sits at the intersection of <strong className="text-foreground font-semibold">forensic science, cybersecurity, artificial intelligence, and full-stack systems engineering</strong>. I approach technology with an evidence-first mindset: question assumptions, understand the underlying system, verify what is true, and build solutions that can withstand scrutiny.
-              </p>
+
+              <div>
+                <h3 className="font-display text-2xl md:text-3xl font-extrabold text-foreground tracking-tight">
+                  {WHY_I_CHOSE_TECH.headline}
+                </h3>
+                <p className="font-sans text-sm md:text-base text-[#62E6FF]/90 mt-2 font-medium">
+                  {WHY_I_CHOSE_TECH.subheadline}
+                </p>
+              </div>
+
+              {/* Narrative Blocks */}
+              <div className="space-y-4 pt-2">
+                {WHY_I_CHOSE_TECH.narrative.map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] transition-colors space-y-2"
+                  >
+                    <div className="flex items-center justify-between font-mono text-[10px]">
+                      <span className="text-[#62E6FF] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                        <CheckCircle2 className="size-3 text-[#62E6FF]" />
+                        {item.title}
+                      </span>
+                      <span className="text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/5">
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p className="font-sans text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                      {item.blurb}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Quote */}
+              <div className="pt-2 border-t border-white/10">
+                <blockquote className="font-sans italic text-sm text-foreground/90 border-l-2 border-[#62E6FF] pl-4 py-1">
+                  {WHY_I_CHOSE_TECH.quote.text}
+                </blockquote>
+                <p className="font-mono text-[10px] text-muted-foreground mt-2 pl-4">
+                  — {WHY_I_CHOSE_TECH.quote.author} · <span className="text-[#62E6FF]">{WHY_I_CHOSE_TECH.quote.role}</span>
+                </p>
+              </div>
             </div>
 
-            {/* Story Card 2: Evolution & The Three Dimensions */}
+            {/* Story Card 2: Dezo.in & The Complete System */}
             <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-5">
               <div className="flex items-center gap-2 text-[#9B8CFF] font-mono text-xs uppercase tracking-widest font-semibold">
-                <Layers className="size-4" />
-                <span>THE EVOLUTION</span>
-              </div>
-              <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
-                My journey has evolved from understanding <strong className="text-foreground font-semibold">physical and digital evidence</strong> to engineering <strong className="text-foreground font-semibold">secure intelligent systems</strong>.
-              </p>
-              <div className="space-y-3 pt-2 font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-                  <CheckCircle2 className="size-4 text-[#62E6FF] shrink-0 mt-1" />
-                  <div>
-                    <strong className="text-foreground">Forensic Science:</strong> Taught me the non-negotiable importance of evidence, precision, reproducibility, and chain of custody.
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-                  <CheckCircle2 className="size-4 text-[#62E6FF] shrink-0 mt-1" />
-                  <div>
-                    <strong className="text-foreground">Cybersecurity:</strong> Extended that investigative thinking into proactively defending systems against adversaries in real time.
-                  </div>
-                </div>
-                <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-                  <CheckCircle2 className="size-4 text-[#9B8CFF] shrink-0 mt-1" />
-                  <div>
-                    <strong className="text-foreground">Artificial Intelligence:</strong> Opened another dimension — building systems that can reason, retrieve information, automate complex workflows, and assist with real-world decisions.
-                  </div>
-                </div>
-              </div>
-              <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed pt-2">
-                Today, I bring those disciplines together through <strong className="text-foreground font-semibold">software engineering, AI systems, cybersecurity, automation, and product development</strong>.
-              </p>
-            </div>
-
-            {/* Story Card 3: Dezo.in & Complete Systems Thinking */}
-            <div className="p-8 md:p-10 rounded-2xl border border-white/10 bg-[#0A0D12]/90 backdrop-blur-xl shadow-xl space-y-5">
-              <div className="flex items-center gap-2 text-[#62E6FF] font-mono text-xs uppercase tracking-widest font-semibold">
                 <Compass className="size-4" />
-                <span>DEZO.IN &amp; SYSTEMS ARCHITECTURE</span>
+                <span>DEZO.IN &amp; PRODUCT CRAFT</span>
               </div>
               <p className="font-sans text-base md:text-lg text-foreground/90 leading-relaxed">
-                I am also the founder of <strong className="text-[#62E6FF] font-semibold">Dezo.in</strong>, where I am building an AI-native product studio focused on creating secure, intelligent, and useful software products.
+                As the founder of <strong className="text-[#62E6FF] font-semibold">Dezo.in</strong>, I translate this investigative rigor into building AI-native products. I treat software not as disconnected code, but as a <strong className="text-foreground font-semibold">complete empirical system</strong>.
               </p>
-              <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
-                I don't see technology as isolated pieces of code. I see it as a <strong className="text-foreground font-semibold">complete system</strong> — the architecture, security, intelligence, user experience, data, automation, business model, and the people who ultimately depend on it.
+              <p className="font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
+                From low-level data telemetry and zero-trust perimeter defenses to autonomous agent orchestration and high-fidelity user experiences — every component is designed with the same audit-grade integrity required of court-admissible evidence.
               </p>
             </div>
 
@@ -338,18 +381,284 @@ export function AboutMe() {
               </a>
 
               <a
-                href="#journey"
+                href="#forensic-specialties"
                 className="inline-flex items-center gap-2 px-6 py-4 rounded-md border border-white/15 bg-white/5 text-foreground hover:border-[#62E6FF] hover:bg-[#62E6FF]/10 transition-colors"
               >
-                <span>EXPLORE MY JOURNEY</span>
+                <span>EXPLORE FORENSIC SPECIALTIES</span>
               </a>
 
               <a
-                href="#work"
+                href="/resume"
                 className="inline-flex items-center gap-2 px-6 py-4 rounded-md border border-white/10 text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>VIEW CASE FILES</span>
+                <span>VIEW RÉSUMÉ</span>
               </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Forensic Specialties Showcase Section */}
+        <div id="forensic-specialties" className="mb-24 scroll-mt-24">
+          <div className="mb-10">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.25em] text-[#62E6FF]">
+                SCIENTIFIC RIGOR /
+              </span>
+              <span className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
+                LABORATORY EXPERTISE
+              </span>
+            </div>
+            <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-foreground">
+              Forensic Science Specialties &amp; Analytical Mastery
+            </h3>
+            <p className="font-sans text-base text-muted-foreground mt-3 max-w-4xl">
+              Deep scientific background spanning chemical, biological, physical, and digital forensic disciplines. Every specialty represents hands-on instrumentation mastery, empirical testing principles, and court-admissible standards.
+            </p>
+          </div>
+
+          {/* Interactive Discipline Selector Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+            {FORENSIC_SPECIALTIES.map((spec) => {
+              const Icon = SPECIALTY_ICONS[spec.id] || Microscope;
+              const isSelected = spec.id === selectedSpecialtyId;
+              return (
+                <button
+                  key={spec.id}
+                  type="button"
+                  onClick={() => {
+                    soundEngine.playClick();
+                    setSelectedSpecialtyId(spec.id);
+                  }}
+                  className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-xs font-mono tracking-wider uppercase transition-all shrink-0 cursor-pointer ${
+                    isSelected
+                      ? "border-[#62E6FF] bg-[#62E6FF]/15 text-[#62E6FF] font-bold shadow-[0_0_20px_rgba(98,230,255,0.2)]"
+                      : "border-white/10 bg-[#0A0D12] text-muted-foreground hover:text-foreground hover:border-white/20"
+                  }`}
+                >
+                  <Icon className="size-4" />
+                  <span>{spec.title.split("&")[0].trim()}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Specialty Detailed Dossier */}
+          <div className="p-8 md:p-12 rounded-3xl border border-white/15 bg-gradient-to-br from-[#0A1017] via-[#0A0D12] to-[#050608] shadow-2xl space-y-8">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 pb-6 border-b border-white/10">
+              <div className="flex items-start gap-4">
+                <div className="size-16 rounded-2xl bg-[#62E6FF]/10 border border-[#62E6FF]/30 flex items-center justify-center shrink-0 shadow-[0_0_24px_rgba(98,230,255,0.2)]">
+                  <ActiveIcon className="size-8 text-[#62E6FF]" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] px-2.5 py-0.5 rounded-full bg-[#62E6FF]/10 border border-[#62E6FF]/20 font-bold">
+                      {activeSpecialty.category.toUpperCase()} FORENSICS
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground">
+                      SPEC-ID // {activeSpecialty.id.toUpperCase()}
+                    </span>
+                  </div>
+                  <h4 className="font-display font-extrabold text-2xl sm:text-3xl text-foreground">
+                    {activeSpecialty.title}
+                  </h4>
+                  <p className="font-mono text-xs sm:text-sm text-[#9B8CFF] font-medium mt-1">
+                    {activeSpecialty.subtitle}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-end justify-center font-mono text-xs text-right">
+                <span className="text-muted-foreground text-[10px] uppercase tracking-wider">LEGAL STANDARD</span>
+                <span className="text-[#6EE7B7] font-semibold mt-0.5 max-w-xs">{activeSpecialty.legalEvidentiaryStandard.split("&")[0]}</span>
+              </div>
+            </div>
+
+            {/* Summary description */}
+            <p className="font-sans text-base sm:text-lg text-foreground/90 leading-relaxed">
+              {activeSpecialty.summary}
+            </p>
+
+            {/* 3-Column Detailed Breakdown */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+              {/* Column 1: Analytical Instrumentation */}
+              <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] space-y-4">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#62E6FF] uppercase tracking-wider">
+                  <Beaker className="size-4" />
+                  <span>INSTRUMENTATION &amp; APPARATUS</span>
+                </div>
+                <ul className="space-y-2.5 font-sans text-xs text-muted-foreground">
+                  {activeSpecialty.instrumentation.map((inst, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <ChevronRight className="size-3.5 text-[#62E6FF] shrink-0 mt-0.5" />
+                      <span className="text-foreground/80">{inst}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Column 2: Core Competencies */}
+              <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] space-y-4">
+                <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#6EE7B7] uppercase tracking-wider">
+                  <CheckCircle2 className="size-4" />
+                  <span>LABORATORY COMPETENCIES</span>
+                </div>
+                <ul className="space-y-2.5 font-sans text-xs text-muted-foreground">
+                  {activeSpecialty.coreCompetencies.map((comp, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <CheckCircle2 className="size-3.5 text-[#6EE7B7] shrink-0 mt-0.5" />
+                      <span className="text-foreground/80">{comp}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Column 3: Scientific Principles & Admissibility */}
+              <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.02] space-y-4 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#F6C85F] uppercase tracking-wider">
+                    <Scale className="size-4" />
+                    <span>FOUNDATIONAL SCIENTIFIC LAW</span>
+                  </div>
+                  <p className="font-sans text-xs text-muted-foreground leading-relaxed italic bg-white/[0.02] p-3 rounded-lg border border-white/5">
+                    {activeSpecialty.scientificPrinciple}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-white/5 space-y-1.5">
+                  <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider block">
+                    JUDICIAL ADMISSIBILITY STANDARD
+                  </span>
+                  <p className="font-mono text-xs text-[#6EE7B7] font-semibold">
+                    {activeSpecialty.legalEvidentiaryStandard}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Academic Degrees & Scientific Qualifications */}
+        <div className="mb-20">
+          <div className="mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-[#62E6FF] mb-2 flex items-center gap-2 font-semibold">
+              <GraduationCap className="size-4" />
+              <span>ACADEMIC DEGREES &amp; QUALIFICATIONS</span>
+              <span className="h-px flex-1 bg-white/10" />
+            </h3>
+            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
+              Multidisciplinary Academic Mastery: Forensic Science × Cybersecurity &amp; AI
+            </p>
+            <p className="font-sans text-sm text-muted-foreground mt-2 max-w-3xl">
+              An intentional, high-rigor academic foundation uniting physical forensic science and chemical investigation with postgraduate computer applications and artificial intelligence engineering.
+            </p>
+          </div>
+
+          {/* Degrees Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            {PROFILE.education.map((deg) => (
+              <div
+                key={deg.degree}
+                className="p-6 rounded-2xl border border-white/15 bg-[#0A0D12] hover:border-[#62E6FF]/50 transition-all duration-300 flex flex-col justify-between group shadow-lg"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3 font-mono text-[10px]">
+                    <span className="font-bold tracking-wider text-[#62E6FF]">
+                      {deg.level.toUpperCase()}
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-[#6EE7B7]/10 text-[#6EE7B7] border border-[#6EE7B7]/20 font-semibold text-[9px]">
+                      {deg.status.toUpperCase()}
+                    </span>
+                  </div>
+
+                  <h4 className="font-display font-bold text-2xl text-foreground">
+                    {deg.degree}
+                  </h4>
+                  <p className="font-mono text-xs font-semibold text-[#9B8CFF] mt-0.5">
+                    {deg.field}
+                  </p>
+
+                  <p className="mt-4 pt-3 border-t border-white/5 font-sans text-xs text-muted-foreground leading-relaxed">
+                    {deg.highlights}
+                  </p>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/5 space-y-1.5 font-mono text-[10px]">
+                  <span className="text-muted-foreground text-[9px] uppercase tracking-wider block">CORE COMPETENCIES:</span>
+                  <div className="flex flex-wrap gap-1">
+                    {deg.competencies.map((c, i) => (
+                      <span key={i} className="px-1.5 py-0.5 rounded bg-white/5 border border-white/5 text-foreground/80">
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Professional Certifications & Tech Training */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            {/* Left: Professional Certifications Featured on Resume (6 cols) */}
+            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4">
+              <div className="flex items-center justify-between font-mono text-xs text-[#62E6FF]">
+                <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
+                  <Award className="size-4" />
+                  <span>PRIMARY PROFESSIONAL CERTIFICATIONS</span>
+                </div>
+                <span className="text-[#6EE7B7] text-[10px]">VERIFIED</span>
+              </div>
+              <div className="space-y-3 font-sans text-xs">
+                {PROFILE.resumeCertifications.map((c) => (
+                  <div key={c.code} className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02] flex items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-display font-bold text-base text-foreground">{c.code}</span>
+                        <span className="font-mono text-[10px] text-muted-foreground">({c.issuer})</span>
+                      </div>
+                      <p className="font-sans text-xs text-muted-foreground mt-0.5">{c.name}</p>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full bg-[#6EE7B7]/10 border border-[#6EE7B7]/20 font-mono text-[9px] text-[#6EE7B7] font-semibold shrink-0">
+                      ACTIVE
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: Technical Training & Engineering Tracks (6 cols) */}
+            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between font-mono text-xs text-[#9B8CFF]">
+                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
+                    <Cpu className="size-4" />
+                    <span>TECHNICAL SYSTEMS &amp; COMPUTING TRACKS</span>
+                  </div>
+                  <span className="text-muted-foreground text-[10px]">ADVANCED</span>
+                </div>
+                <div className="space-y-2.5">
+                  {PROFILE.technicalTraining.map((t, idx) => (
+                    <div key={idx} className="p-3 rounded-xl border border-white/5 bg-white/[0.02] font-sans text-xs">
+                      <h5 className="font-display font-semibold text-foreground text-xs">{t.domain}</h5>
+                      <p className="text-muted-foreground text-[11px] mt-0.5 leading-relaxed">{t.focus}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Résumé Link Button */}
+              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <span className="font-mono text-[11px] text-muted-foreground">
+                  Complete Curriculum Vitae &amp; Research Portfolio
+                </span>
+                <a
+                  href="/resume"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#62E6FF]/40 bg-[#62E6FF]/10 hover:bg-[#62E6FF]/20 text-[#62E6FF] font-mono text-xs uppercase tracking-wider font-semibold transition-all"
+                >
+                  <FileText className="size-3.5" />
+                  <span>VIEW FULL RÉSUMÉ</span>
+                  <ArrowUpRight className="size-3" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -362,7 +671,7 @@ export function AboutMe() {
               <span className="h-px flex-1 bg-white/10" />
             </h3>
             <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
-              My philosophy is simple:
+              Operating principles rooted in scientific certainty:
             </p>
           </div>
 
@@ -391,307 +700,6 @@ export function AboutMe() {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* Evolution Milestones */}
-        <div className="mb-20">
-          <div className="mb-8">
-            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-[#62E6FF] mb-2 flex items-center gap-2 font-semibold">
-              <span>PATHWAY OF EXPERTISE</span>
-              <span className="h-px flex-1 bg-white/10" />
-            </h3>
-            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
-              Evolution across 5 core disciplines
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {[
-              {
-                step: "01",
-                title: "Forensic Science",
-                role: "Foundational Rigor",
-                desc: "Empirical observation, evidence preservation, and chain-of-custody discipline.",
-                accent: "text-[#62E6FF]",
-                tag: "FORENSICS",
-              },
-              {
-                step: "02",
-                title: "Cybersecurity",
-                role: "Defensive Architecture",
-                desc: "Zero Trust paradigms, threat modeling, packet analysis, and root-cause triage.",
-                accent: "text-[#62E6FF]",
-                tag: "SECURITY",
-              },
-              {
-                step: "03",
-                title: "AI & Agents",
-                role: "Intelligent Systems",
-                desc: "Deterministic RAG pipelines, autonomous tool loops, and verifiable inference.",
-                accent: "text-[#9B8CFF]",
-                tag: "AI / ML",
-              },
-              {
-                step: "04",
-                title: "Full-Stack Systems",
-                role: "Production Scale",
-                desc: "Strict type contracts, edge deployment, microsecond state, and high availability.",
-                accent: "text-[#6EE7B7]",
-                tag: "ENGINEERING",
-              },
-              {
-                step: "05",
-                title: "Dezo.in Studio",
-                role: "Founder & CEO",
-                desc: "Building commercial AI products with forensic auditability and venture craft.",
-                accent: "text-[#F6C85F]",
-                tag: "VENTURE",
-              },
-            ].map((m) => (
-              <div
-                key={m.step}
-                className="p-5 rounded-xl border border-white/10 bg-[#0A0D12] hover:border-white/20 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <span className={`font-mono text-xs font-bold ${m.accent}`}>
-                      {m.step} //
-                    </span>
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground px-2 py-0.5 rounded bg-white/5 border border-white/5">
-                      {m.tag}
-                    </span>
-                  </div>
-                  <h4 className="font-display font-bold text-base text-foreground mb-1">
-                    {m.title}
-                  </h4>
-                  <p className="font-mono text-[10px] text-accent uppercase tracking-wider mb-2">
-                    {m.role}
-                  </p>
-                  <p className="font-sans text-xs text-muted-foreground leading-relaxed">
-                    {m.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Academic Foundation & Institutional Records */}
-        <div className="mb-20">
-          <div className="mb-8">
-            <h3 className="font-mono text-xs uppercase tracking-[0.25em] text-[#62E6FF] mb-2 flex items-center gap-2 font-semibold">
-              <GraduationCap className="size-4" />
-              <span>ACADEMIC FOUNDATION &amp; INSTITUTIONAL RECORDS</span>
-              <span className="h-px flex-1 bg-white/10" />
-            </h3>
-            <p className="font-display text-2xl md:text-3xl font-bold text-foreground">
-              Dual Academic Rigor: Forensic Science × Cybersecurity &amp; AI
-            </p>
-            <p className="font-sans text-sm text-muted-foreground mt-2 max-w-3xl">
-              Academic progression completing in 2024–25. A rare multidisciplinary trajectory pairing natural forensic science investigation with advanced masters-level computer applications and artificial intelligence engineering.
-            </p>
-          </div>
-
-          {/* Degrees Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {[
-              {
-                degree: "M.Tech",
-                field: "Cybersecurity & AI",
-                institution: "GIET Gandhi College, Bhubaneswar",
-                years: "2022 – 2024-25",
-                tag: "ADVANCED MASTER",
-                color: "border-[#62E6FF]/30 hover:border-[#62E6FF]/60",
-                accent: "text-[#62E6FF]",
-                badge: "COMPLETED",
-                highlights: "Advanced defensive cyber architecture, neural inference & automated threat mitigation",
-              },
-              {
-                degree: "MCA",
-                field: "Computer Applications",
-                institution: "SOA University, Bhubaneswar",
-                years: "2021 – 2023",
-                rollNo: "SOA-MCA-2020-334781",
-                tag: "MASTER DEGREE",
-                color: "border-[#9B8CFF]/30 hover:border-[#9B8CFF]/60",
-                accent: "text-[#9B8CFF]",
-                badge: "COMPLETED",
-                highlights: "Distributed software architectures, database systems, algorithms & enterprise platforms",
-              },
-              {
-                degree: "M.Sc",
-                field: "Forensic Science",
-                institution: "Lakshay Institute",
-                years: "2020 – 2021",
-                rollNo: "MSC-FS-2021-559922",
-                tag: "MASTER OF SCIENCE",
-                color: "border-[#6EE7B7]/30 hover:border-[#6EE7B7]/60",
-                accent: "text-[#6EE7B7]",
-                badge: "COMPLETED",
-                highlights: "Advanced evidence analysis, chain-of-custody protocols, toxicological & criminal autopsy rigor",
-              },
-              {
-                degree: "B.Sc",
-                field: "Forensic Science",
-                institution: "Forensic Science Academy",
-                years: "2016 – 2019",
-                rollNo: "MSC-FS-2021-665843",
-                tag: "BACHELOR OF SCIENCE",
-                color: "border-[#F6C85F]/30 hover:border-[#F6C85F]/60",
-                accent: "text-[#F6C85F]",
-                badge: "COMPLETED",
-                highlights: "Scientific methodology, forensic ballistics, fingerprint minutiae & empirical evidence analysis",
-              },
-            ].map((deg) => (
-              <div
-                key={deg.degree}
-                className={`p-6 rounded-2xl border bg-[#0A0D12] transition-all duration-300 flex flex-col justify-between group shadow-lg ${deg.color}`}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-3 font-mono text-[10px]">
-                    <span className={`font-bold tracking-wider ${deg.accent}`}>
-                      {deg.tag}
-                    </span>
-                    <span className="px-2 py-0.5 rounded-full bg-[#6EE7B7]/10 text-[#6EE7B7] border border-[#6EE7B7]/20 font-semibold text-[9px]">
-                      {deg.badge}
-                    </span>
-                  </div>
-
-                  <h4 className="font-display font-bold text-2xl text-foreground">
-                    {deg.degree}
-                  </h4>
-                  <p className={`font-mono text-xs font-semibold ${deg.accent} mt-0.5`}>
-                    {deg.field}
-                  </p>
-
-                  <div className="mt-3 pt-3 border-t border-white/5 space-y-1 font-mono text-xs text-muted-foreground">
-                    <p className="text-foreground font-medium">{deg.institution}</p>
-                    <p className="text-[11px] text-muted-foreground">{deg.years}</p>
-                    {deg.rollNo && (
-                      <p className="text-[10px] text-muted-foreground/70">
-                        Roll: <span className="text-foreground/90 font-semibold">{deg.rollNo}</span>
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <p className="mt-4 pt-3 border-t border-white/5 font-sans text-xs text-muted-foreground leading-relaxed">
-                  {deg.highlights}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Secondary Education & Specialized Training Split */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            {/* Left: Specialized Training Institutes (6 cols) */}
-            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4">
-              <div className="flex items-center justify-between font-mono text-xs text-[#62E6FF]">
-                <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
-                  <Award className="size-4" />
-                  <span>SPECIALIZED COMPUTING &amp; TECHNICAL TRAINING</span>
-                </div>
-                <span className="text-muted-foreground text-[10px]">BHUBANESWAR</span>
-              </div>
-              <div className="space-y-3 font-sans text-xs">
-                {[
-                  {
-                    name: "Lakshay Institute",
-                    desc: "Intensive Programming & Advanced Technical Training covering core system algorithms and software development.",
-                    tag: "Programming",
-                  },
-                  {
-                    name: "Seeree Institute, Bhubaneswar",
-                    desc: "Applied computing, web architecture, and full-stack software development pipelines.",
-                    tag: "Software Engineering",
-                  },
-                  {
-                    name: "AAC Institute, Bhubaneswar",
-                    desc: "Advanced Computing Training with focus on modern systems, architecture, and network security foundations.",
-                    tag: "Advanced Computing",
-                  },
-                ].map((t) => (
-                  <div key={t.name} className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02] flex items-start justify-between gap-3">
-                    <div>
-                      <h5 className="font-display font-bold text-sm text-foreground">{t.name}</h5>
-                      <p className="font-sans text-xs text-muted-foreground mt-0.5 leading-relaxed">{t.desc}</p>
-                    </div>
-                    <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 font-mono text-[9px] text-[#62E6FF] shrink-0">
-                      {t.tag}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Foundational Schooling & Verified Credentials (6 cols) */}
-            <div className="lg:col-span-6 p-6 rounded-2xl border border-white/10 bg-[#0A0D12] space-y-4 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div className="flex items-center justify-between font-mono text-xs text-[#9B8CFF]">
-                  <div className="flex items-center gap-2 font-bold uppercase tracking-wider">
-                    <BookOpen className="size-4" />
-                    <span>FOUNDATIONAL ACADEMIC RIGOR</span>
-                  </div>
-                  <span className="text-muted-foreground text-[10px]">CHSE / CBSE</span>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-xs">
-                  <div className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02]">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#9B8CFF] font-bold">12th SCIENCE</span>
-                      <span className="text-[#6EE7B7] font-semibold text-[11px]">67%</span>
-                    </div>
-                    <div className="text-foreground font-semibold mt-1">Sagar College of Science</div>
-                    <div className="text-[10px] text-muted-foreground mt-0.5">CHSE Odisha · 2015 · Roll: 202305120</div>
-                  </div>
-                  <div className="p-3.5 rounded-xl border border-white/5 bg-white/[0.02]">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[#9B8CFF] font-bold">10th MATRICULATION</span>
-                      <span className="text-[#6EE7B7] font-semibold text-[11px]">79%</span>
-                    </div>
-                    <div className="text-foreground font-semibold mt-1">Maharishi Vidya Mandir</div>
-                    <div className="text-[10px] text-muted-foreground mt-0.5">CBSE Board · 2013 · Roll: 610113</div>
-                  </div>
-                </div>
-
-                {/* Core Resume Certifications */}
-                <div className="pt-3 border-t border-white/5 space-y-2 font-mono text-xs">
-                  <span className="text-muted-foreground text-[10px] uppercase tracking-wider font-semibold">
-                    OFFICIAL RESUME CERTIFICATIONS (VERIFIED ON RECORD):
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {[
-                      { code: "CEH", label: "Certified Ethical Hacker" },
-                      { code: "CHFI", label: "Computer Hacking Forensic Investigator" },
-                      { code: "OSCP", label: "Offensive Security Certified Professional" },
-                    ].map((c) => (
-                      <span
-                        key={c.code}
-                        className="px-3 py-1.5 rounded-lg border border-[#62E6FF]/30 bg-[#62E6FF]/5 text-xs text-foreground flex items-center gap-2"
-                      >
-                        <span className="font-bold text-[#62E6FF]">{c.code}</span>
-                        <span className="text-muted-foreground text-[11px]">({c.label})</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* PDF Resume Link Button */}
-              <div className="pt-4 border-t border-white/5 flex items-center justify-between">
-                <span className="font-mono text-[11px] text-muted-foreground">
-                  Official CV &amp; Institutional transcripts
-                </span>
-                <a
-                  href="/resume"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-[#62E6FF]/40 bg-[#62E6FF]/10 hover:bg-[#62E6FF]/20 text-[#62E6FF] font-mono text-xs uppercase tracking-wider font-semibold transition-all"
-                >
-                  <FileText className="size-3.5" />
-                  <span>VIEW FULL RÉSUMÉ</span>
-                  <ArrowUpRight className="size-3" />
-                </a>
-              </div>
-            </div>
           </div>
         </div>
 
