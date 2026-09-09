@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TiltCard3D } from "./TiltCard3D";
 import {
   ShieldAlert,
@@ -76,6 +76,23 @@ const CAPABILITIES = [
 export function Capabilities() {
   const [activeTab, setActiveTab] = useState<"capabilities" | "osint" | "domains" | "certifications">("capabilities");
 
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === "#osint" || hash === "#osint-tools" || hash === "#recon") {
+        setActiveTab("osint");
+      } else if (hash === "#domains" || hash === "#forensics") {
+        setActiveTab("domains");
+      } else if (hash === "#certifications" || hash === "#credentials") {
+        setActiveTab("certifications");
+      }
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
+  }, []);
+
   return (
     <section id="expertise" className="relative py-28 md:py-36 px-6 md:px-12 lg:px-16 border-b border-white/5 bg-[#050608] overflow-hidden">
       {/* Ambient background glow — Pure optical radial falloff */}
@@ -92,7 +109,7 @@ export function Capabilities() {
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
             {[
               { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
-              { id: "osint", label: "OSINT ARSENAL", icon: Terminal },
+              { id: "osint", label: "OSINT ARSENAL (27)", icon: Terminal },
               { id: "domains", label: "FORENSIC ATLAS", icon: Compass },
               { id: "certifications", label: "CREDENTIAL ROADMAP", icon: Award },
             ].map((tab) => {
