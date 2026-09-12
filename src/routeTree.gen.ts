@@ -9,56 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SkillsRouteImport } from './routes/skills'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SecurityRouteImport } from './routes/security'
-import { Route as ResumeRouteImport } from './routes/resume'
-import { Route as PrivacyControlsRouteImport } from './routes/privacy-controls'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as NewsRouteImport } from './routes/news'
-import { Route as CertificationsRouteImport } from './routes/certifications'
-import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as CertificationsRouteImport } from './routes/certifications'
+import { Route as FindSomeoneRouteImport } from './routes/find-someone'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as PrivacyControlsRouteImport } from './routes/privacy-controls'
+import { Route as ResumeRouteImport } from './routes/resume'
+import { Route as SecurityRouteImport } from './routes/security'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ApiInvestigationsRouteImport } from './routes/api/investigations'
 import { Route as ApiNewsRouteImport } from './routes/api/news'
+import { Route as ApiUploadsRouteImport } from './routes/api/uploads'
 
-const SkillsRoute = SkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SecurityRoute = SecurityRouteImport.update({
-  id: '/security',
-  path: '/security',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResumeRoute = ResumeRouteImport.update({
-  id: '/resume',
-  path: '/resume',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyControlsRoute = PrivacyControlsRouteImport.update({
-  id: '/privacy-controls',
-  path: '/privacy-controls',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NewsRoute = NewsRouteImport.update({
-  id: '/news',
-  path: '/news',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CertificationsRoute = CertificationsRouteImport.update({
-  id: '/certifications',
-  path: '/certifications',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccessibilityRoute = AccessibilityRouteImport.update({
@@ -66,9 +34,54 @@ const AccessibilityRoute = AccessibilityRouteImport.update({
   path: '/accessibility',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CertificationsRoute = CertificationsRouteImport.update({
+  id: '/certifications',
+  path: '/certifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FindSomeoneRoute = FindSomeoneRouteImport.update({
+  id: '/find-someone',
+  path: '/find-someone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyControlsRoute = PrivacyControlsRouteImport.update({
+  id: '/privacy-controls',
+  path: '/privacy-controls',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumeRoute = ResumeRouteImport.update({
+  id: '/resume',
+  path: '/resume',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkillsRoute = SkillsRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiInvestigationsRoute = ApiInvestigationsRouteImport.update({
+  id: '/api/investigations',
+  path: '/api/investigations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiNewsRoute = ApiNewsRouteImport.update({
@@ -76,11 +89,17 @@ const ApiNewsRoute = ApiNewsRouteImport.update({
   path: '/api/news',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUploadsRoute = ApiUploadsRouteImport.update({
+  id: '/api/uploads',
+  path: '/api/uploads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/find-someone': typeof FindSomeoneRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -88,12 +107,15 @@ export interface FileRoutesByFullPath {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
+  '/api/uploads': typeof ApiUploadsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/find-someone': typeof FindSomeoneRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -101,13 +123,16 @@ export interface FileRoutesByTo {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
+  '/api/uploads': typeof ApiUploadsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
+  '/find-someone': typeof FindSomeoneRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -115,7 +140,9 @@ export interface FileRoutesById {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
+  '/api/uploads': typeof ApiUploadsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -123,6 +150,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/find-someone'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -130,12 +158,15 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/investigations'
     | '/api/news'
+    | '/api/uploads'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/find-someone'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -143,12 +174,15 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/investigations'
     | '/api/news'
+    | '/api/uploads'
   id:
     | '__root__'
     | '/'
     | '/accessibility'
     | '/certifications'
+    | '/find-someone'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -156,13 +190,16 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/api/investigations'
     | '/api/news'
+    | '/api/uploads'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
   CertificationsRoute: typeof CertificationsRoute
+  FindSomeoneRoute: typeof FindSomeoneRoute
   NewsRoute: typeof NewsRoute
   PrivacyRoute: typeof PrivacyRoute
   PrivacyControlsRoute: typeof PrivacyControlsRoute
@@ -170,65 +207,18 @@ export interface RootRouteChildren {
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillsRoute: typeof SkillsRoute
+  ApiInvestigationsRoute: typeof ApiInvestigationsRoute
   ApiNewsRoute: typeof ApiNewsRoute
+  ApiUploadsRoute: typeof ApiUploadsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/skills': {
-      id: '/skills'
-      path: '/skills'
-      fullPath: '/skills'
-      preLoaderRoute: typeof SkillsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/security': {
-      id: '/security'
-      path: '/security'
-      fullPath: '/security'
-      preLoaderRoute: typeof SecurityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resume': {
-      id: '/resume'
-      path: '/resume'
-      fullPath: '/resume'
-      preLoaderRoute: typeof ResumeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy-controls': {
-      id: '/privacy-controls'
-      path: '/privacy-controls'
-      fullPath: '/privacy-controls'
-      preLoaderRoute: typeof PrivacyControlsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/news': {
-      id: '/news'
-      path: '/news'
-      fullPath: '/news'
-      preLoaderRoute: typeof NewsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/certifications': {
-      id: '/certifications'
-      path: '/certifications'
-      fullPath: '/certifications'
-      preLoaderRoute: typeof CertificationsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accessibility': {
@@ -238,11 +228,74 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccessibilityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/certifications': {
+      id: '/certifications'
+      path: '/certifications'
+      fullPath: '/certifications'
+      preLoaderRoute: typeof CertificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/find-someone': {
+      id: '/find-someone'
+      path: '/find-someone'
+      fullPath: '/find-someone'
+      preLoaderRoute: typeof FindSomeoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-controls': {
+      id: '/privacy-controls'
+      path: '/privacy-controls'
+      fullPath: '/privacy-controls'
+      preLoaderRoute: typeof PrivacyControlsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resume': {
+      id: '/resume'
+      path: '/resume'
+      fullPath: '/resume'
+      preLoaderRoute: typeof ResumeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skills': {
+      id: '/skills'
+      path: '/skills'
+      fullPath: '/skills'
+      preLoaderRoute: typeof SkillsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/investigations': {
+      id: '/api/investigations'
+      path: '/api/investigations'
+      fullPath: '/api/investigations'
+      preLoaderRoute: typeof ApiInvestigationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/news': {
@@ -252,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiNewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/uploads': {
+      id: '/api/uploads'
+      path: '/api/uploads'
+      fullPath: '/api/uploads'
+      preLoaderRoute: typeof ApiUploadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -259,6 +319,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
   CertificationsRoute: CertificationsRoute,
+  FindSomeoneRoute: FindSomeoneRoute,
   NewsRoute: NewsRoute,
   PrivacyRoute: PrivacyRoute,
   PrivacyControlsRoute: PrivacyControlsRoute,
@@ -266,7 +327,9 @@ const rootRouteChildren: RootRouteChildren = {
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillsRoute: SkillsRoute,
+  ApiInvestigationsRoute: ApiInvestigationsRoute,
   ApiNewsRoute: ApiNewsRoute,
+  ApiUploadsRoute: ApiUploadsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

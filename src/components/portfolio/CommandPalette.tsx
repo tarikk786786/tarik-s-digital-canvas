@@ -109,6 +109,18 @@ export function CommandPalette() {
       badge: "04",
     },
     {
+      id: "nav-find-details",
+      category: "Navigation",
+      title: "Find Details // Embedded Public Intelligence",
+      subtitle: "Search people, organizations, websites, companies and public evidence",
+      icon: <Search className="size-4 text-[#62E6FF]" />,
+      action: () => {
+        setIsOpen(false);
+        window.location.href = "/find-someone";
+      },
+      badge: "LAB",
+    },
+    {
       id: "nav-showroom",
       category: "Navigation",
       title: "Lab // Digital Showroom & SEO",
@@ -184,7 +196,8 @@ export function CommandPalette() {
       icon: <Eye className="size-4 text-[#9B8CFF]" />,
       action: () => {
         const cur = getDirectorMode();
-        const next = cur === "experience" ? "minimal" : cur === "minimal" ? "performance" : "experience";
+        const next =
+          cur === "experience" ? "minimal" : cur === "minimal" ? "performance" : "experience";
         setDirectorMode(next);
         setIsOpen(false);
         soundEngine.playClick();
@@ -238,7 +251,7 @@ export function CommandPalette() {
     (c) =>
       c.title.toLowerCase().includes(query.toLowerCase()) ||
       c.subtitle.toLowerCase().includes(query.toLowerCase()) ||
-      c.category.toLowerCase().includes(query.toLowerCase())
+      c.category.toLowerCase().includes(query.toLowerCase()),
   );
 
   if (!isOpen) return null;
@@ -293,7 +306,9 @@ export function CommandPalette() {
                     <p className="text-xs font-bold text-foreground group-hover:text-[#62E6FF] transition-colors">
                       {item.title}
                     </p>
-                    <p className="text-[11px] text-muted-foreground line-clamp-1">{item.subtitle}</p>
+                    <p className="text-[11px] text-muted-foreground line-clamp-1">
+                      {item.subtitle}
+                    </p>
                   </div>
                 </div>
                 {item.badge && (

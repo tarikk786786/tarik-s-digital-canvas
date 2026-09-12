@@ -109,7 +109,7 @@ export function Capabilities() {
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
             {[
               { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
-              { id: "osint", label: "OSINT ARSENAL (27)", icon: Terminal },
+              { id: "osint", label: "INFORMATION TOOLS", icon: Terminal },
               { id: "domains", label: "FORENSIC ATLAS", icon: Compass },
               { id: "certifications", label: "CREDENTIAL ROADMAP", icon: Award },
             ].map((tab) => {

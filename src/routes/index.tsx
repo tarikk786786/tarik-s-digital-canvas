@@ -11,24 +11,15 @@ import { Footer } from "@/components/portfolio/Footer";
 
 // Defer heavier below-the-fold sections for instant initial paint
 const Projects = lazy(() =>
-  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects }))
-);
-const HowIBuildLab = lazy(() =>
-  import("@/components/portfolio/HowIBuildLab").then((m) => ({ default: m.HowIBuildLab }))
-);
-const ForensicEncyclopediaAI = lazy(() =>
-  import("@/components/portfolio/ForensicEncyclopediaAI").then((m) => ({
-    default: m.ForensicEncyclopediaAI,
-  }))
-);
-const ExecutionEngine = lazy(() =>
-  import("@/components/portfolio/ExecutionEngine").then((m) => ({ default: m.ExecutionEngine }))
+  import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects })),
 );
 const Contact = lazy(() =>
-  import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact }))
+  import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact })),
+);
+const FindDetails = lazy(() =>
+  import("@/components/portfolio/FindDetails").then((m) => ({ default: m.FindDetails })),
 );
 
-import { WorldCollapseClimax } from "@/components/portfolio/WorldCollapseClimax";
 import { CommandPalette } from "@/components/portfolio/CommandPalette";
 import { ProjectBriefForm } from "@/components/portfolio/ProjectBriefForm";
 import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
@@ -51,13 +42,16 @@ function Index() {
       {/* Smart Loading Experience */}
       <SmartLoader />
 
-      <main id="top" className="relative min-h-dvh bg-background text-foreground overflow-hidden pb-12">
+      <main
+        id="top"
+        className="relative min-h-dvh bg-background text-foreground overflow-hidden pb-12"
+      >
         <div className="relative z-10">
           <Navigation />
-          
+
           {/* Main Hero with Workstation HUD, IST Clock & 3D Core */}
           <Hero />
-          
+
           {/* Identity & Tenets Marquee */}
           <LogoMarquee />
 
@@ -73,37 +67,17 @@ function Index() {
             </Reveal>
           </Suspense>
 
-          {/* Section 03: EXPERTISE — Unified Core Matrix, OSINT Arsenal, Forensic Domains & Roadmap */}
+          <Suspense fallback={<SectionFallback />}>
+            <Reveal>
+              <FindDetails />
+            </Reveal>
+          </Suspense>
+
           <Reveal>
             <Capabilities />
           </Reveal>
 
-          {/* Section 04: AI FORENSIC CODEX — Evidence Encyclopedia, Reasoning Copilot & Hash Lab */}
           <Suspense fallback={<SectionFallback />}>
-            <Reveal>
-              <ForensicEncyclopediaAI />
-            </Reveal>
-          </Suspense>
-
-          {/* Section 05: SYSTEMS — How I Build: Living Digital Laboratory & 3D Architecture */}
-          <Suspense fallback={<SectionFallback />}>
-            <Reveal>
-              <HowIBuildLab />
-            </Reveal>
-          </Suspense>
-
-          {/* Section 05: PHILOSOPHY & EXECUTION — The Builder's Loop & Failure Truth */}
-          <Suspense fallback={<SectionFallback />}>
-            <Reveal>
-              <ExecutionEngine />
-            </Reveal>
-
-            {/* Architectural Convergence & Statement */}
-            <Reveal>
-              <WorldCollapseClimax />
-            </Reveal>
-
-            {/* Section 06: CONNECT — High-Stakes Inquiries & Direct Comms */}
             <Reveal>
               <Contact />
             </Reveal>

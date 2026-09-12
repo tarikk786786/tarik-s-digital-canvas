@@ -21,7 +21,7 @@ export const PROFILE = {
   location: "Bhubaneswar, Odisha, India",
   timezone: "UTC+05:30 (IST)",
   email: "princetarikislam@gmail.com",
-  phone: "+91 8984473230",
+  phone: "+91 91144 11026",
   availability: "Available for selected high-stakes collaborations & architecture audits",
   focus: "Forensics · Cybersecurity · AI Systems · Full Stack",
 

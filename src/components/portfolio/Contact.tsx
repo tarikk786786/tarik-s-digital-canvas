@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   WHATSAPP_URL,
   WHATSAPP_NUMBER,
+  WHATSAPP_DISPLAY,
   EMAIL_ADDRESS,
   EMAIL_URL,
   PHONE_NUMBER,
@@ -124,7 +125,7 @@ export function Contact() {
                     <h3 className="font-display text-lg font-bold text-foreground group-hover:text-emerald-400 transition-colors">
                       WhatsApp Dispatch
                     </h3>
-                    <p className="font-mono text-xs text-muted-foreground">+91 89844 73230</p>
+                    <p className="font-mono text-xs text-muted-foreground">{WHATSAPP_DISPLAY}</p>
                   </div>
                 </div>
                 <ArrowUpRight className="size-5 text-muted-foreground group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />

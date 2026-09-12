@@ -19,7 +19,9 @@ class SoundEngine {
   private initContext(): AudioContext | null {
     if (typeof window === "undefined") return null;
     if (!this.ctx) {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const AudioCtx =
+        window.AudioContext ||
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
@@ -38,7 +40,9 @@ class SoundEngine {
     this.enabled = val;
     if (typeof window !== "undefined") {
       localStorage.setItem("tarik_sound_enabled", String(val));
-      window.dispatchEvent(new CustomEvent("tarik:sound-state-change", { detail: { enabled: val } }));
+      window.dispatchEvent(
+        new CustomEvent("tarik:sound-state-change", { detail: { enabled: val } }),
+      );
     }
   }
 
@@ -219,7 +223,7 @@ class SoundEngine {
     if (!ctx) return;
 
     try {
-      const chord = [130.81, 196.00, 261.63, 329.63]; // C3, G3, C4, E4
+      const chord = [130.81, 196.0, 261.63, 329.63]; // C3, G3, C4, E4
       const now = ctx.currentTime;
 
       chord.forEach((freq) => {
@@ -241,6 +245,14 @@ class SoundEngine {
     } catch {
       // AudioContext failure gracefully ignored
     }
+  }
+
+  public playTerminal(): void {
+    this.playDataPulse();
+  }
+
+  public playSuccess(): void {
+    this.playAiChime();
   }
 }
 

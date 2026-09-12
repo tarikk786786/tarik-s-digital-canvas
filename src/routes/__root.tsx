@@ -41,7 +41,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: any; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -85,7 +85,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       {
-        title: "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer & AI Builder",
+        title:
+          "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer & AI Builder",
       },
       {
         name: "description",
@@ -98,7 +99,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Tarik Islam, Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, Autonomous AI Agents, Digital Forensics, Dezo.in, Memory Forensics, Incident Response, Zero Trust Architecture, AppSec, Full Stack Systems, React 19, TypeScript, Python, Rust, Cryptography, India AI",
       },
       { name: "author", content: "Tarik Islam" },
-      { name: "robots", content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" },
+      {
+        name: "robots",
+        content: "index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+      },
       { name: "theme-color", content: "#0C0E12" },
       { name: "color-scheme", content: "dark" },
 
