@@ -55,7 +55,7 @@ export function Navigation() {
               TARIK ISLAM
             </span>
             <span className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.28em] text-muted-foreground">
-              DIGITAL CANVAS // ENCLAVE
+              FORENSICS · CYBER · AI
             </span>
           </div>
         </a>

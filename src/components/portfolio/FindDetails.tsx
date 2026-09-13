@@ -47,34 +47,43 @@ export function FindDetails() {
           FIND DETAILS
         </h2>
         <p className="mt-4 text-lg text-muted-foreground">
-          Search. Discover. Understand.
+          Public-information investigation console — demo lab on the homepage path.
         </p>
-        <p className="mt-3 text-sm text-muted-foreground/80">
-          Give me anything you know. The console decides what to do.
+        <p className="mt-3 text-sm text-muted-foreground/80 max-w-xl mx-auto">
+          Enter what you know. Demo mode opens a scripted dossier. Live mode stays empty until
+          workers are connected — no invented sources or ISO reports. Engines behind the router
+          live under Information Tools.
         </p>
 
         <form onSubmit={onSubmit} className="mt-12 text-left">
           <label htmlFor="find-details-query" className="sr-only">
             What do you want to find?
           </label>
-                <input
+          <input
             id="find-details-query"
-                  value={query}
+            value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Enter anything you know…"
             className="w-full rounded-2xl border border-white/15 bg-[#0A0D12] px-5 py-5 text-base text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#62E6FF]/50"
           />
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-            <label className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                  <input
-                type="checkbox"
-                checked={mode === "demo"}
-                onChange={(event) => setMode(event.target.checked ? "demo" : "live")}
-                className="accent-[#62E6FF]"
-              />
-              Demo mode
-                </label>
+            <div className="space-y-1">
+              <label className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                <input
+                  type="checkbox"
+                  checked={mode === "demo"}
+                  onChange={(event) => setMode(event.target.checked ? "demo" : "live")}
+                  className="accent-[#62E6FF]"
+                />
+                Demo mode (scripted)
+              </label>
+              <p className="pl-6 text-[11px] text-muted-foreground/70">
+                {mode === "demo"
+                  ? "Uses a labeled demo dossier — not a live public-records pull."
+                  : "Live workers are offline. Results stay empty; nothing is fabricated."}
+              </p>
+            </div>
 
             <MagneticButton type="submit" variant="primary" disabled={busy || !query.trim()}>
               <span>{busy ? "Opening…" : "FIND DETAILS"}</span>

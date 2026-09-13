@@ -17,7 +17,7 @@ import { Send, MessageSquare, Mail, Instagram, Github, ShieldCheck, Copy, Check,
 
 export function Contact() {
   const [name, setName] = useState("");
-  const [inquiryType, setInquiryType] = useState("AI Systems & LLM Architecture");
+  const [inquiryType, setInquiryType] = useState("Forensic Investigation & Toxicology");
   const [message, setMessage] = useState("");
   const [copied, setCopied] = useState(false);
 
@@ -75,7 +75,7 @@ export function Contact() {
             </span>
           </h2>
           <p className="font-sans text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed text-pretty max-w-2xl">
-            Whether it's an autonomous AI system, a zero-trust cyber defense audit, forensic consultation, or a founding collaboration with <strong className="text-foreground">Dezo.in</strong> — let's connect directly.
+            Forensic consultation and investigation support, digital forensics, cyber defense audits, AI systems, or a founding collaboration with <strong className="text-foreground">Dezo.in</strong> — connect directly.
           </p>
         </div>
 
@@ -131,7 +131,7 @@ export function Contact() {
                 <ArrowUpRight className="size-5 text-muted-foreground group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
               <p className="font-sans text-xs text-muted-foreground">
-                Rapid response channel for technical collaboration, triage, and instant messaging.
+                Rapid channel for forensic consultations, investigation briefs, and collaboration.
               </p>
             </a>
 
@@ -252,9 +252,10 @@ export function Contact() {
                       onChange={(e) => setInquiryType(e.target.value)}
                       className="w-full px-4 py-3 rounded-lg border border-white/10 bg-[#0A0D12] font-sans text-sm text-foreground focus:outline-none focus:border-accent transition-colors"
                     >
-                      <option>AI Systems &amp; LLM Architecture</option>
-                      <option>Cybersecurity &amp; Threat Audit</option>
+                      <option>Forensic Investigation &amp; Toxicology</option>
                       <option>Digital Forensics Consultation</option>
+                      <option>Cybersecurity &amp; Threat Audit</option>
+                      <option>AI Systems &amp; LLM Architecture</option>
                       <option>Dezo.in Product Studio Inquiry</option>
                       <option>Full Stack System Build</option>
                       <option>Other Stealth Collaboration</option>

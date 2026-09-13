@@ -12,6 +12,7 @@ import { DocumentView } from "./DocumentView";
 import { ImageView } from "./ImageView";
 import { IdentityCard } from "./IdentityCard";
 import { ReportGenerator } from "./ReportGenerator";
+import { LiveWorld3D } from "./LiveWorld3D";
 import {
   DEMO_COMPANY,
   DEMO_WEBSITE,
@@ -298,15 +299,15 @@ export function InvestigationWorkspace({
         {/* 10. CONNECTIONS */}
         {activeTab === "connections" && <RelationshipGraph />}
 
-        {/* 11. LOCATIONS */}
+        {/* 11. LOCATIONS + WORLD SIMULATION */}
         {activeTab === "locations" && (
           <div className="space-y-4">
             <div className="rounded-lg border border-white/10 bg-white/[0.02] p-4 font-mono text-xs text-muted-foreground">
-              <span className="text-[#62E6FF] font-bold block uppercase tracking-wider mb-1">
-                PUBLIC LOCATION ANCHORS
+              <span className="text-amber-400 font-bold block uppercase tracking-wider mb-1">
+                DEMO / SIMULATION — NOT LIVE FEEDS
               </span>
-              Geographic coordinates and metropolitan hubs established through statutory corporate
-              filings and verified academic publications.
+              Geographic anchors from statutory filings, plus a labeled world-layer simulation.
+              No municipal camera ingest, device tracking, or live ADS-B/AIS in this demo.
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
@@ -332,6 +333,11 @@ export function InvestigationWorkspace({
                 </p>
               </div>
             </div>
+
+            <LiveWorld3D
+              focusTargetName="Bhubaneswar, Odisha"
+              focusCoords={{ lat: 20.2961, lng: 85.8245 }}
+            />
           </div>
         )}
 

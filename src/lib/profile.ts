@@ -1,5 +1,5 @@
 // Verified profile details for Tarik Islam.
-// Highlighting multidisciplinary expertise across Forensic Science, Cybersecurity, and AI Systems.
+// Forensic science is the root identity; cyber, AI, and Dezo.in follow from that foundation.
 
 export interface AcademicCredential {
   degree: string;
@@ -12,20 +12,20 @@ export interface AcademicCredential {
 
 export const PROFILE = {
   name: "Tarik Islam",
-  primaryRole: "Founder & CEO, Dezo.in",
-  identity: "Forensic Scientist × Cybersecurity Engineer × AI Developer",
+  primaryRole: "Forensic Science Specialist — Investigation & Toxicology",
+  identity: "Forensic Scientist · Investigation & Toxicology · Digital Forensics",
   headline:
-    "Investigating evidence. Defending systems. Engineering intelligence.",
+    "Forensic investigation and toxicology, extended into cyber security, AI, and digital forensics.",
   professionalSummary:
-    "A multidisciplinary technologist driven by relentless scientific curiosity and investigative rigor. Expert in Forensic Science disciplines (toxicology, dactyloscopy, serology, ballistics), Cybersecurity, and AI Systems Engineering. Passionate about researching underlying systems, uncovering anomalies, and building audit-grade software platforms.",
+    "Forensic science specialist focused on investigation and toxicology. Foundation in B.Sc and M.Sc Forensic Science, then MCA for software systems, then M.Tech in Cyber Security & AI with digital forensics. Founder of Dezo.in — applying laboratory rigor to evidence, systems, and intelligent software.",
   location: "Bhubaneswar, Odisha, India",
   timezone: "UTC+05:30 (IST)",
   email: "princetarikislam@gmail.com",
   phone: "+91 91144 11026",
-  availability: "Available for selected high-stakes collaborations & architecture audits",
-  focus: "Forensics · Cybersecurity · AI Systems · Full Stack",
+  availability: "Available for forensic consultation, investigation support, and selective architecture work",
+  focus: "Forensic Investigation · Toxicology · Digital Forensics · Cyber Security · AI",
 
-  // Academic Degrees & Scientific Qualifications (Chronological Progression: B.Sc -> M.Sc -> MCA -> M.Tech)
+  // Academic path: forensic foundation → MCA → M.Tech Cyber Security & AI / Digital Forensics
   education: [
     {
       degree: "B.Sc",
@@ -33,7 +33,7 @@ export const PROFILE = {
       level: "Bachelor of Science",
       status: "completed",
       highlights:
-        "Rigorous foundation in empirical scientific investigation, dactyloscopy minutiae, forensic ballistics, questioned document examination, and crime scene reconstruction.",
+        "Investigative foundation: crime-scene method, dactyloscopy, ballistics, questioned documents, and evidence preservation.",
       competencies: [
         "Dactyloscopy & Ridge Analysis",
         "Forensic Ballistics & Toolmarks",
@@ -43,11 +43,11 @@ export const PROFILE = {
     },
     {
       degree: "M.Sc",
-      field: "Forensic Science",
+      field: "Forensic Science — Investigation & Toxicology",
       level: "Master of Science",
       status: "completed",
       highlights:
-        "Specialized in advanced forensic toxicology, analytical chemistry (GC-MS / HPLC), biological evidence (serology & DNA), and evidentiary chain-of-custody protocols.",
+        "Specialization in forensic investigation and toxicology: GC-MS / HPLC analytical chemistry, biological evidence, and chain-of-custody protocols for court-ready reporting.",
       competencies: [
         "Forensic Toxicology & GC-MS",
         "Serology & DNA Analysis",
@@ -57,11 +57,11 @@ export const PROFILE = {
     },
     {
       degree: "MCA",
-      field: "Computer Applications & Software Systems",
+      field: "Computer Applications",
       level: "Master of Computer Applications",
       status: "completed",
       highlights:
-        "Specialized in distributed software architectures, database internals, algorithmic optimization, and enterprise software engineering.",
+        "Software systems layer on the forensic foundation: architectures, databases, and engineering practice for building investigative tools.",
       competencies: [
         "Distributed Systems",
         "Full-Stack Architecture",
@@ -71,16 +71,16 @@ export const PROFILE = {
     },
     {
       degree: "M.Tech",
-      field: "Cybersecurity & Artificial Intelligence",
+      field: "Cyber Security & AI / Digital Forensics",
       level: "Postgraduate Engineering",
       status: "completed",
       highlights:
-        "Specialized in advanced defensive cyber architecture, neural inference, autonomous agent reasoning, and zero-trust engineering.",
+        "Digital forensics, defensive cyber architecture, and AI systems — extending physical investigation into memory, networks, and audit-grade intelligence.",
       competencies: [
-        "AI Reasoning Architectures",
+        "Digital Forensics & Evidence Integrity",
         "Threat Modeling & Mitigation",
+        "AI Reasoning Architectures",
         "Applied Cryptography",
-        "Kernel-Level Telemetry",
       ],
     },
   ] as AcademicCredential[],
@@ -136,10 +136,10 @@ export const PROFILE = {
 
   // Core Strengths
   strengths: [
-    "Deep curiosity for scientific research, anomaly detection, and empirical investigation",
-    "Rare hybrid profile combining natural forensic science with full-stack software and AI",
+    "Investigation-first mindset from forensic science and toxicology practice",
+    "Clear academic path: Forensic Science → MCA → M.Tech Cyber Security & AI / Digital Forensics",
     "Uncompromising attention to detail, evidence integrity, and chain-of-custody discipline",
-    "Rapid technical adaptability in complex, high-stakes environments",
+    "Builds Dezo.in and cyber/AI systems without abandoning the forensic root",
   ],
 } as const;
 

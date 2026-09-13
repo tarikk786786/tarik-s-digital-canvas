@@ -182,11 +182,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               name: "Tarik Islam",
               url: "https://tarik-s-digital-canvas.vercel.app",
               jobTitle: [
-                "Multidisciplinary Technologist",
-                "Forensic Scientist",
+                "Forensic Science Specialist",
+                "Investigation & Toxicology",
+                "Digital Forensics",
                 "Cybersecurity Engineer",
                 "AI Systems Builder",
-                "Full Stack Systems Architect",
                 "Founder & CEO",
               ],
               worksFor: {
@@ -200,8 +200,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "https://dezo.in",
               ],
               description:
-                "Multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and founder of Dezo.in. Building technology that matters.",
+                "Forensic science specialist in investigation and toxicology. B.Sc & M.Sc Forensic Science, MCA, M.Tech Cyber Security & AI / Digital Forensics. Founder of Dezo.in.",
               knowsAbout: [
+                "Forensic Investigation",
+                "Forensic Toxicology",
                 "Digital Forensics",
                 "Cybersecurity Engineering",
                 "Autonomous AI Agents",

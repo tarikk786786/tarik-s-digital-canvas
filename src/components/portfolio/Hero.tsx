@@ -9,9 +9,9 @@ import { PROFILE } from "@/lib/profile";
 import { soundEngine } from "@/lib/sound-engine";
 
 const ROLES = [
-  "Forensic Scientist",
-  "Cybersecurity Engineer",
-  "AI Systems Builder",
+  "Forensic Science Specialist",
+  "Investigation & Toxicology",
+  "Digital Forensics · Cyber · AI",
   "Founder, Dezo.in",
 ];
 
@@ -54,7 +54,7 @@ export function Hero() {
       <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         <div className="lg:col-span-6 flex flex-col justify-center">
           <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#62E6FF] mb-5">
-            Bhubaneswar · Dezo.in
+            Forensic Science · Bhubaneswar · Dezo.in
           </p>
 
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-extrabold tracking-tighter leading-[0.9] text-foreground">
@@ -73,9 +73,9 @@ export function Hero() {
           </p>
 
           <p className="mt-6 max-w-lg font-sans text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Forensic scientist. Cybersecurity engineer. AI builder. I investigate
-            what systems hide — then engineer software that can stand up to
-            scrutiny.
+            Investigation and toxicology first. Then MCA and M.Tech in cyber
+            security, AI, and digital forensics — building systems that hold up
+            under evidence, not assumption.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -116,7 +116,7 @@ export function Hero() {
 
             <img
               src={profileImage}
-              alt="Tarik Islam, forensic scientist and founder of Dezo.in"
+              alt="Tarik Islam, forensic science specialist in investigation and toxicology, founder of Dezo.in"
               className="relative z-10 size-full object-contain object-bottom drop-shadow-[0_20px_60px_rgba(0,0,0,0.65)]"
             />
 

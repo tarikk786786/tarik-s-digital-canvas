@@ -89,7 +89,7 @@ export interface PublicCameraEntity {
   authority: string;
   lat: number;
   lng: number;
-  status: "ONLINE" | "SIMULATION";
+  status: "SIMULATION";
   resolution: string;
   fps: number;
   streamProtocol: "HLS / WebRTC Public Relay";
@@ -492,7 +492,7 @@ export const DEMO_LIVE_WORLD: LiveWorldSnapshot = {
       authority: "Bengaluru Traffic Police / BBMP Command Center",
       lat: 12.9175,
       lng: 77.6238,
-      status: "ONLINE",
+      status: "SIMULATION",
       resolution: "1920x1080 @ 25fps",
       fps: 25,
       streamProtocol: "HLS / WebRTC Public Relay",
@@ -522,7 +522,7 @@ export const DEMO_LIVE_WORLD: LiveWorldSnapshot = {
       authority: "NDMC Smart Integrated Surveillance Feed",
       lat: 28.6315,
       lng: 77.2185,
-      status: "ONLINE",
+      status: "SIMULATION",
       resolution: "1920x1080 @ 30fps",
       fps: 30,
       streamProtocol: "HLS / WebRTC Public Relay",

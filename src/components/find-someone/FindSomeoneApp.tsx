@@ -46,13 +46,13 @@ function emptyInvestigation(query: string): Investigation {
 export function FindSomeoneApp() {
   const search = useSearch({ from: "/find-someone" });
   const mode = search.mode === "live" ? "live" : "demo";
-  const initialQuery = search.q || DEMO_INVESTIGATION.query.raw;
+  const initialQuery = search.q || (mode === "demo" ? DEMO_INVESTIGATION.query.raw : "");
 
   const [investigation, setInvestigation] = useState<Investigation>(() =>
     mode === "demo"
       ? {
           ...DEMO_INVESTIGATION,
-          query: { ...DEMO_INVESTIGATION.query, raw: initialQuery },
+          query: { ...DEMO_INVESTIGATION.query, raw: initialQuery || DEMO_INVESTIGATION.query.raw },
         }
       : emptyInvestigation(initialQuery),
   );
@@ -60,7 +60,7 @@ export function FindSomeoneApp() {
   const [currentIntent, setCurrentIntent] = useState<SearchIntent>("person");
   const [pipelineSteps, setPipelineSteps] = useState<PipelineStep[]>(
     mode === "demo"
-      ? PENDING_STEPS.map((step) => ({ ...step, status: "completed" }))
+      ? PENDING_STEPS.map((step) => ({ ...step, status: "completed" as const }))
       : PENDING_STEPS,
   );
 
@@ -73,6 +73,32 @@ export function FindSomeoneApp() {
     setIsSearching(true);
     soundEngine.playTerminal();
     setCurrentIntent(intent);
+
+    if (mode === "live") {
+      // Honest live path: acknowledge the query, then stop — workers are not connected.
+      const steps: PipelineStep[] = [
+        { label: "Understanding query", status: "running" },
+        { label: "Planning sources", status: "pending" },
+        { label: "Searching public web", status: "pending" },
+        { label: "Collecting evidence", status: "pending" },
+        { label: "Ready", status: "pending" },
+      ];
+      setPipelineSteps(steps);
+
+      window.setTimeout(() => {
+        setPipelineSteps([
+          { label: "Understanding query", status: "completed" },
+          { label: "Planning sources", status: "completed" },
+          { label: "Searching public web", status: "unavailable" },
+          { label: "Collecting evidence", status: "unavailable" },
+          { label: "Ready", status: "unavailable" },
+        ]);
+        setInvestigation(emptyInvestigation(query));
+        setIsSearching(false);
+        soundEngine.playClick();
+      }, 480);
+      return;
+    }
 
     const steps = PENDING_STEPS.map((step, idx) => ({
       ...step,
@@ -87,18 +113,17 @@ export function FindSomeoneApp() {
         clearInterval(interval);
         setIsSearching(false);
         soundEngine.playSuccess();
-        setPipelineSteps(PENDING_STEPS.map((step) => ({ ...step, status: "completed" })));
-        setInvestigation(
-          mode === "demo"
-            ? { ...DEMO_INVESTIGATION, query: { ...DEMO_INVESTIGATION.query, raw: query } }
-            : emptyInvestigation(query),
-        );
+        setPipelineSteps(PENDING_STEPS.map((step) => ({ ...step, status: "completed" as const })));
+        setInvestigation({
+          ...DEMO_INVESTIGATION,
+          query: { ...DEMO_INVESTIGATION.query, raw: query },
+        });
       } else {
         setPipelineSteps((prev) =>
           prev.map((step, idx) => {
-            if (idx < currentIdx) return { ...step, status: "completed" };
-            if (idx === currentIdx) return { ...step, status: "running" };
-            return { ...step, status: "pending" };
+            if (idx < currentIdx) return { ...step, status: "completed" as const };
+            if (idx === currentIdx) return { ...step, status: "running" as const };
+            return { ...step, status: "pending" as const };
           }),
         );
       }
@@ -117,7 +142,7 @@ export function FindSomeoneApp() {
         ) : (
           <p className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-muted-foreground">
             Live workers are not connected yet. The system will not invent sources,
-            aircraft, or identities.
+            aircraft, identities, or completed ISO reports.
           </p>
         )}
 
@@ -135,6 +160,7 @@ export function FindSomeoneApp() {
             steps={pipelineSteps}
             targetQuery={investigation.query.raw}
             isSearching={isSearching}
+            mode={mode}
           />
         )}
 
@@ -143,12 +169,12 @@ export function FindSomeoneApp() {
         ) : (
           <section className="rounded-2xl border border-white/10 bg-[#0A0D12] p-8 md:p-12 max-w-2xl">
             <h2 className="font-display text-3xl font-bold tracking-tight">
-              No strong public evidence found
+              {mode === "live" ? "Live workers offline" : "No strong public evidence found"}
             </h2>
             <p className="mt-4 text-muted-foreground leading-relaxed">
-              The system could not establish a reliable match from connected
-              public sources. Try Demo Mode, or add an organization, username,
-              website, or location.
+              {mode === "live"
+                ? "No fabricated dossier is shown. Switch to Demo mode for a labeled scripted investigation, or return when workers are connected."
+                : "The system could not establish a reliable match from connected public sources. Try Demo Mode, or add an organization, username, website, or location."}
             </p>
           </section>
         )}

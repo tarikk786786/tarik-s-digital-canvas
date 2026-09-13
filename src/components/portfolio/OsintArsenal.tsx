@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExternalLink, Search, Shield, Layers, MapPin, ArrowRight } from "lucide-react";
 import {
   INTELLIGENCE_TOOLS,
@@ -15,7 +15,7 @@ export function OsintArsenal() {
   const [family, setFamily] = useState<ToolFamily | "all">("all");
   const [query, setQuery] = useState("");
   const [shortlistOnly, setShortlistOnly] = useState(true);
-  const [selectedId, setSelectedId] = useState<string>(SHORTLIST_TOOLS[0]?.id ?? "searxng");
+  const [selectedId, setSelectedId] = useState<string>(SHORTLIST_TOOLS[0]?.id ?? INTELLIGENCE_TOOLS[0]?.id ?? "");
 
   const filtered = useMemo(() => {
     const pool = shortlistOnly ? SHORTLIST_TOOLS : INTELLIGENCE_TOOLS;
@@ -31,10 +31,17 @@ export function OsintArsenal() {
     });
   }, [family, query, shortlistOnly]);
 
+  useEffect(() => {
+    if (filtered.length === 0) return;
+    if (!filtered.some((tool) => tool.id === selectedId)) {
+      setSelectedId(filtered[0].id);
+    }
+  }, [filtered, selectedId]);
+
   const selected: IntelligenceTool =
     filtered.find((t) => t.id === selectedId) || filtered[0] || INTELLIGENCE_TOOLS[0];
 
-  const link = selected.githubUrl || selected.sourceUrl;
+  const link = selected?.githubUrl || selected?.sourceUrl;
 
   return (
     <div id="osint" className="space-y-10">
@@ -47,9 +54,10 @@ export function OsintArsenal() {
         </h3>
         <p className="mt-4 text-muted-foreground leading-relaxed">
           Visitors only see FIND DETAILS. Behind the router sit curated open-source engines
-          plus Indian public-data adapters. Open-source does not mean every API or live feed
-          is free — credentials and rate limits stay on the worker host. Never install all
-          493 catalogue repos; ship ~30–50 shortlisted engines.
+          plus Indian public-data adapters — inventory for builders, not a live API theater.
+          Open-source does not mean every API or live feed is free. Credentials and rate limits
+          stay on the worker host. Prefer the production shortlist (~30–50 engines), not the
+          full catalogue dump.
         </p>
       </div>
 

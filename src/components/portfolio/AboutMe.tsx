@@ -41,11 +41,11 @@ export function AboutMe() {
           01 / About
         </p>
         <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.02] max-w-4xl">
-          Curiosity first.
-          <span className="block italic font-light text-foreground/80">Then the laboratory.</span>
+          Forensic science first.
+          <span className="block italic font-light text-foreground/80">Investigation. Toxicology. Then systems.</span>
         </h2>
         <p className="mt-8 max-w-2xl font-sans text-lg md:text-xl text-muted-foreground leading-relaxed">
-          {WHY_I_CHOSE_TECH.subheadline}
+          A forensic science specialist in investigation and toxicology — with an academic path from forensic foundation through MCA into M.Tech Cyber Security &amp; AI / Digital Forensics.
         </p>
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -73,12 +73,16 @@ export function AboutMe() {
           <div className="lg:col-span-7 space-y-12">
             <div className="space-y-5 font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
               <p>
-                I’m <strong className="text-foreground">Tarik Islam</strong> — a forensic scientist
-                who learned to read the invisible in blood, ridges, and chemical traces, then
-                carried that discipline into software, security, and AI.
+                I’m <strong className="text-foreground">Tarik Islam</strong> — a forensic science
+                specialist whose work starts with investigation and toxicology: reading what
+                chemical, biological, and scene evidence actually show, not what is assumed.
               </p>
               <p>
                 {PROFILE.professionalSummary}
+              </p>
+              <p>
+                {WHY_I_CHOSE_TECH.subheadline} Dezo.in, cyber defense, and AI systems sit on that
+                same root — evidence, method, and auditability.
               </p>
             </div>
 

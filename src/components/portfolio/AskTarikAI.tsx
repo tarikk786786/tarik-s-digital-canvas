@@ -49,7 +49,7 @@ const KNOWLEDGE_BASE = [
   {
     keywords: ["who", "about", "tarik", "background", "bio", "identity", "multidisciplinary"],
     answer:
-      "Tarik Islam is a multidisciplinary technologist, forensic scientist, cybersecurity engineer, AI systems builder, and founder of Dezo.in. He approaches software with an evidence-first mindset: question assumptions, verify truth through data, and engineer resilient systems that withstand scrutiny.",
+      "Tarik Islam is a forensic science specialist in investigation and toxicology. Academic path: B.Sc & M.Sc Forensic Science → MCA → M.Tech Cyber Security & AI / Digital Forensics. Founder of Dezo.in. Evidence-first: question assumptions, verify through data, engineer systems that withstand scrutiny.",
     citations: [
       { label: "Inspect Who I Am (#about)", href: "#about" },
       { label: "View Timeline (#journey)", href: "#journey" },
@@ -67,7 +67,7 @@ const KNOWLEDGE_BASE = [
   {
     keywords: ["forensic", "forensics", "evidence", "investigate", "crime", "chain of custody", "autopsy"],
     answer:
-      "Forensic science is foundational to Tarik's methodology. He holds deep expertise across 7 forensic domains including Digital Forensics (memory autopsy, bitstream acquisition, SHA-512 verification), DNA & Serology, Questioned Documents, and Ballistics. His core axiom: 'Never assume when you can investigate.'",
+      "Forensic science is the root of Tarik's work — investigation and toxicology first, then digital forensics. He holds B.Sc and M.Sc in Forensic Science, plus MCA and M.Tech in Cyber Security & AI / Digital Forensics. Core axiom: 'Never assume when you can investigate.'",
     citations: [
       { label: "Forensic Domains Atlas (#domains)", href: "#domains" },
       { label: "Live Telemetry Scanner", href: "#top" },
