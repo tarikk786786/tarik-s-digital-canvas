@@ -15,7 +15,7 @@ export const PROFILE = {
   primaryRole: "Forensic Science Specialist — Investigation & Toxicology",
   identity: "Forensic Scientist · Investigation & Toxicology · Digital Forensics",
   headline:
-    "Forensic investigation and toxicology, extended into cyber security, AI, and digital forensics.",
+    "Building intelligent systems that see the invisible.",
   professionalSummary:
     "Forensic science specialist focused on investigation and toxicology. Foundation in B.Sc and M.Sc Forensic Science, then MCA for software systems, then M.Tech in Cyber Security & AI with digital forensics. Founder of Dezo.in — applying laboratory rigor to evidence, systems, and intelligent software.",
   location: "Bhubaneswar, Odisha, India",

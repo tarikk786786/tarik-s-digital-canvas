@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as CertificationsRouteImport } from './routes/certifications'
 import { Route as FindSomeoneRouteImport } from './routes/find-someone'
+import { Route as ForensicLabRouteImport } from './routes/forensic-lab'
+import { Route as LabRouteImport } from './routes/lab'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PrivacyControlsRouteImport } from './routes/privacy-controls'
@@ -20,6 +22,8 @@ import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as WorldOsRouteImport } from './routes/world-os'
+import { Route as ApiIntelligenceRouteImport } from './routes/api/intelligence'
 import { Route as ApiInvestigationsRouteImport } from './routes/api/investigations'
 import { Route as ApiNewsRouteImport } from './routes/api/news'
 import { Route as ApiUploadsRouteImport } from './routes/api/uploads'
@@ -42,6 +46,16 @@ const CertificationsRoute = CertificationsRouteImport.update({
 const FindSomeoneRoute = FindSomeoneRouteImport.update({
   id: '/find-someone',
   path: '/find-someone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForensicLabRoute = ForensicLabRouteImport.update({
+  id: '/forensic-lab',
+  path: '/forensic-lab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LabRoute = LabRouteImport.update({
+  id: '/lab',
+  path: '/lab',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NewsRoute = NewsRouteImport.update({
@@ -79,6 +93,16 @@ const SkillsRoute = SkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorldOsRoute = WorldOsRouteImport.update({
+  id: '/world-os',
+  path: '/world-os',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiIntelligenceRoute = ApiIntelligenceRouteImport.update({
+  id: '/api/intelligence',
+  path: '/api/intelligence',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInvestigationsRoute = ApiInvestigationsRouteImport.update({
   id: '/api/investigations',
   path: '/api/investigations',
@@ -100,6 +124,8 @@ export interface FileRoutesByFullPath {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/find-someone': typeof FindSomeoneRoute
+  '/forensic-lab': typeof ForensicLabRoute
+  '/lab': typeof LabRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -107,6 +133,8 @@ export interface FileRoutesByFullPath {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/world-os': typeof WorldOsRoute
+  '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
   '/api/uploads': typeof ApiUploadsRoute
@@ -116,6 +144,8 @@ export interface FileRoutesByTo {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/find-someone': typeof FindSomeoneRoute
+  '/forensic-lab': typeof ForensicLabRoute
+  '/lab': typeof LabRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -123,6 +153,8 @@ export interface FileRoutesByTo {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/world-os': typeof WorldOsRoute
+  '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
   '/api/uploads': typeof ApiUploadsRoute
@@ -133,6 +165,8 @@ export interface FileRoutesById {
   '/accessibility': typeof AccessibilityRoute
   '/certifications': typeof CertificationsRoute
   '/find-someone': typeof FindSomeoneRoute
+  '/forensic-lab': typeof ForensicLabRoute
+  '/lab': typeof LabRoute
   '/news': typeof NewsRoute
   '/privacy': typeof PrivacyRoute
   '/privacy-controls': typeof PrivacyControlsRoute
@@ -140,6 +174,8 @@ export interface FileRoutesById {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/world-os': typeof WorldOsRoute
+  '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
   '/api/news': typeof ApiNewsRoute
   '/api/uploads': typeof ApiUploadsRoute
@@ -151,6 +187,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/find-someone'
+    | '/forensic-lab'
+    | '/lab'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -158,6 +196,8 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/world-os'
+    | '/api/intelligence'
     | '/api/investigations'
     | '/api/news'
     | '/api/uploads'
@@ -167,6 +207,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/find-someone'
+    | '/forensic-lab'
+    | '/lab'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -174,6 +216,8 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/world-os'
+    | '/api/intelligence'
     | '/api/investigations'
     | '/api/news'
     | '/api/uploads'
@@ -183,6 +227,8 @@ export interface FileRouteTypes {
     | '/accessibility'
     | '/certifications'
     | '/find-someone'
+    | '/forensic-lab'
+    | '/lab'
     | '/news'
     | '/privacy'
     | '/privacy-controls'
@@ -190,6 +236,8 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/world-os'
+    | '/api/intelligence'
     | '/api/investigations'
     | '/api/news'
     | '/api/uploads'
@@ -200,6 +248,8 @@ export interface RootRouteChildren {
   AccessibilityRoute: typeof AccessibilityRoute
   CertificationsRoute: typeof CertificationsRoute
   FindSomeoneRoute: typeof FindSomeoneRoute
+  ForensicLabRoute: typeof ForensicLabRoute
+  LabRoute: typeof LabRoute
   NewsRoute: typeof NewsRoute
   PrivacyRoute: typeof PrivacyRoute
   PrivacyControlsRoute: typeof PrivacyControlsRoute
@@ -207,6 +257,8 @@ export interface RootRouteChildren {
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillsRoute: typeof SkillsRoute
+  WorldOsRoute: typeof WorldOsRoute
+  ApiIntelligenceRoute: typeof ApiIntelligenceRoute
   ApiInvestigationsRoute: typeof ApiInvestigationsRoute
   ApiNewsRoute: typeof ApiNewsRoute
   ApiUploadsRoute: typeof ApiUploadsRoute
@@ -240,6 +292,20 @@ declare module '@tanstack/react-router' {
       path: '/find-someone'
       fullPath: '/find-someone'
       preLoaderRoute: typeof FindSomeoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forensic-lab': {
+      id: '/forensic-lab'
+      path: '/forensic-lab'
+      fullPath: '/forensic-lab'
+      preLoaderRoute: typeof ForensicLabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lab': {
+      id: '/lab'
+      path: '/lab'
+      fullPath: '/lab'
+      preLoaderRoute: typeof LabRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/news': {
@@ -291,6 +357,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/world-os': {
+      id: '/world-os'
+      path: '/world-os'
+      fullPath: '/world-os'
+      preLoaderRoute: typeof WorldOsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/intelligence': {
+      id: '/api/intelligence'
+      path: '/api/intelligence'
+      fullPath: '/api/intelligence'
+      preLoaderRoute: typeof ApiIntelligenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/investigations': {
       id: '/api/investigations'
       path: '/api/investigations'
@@ -320,6 +400,8 @@ const rootRouteChildren: RootRouteChildren = {
   AccessibilityRoute: AccessibilityRoute,
   CertificationsRoute: CertificationsRoute,
   FindSomeoneRoute: FindSomeoneRoute,
+  ForensicLabRoute: ForensicLabRoute,
+  LabRoute: LabRoute,
   NewsRoute: NewsRoute,
   PrivacyRoute: PrivacyRoute,
   PrivacyControlsRoute: PrivacyControlsRoute,
@@ -327,6 +409,8 @@ const rootRouteChildren: RootRouteChildren = {
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillsRoute: SkillsRoute,
+  WorldOsRoute: WorldOsRoute,
+  ApiIntelligenceRoute: ApiIntelligenceRoute,
   ApiInvestigationsRoute: ApiInvestigationsRoute,
   ApiNewsRoute: ApiNewsRoute,
   ApiUploadsRoute: ApiUploadsRoute,

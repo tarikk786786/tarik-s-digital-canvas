@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Shield, Terminal, Search, ExternalLink } from "lucide-react";
+import { ArrowLeft, Shield, Terminal } from "lucide-react";
 import { soundEngine } from "@/lib/sound-engine";
 
 interface FindSomeoneNavProps {
@@ -32,14 +32,14 @@ export function FindSomeoneNav({ onOpenSearchModal, mode = "demo" }: FindSomeone
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-display font-bold text-sm text-foreground tracking-tight">
-                  INTELLIGENCE CONSOLE
+                  FIND DETAILS
                 </span>
                 <span className="rounded bg-[#62E6FF]/10 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#62E6FF] border border-[#62E6FF]/30">
-                  {mode === "demo" ? "DEMO LAB" : "LIVE · WORKERS OFF"}
+                  {mode === "demo" ? "DEMO" : "LIVE KERNEL"}
                 </span>
               </div>
               <p className="hidden md:block font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
-                Find Someone · Find a Company · Find a Domain · Find Evidence
+                Information Engine · hidden adapters · evidence + provenance
               </p>
             </div>
           </div>
@@ -53,21 +53,11 @@ export function FindSomeoneNav({ onOpenSearchModal, mode = "demo" }: FindSomeone
           </div>
 
           <a
-            href="https://data.gov.in"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden xl:flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground hover:text-[#62E6FF] transition-colors"
-          >
-            <span>data.gov.in</span>
-            <ExternalLink className="size-3" />
-          </a>
-
-          <a
             href="#architecture"
             className="flex items-center gap-1.5 rounded-md border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-foreground hover:border-white/20 transition-all"
           >
             <Terminal className="size-3 text-[#9B8CFF]" />
-            <span className="hidden sm:inline">PIPELINE ARCHITECTURE</span>
+            <span className="hidden sm:inline">PIPELINE</span>
           </a>
         </div>
       </div>

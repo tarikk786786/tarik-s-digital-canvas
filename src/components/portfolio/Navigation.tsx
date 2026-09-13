@@ -6,7 +6,7 @@ import { soundEngine } from "@/lib/sound-engine";
 const NAV_LINKS = [
   { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
-  { label: "Lab", href: "/find-someone" },
+  { label: "Lab", href: "/lab" },
   { label: "Connect", href: "#contact" },
 ];
 
@@ -55,7 +55,7 @@ export function Navigation() {
               TARIK ISLAM
             </span>
             <span className="hidden sm:inline font-mono text-[9px] uppercase tracking-[0.28em] text-muted-foreground">
-              FORENSICS · CYBER · AI
+              DIGITAL CANVAS · LAB
             </span>
           </div>
         </a>

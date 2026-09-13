@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { ArrowUpRight } from "lucide-react";
+import { useNavigate, Link } from "@tanstack/react-router";
+import { ArrowUpRight, Globe2, FlaskConical } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
 import { startInvestigation, workspacePath, type InvestigationMode } from "@/lib/find-someone/session";
 import { soundEngine } from "@/lib/sound-engine";
@@ -8,7 +8,7 @@ import { soundEngine } from "@/lib/sound-engine";
 export function FindDetails() {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState<InvestigationMode>("demo");
+  const [mode, setMode] = useState<InvestigationMode>("live");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,60 +39,75 @@ export function FindDetails() {
       id="find-details"
       className="relative py-24 md:py-32 px-6 md:px-12 lg:px-16 border-t border-white/5 bg-[#050608]"
     >
-      <div className="relative max-w-3xl mx-auto text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#62E6FF]">
-          03 / Laboratory
-        </p>
-        <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-          FIND DETAILS
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground">
-          Public-information investigation console — demo lab on the homepage path.
-        </p>
-        <p className="mt-3 text-sm text-muted-foreground/80 max-w-xl mx-auto">
-          Enter what you know. Demo mode opens a scripted dossier. Live mode stays empty until
-          workers are connected — no invented sources or ISO reports. Engines behind the router
-          live under Information Tools.
-        </p>
+      <div className="relative max-w-4xl mx-auto">
+        <div className="text-center">
+          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#62E6FF]">
+            03 / Information Engine
+          </p>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+            FIND DETAILS
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            Ask anything. Public information is collected behind the kernel — you see evidence and
+            provenance, not tool directories.
+          </p>
+        </div>
 
-        <form onSubmit={onSubmit} className="mt-12 text-left">
+        <form onSubmit={onSubmit} className="mt-12">
           <label htmlFor="find-details-query" className="sr-only">
-            What do you want to find?
+            Ask anything
           </label>
           <input
             id="find-details-query"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Enter anything you know…"
+            placeholder="Ask anything… domain, company, username, place…"
             className="w-full rounded-2xl border border-white/15 bg-[#0A0D12] px-5 py-5 text-base text-foreground placeholder:text-muted-foreground/60 outline-none focus:border-[#62E6FF]/50"
           />
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-            <div className="space-y-1">
-              <label className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                <input
-                  type="checkbox"
-                  checked={mode === "demo"}
-                  onChange={(event) => setMode(event.target.checked ? "demo" : "live")}
-                  className="accent-[#62E6FF]"
-                />
-                Demo mode (scripted)
-              </label>
-              <p className="pl-6 text-[11px] text-muted-foreground/70">
-                {mode === "demo"
-                  ? "Uses a labeled demo dossier — not a live public-records pull."
-                  : "Live workers are offline. Results stay empty; nothing is fabricated."}
-              </p>
-            </div>
+            <label className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+              <input
+                type="checkbox"
+                checked={mode === "demo"}
+                onChange={(event) => setMode(event.target.checked ? "demo" : "live")}
+                className="accent-[#62E6FF]"
+              />
+              Demo dossier instead of live public collectors
+            </label>
 
             <MagneticButton type="submit" variant="primary" disabled={busy || !query.trim()}>
-              <span>{busy ? "Opening…" : "FIND DETAILS"}</span>
+              <span>{busy ? "Opening…" : "Ask the world"}</span>
               <ArrowUpRight className="size-4" />
             </MagneticButton>
           </div>
 
           {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
         </form>
+
+        <div className="mt-10 grid gap-3 sm:grid-cols-3">
+          <Link
+            to="/lab"
+            onClick={() => soundEngine.playClick()}
+            className="rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF] hover:border-[#62E6FF]/30"
+          >
+            Lab hub
+          </Link>
+          <Link
+            to="/world-os"
+            onClick={() => soundEngine.playClick()}
+            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+          >
+            <Globe2 className="size-3.5" /> World OS
+          </Link>
+          <Link
+            to="/forensic-lab"
+            onClick={() => soundEngine.playClick()}
+            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+          >
+            <FlaskConical className="size-3.5" /> Forensic Lab
+          </Link>
+        </div>
       </div>
     </section>
   );

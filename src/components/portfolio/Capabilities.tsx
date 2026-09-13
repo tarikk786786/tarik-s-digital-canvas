@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { ForensicDomains } from "./ForensicDomains";
 import { TechCertifications } from "./TechCertifications";
-import { OsintArsenal } from "./OsintArsenal";
+import { InformationKernelPanel } from "./InformationKernelPanel";
 
 const CAPABILITIES = [
   {
@@ -100,16 +100,16 @@ export function Capabilities() {
 
       <div className="relative max-w-[1600px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
-          <SectionHead num="03" label="EXPERTISE // DOMAINS & ROADMAP">
-            Multidisciplinary Engineering <br className="hidden sm:block" />
-            <span className="italic font-light text-gradient-flow">Across Forensics, Cyber, AI & Systems</span>
+          <SectionHead num="04" label="EXPERTISE // LABORATORY CAPABILITIES">
+            Forensic science, cyber &amp; AI <br className="hidden sm:block" />
+            <span className="italic font-light text-gradient-flow">built as one intelligence lab</span>
           </SectionHead>
 
           {/* Interactive Tab Switcher */}
           <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-xl border border-white/10 bg-[#0A0D12] font-mono text-[11px] uppercase tracking-wider self-start lg:self-end">
             {[
               { id: "capabilities", label: "CORE MATRIX", icon: BrainCircuit },
-              { id: "osint", label: "INFORMATION TOOLS", icon: Terminal },
+              { id: "osint", label: "INFORMATION KERNEL", icon: Terminal },
               { id: "domains", label: "FORENSIC ATLAS", icon: Compass },
               { id: "certifications", label: "CREDENTIAL ROADMAP", icon: Award },
             ].map((tab) => {
@@ -194,10 +194,10 @@ export function Capabilities() {
           </div>
         )}
 
-        {/* Tab 2: OSINT & Information Gathering Arsenal */}
+        {/* Tab 2: Information Kernel (no public tool dump) */}
         {activeTab === "osint" && (
           <div className="mt-8 animate-fade-in">
-            <OsintArsenal />
+            <InformationKernelPanel />
           </div>
         )}
 

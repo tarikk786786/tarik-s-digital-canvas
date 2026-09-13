@@ -86,17 +86,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       {
         title:
-          "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer & AI Builder",
+          "Tarik Islam — Forensic Science Specialist (Investigation & Toxicology) · MCA · M.Tech Cyber Security & AI",
       },
       {
         name: "description",
         content:
-          "Official portfolio of Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, and Founder of Dezo.in. Building technology that matters with an evidence-first mindset.",
+          "Tarik Islam — forensic science specialist in investigation and toxicology; MCA; M.Tech in cyber security & AI / digital forensics. Building intelligent systems that see the invisible. Evidence over assumptions. Founder of Dezo.in.",
       },
       {
         name: "keywords",
         content:
-          "Tarik Islam, Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, Autonomous AI Agents, Digital Forensics, Dezo.in, Memory Forensics, Incident Response, Zero Trust Architecture, AppSec, Full Stack Systems, React 19, TypeScript, Python, Rust, Cryptography, India AI",
+          "Tarik Islam, Forensic Science, Investigation, Toxicology, Digital Forensics, MCA, M.Tech Cyber Security AI, Dezo.in, WORLD OS, FIND DETAILS, Forensic Lab, Evidence, India",
       },
       { name: "author", content: "Tarik Islam" },
       {
@@ -113,12 +113,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:url", content: "https://tarik-s-digital-canvas.vercel.app" },
       {
         property: "og:title",
-        content: "Tarik Islam — Multidisciplinary Technologist, Forensic Scientist & AI Builder",
+        content: "Tarik Islam — Forensic Investigation & Toxicology · Digital Intelligence Lab",
       },
       {
         property: "og:description",
         content:
-          "Evidence over assumptions. Security by design. Intelligence with purpose. Build, measure, improve. Building technology that matters.",
+          "Building intelligent systems that see the invisible. Evidence over assumptions. Forensic science, MCA, M.Tech cyber security & AI / digital forensics.",
       },
       {
         property: "og:image",
@@ -134,12 +134,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:creator", content: "@tarik_islam_786" },
       {
         name: "twitter:title",
-        content: "Tarik Islam — Forensic Scientist & AI Developer",
+        content: "Tarik Islam — Forensic Science Specialist & Digital Intelligence Lab",
       },
       {
         name: "twitter:description",
         content:
-          "Building intelligent software, AI agent systems, and cybersecurity platforms that solve real-world problems.",
+          "Investigation & toxicology. MCA. M.Tech cyber security & AI / digital forensics. Building intelligent systems that see the invisible.",
       },
       {
         name: "twitter:image",
