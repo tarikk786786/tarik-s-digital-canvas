@@ -90,7 +90,7 @@ export function InformationKernelPanel() {
           </div>
           <Link
             to="/find-someone"
-            search={{ mode: "live" }}
+            search={{ mode: "live", id: undefined, q: undefined }}
             onClick={() => soundEngine.playClick()}
             className="mt-6 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-[#62E6FF] hover:underline"
           >

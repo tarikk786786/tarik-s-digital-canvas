@@ -109,16 +109,52 @@ export function CommandPalette() {
       badge: "04",
     },
     {
+      id: "nav-lab-hub",
+      category: "Navigation",
+      title: "Lab Hub // Personal Intelligence Laboratory",
+      subtitle: "World OS · Find Details · Forensic Lab — three engines, one evidence language",
+      icon: <Layers className="size-4 text-[#62E6FF]" />,
+      action: () => {
+        setIsOpen(false);
+        window.location.href = "/lab";
+      },
+      badge: "LAB",
+    },
+    {
       id: "nav-find-details",
       category: "Navigation",
-      title: "Find Details // Embedded Public Intelligence",
-      subtitle: "Search people, organizations, websites, companies and public evidence",
+      title: "Find Details // Information Engine",
+      subtitle: "Ask anything — kernel classifies and collects from public sources",
       icon: <Search className="size-4 text-[#62E6FF]" />,
       action: () => {
         setIsOpen(false);
-        window.location.href = "/find-someone";
+        window.location.href = "/find-someone?mode=live";
       },
-      badge: "LAB",
+      badge: "LIVE",
+    },
+    {
+      id: "nav-world-os",
+      category: "Navigation",
+      title: "World OS // Public Earth Layers",
+      subtitle: "SPACE · AIR · SEA · EARTH · WEATHER with honest ONLINE/DEGRADED/OFFLINE",
+      icon: <Activity className="size-4 text-[#62E6FF]" />,
+      action: () => {
+        setIsOpen(false);
+        window.location.href = "/world-os";
+      },
+      badge: "WORLD",
+    },
+    {
+      id: "nav-forensic-lab",
+      category: "Navigation",
+      title: "Forensic Lab // CASE 0001",
+      subtitle: "Synthetic training case — TOX signature, custody, evidence graph",
+      icon: <Shield className="size-4 text-[#62E6FF]" />,
+      action: () => {
+        setIsOpen(false);
+        window.location.href = "/forensic-lab";
+      },
+      badge: "CASE",
     },
     {
       id: "nav-showroom",

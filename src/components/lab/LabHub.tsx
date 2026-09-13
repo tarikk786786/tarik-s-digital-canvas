@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, Globe2, Search, FlaskConical, ArrowUpRight } from "lucide-react";
 import { soundEngine } from "@/lib/sound-engine";
+import { SystemStatusBar } from "@/components/system/SystemStatusBar";
 
 const ENGINES = [
   {
@@ -61,6 +62,8 @@ export function LabHub() {
           Evidence over assumptions.
         </p>
 
+        <SystemStatusBar className="mt-10" />
+
         <div className="mt-14 grid gap-5 md:grid-cols-3">
           {ENGINES.map((engine) => {
             const Icon = engine.icon;
@@ -68,7 +71,11 @@ export function LabHub() {
               <Link
                 key={engine.code}
                 to={engine.to}
-                search={engine.to === "/find-someone" ? { mode: "live" } : undefined}
+                search={
+                  engine.to === "/find-someone"
+                    ? { mode: "live", id: undefined, q: undefined }
+                    : undefined
+                }
                 onClick={() => soundEngine.playNavigation()}
                 className="group rounded-2xl border border-white/10 bg-[#0A0D12] p-6 transition-colors hover:border-[#62E6FF]/40"
               >

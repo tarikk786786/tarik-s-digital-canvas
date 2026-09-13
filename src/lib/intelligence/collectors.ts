@@ -38,47 +38,60 @@ function extractDomain(q: string): string | null {
   return null;
 }
 
+async function dnsQuery(
+  domain: string,
+  type: "A" | "AAAA" | "MX" | "TXT" | "NS",
+): Promise<Array<{ type: string; data: string; TTL?: number }>> {
+  const res = await fetch(
+    `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=${type}`,
+    {
+      headers: { Accept: "application/dns-json" },
+      signal: AbortSignal.timeout(10000),
+    },
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const json = (await res.json()) as {
+    Answer?: Array<{ data: string; TTL?: number; type?: number }>;
+  };
+  return (json.Answer ?? []).map((a) => ({ type, data: a.data, TTL: a.TTL }));
+}
+
 async function collectDns(domain: string): Promise<AdapterResult> {
   const retrievedAt = new Date().toISOString();
   try {
-    const res = await fetch(
-      `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`,
-      {
-        headers: { Accept: "application/dns-json" },
-        signal: AbortSignal.timeout(10000),
-      },
-    );
-    if (!res.ok) {
+    const batches = await Promise.allSettled([
+      dnsQuery(domain, "A"),
+      dnsQuery(domain, "AAAA"),
+      dnsQuery(domain, "MX"),
+      dnsQuery(domain, "TXT"),
+      dnsQuery(domain, "NS"),
+    ]);
+    const answers = batches.flatMap((b) => (b.status === "fulfilled" ? b.value : []));
+    if (answers.length === 0) {
       return {
         adapterId: "dns",
         health: "DEGRADED",
-        statusLabel: `DNS HTTP ${res.status}`,
+        statusLabel: "No DNS answers",
         evidence: [],
-        error: `HTTP ${res.status}`,
       };
     }
-    const json = (await res.json()) as {
-      Answer?: Array<{ data: string; TTL?: number }>;
-      Status?: number;
-    };
-    const answers = json.Answer ?? [];
     return {
       adapterId: "dns",
       health: "AVAILABLE",
-      statusLabel: "DNS records retrieved",
-      evidence: answers.slice(0, 8).map((a, i) => ({
-        id: `dns-${domain}-${i}`,
-        title: `A record · ${domain}`,
+      statusLabel: `${answers.length} DNS records retrieved`,
+      evidence: answers.slice(0, 16).map((a, i) => ({
+        id: `dns-${domain}-${a.type}-${i}`,
+        title: `${a.type} record · ${domain}`,
         summary: `${a.data}${a.TTL != null ? ` (TTL ${a.TTL}s)` : ""}`,
         confidence: "VERIFIED" as const,
         freshness: "LIVE" as const,
         observedAt: retrievedAt,
         provenance: {
           sourceLabel: "Public DNS resolution",
-          method: "DNS-over-HTTPS A query",
+          method: `DNS-over-HTTPS ${a.type} query`,
           retrievedAt,
           whyVisible: "Domain-class query activated public DNS collection.",
-          limitations: ["A records only in this slice — not a full zone transfer."],
+          limitations: ["Public recursive answers only — not a full zone transfer."],
         },
       })),
     };
@@ -89,6 +102,146 @@ async function collectDns(domain: string): Promise<AdapterResult> {
       statusLabel: "DNS unreachable",
       evidence: [],
       error: e instanceof Error ? e.message : "DNS failed",
+    };
+  }
+}
+
+function extractIp(q: string): string | null {
+  const m = q.trim().match(/^(\d{1,3}\.){3}\d{1,3}$/);
+  return m ? q.trim() : null;
+}
+
+async function collectIpAsn(ip: string): Promise<AdapterResult> {
+  const retrievedAt = new Date().toISOString();
+  try {
+    const res = await fetch(`https://ipwho.is/${encodeURIComponent(ip)}`, {
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) {
+      return {
+        adapterId: "ip-asn",
+        health: "DEGRADED",
+        statusLabel: `IP metadata HTTP ${res.status}`,
+        evidence: [],
+        error: `HTTP ${res.status}`,
+      };
+    }
+    const json = (await res.json()) as {
+      success?: boolean;
+      ip?: string;
+      connection?: { asn?: number; org?: string; isp?: string };
+      country?: string;
+      city?: string;
+      latitude?: number;
+      longitude?: number;
+      message?: string;
+    };
+    if (json.success === false) {
+      return {
+        adapterId: "ip-asn",
+        health: "DEGRADED",
+        statusLabel: json.message || "IP lookup failed",
+        evidence: [],
+        error: json.message,
+      };
+    }
+    const asn = json.connection?.asn;
+    const org = json.connection?.org || json.connection?.isp || "unknown org";
+    return {
+      adapterId: "ip-asn",
+      health: "AVAILABLE",
+      statusLabel: "IP / ASN metadata retrieved",
+      evidence: [
+        {
+          id: `ip-${ip}`,
+          title: `Network metadata · ${json.ip || ip}`,
+          summary: `ASN ${asn ?? "n/a"} · ${org} · ${[json.city, json.country].filter(Boolean).join(", ") || "location unknown"}`,
+          confidence: "SUPPORTED",
+          freshness: "LIVE",
+          observedAt: retrievedAt,
+          provenance: {
+            sourceLabel: "Public IP / network metadata",
+            method: "ipwho.is JSON lookup",
+            retrievedAt,
+            whyVisible: "IP-class query activated network metadata collection.",
+            limitations: [
+              "Geolocation is approximate and often provider-level.",
+              "ASN ownership ≠ end-user identity.",
+            ],
+          },
+        },
+      ],
+    };
+  } catch (e) {
+    return {
+      adapterId: "ip-asn",
+      health: "OFFLINE",
+      statusLabel: "IP metadata unreachable",
+      evidence: [],
+      error: e instanceof Error ? e.message : "IP lookup failed",
+    };
+  }
+}
+
+async function collectGeocode(query: string): Promise<AdapterResult> {
+  const retrievedAt = new Date().toISOString();
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/search?format=json&limit=5&q=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "TarikDigitalCanvas/1.0 (portfolio information-kernel; educational)",
+        },
+        signal: AbortSignal.timeout(12000),
+      },
+    );
+    if (!res.ok) {
+      return {
+        adapterId: "geocode",
+        health: "DEGRADED",
+        statusLabel: `Geocode HTTP ${res.status}`,
+        evidence: [],
+        error: `HTTP ${res.status}`,
+      };
+    }
+    const json = (await res.json()) as Array<{
+      display_name?: string;
+      lat?: string;
+      lon?: string;
+      type?: string;
+      importance?: number;
+    }>;
+    return {
+      adapterId: "geocode",
+      health: "AVAILABLE",
+      statusLabel: `${json.length} place candidates`,
+      evidence: json.map((row, i) => ({
+        id: `geo-${i}`,
+        title: row.display_name || `Place candidate ${i + 1}`,
+        summary: `lat ${row.lat}, lon ${row.lon}${row.type ? ` · ${row.type}` : ""}`,
+        confidence: "PROBABLE" as const,
+        freshness: "LIVE" as const,
+        observedAt: retrievedAt,
+        provenance: {
+          sourceLabel: "Open place / location directory",
+          method: "Nominatim search",
+          retrievedAt,
+          whyVisible: "Location-class query activated public geocoding.",
+          limitations: [
+            "Ambiguous place names return multiple candidates.",
+            "Coordinates are directory estimates — not device GPS.",
+          ],
+        },
+      })),
+    };
+  } catch (e) {
+    return {
+      adapterId: "geocode",
+      health: "OFFLINE",
+      statusLabel: "Geocode unreachable",
+      evidence: [],
+      error: e instanceof Error ? e.message : "Geocode failed",
     };
   }
 }
@@ -320,12 +473,22 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
   ];
 
   const jobs: Promise<AdapterResult>[] = [];
+  const ip = extractIp(rawQuery);
 
   const domainClasses: QueryClass[] = ["DOMAIN", "URL", "MIXED", "COMPANY", "NL"];
   if (domain && classification.chips.some((c) => domainClasses.includes(c) || c === "DOMAIN")) {
     jobs.push(collectDns(domain), collectRdap(domain), collectCrtSh(domain), collectWayback(domain));
   } else if (domain) {
     jobs.push(collectDns(domain), collectRdap(domain));
+  }
+
+  if (ip || classification.chips.includes("IP")) {
+    const targetIp = ip || extractIp(classification.normalized);
+    if (targetIp) jobs.push(collectIpAsn(targetIp));
+  }
+
+  if (classification.chips.includes("LOCATION") && !domain && !ip) {
+    jobs.push(collectGeocode(rawQuery.trim()));
   }
 
   // Always register honest stubs for heavier / India sources

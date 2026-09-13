@@ -109,6 +109,24 @@ export function Hero() {
               WhatsApp +91 91144 11026
             </a>
           </div>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            {[
+              { href: "/find-someone?mode=live", label: "FIND DETAILS" },
+              { href: "/world-os", label: "WORLD" },
+              { href: "/forensic-lab", label: "FORENSIC" },
+              { href: "/#how-i-build", label: "ARCHITECTURE" },
+            ].map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={() => soundEngine.playClick()}
+                className="rounded-full border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:border-[#62E6FF]/40 hover:text-[#62E6FF] transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="lg:col-span-6 relative">

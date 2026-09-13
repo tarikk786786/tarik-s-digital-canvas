@@ -93,6 +93,15 @@
   --destructive: #FF7070;
   --destructive-foreground: #EDEEF1;
 
+  /* Lab system health (honest status chrome) */
+  --health-online: #6EE7B7;
+  --health-degraded: #F6C85F;
+  --health-offline: #9CA3AF;
+  --health-auth: #C4B5FD;
+  --health-pending: #FB923C;
+  --lab-panel: #0A0D12;
+  --lab-border: rgba(255, 255, 255, 0.1);
+
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --border-accent: rgba(98, 230, 255, 0.35);

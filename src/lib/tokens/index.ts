@@ -7,3 +7,10 @@ export * from "./colors";
 export * from "./typography";
 export * from "./motion";
 export * from "./materials";
+export {
+  prefersReducedMotion,
+  motionDuration,
+  motionTransition,
+  fadeUpVariants,
+  pulseSafeClass,
+} from "@/lib/motion/system";

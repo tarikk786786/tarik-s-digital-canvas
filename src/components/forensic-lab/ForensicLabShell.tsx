@@ -14,6 +14,14 @@ import {
 } from "lucide-react";
 import { CASE_0001 } from "@/content/forensic-case-0001";
 import { soundEngine } from "@/lib/sound-engine";
+import { FORENSIC_REPOSITORY_REGISTRY, getPublicWorkerStatuses } from "@/lib/forensic/registry";
+import { ForensicEvidenceGraph } from "./ForensicEvidenceGraph";
+import {
+  DataPanel,
+  DiagnosticPanel,
+  SystemIndicator,
+  TechnicalLabel,
+} from "@/components/system";
 
 const DISCIPLINES = [
   { id: "TOX", label: "TOX", icon: FlaskConical },
@@ -33,6 +41,9 @@ export function ForensicLabShell() {
   const [ask, setAsk] = useState("");
   const [askAnswer, setAskAnswer] = useState<string | null>(null);
   const [hashMatch, setHashMatch] = useState<boolean | null>(null);
+  const [docResult, setDocResult] = useState<string | null>(null);
+
+  const workerStatuses = useMemo(() => getPublicWorkerStatuses(), []);
 
   const evidenceForDiscipline = useMemo(
     () =>
@@ -44,10 +55,33 @@ export function ForensicLabShell() {
 
   const runHashDemo = async () => {
     soundEngine.playClick();
-    const data = new Uint8Array(0);
-    const digest = await crypto.subtle.digest("SHA-256", data);
-    const hex = [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
-    setHashMatch(hex === CASE_0001.digitalHashDemo.expected);
+    const adapter = FORENSIC_REPOSITORY_REGISTRY.find((a) => a.id === "integrity-hash");
+    if (!adapter?.analyze) return;
+    const out = await adapter.analyze({
+      caseId: CASE_0001.id,
+      evidenceId: "EX-DIGITAL-01",
+      bytes: new Uint8Array(0).buffer,
+      synthetic: true,
+    });
+    const digest = String((out.results as { digest?: string }).digest || "");
+    setHashMatch(digest === CASE_0001.digitalHashDemo.expected);
+  };
+
+  const onDocumentUpload = async (file: File | null) => {
+    if (!file) return;
+    soundEngine.playClick();
+    const adapter = FORENSIC_REPOSITORY_REGISTRY.find((a) => a.id === "document-text");
+    if (!adapter?.analyze) return;
+    const text = await file.text();
+    const out = await adapter.analyze({
+      caseId: CASE_0001.id,
+      evidenceId: file.name,
+      text,
+      synthetic: true,
+    });
+    setDocResult(
+      `${out.interpretation} Confidence ${out.confidence}. ${(out.results as { preview?: string }).preview || ""}`,
+    );
   };
 
   const askLab = (event: React.FormEvent) => {
@@ -132,6 +166,8 @@ export function ForensicLabShell() {
             </h1>
             <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{CASE_0001.summary}</p>
           </article>
+
+          <ForensicEvidenceGraph />
 
           {discipline === "TOX" && (
             <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6 space-y-5">
@@ -251,6 +287,31 @@ export function ForensicLabShell() {
             </article>
           )}
 
+          {discipline === "DOCUMENT" && (
+            <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6 space-y-4">
+              <h2 className="font-display text-xl font-bold">Document text path</h2>
+              <p className="text-sm text-muted-foreground">
+                Quarantined working-copy text extraction only — no macros or scripts execute in the
+                web process. PDF/OCR workers remain WORKER_PENDING.
+              </p>
+              <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-white/15 px-4 py-2 font-mono text-[11px] uppercase tracking-wider hover:border-[#62E6FF]/40">
+                <FileText className="size-3.5" />
+                Upload .txt / .md
+                <input
+                  type="file"
+                  accept=".txt,.md,text/plain,text/markdown"
+                  className="hidden"
+                  onChange={(e) => void onDocumentUpload(e.target.files?.[0] ?? null)}
+                />
+              </label>
+              {docResult && (
+                <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                  {docResult}
+                </p>
+              )}
+            </article>
+          )}
+
           {discipline === "FINGERPRINT" && (
             <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
               <h2 className="font-display text-xl font-bold">Friction ridge (educational)</h2>
@@ -268,7 +329,7 @@ export function ForensicLabShell() {
             </article>
           )}
 
-          {!["TOX", "DIGITAL", "FINGERPRINT"].includes(discipline) && (
+          {!["TOX", "DIGITAL", "FINGERPRINT", "DOCUMENT"].includes(discipline) && (
             <article className="rounded-2xl border border-dashed border-white/15 bg-[#0A0D12] p-6">
               <h2 className="font-display text-xl font-bold">{discipline} module</h2>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -321,10 +382,15 @@ export function ForensicLabShell() {
         </section>
 
         <aside className="lg:col-span-5 space-y-6">
-          <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
-            <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground mb-4">
-              Chain of custody
-            </h2>
+          <DiagnosticPanel
+            title="Capability map status"
+            rows={workerStatuses.slice(0, 12).map((w) => ({
+              label: w.label,
+              value: w.detail,
+              health: w.health,
+            }))}
+          />
+          <DataPanel title="Chain of custody" eyebrow="CASE 0001">
             <ol className="space-y-3">
               {CASE_0001.chainOfCustody.map((c) => (
                 <li key={c.at} className="border-l border-[#62E6FF]/40 pl-3">
@@ -334,12 +400,10 @@ export function ForensicLabShell() {
                 </li>
               ))}
             </ol>
-          </article>
+          </DataPanel>
 
           <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
-            <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground mb-3">
-              Ask the Lab
-            </h2>
+            <TechnicalLabel className="mb-3 block">Ask the Lab</TechnicalLabel>
             <form onSubmit={askLab} className="space-y-3">
               <input
                 value={ask}
@@ -354,7 +418,9 @@ export function ForensicLabShell() {
                 Ask
               </button>
             </form>
-            {askAnswer && <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{askAnswer}</p>}
+            {askAnswer && (
+              <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{askAnswer}</p>
+            )}
           </article>
 
           <article className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
@@ -376,6 +442,10 @@ export function ForensicLabShell() {
                 </li>
               ))}
             </ul>
+            <p className="mt-4 flex flex-wrap items-center gap-2 font-mono text-[10px] text-muted-foreground">
+              Online modules <SystemIndicator health="ONLINE" /> · Workers{" "}
+              <SystemIndicator health="WORKER_PENDING" />
+            </p>
           </article>
         </aside>
       </main>
