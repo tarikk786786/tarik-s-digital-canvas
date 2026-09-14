@@ -52,6 +52,8 @@ function categoryFor(adapterId: string, fallback: string): string {
 }
 
 function extractDomain(q: string): string | null {
+  const emailHost = q.trim().match(/^[^\s@]+@([^\s@]+\.[^\s@]+)$/);
+  if (emailHost) return emailHost[1].toLowerCase();
   const trimmed = q.trim().replace(/^https?:\/\//i, "").split(/[/?#]/)[0];
   if (/^(?:[a-z0-9-]+\.)+[a-z]{2,}$/i.test(trimmed)) return trimmed.toLowerCase();
   return null;
@@ -473,6 +475,74 @@ async function collectWayback(domain: string): Promise<AdapterResult> {
   }
 }
 
+async function collectPhoneMeta(raw: string): Promise<AdapterResult> {
+  const retrievedAt = new Date().toISOString();
+  const digits = raw.replace(/[^\d+]/g, "");
+  const categoryLabel = categoryFor("phone-public-meta", "Phone public metadata");
+
+  const DIAL: Array<{ prefix: string; region: string }> = [
+    { prefix: "+91", region: "India (+91)" },
+    { prefix: "+1", region: "NANP (+1)" },
+    { prefix: "+44", region: "United Kingdom (+44)" },
+    { prefix: "+61", region: "Australia (+61)" },
+    { prefix: "+81", region: "Japan (+81)" },
+    { prefix: "+49", region: "Germany (+49)" },
+    { prefix: "+33", region: "France (+33)" },
+    { prefix: "+971", region: "UAE (+971)" },
+    { prefix: "+65", region: "Singapore (+65)" },
+  ];
+
+  let region = "Unknown dialing region";
+  for (const row of DIAL.sort((a, b) => b.prefix.length - a.prefix.length)) {
+    if (digits.startsWith(row.prefix) || (!digits.startsWith("+") && row.prefix === "+91" && digits.length === 10)) {
+      region = row.region;
+      break;
+    }
+  }
+
+  const e164ish = digits.startsWith("+") ? digits : digits.length === 10 ? `+91${digits}` : digits;
+  const plausible = e164ish.replace(/\D/g, "").length >= 8 && e164ish.replace(/\D/g, "").length <= 15;
+
+  if (!plausible) {
+    return {
+      adapterId: "phone-public-meta",
+      categoryLabel,
+      health: "DEGRADED",
+      statusLabel: "Phone format not recognized",
+      evidence: [],
+      error: "Could not parse a plausible public phone format.",
+    };
+  }
+
+  return {
+    adapterId: "phone-public-meta",
+    categoryLabel,
+    health: "AVAILABLE",
+    statusLabel: "Format / region metadata only",
+    evidence: [
+      {
+        id: `phone-meta-${e164ish}`,
+        title: "Public phone format metadata",
+        summary: `Normalized hint: ${e164ish} · Region guess: ${region}`,
+        confidence: "PROBABLE",
+        freshness: "LIVE",
+        observedAt: retrievedAt,
+        provenance: {
+          sourceLabel: "Phone public metadata",
+          method: "Local E.164 / dial-code format parse (no carrier lookup)",
+          retrievedAt,
+          whyVisible: "Phone-class query activates format/region metadata only.",
+          limitations: [
+            "This is not subscriber identity, IMSI, or live location.",
+            "Dial-code region is a public numbering-plan guess — not proof of residence.",
+            "No carrier, CNAM, or breach corpora are queried.",
+          ],
+        },
+      },
+    ],
+  };
+}
+
 function stubAdapter(
   id: string,
   categoryLabel: string,
@@ -588,6 +658,10 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
 
   if (liveIds.has("geocode") && !domain && !ip) {
     jobs.push(collectGeocode(rawQuery.trim()));
+  }
+
+  if (liveIds.has("phone-public-meta")) {
+    jobs.push(collectPhoneMeta(rawQuery.trim()));
   }
 
   const stubs: AdapterResult[] = plan.steps

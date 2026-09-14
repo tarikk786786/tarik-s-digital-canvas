@@ -207,7 +207,39 @@ async function main() {
       liveMinEvidence: 1,
       requireLiveAdapters: ["geocode"],
     }),
+    runCase("EMAIL", "hello@example.com", {
+      chipsInclude: ["EMAIL"],
+      liveMinEvidence: 1,
+      requireLiveAdapters: ["dns"],
+    }),
+    runCase("IP", "8.8.8.8", {
+      chipsInclude: ["IP"],
+      liveMinEvidence: 1,
+      requireLiveAdapters: ["ip-asn"],
+    }),
+    runCase("PHONE", "+919876543210", {
+      chipsInclude: ["PHONE"],
+      liveMinEvidence: 1,
+      requireLiveAdapters: ["phone-public-meta"],
+    }),
+    runCase("USERNAME", "@public_handle", {
+      chipsInclude: ["USERNAME"],
+      liveMinEvidence: 0,
+      requireLiveAdapters: [],
+    }),
   ]);
+
+  // Extra honesty checks for AUTH_DEPENDENT classes
+  const username = cases.find((c) => c.label === "USERNAME");
+  if (username?.ok && !username.authAdapters.includes("username-presence")) {
+    username.ok = false;
+    username.detail = "username-presence must be AUTH_DEPENDENT with zero invented hits";
+  }
+  const email = cases.find((c) => c.label === "EMAIL");
+  if (email?.ok && !email.authAdapters.includes("email-identity")) {
+    email.ok = false;
+    email.detail = "email-identity must stay AUTH_DEPENDENT (no breach invention)";
+  }
 
   console.log("\n=== Information Kernel E2E ===\n");
   for (const c of cases) {
@@ -223,7 +255,7 @@ async function main() {
     console.error(`\n${failed.length} case(s) failed.`);
     process.exit(1);
   }
-  console.log("\nAll domain / URL / location cases passed.\n");
+  console.log("\nAll Information Kernel cases passed.\n");
 }
 
 main().catch((err) => {

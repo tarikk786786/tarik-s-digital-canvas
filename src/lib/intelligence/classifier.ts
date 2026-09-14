@@ -52,8 +52,15 @@ export function classifyQuery(raw: string): Classification {
   if (/^https?:\/\//i.test(q)) chips.push("URL");
   else if (/^(?:[a-z0-9-]+\.)+[a-z]{2,}(?:\/\S*)?$/i.test(q) && !q.includes(" "))
     chips.push("DOMAIN");
-  // Prefer place over bare username when both match (e.g. "Mumbai")
-  if (/^@?[a-z0-9._-]{3,}$/i.test(q) && !q.includes(" ") && !chips.includes("DOMAIN")) {
+  // Prefer place over bare username when both match (e.g. "Mumbai"); never tag IPs as usernames
+  if (
+    /^@?[a-z0-9._-]{3,}$/i.test(q) &&
+    !q.includes(" ") &&
+    !chips.includes("DOMAIN") &&
+    !chips.includes("IP") &&
+    !chips.includes("EMAIL") &&
+    !chips.includes("PHONE")
+  ) {
     const looksLikePlace = PLACE_HINT.test(q) || STANDALONE_PLACE.test(q);
     if (!looksLikePlace) chips.push("USERNAME");
   }
@@ -77,6 +84,11 @@ function hasDomainSignal(c: Classification): boolean {
   return /^(?:[a-z0-9-]+\.)+[a-z]{2,}$/i.test(host);
 }
 
+export function extractMailHost(raw: string): string | null {
+  const m = raw.trim().match(/^[^\s@]+@([^\s@]+\.[^\s@]+)$/);
+  return m ? m[1].toLowerCase() : null;
+}
+
 /**
  * Build the investigation plan from classification.
  * LIVE steps map to public HTTP collectors; AUTH_DEPENDENT stay honest stubs.
@@ -84,6 +96,7 @@ function hasDomainSignal(c: Classification): boolean {
 export function buildInvestigationPlan(classification: Classification): InvestigationPlan {
   const chips = new Set(classification.chips);
   const steps: InvestigationPlanStep[] = [];
+  const mailHost = chips.has("EMAIL") ? extractMailHost(classification.normalized) : null;
 
   const domainLike =
     hasDomainSignal(classification) ||
@@ -118,6 +131,22 @@ export function buildInvestigationPlan(classification: Classification): Investig
         reason: "Historical public captures for timeline support.",
       },
     );
+  } else if (mailHost) {
+    // Email → public mail-host DNS/RDAP only (never mailbox contents / breach invention)
+    steps.push(
+      {
+        id: "dns",
+        categoryLabel: "Public DNS resolution",
+        mode: "LIVE",
+        reason: "Email class activates MX/TXT DNS for the mail host only.",
+      },
+      {
+        id: "rdap",
+        categoryLabel: "Domain registration directory",
+        mode: "LIVE",
+        reason: "Registration metadata for the mail host domain.",
+      },
+    );
   }
 
   if (chips.has("IP")) {
@@ -129,12 +158,21 @@ export function buildInvestigationPlan(classification: Classification): Investig
     });
   }
 
-  if (chips.has("LOCATION") && !domainLike && !chips.has("IP")) {
+  if (chips.has("LOCATION") && !domainLike && !chips.has("IP") && !mailHost) {
     steps.push({
       id: "geocode",
       categoryLabel: "Place / location lookup",
       mode: "LIVE",
       reason: "Location-class query activates open place directory search.",
+    });
+  }
+
+  if (chips.has("PHONE")) {
+    steps.push({
+      id: "phone-public-meta",
+      categoryLabel: "Phone public metadata",
+      mode: "LIVE",
+      reason: "Local E.164 / dial-code format only — never subscriber identity.",
     });
   }
 
@@ -153,10 +191,10 @@ export function buildInvestigationPlan(classification: Classification): Investig
       reason: "Hosted presence worker not connected — no invented profile hits.",
     },
     {
-      id: "phone-public-meta",
-      categoryLabel: "Phone public metadata",
-      mode: chips.has("PHONE") ? "AUTH_DEPENDENT" : "SKIP",
-      reason: "Format / country only when provisioned — never subscriber identity.",
+      id: "email-identity",
+      categoryLabel: "Email identity / breach checks",
+      mode: chips.has("EMAIL") ? "AUTH_DEPENDENT" : "SKIP",
+      reason: "Mailbox ownership and breach corpora need provisioned workers — not invented.",
     },
   );
 

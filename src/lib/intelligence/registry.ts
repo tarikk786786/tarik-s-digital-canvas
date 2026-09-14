@@ -67,8 +67,14 @@ export const KERNEL_SOURCE_REGISTRY: KernelSourceEntry[] = [
   {
     id: "phone-public-meta",
     categoryLabel: "Phone public metadata",
+    health: "ONLINE",
+    detail: "Local E.164 / dial-code format only — never subscriber identity",
+  },
+  {
+    id: "email-identity",
+    categoryLabel: "Email identity / breach checks",
     health: "AUTH_DEPENDENT",
-    detail: "Format/country only planned — no subscriber identity",
+    detail: "Mailbox ownership and breach corpora need provisioned workers",
   },
 ];
 

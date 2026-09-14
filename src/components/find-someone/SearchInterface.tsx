@@ -23,6 +23,8 @@ const LIVE_SAMPLES = [
   { label: "tarikislam.in", query: "https://tarikislam.in" },
   { label: "Mumbai", query: "Mumbai" },
   { label: "8.8.8.8", query: "8.8.8.8" },
+  { label: "hello@example.com", query: "hello@example.com" },
+  { label: "+91 phone", query: "+919876543210" },
   { label: "@public_handle", query: "@public_handle" },
 ];
 
