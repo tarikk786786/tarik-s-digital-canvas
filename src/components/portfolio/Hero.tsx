@@ -5,7 +5,7 @@ import { TarikCore3D } from "./TarikCore3D";
 import { LivingBackground } from "./LivingBackground";
 import { MagneticButton } from "./MagneticButton";
 import { ArrowUpRight, Maximize2 } from "lucide-react";
-import { WHATSAPP_URL } from "@/lib/contact-links";
+import { WHATSAPP_DISPLAY, WHATSAPP_URL } from "@/lib/contact-links";
 import { PROFILE } from "@/lib/profile";
 import { soundEngine } from "@/lib/sound-engine";
 import { TechnicalLabel } from "@/components/system";
@@ -110,14 +110,14 @@ export function Hero() {
               onClick={() => soundEngine.playClick()}
               className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:border-[#62E6FF]/50"
             >
-              WhatsApp +91 91144 11026
+              WhatsApp {WHATSAPP_DISPLAY}
             </a>
           </div>
 
           <div className="mt-5 flex flex-wrap gap-2">
             {[
               { href: "/find-someone?mode=live", label: "FIND DETAILS" },
-              { href: "/world-os", label: "WORLD" },
+              { href: "/world-os", label: "EXPLORE WORLD" },
               { href: "/forensic-lab", label: "FORENSIC" },
             ].map((item) => (
               <a

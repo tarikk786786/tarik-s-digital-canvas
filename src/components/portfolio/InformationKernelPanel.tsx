@@ -33,9 +33,9 @@ export function InformationKernelPanel() {
           How FIND DETAILS thinks
         </h3>
         <p className="mt-4 text-muted-foreground leading-relaxed">
-          Visitors never pick Sherlock, Amass, or portal brand names. One input — Ask anything —
-          routes through the Information Kernel. Adapters stay on the worker side; the UI shows
-          evidence, confidence, and provenance.
+          Visitors never pick engine brands. One input — Ask anything — routes through the
+          Information Kernel. Adapters stay on the worker side; the UI shows evidence, confidence,
+          and provenance.
         </p>
       </div>
 

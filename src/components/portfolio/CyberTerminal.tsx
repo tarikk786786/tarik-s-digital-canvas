@@ -1,5 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Terminal as TerminalIcon, X, Maximize2, Minimize2, ChevronRight, CornerDownLeft } from "lucide-react";
+import {
+  WHATSAPP_URL,
+  WHATSAPP_DISPLAY,
+  INSTAGRAM_URL,
+  INSTAGRAM_HANDLE,
+  GITHUB_URL,
+  GITHUB_HANDLE,
+} from "@/lib/contact-links";
 
 interface TerminalHistory {
   cmd: string;
@@ -121,9 +129,9 @@ export function CyberTerminal() {
         output = (
           <div className="space-y-1">
             <p className="text-accent font-bold">SECURE CHANNELS:</p>
-            <p>• WhatsApp: <a href="https://wa.me/919114411026" target="_blank" rel="noreferrer" className="text-emerald-400 underline">+91 91144 11026</a></p>
-            <p>• Instagram: <a href="https://instagram.com/tarik_islam_786" target="_blank" rel="noreferrer" className="text-pink-400 underline">@tarik_islam_786</a></p>
-            <p>• GitHub: <a href="https://github.com/tarikk786786" target="_blank" rel="noreferrer" className="text-blue-400 underline">@tarikk786786</a></p>
+            <p>• WhatsApp: <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="text-emerald-400 underline">{WHATSAPP_DISPLAY}</a></p>
+            <p>• Instagram: <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="text-pink-400 underline">@{INSTAGRAM_HANDLE}</a></p>
+            <p>• GitHub: <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="text-blue-400 underline">@{GITHUB_HANDLE}</a></p>
           </div>
         );
         break;

@@ -215,6 +215,40 @@ export function FindSomeoneApp() {
 
             <InvestigationProgress phases={kernel.phases} />
 
+            <div className="rounded-xl border border-white/10 bg-[#0A0D12] p-5 space-y-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <TechnicalLabel className="text-[#62E6FF]">Investigation plan</TechnicalLabel>
+                <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                  Classifier → plan → collect
+                </span>
+              </div>
+              <p className="text-sm text-muted-foreground">{kernel.plan.summary}</p>
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {kernel.plan.steps.map((step) => (
+                  <li
+                    key={step.id}
+                    className="rounded-lg border border-white/10 bg-black/30 px-3 py-2.5"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm text-foreground">{step.categoryLabel}</span>
+                      <span
+                        className={`font-mono text-[9px] uppercase tracking-wider ${
+                          step.mode === "LIVE"
+                            ? "text-emerald-300"
+                            : "text-amber-200/90"
+                        }`}
+                      >
+                        {step.mode}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground leading-relaxed">
+                      {step.reason}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             <div className="flex flex-wrap gap-2">
               {kernel.classification.chips.map((chip) => (
                 <span

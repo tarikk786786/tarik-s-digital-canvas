@@ -1,8 +1,8 @@
 /**
- * FIND DETAILS — master inventory of open-source information-gathering tools.
- * These are hidden engines behind the portfolio, not the visitor-facing product.
- * Sources: user shortlist + awesome-osint-repos / jivoi/awesome-osint catalogues.
- * A GitHub repo being open-source does not mean its APIs or live feeds are free.
+ * INTERNAL ONLY — builder / worker inventory for FIND DETAILS adapters.
+ * Do NOT import this into portfolio UI. Visitors never browse tool names;
+ * InformationKernelPanel + FIND DETAILS show capability faces and evidence only.
+ * Open-source repos ≠ free live APIs or unrestricted feeds.
  */
 
 export type ToolFamily =

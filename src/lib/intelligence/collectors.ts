@@ -3,7 +3,12 @@
  * Provider names stay in provenance fields only — never primary chrome.
  */
 
-import { classifyQuery, type Classification, type QueryClass } from "./classifier";
+import {
+  buildInvestigationPlan,
+  classifyQuery,
+  type Classification,
+  type InvestigationPlan,
+} from "./classifier";
 
 export type AdapterHealth = "AVAILABLE" | "DEGRADED" | "AUTH_DEPENDENT" | "OFFLINE";
 
@@ -161,7 +166,7 @@ async function collectIpAsn(ip: string): Promise<AdapterResult> {
           observedAt: retrievedAt,
           provenance: {
             sourceLabel: "Public IP / network metadata",
-            method: "ipwho.is JSON lookup",
+            method: "Public IP / ASN JSON lookup",
             retrievedAt,
             whyVisible: "IP-class query activated network metadata collection.",
             limitations: [
@@ -225,7 +230,7 @@ async function collectGeocode(query: string): Promise<AdapterResult> {
         observedAt: retrievedAt,
         provenance: {
           sourceLabel: "Open place / location directory",
-          method: "Nominatim search",
+          method: "Public geocoding search",
           retrievedAt,
           whyVisible: "Location-class query activated public geocoding.",
           limitations: [
@@ -453,6 +458,7 @@ function stubAdapter(
 export interface InvestigationKernelResult {
   query: string;
   classification: Classification;
+  plan: InvestigationPlan;
   phases: Array<{ id: string; status: "completed" | "running" | "pending" | "skipped" }>;
   adapters: AdapterResult[];
   evidence: KernelEvidence[];
@@ -462,56 +468,33 @@ export interface InvestigationKernelResult {
 
 export async function runInformationKernel(rawQuery: string): Promise<InvestigationKernelResult> {
   const classification = classifyQuery(rawQuery);
+  const plan = buildInvestigationPlan(classification);
   const domain = extractDomain(rawQuery);
   const retrievedAt = new Date().toISOString();
 
-  const phases = [
-    { id: "UNDERSTANDING", status: "completed" as const },
-    { id: "COLLECTING", status: "running" as const },
-    { id: "CORRELATING", status: "pending" as const },
-    { id: "VERIFYING", status: "pending" as const },
-  ];
-
   const jobs: Promise<AdapterResult>[] = [];
   const ip = extractIp(rawQuery);
+  const liveIds = new Set(plan.steps.filter((s) => s.mode === "LIVE").map((s) => s.id));
 
-  const domainClasses: QueryClass[] = ["DOMAIN", "URL", "MIXED", "COMPANY", "NL"];
-  if (domain && classification.chips.some((c) => domainClasses.includes(c) || c === "DOMAIN")) {
-    jobs.push(collectDns(domain), collectRdap(domain), collectCrtSh(domain), collectWayback(domain));
-  } else if (domain) {
-    jobs.push(collectDns(domain), collectRdap(domain));
+  if (domain) {
+    if (liveIds.has("dns")) jobs.push(collectDns(domain));
+    if (liveIds.has("rdap")) jobs.push(collectRdap(domain));
+    if (liveIds.has("ct-logs")) jobs.push(collectCrtSh(domain));
+    if (liveIds.has("archive")) jobs.push(collectWayback(domain));
   }
 
-  if (ip || classification.chips.includes("IP")) {
+  if (liveIds.has("ip-asn")) {
     const targetIp = ip || extractIp(classification.normalized);
     if (targetIp) jobs.push(collectIpAsn(targetIp));
   }
 
-  if (classification.chips.includes("LOCATION") && !domain && !ip) {
+  if (liveIds.has("geocode") && !domain && !ip) {
     jobs.push(collectGeocode(rawQuery.trim()));
   }
 
-  // Always register honest stubs for heavier / India sources
-  const stubs: AdapterResult[] = [
-    stubAdapter(
-      "india-company",
-      "India corporate records",
-      "AUTH_DEPENDENT",
-      "Official company portals require interactive/authenticated access — not fabricated.",
-    ),
-    stubAdapter(
-      "username-presence",
-      "Username presence checks",
-      "AUTH_DEPENDENT",
-      "Hosted worker not connected this pass — no invented profile hits.",
-    ),
-    stubAdapter(
-      "phone-public-meta",
-      "Phone public metadata",
-      "AUTH_DEPENDENT",
-      "Only format/country metadata planned; no subscriber identity or intercept.",
-    ),
-  ];
+  const stubs: AdapterResult[] = plan.steps
+    .filter((s) => s.mode === "AUTH_DEPENDENT")
+    .map((s) => stubAdapter(s.id, s.categoryLabel, "AUTH_DEPENDENT", s.reason));
 
   const collected = jobs.length > 0 ? await Promise.all(jobs) : [];
   const adapters = [...collected, ...stubs];
@@ -520,6 +503,7 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
   return {
     query: rawQuery.trim(),
     classification,
+    plan,
     phases: [
       { id: "UNDERSTANDING", status: "completed" },
       { id: "COLLECTING", status: "completed" },

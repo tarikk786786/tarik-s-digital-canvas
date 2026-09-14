@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Check, X, Send, Copy, ArrowRight, ArrowLeft, Sparkles, MessageSquare } from "lucide-react";
 import { soundEngine } from "@/lib/sound-engine";
-import { WHATSAPP_URL } from "@/lib/contact-links";
+import { WHATSAPP_NUMBER, WHATSAPP_URL } from "@/lib/contact-links";
 
 const DOMAINS = [
+  { id: "forensic", label: "Forensic Investigation & Toxicology", desc: "Scene method, toxicology interpretation, evidence integrity" },
+  { id: "cyber", label: "Cybersecurity & Digital Forensics", desc: "Zero Trust, threat modeling, digital evidence triage" },
   { id: "ai", label: "AI Product Studio", desc: "Autonomous agents, RAG, neural pipelines, LLM interfaces" },
-  { id: "cyber", label: "Cybersecurity & Forensics", desc: "Zero Trust, STRIDE threat modeling, digital evidence triage" },
   { id: "web", label: "Full-Stack Web Platform", desc: "React 19, Three.js 3D, TypeScript, ultra-fast cloud deployment" },
   { id: "advisory", label: "Technical Advisory / 0→1", desc: "Architectural strategy, venture prototyping, feasibility audit" },
 ];
@@ -71,7 +72,7 @@ export function ProjectBriefForm() {
     const text = encodeURIComponent(
       `Hello Tarik, I generated a Project Brief on your Digital Canvas:\n\n*Brief ID:* ${briefId}\n*Domain:* ${selectedDomain.label}\n*Stage:* ${selectedStage.label}\n*Timeline:* ${selectedTimeline.label}\n*Name:* ${clientName}\n*Contact:* ${clientContact}\n*Notes:* ${projectNotes || "None"}`
     );
-    window.open(`https://wa.me/919114411026?text=${text}`, "_blank");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank");
   };
 
   return (

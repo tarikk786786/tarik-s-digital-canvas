@@ -19,11 +19,11 @@ import { InformationKernelPanel } from "./InformationKernelPanel";
 const CAPABILITIES = [
   {
     id: "01",
-    title: "Forensic Science",
+    title: "Forensic Investigation & Toxicology",
     icon: ShieldAlert,
-    desc: "Deep investigations across digital artifacts, cryptographic integrity, and evidence preservation. NIST SP 800-86 and ISO/IEC 27037 compliant chain-of-custody workflows.",
-    tags: ["Threat Hunting", "Memory Forensics", "Incident Response", "Chain of Custody"],
-    deliverables: "Court-ready dossiers, root-cause autopsy reports, evidentiary hashing",
+    desc: "Investigation and toxicology first — scene method, GC-MS / HPLC chemistry, biological evidence — then digital forensics with chain-of-custody discipline (ISO/IEC 17025 · 27037).",
+    tags: ["Investigation", "Toxicology", "Digital Forensics", "Chain of Custody"],
+    deliverables: "Court-ready reports, toxicology interpretation, evidentiary integrity",
     accentColor: "rgba(98, 230, 255, 0.2)",
   },
   {
@@ -79,7 +79,12 @@ export function Capabilities() {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash === "#osint" || hash === "#osint-tools" || hash === "#recon") {
+      if (
+        hash === "#osint" ||
+        hash === "#osint-tools" ||
+        hash === "#recon" ||
+        hash === "#information-kernel"
+      ) {
         setActiveTab("osint");
       } else if (hash === "#domains" || hash === "#forensics") {
         setActiveTab("domains");
