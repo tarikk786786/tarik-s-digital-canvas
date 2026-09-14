@@ -29,6 +29,7 @@ export const Route = createFileRoute("/api/intelligence")({
         if (kind === "world") {
           const indiaMode = url.searchParams.get("india") === "1";
           const dimension = (url.searchParams.get("dimension") || "EARTH") as WorldDimension;
+          const probeOnly = url.searchParams.get("probe") === "health";
 
           const health = await Promise.all(
             WORLD_ADAPTERS.map(async (a) => {
@@ -39,27 +40,31 @@ export const Route = createFileRoute("/api/intelligence")({
                 health: h.health,
                 detail: h.detail,
                 license: a.license,
+                stub: Boolean(a.stub),
                 lastUpdate: a.getTimestamp(),
               };
             }),
           );
 
-          const active = WORLD_ADAPTERS.filter((a) => a.dimension === dimension);
           const objects = [];
-          for (const adapter of active) {
-            const h = health.find((x) => x.id === adapter.id);
-            if (!h || h.health === "OFFLINE") continue;
-            try {
-              const rows = await adapter.fetch({ indiaMode });
-              objects.push(...rows);
-            } catch (e) {
-              const idx = health.findIndex((x) => x.id === adapter.id);
-              if (idx >= 0) {
-                health[idx] = {
-                  ...health[idx],
-                  health: "DEGRADED",
-                  detail: e instanceof Error ? e.message : "Fetch failed",
-                };
+          if (!probeOnly) {
+            const active = WORLD_ADAPTERS.filter((a) => a.dimension === dimension && !a.stub);
+            for (const adapter of active) {
+              const h = health.find((x) => x.id === adapter.id);
+              // Only ONLINE / DEGRADED may attempt fetch — never invent for OFFLINE / AUTH_DEPENDENT
+              if (!h || h.health === "OFFLINE" || h.health === "AUTH_DEPENDENT") continue;
+              try {
+                const rows = await adapter.fetch({ indiaMode });
+                objects.push(...rows);
+              } catch (e) {
+                const idx = health.findIndex((x) => x.id === adapter.id);
+                if (idx >= 0) {
+                  health[idx] = {
+                    ...health[idx],
+                    health: "DEGRADED",
+                    detail: e instanceof Error ? e.message : "Fetch failed",
+                  };
+                }
               }
             }
           }
@@ -69,10 +74,11 @@ export const Route = createFileRoute("/api/intelligence")({
               status: "success",
               dimension,
               indiaMode,
+              probeOnly,
               retrievedAt: new Date().toISOString(),
               health,
               objects,
-              note: "Counts are source-derived only. OFFLINE dimensions invent nothing.",
+              note: "Counts are source-derived only. OFFLINE / AUTH_DEPENDENT dimensions invent nothing.",
             },
             { headers: CORS },
           );
@@ -103,7 +109,7 @@ export const Route = createFileRoute("/api/intelligence")({
             service: "information-kernel",
             endpoints: {
               investigate: "POST /api/intelligence { query }",
-              world: "GET /api/intelligence?kind=world&dimension=EARTH&india=0|1",
+              world: "GET /api/intelligence?kind=world&dimension=EARTH&india=0|1&probe=health",
               kernel: "GET /api/intelligence?kind=kernel",
             },
           },

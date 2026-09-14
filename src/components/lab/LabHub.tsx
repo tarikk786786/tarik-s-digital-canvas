@@ -9,7 +9,7 @@ const ENGINES = [
     code: "01",
     title: "WORLD OS",
     subtitle: "Public Earth layers",
-    desc: "SPACE · AIR · SEA · EARTH · WEATHER — source-derived objects with ONLINE / DEGRADED / OFFLINE health. No fake counters.",
+    desc: "SPACE · AIR · SEA · EARTH · WEATHER · GEO · INFRA · SIGNALS · DIGITAL — layer switching on one public data grid. Honest ONLINE / DEGRADED / OFFLINE / AUTH_DEPENDENT. No fake counters.",
     icon: Globe2,
   },
   {

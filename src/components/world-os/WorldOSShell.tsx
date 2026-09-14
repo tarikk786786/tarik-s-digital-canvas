@@ -27,22 +27,34 @@ interface HealthRow {
   health: AdapterHealth;
   detail: string;
   lastUpdate: string | null;
+  stub?: boolean;
 }
 
 function healthColor(h: AdapterHealth) {
   if (h === "ONLINE") return "text-emerald-400 border-emerald-500/40 bg-emerald-500/10";
   if (h === "DEGRADED") return "text-amber-300 border-amber-500/40 bg-amber-500/10";
+  if (h === "AUTH_DEPENDENT") return "text-violet-200 border-violet-500/40 bg-violet-500/10";
   return "text-slate-400 border-white/10 bg-white/5";
 }
 
 function aggregateHealth(rows: HealthRow[]): AdapterHealth {
-  if (rows.some((r) => r.health === "ONLINE")) {
-    if (rows.some((r) => r.health === "OFFLINE" || r.health === "DEGRADED")) {
+  const live = rows.filter((r) => !r.stub);
+  if (live.some((r) => r.health === "ONLINE")) {
+    if (live.some((r) => r.health === "OFFLINE" || r.health === "DEGRADED")) {
       return "DEGRADED";
     }
     return "ONLINE";
   }
+  if (live.some((r) => r.health === "DEGRADED")) return "DEGRADED";
+  if (rows.some((r) => r.health === "AUTH_DEPENDENT")) return "AUTH_DEPENDENT";
+  return "OFFLINE";
+}
+
+function layerHealth(rows: HealthRow[]): AdapterHealth {
+  if (rows.length === 0) return "OFFLINE";
+  if (rows.some((r) => r.health === "ONLINE")) return "ONLINE";
   if (rows.some((r) => r.health === "DEGRADED")) return "DEGRADED";
+  if (rows.some((r) => r.health === "AUTH_DEPENDENT")) return "AUTH_DEPENDENT";
   return "OFFLINE";
 }
 
@@ -91,14 +103,7 @@ export function WorldOSShell() {
   const dimHealth = useMemo(() => {
     const map = new Map<WorldDimension, AdapterHealth>();
     for (const d of DIMENSIONS) {
-      const rows = health.filter((h) => h.dimension === d.id);
-      if (d.stub && rows.length === 0) {
-        map.set(d.id, "OFFLINE");
-        continue;
-      }
-      if (rows.some((r) => r.health === "ONLINE")) map.set(d.id, "ONLINE");
-      else if (rows.some((r) => r.health === "DEGRADED")) map.set(d.id, "DEGRADED");
-      else map.set(d.id, "OFFLINE");
+      map.set(d.id, layerHealth(health.filter((h) => h.dimension === d.id)));
     }
     return map;
   }, [health]);
@@ -141,11 +146,14 @@ export function WorldOSShell() {
                 TARIK ISLAM // WORLD OS
               </p>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Personal world interface · source-derived only
+                Public data grid · source-derived only
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-wider">
+            <span className="rounded border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-2.5 py-1 text-[#62E6FF]">
+              Public data grid
+            </span>
             <span
               className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1 ${healthColor(systemHealth)}`}
             >
@@ -185,6 +193,24 @@ export function WorldOSShell() {
           </div>
         </div>
 
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-2 px-4 pb-2 sm:px-8">
+          <Link
+            to="/find-someone"
+            search={{ mode: "live", id: undefined, q: undefined }}
+            onClick={() => soundEngine.playClick()}
+            className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+          >
+            Find Details
+          </Link>
+          <Link
+            to="/forensic-lab"
+            onClick={() => soundEngine.playClick()}
+            className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+          >
+            Forensic Lab
+          </Link>
+        </div>
+
         <div className="mx-auto flex max-w-[1600px] gap-1.5 overflow-x-auto px-4 pb-3 sm:px-8">
           {DIMENSIONS.map((d) => {
             const h = dimHealth.get(d.id) || "OFFLINE";
@@ -212,7 +238,6 @@ export function WorldOSShell() {
       </header>
 
       <main className="relative mx-auto max-w-[1600px] px-4 py-6 sm:px-8 sm:py-8">
-        {/* Primary composition: full-bleed globe plane */}
         <section className="relative overflow-hidden rounded-none border border-white/10 bg-[#070a10] sm:rounded-2xl">
           <div className="absolute inset-x-0 top-0 z-10 flex flex-wrap items-end justify-between gap-3 border-b border-white/5 bg-gradient-to-b from-[#050608]/90 to-transparent px-4 py-4 sm:px-6">
             <div>
@@ -221,8 +246,8 @@ export function WorldOSShell() {
                 {dimensionTitle}
               </h1>
               <p className="mt-1 max-w-xl text-sm text-muted-foreground">
-                Objects appear only when a public feed answers. Stub layers stay OFFLINE —
-                never padded with fake ships, cameras, or counters.
+                Objects appear only when a public feed answers. Stub layers stay OFFLINE or
+                AUTH_DEPENDENT — never padded with fake ships, cameras, or counters.
               </p>
             </div>
             {error && <p className="text-sm text-red-400">{error}</p>}
@@ -317,31 +342,13 @@ export function WorldOSShell() {
                     </span>
                   </li>
                 ))}
-                {DIMENSIONS.filter((d) => d.stub).map((d) => (
-                  <li
-                    key={`stub-${d.id}`}
-                    className="flex items-start justify-between gap-3 border border-white/5 px-3 py-2 text-xs"
-                  >
-                    <div>
-                      <p className="text-foreground">{d.id}</p>
-                      <p className="mt-0.5 text-muted-foreground">
-                        Architecture stub — feed not wired
-                      </p>
-                    </div>
-                    <span
-                      className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] ${healthColor("OFFLINE")}`}
-                    >
-                      OFFLINE
-                    </span>
-                  </li>
-                ))}
               </ul>
             </div>
 
             <div>
               <div className="mb-3 flex items-center gap-2">
                 <Info className="size-4 text-[#62E6FF]" />
-                <TechnicalLabel>Provenance</TechnicalLabel>
+                <TechnicalLabel>Provenance · Why</TechnicalLabel>
               </div>
               {selected ? (
                 <dl className="space-y-3 font-mono text-[11px]">

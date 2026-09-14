@@ -14,7 +14,11 @@ export type WorldDimension =
   | "SIGNALS"
   | "DIGITAL";
 
-export type AdapterHealth = "ONLINE" | "DEGRADED" | "OFFLINE";
+export type AdapterHealth =
+  | "ONLINE"
+  | "DEGRADED"
+  | "OFFLINE"
+  | "AUTH_DEPENDENT";
 
 export interface WorldObject {
   id: string;
@@ -41,9 +45,38 @@ export interface SourceAdapter {
   name: string;
   dimension: WorldDimension;
   license: string;
+  /** When true, dimension is architecture-only until a feed is wired. */
+  stub?: boolean;
   healthCheck: () => Promise<{ health: AdapterHealth; detail: string }>;
   fetch: (opts: { indiaMode: boolean }) => Promise<WorldObject[]>;
   getTimestamp: () => string | null;
+}
+
+/** Honest non-live slot — never invents objects or decorative counters. */
+function capabilityStub(opts: {
+  id: string;
+  name: string;
+  dimension: WorldDimension;
+  health: "OFFLINE" | "AUTH_DEPENDENT";
+  detail: string;
+  license?: string;
+}): SourceAdapter {
+  return {
+    id: opts.id,
+    name: opts.name,
+    dimension: opts.dimension,
+    license: opts.license ?? "n/a — feed not wired",
+    stub: true,
+    async healthCheck() {
+      return { health: opts.health, detail: opts.detail };
+    },
+    async fetch() {
+      return [];
+    },
+    getTimestamp() {
+      return null;
+    },
+  };
 }
 
 const timestamps = new Map<string, string>();
@@ -428,11 +461,58 @@ export const spaceStationsAdapter: SourceAdapter = {
   },
 };
 
+/** Maritime AIS — commercial / token streams; no anonymous public dump in this slice. */
+export const seaAisStub = capabilityStub({
+  id: "ais-stream",
+  name: "Maritime AIS stream",
+  dimension: "SEA",
+  health: "AUTH_DEPENDENT",
+  detail: "Requires authenticated AIS provider credentials — not wired",
+  license: "Provider ToS (when configured)",
+});
+
+export const geoImageryStub = capabilityStub({
+  id: "geo-imagery",
+  name: "Geospatial imagery layer",
+  dimension: "GEO",
+  health: "AUTH_DEPENDENT",
+  detail: "Satellite / basemap tiles need keyed providers — not wired",
+});
+
+export const infraCamerasStub = capabilityStub({
+  id: "infra-cameras",
+  name: "Infrastructure camera grid",
+  dimension: "INFRA",
+  health: "OFFLINE",
+  detail: "No public camera mosaic wired — architecture stub only",
+});
+
+export const signalsSpectrumStub = capabilityStub({
+  id: "signals-spectrum",
+  name: "RF / spectrum observation",
+  dimension: "SIGNALS",
+  health: "AUTH_DEPENDENT",
+  detail: "Spectrum feeds require licensed receivers / API keys — not wired",
+});
+
+export const digitalSurfaceStub = capabilityStub({
+  id: "digital-surface",
+  name: "Digital surface telemetry",
+  dimension: "DIGITAL",
+  health: "OFFLINE",
+  detail: "No public digital-surface feed in this slice — architecture stub only",
+});
+
 export const WORLD_ADAPTERS: SourceAdapter[] = [
   spaceStationsAdapter,
   airTrafficAdapter,
+  seaAisStub,
   usgsEarthquakeAdapter,
   openMeteoAdapter,
+  geoImageryStub,
+  infraCamerasStub,
+  signalsSpectrumStub,
+  digitalSurfaceStub,
 ];
 
 export const DIMENSIONS: {

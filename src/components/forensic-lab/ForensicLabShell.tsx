@@ -131,9 +131,26 @@ export function ForensicLabShell() {
               </p>
             </div>
           </div>
-          <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-200">
-            Status · {CASE_0001.status}
-          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/world-os"
+              onClick={() => soundEngine.playClick()}
+              className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+            >
+              World OS
+            </Link>
+            <Link
+              to="/find-someone"
+              search={{ mode: "live", id: undefined, q: undefined }}
+              onClick={() => soundEngine.playClick()}
+              className="rounded-full border border-white/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+            >
+              Find Details
+            </Link>
+            <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-200">
+              Status · {CASE_0001.status}
+            </span>
+          </div>
         </div>
         <div className="mx-auto flex max-w-[1600px] gap-1.5 overflow-x-auto px-4 pb-3 sm:px-8">
           {DISCIPLINES.map((d) => {

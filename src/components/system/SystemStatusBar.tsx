@@ -71,9 +71,10 @@ export function SystemStatusBar({ className }: { className?: string }) {
         });
       }
       try {
-        const res = await fetch("/api/intelligence?kind=world&dimension=EARTH", {
-          signal: AbortSignal.timeout(12000),
-        });
+        const res = await fetch(
+          "/api/intelligence?kind=world&dimension=EARTH&probe=health",
+          { signal: AbortSignal.timeout(15000) },
+        );
         if (!res.ok) {
           next.push({
             id: "world",
@@ -83,21 +84,24 @@ export function SystemStatusBar({ className }: { className?: string }) {
           });
         } else {
           const json = (await res.json()) as {
-            health?: Array<{ health: string }>;
+            health?: Array<{ health: string; stub?: boolean }>;
           };
-          const statuses = json.health?.map((h) => h.health) ?? [];
-          const online = statuses.filter((h) => h === "ONLINE" || h === "AVAILABLE").length;
-          const offline = statuses.filter((h) => h === "OFFLINE").length;
+          const live = (json.health ?? []).filter((h) => !h.stub);
+          const online = live.filter((h) => h.health === "ONLINE" || h.health === "AVAILABLE")
+            .length;
+          const degraded = live.filter((h) => h.health === "DEGRADED").length;
+          const offline = live.filter((h) => h.health === "OFFLINE").length;
+          const auth = (json.health ?? []).filter((h) => h.health === "AUTH_DEPENDENT").length;
           next.push({
             id: "world",
             label: "World adapters",
             health:
-              online > 0 && offline === 0
+              online > 0 && degraded === 0 && offline === 0
                 ? "ONLINE"
-                : online > 0
+                : online > 0 || degraded > 0
                   ? "DEGRADED"
                   : "OFFLINE",
-            detail: `${online} online · ${offline} offline (source-derived)`,
+            detail: `${online} online · ${degraded} degraded · ${offline} offline · ${auth} auth-dependent`,
           });
         }
       } catch {
