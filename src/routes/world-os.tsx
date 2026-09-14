@@ -12,7 +12,7 @@ export const Route = createFileRoute("/world-os")({
       {
         name: "description",
         content:
-          "TARIK ISLAM // WORLD OS — public data grid with honest ONLINE / DEGRADED / OFFLINE source health.",
+          "TARIK ISLAM // WORLD OS — public data grid with honest ONLINE / DEGRADED / OFFLINE / AUTH_DEPENDENT source health.",
       },
     ],
   }),

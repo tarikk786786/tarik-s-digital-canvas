@@ -13,6 +13,45 @@ const CORS: Record<string, string> = {
   "Cache-Control": "no-store",
 };
 
+/** Short-lived health probe cache — never caches invented object counts. */
+let healthCache:
+  | {
+      at: number;
+      rows: Array<{
+        id: string;
+        dimension: WorldDimension;
+        health: string;
+        detail: string;
+        license: string;
+        stub: boolean;
+        lastUpdate: string | null;
+      }>;
+    }
+  | null = null;
+const HEALTH_TTL_MS = 25_000;
+
+async function probeWorldHealth() {
+  if (healthCache && Date.now() - healthCache.at < HEALTH_TTL_MS) {
+    return healthCache.rows.map((r) => ({ ...r }));
+  }
+  const rows = await Promise.all(
+    WORLD_ADAPTERS.map(async (a) => {
+      const h = await a.healthCheck();
+      return {
+        id: a.id,
+        dimension: a.dimension,
+        health: h.health,
+        detail: h.detail,
+        license: a.license,
+        stub: Boolean(a.stub),
+        lastUpdate: a.getTimestamp(),
+      };
+    }),
+  );
+  healthCache = { at: Date.now(), rows };
+  return rows.map((r) => ({ ...r }));
+}
+
 const InvestigateSchema = z.object({
   query: z.string().trim().min(1).max(500),
 });
@@ -31,20 +70,7 @@ export const Route = createFileRoute("/api/intelligence")({
           const dimension = (url.searchParams.get("dimension") || "EARTH") as WorldDimension;
           const probeOnly = url.searchParams.get("probe") === "health";
 
-          const health = await Promise.all(
-            WORLD_ADAPTERS.map(async (a) => {
-              const h = await a.healthCheck();
-              return {
-                id: a.id,
-                dimension: a.dimension,
-                health: h.health,
-                detail: h.detail,
-                license: a.license,
-                stub: Boolean(a.stub),
-                lastUpdate: a.getTimestamp(),
-              };
-            }),
-          );
+          const health = await probeWorldHealth();
 
           const objects = [];
           if (!probeOnly) {
@@ -64,6 +90,8 @@ export const Route = createFileRoute("/api/intelligence")({
                     health: "DEGRADED",
                     detail: e instanceof Error ? e.message : "Fetch failed",
                   };
+                  // Invalidate cache so next probe sees degraded truth
+                  healthCache = null;
                 }
               }
             }

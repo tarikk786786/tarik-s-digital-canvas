@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
@@ -67,6 +67,8 @@ export function WorldOSShell() {
   const [health, setHealth] = useState<HealthRow[]>([]);
   const [selected, setSelected] = useState<WorldObject | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const objectsRef = useRef<WorldObject[]>([]);
 
   useEffect(() => {
     const tick = () =>
@@ -76,29 +78,46 @@ export function WorldOSShell() {
     return () => clearInterval(id);
   }, []);
 
-  const load = async (dim: WorldDimension, india: boolean) => {
+  const load = useCallback(async (dim: WorldDimension, india: boolean) => {
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
     setLoading(true);
     setError(null);
     try {
       const res = await fetch(
         `/api/intelligence?kind=world&dimension=${dim}&india=${india ? "1" : "0"}`,
+        { signal: ac.signal },
       );
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "World kernel failed");
+      const nextObjects: WorldObject[] = json.objects || [];
+      objectsRef.current = nextObjects;
       setHealth(json.health || []);
-      setObjects(json.objects || []);
-      setSelected((json.objects || [])[0] || null);
+      setObjects(nextObjects);
+      setSelected(nextObjects[0] || null);
     } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") return;
       setError(e instanceof Error ? e.message : "World kernel offline");
+      objectsRef.current = [];
       setObjects([]);
     } finally {
-      setLoading(false);
+      if (abortRef.current === ac) setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     void load(dimension, indiaMode);
-  }, [dimension, indiaMode]);
+    return () => abortRef.current?.abort();
+  }, [dimension, indiaMode, load]);
+
+  const handleSelect = useCallback((id: string) => {
+    const obj = objectsRef.current.find((o) => o.id === id);
+    if (obj) {
+      soundEngine.playClick();
+      setSelected(obj);
+    }
+  }, []);
 
   const dimHealth = useMemo(() => {
     const map = new Map<WorldDimension, AdapterHealth>();
@@ -265,13 +284,7 @@ export function WorldOSShell() {
               objects={objects}
               indiaMode={indiaMode}
               selectedId={selected?.id}
-              onSelect={(id) => {
-                const obj = objects.find((o) => o.id === id);
-                if (obj) {
-                  soundEngine.playClick();
-                  setSelected(obj);
-                }
-              }}
+              onSelect={handleSelect}
             />
           </Suspense>
         </section>

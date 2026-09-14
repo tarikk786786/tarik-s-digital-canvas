@@ -26,11 +26,19 @@ export function WorldGlobe({
   className = "",
 }: WorldGlobeProps) {
   const mountRef = useRef<HTMLDivElement | null>(null);
+  const onSelectRef = useRef(onSelect);
+  const selectedIdRef = useRef(selectedId);
+  const meshesByIdRef = useRef(new Map<string, THREE.Mesh>());
+
+  onSelectRef.current = onSelect;
+  selectedIdRef.current = selectedId;
+
   const markers = useMemo(
     () => objects.filter((o) => typeof o.lat === "number" && typeof o.lng === "number"),
     [objects],
   );
 
+  // Scene lifecycle — remount only when marker set or India bias changes
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
@@ -78,7 +86,6 @@ export function WorldGlobe({
     );
     globe.add(atmosphere);
 
-    // India bias ring (visual cue, not a data layer)
     if (indiaMode) {
       const [ix, iy, iz] = latLngToVector3(20.5, 78.5, EARTH_R + 0.04);
       const focus = new THREE.Mesh(
@@ -98,22 +105,31 @@ export function WorldGlobe({
     const markerGroup = new THREE.Group();
     globe.add(markerGroup);
     const idByMesh = new Map<THREE.Object3D, string>();
+    const meshesById = new Map<string, THREE.Mesh>();
+    meshesByIdRef.current = meshesById;
+
+    const applySelection = (id: string | null | undefined) => {
+      for (const [mid, mesh] of meshesById) {
+        const selected = mid === id;
+        mesh.scale.setScalar(selected ? 1.55 : 1);
+        const mat = mesh.material as THREE.MeshBasicMaterial;
+        mat.color.setHex(selected ? 0xffffff : 0x62e6ff);
+      }
+    };
 
     for (const obj of markers) {
       const [x, y, z] = latLngToVector3(obj.lat!, obj.lng!, EARTH_R + 0.03);
-      const selected = obj.id === selectedId;
       const m = new THREE.Mesh(
-        new THREE.SphereGeometry(selected ? 0.045 : 0.028, 12, 12),
-        new THREE.MeshBasicMaterial({
-          color: selected ? 0xffffff : 0x62e6ff,
-        }),
+        new THREE.SphereGeometry(0.028, 12, 12),
+        new THREE.MeshBasicMaterial({ color: 0x62e6ff }),
       );
       m.position.set(x, y, z);
       markerGroup.add(m);
       idByMesh.set(m, obj.id);
+      meshesById.set(obj.id, m);
     }
+    applySelection(selectedIdRef.current);
 
-    // Orient toward India when India Mode is on
     if (indiaMode) {
       const [tx, ty, tz] = latLngToVector3(22, 78, EARTH_R);
       const target = new THREE.Vector3(tx, ty, tz).normalize();
@@ -152,7 +168,7 @@ export function WorldGlobe({
       globe.rotation.x = Math.max(-0.9, Math.min(0.9, globe.rotation.x));
     };
     const onClick = (e: MouseEvent) => {
-      if (!onSelect || markers.length === 0) return;
+      if (!onSelectRef.current || markers.length === 0) return;
       const rect = renderer.domElement.getBoundingClientRect();
       pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       pointer.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
@@ -160,7 +176,7 @@ export function WorldGlobe({
       const hits = raycaster.intersectObjects(markerGroup.children, false);
       if (hits[0]) {
         const id = idByMesh.get(hits[0].object);
-        if (id) onSelect(id);
+        if (id) onSelectRef.current(id);
       }
     };
 
@@ -198,8 +214,19 @@ export function WorldGlobe({
       renderer.domElement.removeEventListener("click", onClick);
       renderer.dispose();
       container.innerHTML = "";
+      meshesByIdRef.current = new Map();
     };
-  }, [markers, indiaMode, selectedId, onSelect]);
+  }, [markers, indiaMode]);
+
+  // Selection highlight without tearing down WebGL
+  useEffect(() => {
+    for (const [mid, mesh] of meshesByIdRef.current) {
+      const selected = mid === selectedId;
+      mesh.scale.setScalar(selected ? 1.55 : 1);
+      const mat = mesh.material as THREE.MeshBasicMaterial;
+      mat.color.setHex(selected ? 0xffffff : 0x62e6ff);
+    }
+  }, [selectedId]);
 
   return (
     <div className={`relative overflow-hidden ${className}`}>

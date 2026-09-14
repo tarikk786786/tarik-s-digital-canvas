@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from "react";
+import { Link } from "@tanstack/react-router";
 import * as THREE from "three";
 import {
   Satellite,
@@ -520,13 +521,24 @@ export function LiveWorld3D({
           <Layers className="w-3 h-3 text-sky-400" /> LAYERS:
         </span>
         {[
-          { key: "all", label: "ALL ENTITIES", icon: Crosshair, count: 28 },
-          { key: "satellites", label: "SATELLITES", icon: Satellite, count: 5 },
-          { key: "aircraft", label: "AIRCRAFT", icon: Plane, count: 5 },
-          { key: "ships", label: "SHIPS", icon: Ship, count: 4 },
-          { key: "cells", label: "CELL INFRA", icon: Radio, count: 5 },
-          { key: "cameras", label: "PUBLIC CAMS", icon: Video, count: 4 },
-          { key: "events", label: "DEMO EVENTS", icon: AlertOctagon, count: 3 },
+          {
+            key: "all",
+            label: "ALL ENTITIES",
+            icon: Crosshair,
+            count:
+              DEMO_LIVE_WORLD.satellites.length +
+              DEMO_LIVE_WORLD.aircraft.length +
+              DEMO_LIVE_WORLD.ships.length +
+              DEMO_LIVE_WORLD.cells.length +
+              DEMO_LIVE_WORLD.cameras.length +
+              DEMO_LIVE_WORLD.events.length,
+          },
+          { key: "satellites", label: "SATELLITES", icon: Satellite, count: DEMO_LIVE_WORLD.satellites.length },
+          { key: "aircraft", label: "AIRCRAFT", icon: Plane, count: DEMO_LIVE_WORLD.aircraft.length },
+          { key: "ships", label: "SHIPS", icon: Ship, count: DEMO_LIVE_WORLD.ships.length },
+          { key: "cells", label: "CELL INFRA", icon: Radio, count: DEMO_LIVE_WORLD.cells.length },
+          { key: "cameras", label: "PUBLIC CAMS", icon: Video, count: DEMO_LIVE_WORLD.cameras.length },
+          { key: "events", label: "DEMO EVENTS", icon: AlertOctagon, count: DEMO_LIVE_WORLD.events.length },
         ].map((item) => {
           const Icon = item.icon;
           const isActive = activeLayer === item.key;
@@ -894,9 +906,16 @@ export function LiveWorld3D({
             NO PRIVATE TELEMETRY · NO DEVICE TRACKING · SIMULATION ONLY
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
+          <Link
+            to="/world-os"
+            onClick={() => soundEngine.playClick()}
+            className="inline-flex items-center gap-1 text-[#62E6FF] hover:underline"
+          >
+            Open live World OS public grid <ExternalLink className="w-3 h-3" />
+          </Link>
           <span className="text-amber-400/90 font-mono">
-            STYLED AFTER OPENSKY / AIS / OPENCELLID · WORKERS OFF
+            DEMO COUNTS = DATASET LENGTH · WORKERS OFF
           </span>
         </div>
       </div>
