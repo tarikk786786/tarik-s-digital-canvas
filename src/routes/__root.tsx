@@ -87,17 +87,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
       {
         title:
-          "Tarik Islam — Forensic Science Specialist (Investigation & Toxicology) · MCA · M.Tech Cyber Security & AI",
+          "TARIK DIGITAL CANVAS — Tarik Islam · Forensic Investigation & Toxicology · MCA · M.Tech Cyber & AI",
       },
       {
         name: "description",
         content:
-          "Tarik Islam — forensic science specialist in investigation and toxicology; MCA; M.Tech in cyber security & AI / digital forensics. Building intelligent systems that see the invisible. Evidence over assumptions. Founder of Dezo.in.",
+          "TARIK DIGITAL CANVAS — Tarik Islam, forensic science specialist in investigation and toxicology; MCA; M.Tech in cyber security & AI / digital forensics. Building intelligent systems that see the invisible. Evidence over assumptions. Founder of Dezo.in.",
       },
       {
         name: "keywords",
         content:
-          "Tarik Islam, Forensic Science, Investigation, Toxicology, Digital Forensics, MCA, M.Tech Cyber Security AI, Dezo.in, WORLD OS, FIND DETAILS, Forensic Lab, Evidence, India",
+          "TARIK DIGITAL CANVAS, Tarik Islam, Forensic Science, Investigation, Toxicology, Digital Forensics, MCA, M.Tech Cyber Security AI, Dezo.in, WORLD OS, FIND DETAILS, Forensic Lab, Evidence, India",
       },
       { name: "author", content: "Tarik Islam" },
       {
@@ -108,13 +108,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "color-scheme", content: "dark" },
 
       // Open Graph Metadata
-      { property: "og:site_name", content: "Tarik Islam — Digital Canvas" },
+      { property: "og:site_name", content: "TARIK DIGITAL CANVAS" },
       { property: "og:type", content: "profile" },
       { property: "og:locale", content: "en_US" },
       { property: "og:url", content: "https://tarik-s-digital-canvas.vercel.app" },
       {
         property: "og:title",
-        content: "Tarik Islam — Forensic Investigation & Toxicology · Digital Intelligence Lab",
+        content: "TARIK DIGITAL CANVAS — Forensic Investigation & Toxicology · Digital Intelligence Lab",
       },
       {
         property: "og:description",
@@ -127,7 +127,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:image:width", content: "512" },
       { property: "og:image:height", content: "512" },
-      { property: "og:image:alt", content: "Tarik Islam — Digital Canvas Profile" },
+      { property: "og:image:alt", content: "TARIK DIGITAL CANVAS — Tarik Islam" },
 
       // Twitter Cards
       { name: "twitter:card", content: "summary_large_image" },
@@ -135,7 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:creator", content: "@tarik_islam_786" },
       {
         name: "twitter:title",
-        content: "Tarik Islam — Forensic Science Specialist & Digital Intelligence Lab",
+        content: "TARIK DIGITAL CANVAS — Forensic Science · Investigation & Toxicology",
       },
       {
         name: "twitter:description",
@@ -201,7 +201,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
                 "https://dezo.in",
               ],
               description:
-                "Forensic science specialist in investigation and toxicology. B.Sc & M.Sc Forensic Science, MCA, M.Tech Cyber Security & AI / Digital Forensics. Founder of Dezo.in.",
+                "Forensic science specialist in investigation and toxicology. B.Sc & M.Sc Forensic Science, MCA, M.Tech Cyber Security & AI / Digital Forensics. Founder of Dezo.in. TARIK DIGITAL CANVAS.",
               knowsAbout: [
                 "Forensic Investigation",
                 "Forensic Toxicology",
@@ -226,7 +226,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "WebSite",
               "@id": "https://tarik-s-digital-canvas.vercel.app/#website",
               url: "https://tarik-s-digital-canvas.vercel.app",
-              name: "Tarik Islam — Forensic Scientist, AI Developer & Founder",
+              name: "TARIK DIGITAL CANVAS",
+              alternateName: "Tarik Islam — Forensic Investigation & Toxicology",
               publisher: {
                 "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
               },
@@ -235,7 +236,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
               "@type": "ProfilePage",
               "@id": "https://tarik-s-digital-canvas.vercel.app/#webpage",
               url: "https://tarik-s-digital-canvas.vercel.app",
-              name: "Tarik Islam — Digital Canvas Dossier",
+              name: "TARIK DIGITAL CANVAS — Profile",
               mainEntity: {
                 "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
               },

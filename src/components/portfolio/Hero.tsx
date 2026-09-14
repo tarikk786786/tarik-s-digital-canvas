@@ -58,14 +58,14 @@ export function Hero() {
       <div className="relative z-10 mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-12 px-6 md:px-12 lg:grid-cols-12 lg:gap-16 lg:px-16">
         <div className="flex flex-col justify-center lg:col-span-6">
           <TechnicalLabel className="mb-3 text-[#62E6FF]">
-            Tarik Digital Canvas · Protocol 001
+            {PROFILE.brand} · {PROFILE.protocol}
           </TechnicalLabel>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
             Verified practitioner · Bhubaneswar · Dezo.in
           </p>
 
           <h1 className="font-display text-5xl font-extrabold leading-[0.9] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[5.75rem]">
-            Tarik Islam
+            {PROFILE.name}
           </h1>
 
           <div className="mt-5 flex min-h-7 items-center gap-3">
@@ -76,14 +76,13 @@ export function Hero() {
           </div>
 
           <p className="mt-8 max-w-xl font-display text-2xl font-light italic leading-snug tracking-tight text-foreground/90 sm:text-3xl md:text-4xl">
-            Building intelligent systems that see the invisible.
+            {PROFILE.headline}
           </p>
 
           <p className="mt-6 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Forensic science specialist in{" "}
+            {PROFILE.tagline} Path:{" "}
             <span className="text-foreground">investigation &amp; toxicology</span>
-            — then MCA, then M.Tech in cyber security &amp; AI / digital forensics. Laboratory rigor
-            applied to evidence, systems, and intelligence.
+            {" → "}MCA{" → "}M.Tech cyber security &amp; AI / digital forensics.
           </p>
 
           <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.2em] text-[#62E6FF]/80">

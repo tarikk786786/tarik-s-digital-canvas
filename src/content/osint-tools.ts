@@ -1,8 +1,10 @@
 /**
  * INTERNAL ONLY — builder / worker inventory for FIND DETAILS adapters.
- * Do NOT import this into portfolio UI. Visitors never browse tool names;
+ * Do NOT import this into portfolio UI (Hero, About, Capabilities, Contact).
+ * Visitors never browse tool names or GitHub catalogues;
  * InformationKernelPanel + FIND DETAILS show capability faces and evidence only.
  * Open-source repos ≠ free live APIs or unrestricted feeds.
+ * Public OSINT Arsenal page removed — keep this file off any route.
  */
 
 export type ToolFamily =

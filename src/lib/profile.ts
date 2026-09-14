@@ -1,5 +1,6 @@
 // Verified profile details for Tarik Islam.
 // Forensic science is the root identity; cyber, AI, and Dezo.in follow from that foundation.
+// Public brand: TARIK DIGITAL CANVAS — never dilute into a generic tools catalogue.
 
 export interface AcademicCredential {
   degree: string;
@@ -12,12 +13,15 @@ export interface AcademicCredential {
 
 export const PROFILE = {
   name: "Tarik Islam",
+  brand: "TARIK DIGITAL CANVAS",
+  protocol: "PROTOCOL 001",
   primaryRole: "Forensic Science Specialist — Investigation & Toxicology",
   identity: "Forensic Scientist · Investigation & Toxicology · Digital Forensics",
-  headline:
-    "Building intelligent systems that see the invisible.",
+  headline: "Building intelligent systems that see the invisible.",
   professionalSummary:
-    "Forensic science specialist focused on investigation and toxicology. Foundation in B.Sc and M.Sc Forensic Science, then MCA for software systems, then M.Tech in Cyber Security & AI with digital forensics. Founder of Dezo.in — applying laboratory rigor to evidence, systems, and intelligent software.",
+    "Forensic science specialist in investigation and toxicology — B.Sc & M.Sc Forensic Science, then MCA for systems, then M.Tech in Cyber Security & AI / Digital Forensics. Founder of Dezo.in. Laboratory method applied to evidence, architectures, and intelligence.",
+  tagline:
+    "From crime-scene chemistry and toxicology to cyber defense and AI — one evidence discipline.",
   location: "Bhubaneswar, Odisha, India",
   timezone: "UTC+05:30 (IST)",
   email: "princetarikislam@gmail.com",

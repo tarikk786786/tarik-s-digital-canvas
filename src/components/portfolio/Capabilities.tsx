@@ -106,8 +106,11 @@ export function Capabilities() {
       <div className="relative max-w-[1600px] mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
           <SectionHead num="04" label="EXPERTISE // LABORATORY CAPABILITIES">
-            Forensic science, cyber &amp; AI <br className="hidden sm:block" />
-            <span className="italic font-light text-gradient-flow">built as one intelligence lab</span>
+            Investigation &amp; toxicology to cyber &amp; AI{" "}
+            <br className="hidden sm:block" />
+            <span className="italic font-light text-gradient-flow">
+              one lab — adapters stay hidden
+            </span>
           </SectionHead>
 
           {/* Interactive Tab Switcher */}

@@ -42,10 +42,13 @@ export function AboutMe() {
         </p>
         <h2 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.02] max-w-4xl">
           Forensic science first.
-          <span className="block italic font-light text-foreground/80">Investigation. Toxicology. Then systems.</span>
+          <span className="block italic font-light text-foreground/80">
+            Investigation. Toxicology. Then systems that see.
+          </span>
         </h2>
         <p className="mt-8 max-w-2xl font-sans text-lg md:text-xl text-muted-foreground leading-relaxed">
-          A forensic science specialist in investigation and toxicology — with an academic path from forensic foundation through MCA into M.Tech Cyber Security &amp; AI / Digital Forensics.
+          {PROFILE.tagline} Academic spine: B.Sc &amp; M.Sc Forensic Science → MCA → M.Tech Cyber
+          Security &amp; AI / Digital Forensics — under {PROFILE.brand}.
         </p>
 
         <div className="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">

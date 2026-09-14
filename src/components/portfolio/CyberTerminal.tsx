@@ -83,7 +83,7 @@ export function CyberTerminal() {
       case "bio":
         output = (
           <div className="space-y-2 text-foreground/90 font-mono text-[11px] leading-relaxed">
-            <p><span className="text-accent font-bold">IDENTITY:</span> Tarik Islam — Multidisciplinary Technologist, Forensic Scientist, Cybersecurity Engineer, AI Systems Builder, and Founder of Dezo.in.</p>
+            <p><span className="text-accent font-bold">IDENTITY:</span> Tarik Islam — Forensic Science Specialist (Investigation &amp; Toxicology); MCA; M.Tech Cyber Security &amp; AI / Digital Forensics; Founder of Dezo.in. Brand: TARIK DIGITAL CANVAS.</p>
             <p><span className="text-accent font-bold">MINDSET:</span> Evidence-first. Question assumptions, understand the underlying system, verify what is true, and build solutions that withstand scrutiny.</p>
             <p><span className="text-accent font-bold">PHILOSOPHY:</span> Evidence over assumptions · Security by design · Intelligence with purpose · Build, measure, improve.</p>
             <p><span className="text-accent font-bold">MISSION:</span> "My goal is not simply to follow technology. My goal is to build technology that matters."</p>
@@ -95,7 +95,8 @@ export function CyberTerminal() {
         output = (
           <div className="space-y-1 text-xs">
             <p className="text-accent font-bold">CORE CAPABILITY MATRIX:</p>
-            <p>├─ <span className="text-foreground font-semibold">Digital Forensics:</span> EnCase, FTK, Autopsy, Volatility, Wireshark, Chain of Custody</p>
+            <p>├─ <span className="text-foreground font-semibold">Investigation &amp; Toxicology:</span> Scene method, GC-MS / HPLC, biological evidence, chain of custody</p>
+            <p>├─ <span className="text-foreground font-semibold">Digital Forensics:</span> Evidence integrity, memory/disk triage, Volatility, Wireshark</p>
             <p>├─ <span className="text-foreground font-semibold">Cybersecurity:</span> Zero Trust, Threat Modeling, AppSec, SIEM, MITRE ATT&CK, Pentesting</p>
             <p>├─ <span className="text-foreground font-semibold">AI & ML:</span> Autonomous Agents, LLMs, RAG, PyTorch, LangChain, Vector Databases</p>
             <p>└─ <span className="text-foreground font-semibold">Engineering:</span> TypeScript, React 19, Node.js, Python, Rust, PostgreSQL, Docker</p>
