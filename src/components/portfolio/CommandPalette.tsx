@@ -135,8 +135,8 @@ export function CommandPalette() {
     {
       id: "nav-world-os",
       category: "Navigation",
-      title: "World OS // Public Earth Layers",
-      subtitle: "SPACE · AIR · SEA · EARTH · WEATHER with honest ONLINE/DEGRADED/OFFLINE",
+      title: "Explore World // WORLD OS",
+      subtitle: "SPACE · AIR · SEA · EARTH · WEATHER — source-derived, honest health",
       icon: <Activity className="size-4 text-[#62E6FF]" />,
       action: () => {
         setIsOpen(false);

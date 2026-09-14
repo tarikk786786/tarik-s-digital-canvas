@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import {
   ArrowLeft,
-  Globe2,
   RefreshCw,
   MapPin,
   Info,
@@ -15,6 +14,12 @@ import {
   type WorldObject,
 } from "@/lib/world-os/adapters";
 import { soundEngine } from "@/lib/sound-engine";
+import { SystemStatusBar } from "@/components/system/SystemStatusBar";
+import { SystemIndicator, TechnicalLabel } from "@/components/system";
+
+const WorldGlobe = lazy(() =>
+  import("@/components/world-os/WorldGlobe").then((m) => ({ default: m.WorldGlobe })),
+);
 
 interface HealthRow {
   id: string;
@@ -30,6 +35,17 @@ function healthColor(h: AdapterHealth) {
   return "text-slate-400 border-white/10 bg-white/5";
 }
 
+function aggregateHealth(rows: HealthRow[]): AdapterHealth {
+  if (rows.some((r) => r.health === "ONLINE")) {
+    if (rows.some((r) => r.health === "OFFLINE" || r.health === "DEGRADED")) {
+      return "DEGRADED";
+    }
+    return "ONLINE";
+  }
+  if (rows.some((r) => r.health === "DEGRADED")) return "DEGRADED";
+  return "OFFLINE";
+}
+
 export function WorldOSShell() {
   const [utc, setUtc] = useState("");
   const [dimension, setDimension] = useState<WorldDimension>("EARTH");
@@ -41,7 +57,8 @@ export function WorldOSShell() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const tick = () => setUtc(new Date().toISOString().replace("T", " ").slice(0, 19) + " UTC");
+    const tick = () =>
+      setUtc(new Date().toISOString().replace("T", " ").slice(0, 19) + " UTC");
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
@@ -86,9 +103,30 @@ export function WorldOSShell() {
     return map;
   }, [health]);
 
+  const systemHealth = aggregateHealth(health);
+  const activeMeta = DIMENSIONS.find((d) => d.id === dimension);
+  const dimensionTitle = activeMeta?.stub
+    ? `${dimension} — not wired`
+    : (
+        {
+          EARTH: "Seismic Earth",
+          WEATHER: "Weather samples",
+          AIR: "Airborne state",
+          SPACE: "Orbital catalog",
+        } as Partial<Record<WorldDimension, string>>
+      )[dimension] ?? `${dimension} dimension`;
+
   return (
     <div className="min-h-screen bg-[#050608] text-foreground">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050608]/95 backdrop-blur-xl">
+      <div
+        className="pointer-events-none fixed inset-0 opacity-40"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% -10%, rgba(98,230,255,0.12), transparent 55%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(20,60,80,0.25), transparent)",
+        }}
+      />
+
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#050608]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-8">
           <div className="flex items-center gap-3">
             <Link
@@ -99,17 +137,20 @@ export function WorldOSShell() {
               <ArrowLeft className="size-3.5" /> Lab
             </Link>
             <div>
-              <p className="font-display text-sm font-bold tracking-tight">
+              <p className="font-display text-sm font-bold tracking-tight sm:text-base">
                 TARIK ISLAM // WORLD OS
               </p>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Public data grid · source-derived only
+                Personal world interface · source-derived only
               </p>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-wider">
-            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-emerald-300">
-              System online
+            <span
+              className={`inline-flex items-center gap-2 rounded-full border px-2.5 py-1 ${healthColor(systemHealth)}`}
+            >
+              <SystemIndicator health={systemHealth} />
+              Kernel {systemHealth}
             </span>
             <span className="rounded border border-white/10 bg-white/5 px-2.5 py-1 text-muted-foreground">
               {utc || "…"}
@@ -170,27 +211,56 @@ export function WorldOSShell() {
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-[1600px] gap-6 px-4 py-8 sm:px-8 lg:grid-cols-12">
-        <section className="lg:col-span-7 space-y-4">
-          <div className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Globe2 className="size-4 text-[#62E6FF]" />
-              <h1 className="font-display text-2xl font-bold tracking-tight">
-                {dimension} dimension
+      <main className="relative mx-auto max-w-[1600px] px-4 py-6 sm:px-8 sm:py-8">
+        {/* Primary composition: full-bleed globe plane */}
+        <section className="relative overflow-hidden rounded-none border border-white/10 bg-[#070a10] sm:rounded-2xl">
+          <div className="absolute inset-x-0 top-0 z-10 flex flex-wrap items-end justify-between gap-3 border-b border-white/5 bg-gradient-to-b from-[#050608]/90 to-transparent px-4 py-4 sm:px-6">
+            <div>
+              <TechnicalLabel className="text-[#62E6FF]">{dimension}</TechnicalLabel>
+              <h1 className="mt-1 font-display text-2xl font-bold tracking-tight sm:text-3xl">
+                {dimensionTitle}
               </h1>
+              <p className="mt-1 max-w-xl text-sm text-muted-foreground">
+                Objects appear only when a public feed answers. Stub layers stay OFFLINE —
+                never padded with fake ships, cameras, or counters.
+              </p>
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Live objects below are pulled from public feeds when ONLINE. Stub dimensions
-              stay OFFLINE — never padded with fake aircraft, ships, or cameras.
-            </p>
-            {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
-            <div className="mt-6 space-y-2 max-h-[28rem] overflow-y-auto">
+            {error && <p className="text-sm text-red-400">{error}</p>}
+          </div>
+
+          <Suspense
+            fallback={
+              <div className="flex h-[min(62vh,560px)] items-center justify-center font-mono text-xs text-muted-foreground">
+                Loading globe…
+              </div>
+            }
+          >
+            <WorldGlobe
+              className="h-[min(62vh,560px)] w-full"
+              objects={objects}
+              indiaMode={indiaMode}
+              selectedId={selected?.id}
+              onSelect={(id) => {
+                const obj = objects.find((o) => o.id === id);
+                if (obj) {
+                  soundEngine.playClick();
+                  setSelected(obj);
+                }
+              }}
+            />
+          </Suspense>
+        </section>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-12">
+          <section className="lg:col-span-7 space-y-3">
+            <TechnicalLabel>Objects · {dimension}</TechnicalLabel>
+            <div className="max-h-[22rem] space-y-2 overflow-y-auto">
               {loading && (
                 <p className="font-mono text-xs text-muted-foreground">Retrieving public layer…</p>
               )}
               {!loading && objects.length === 0 && (
-                <div className="rounded-xl border border-dashed border-white/10 p-6 text-sm text-muted-foreground">
-                  No source-derived objects for {dimension}. Kernel health is shown honestly —
+                <div className="border border-dashed border-white/10 px-4 py-8 text-sm text-muted-foreground">
+                  No source-derived objects for {dimension}. Health above is honest —
                   this is not an empty fake map.
                 </div>
               )}
@@ -202,7 +272,7 @@ export function WorldOSShell() {
                     soundEngine.playClick();
                     setSelected(obj);
                   }}
-                  className={`w-full rounded-xl border px-4 py-3 text-left transition-colors ${
+                  className={`w-full border px-4 py-3 text-left transition-colors ${
                     selected?.id === obj.id
                       ? "border-[#62E6FF]/40 bg-[#62E6FF]/10"
                       : "border-white/10 hover:border-white/20"
@@ -210,7 +280,7 @@ export function WorldOSShell() {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="font-medium text-sm text-foreground">{obj.title}</p>
+                      <p className="text-sm font-medium text-foreground">{obj.title}</p>
                       <p className="mt-1 text-xs text-muted-foreground">{obj.summary}</p>
                     </div>
                     {obj.magnitude && (
@@ -222,94 +292,100 @@ export function WorldOSShell() {
                 </button>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <aside className="lg:col-span-5 space-y-4">
-          <div className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Shield className="size-4 text-[#62E6FF]" />
-              <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                World kernel status
-              </h2>
+          <aside className="lg:col-span-5 space-y-6">
+            <div>
+              <div className="mb-3 flex items-center gap-2">
+                <Shield className="size-4 text-[#62E6FF]" />
+                <TechnicalLabel>World kernel status</TechnicalLabel>
+              </div>
+              <ul className="space-y-2">
+                {health.map((h) => (
+                  <li
+                    key={h.id}
+                    className="flex items-start justify-between gap-3 border border-white/5 px-3 py-2 text-xs"
+                  >
+                    <div>
+                      <p className="text-foreground">{h.dimension}</p>
+                      <p className="mt-0.5 text-muted-foreground">{h.detail}</p>
+                    </div>
+                    <span
+                      className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] ${healthColor(h.health)}`}
+                    >
+                      {h.health}
+                    </span>
+                  </li>
+                ))}
+                {DIMENSIONS.filter((d) => d.stub).map((d) => (
+                  <li
+                    key={`stub-${d.id}`}
+                    className="flex items-start justify-between gap-3 border border-white/5 px-3 py-2 text-xs"
+                  >
+                    <div>
+                      <p className="text-foreground">{d.id}</p>
+                      <p className="mt-0.5 text-muted-foreground">
+                        Architecture stub — feed not wired
+                      </p>
+                    </div>
+                    <span
+                      className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] ${healthColor("OFFLINE")}`}
+                    >
+                      OFFLINE
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <ul className="space-y-2">
-              {health.map((h) => (
-                <li
-                  key={h.id}
-                  className="flex items-start justify-between gap-3 rounded-lg border border-white/5 px-3 py-2 text-xs"
-                >
-                  <div>
-                    <p className="text-foreground">{h.dimension}</p>
-                    <p className="text-muted-foreground mt-0.5">{h.detail}</p>
-                  </div>
-                  <span className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] ${healthColor(h.health)}`}>
-                    {h.health}
-                  </span>
-                </li>
-              ))}
-              {DIMENSIONS.filter((d) => d.stub).map((d) => (
-                <li
-                  key={`stub-${d.id}`}
-                  className="flex items-start justify-between gap-3 rounded-lg border border-white/5 px-3 py-2 text-xs"
-                >
-                  <div>
-                    <p className="text-foreground">{d.id}</p>
-                    <p className="text-muted-foreground mt-0.5">Architecture stub — feed not wired</p>
-                  </div>
-                  <span className={`shrink-0 rounded border px-1.5 py-0.5 font-mono text-[9px] ${healthColor("OFFLINE")}`}>
-                    OFFLINE
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#0A0D12] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Info className="size-4 text-[#62E6FF]" />
-              <h2 className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                Provenance
-              </h2>
+            <div>
+              <div className="mb-3 flex items-center gap-2">
+                <Info className="size-4 text-[#62E6FF]" />
+                <TechnicalLabel>Provenance</TechnicalLabel>
+              </div>
+              {selected ? (
+                <dl className="space-y-3 font-mono text-[11px]">
+                  <div>
+                    <dt className="text-muted-foreground">SOURCE</dt>
+                    <dd className="mt-0.5 text-foreground">{selected.provenance.sourceLabel}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">RETRIEVED</dt>
+                    <dd className="mt-0.5 text-foreground">{selected.provenance.retrievedAt}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">LAST UPDATE</dt>
+                    <dd className="mt-0.5 text-foreground">{selected.observedAt}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">CONFIDENCE</dt>
+                    <dd className="mt-0.5 text-[#62E6FF]">{selected.provenance.confidence}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">WHY AM I SEEING THIS?</dt>
+                    <dd className="mt-0.5 leading-relaxed text-foreground">
+                      {selected.provenance.whyVisible}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">LIMITATIONS</dt>
+                    <dd className="mt-0.5 space-y-1 text-muted-foreground">
+                      {selected.provenance.limitations.map((l) => (
+                        <p key={l}>• {l}</p>
+                      ))}
+                    </dd>
+                  </div>
+                </dl>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Select an object to inspect provenance.
+                </p>
+              )}
             </div>
-            {selected ? (
-              <dl className="space-y-3 font-mono text-[11px]">
-                <div>
-                  <dt className="text-muted-foreground">SOURCE</dt>
-                  <dd className="text-foreground mt-0.5">{selected.provenance.sourceLabel}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">RETRIEVED</dt>
-                  <dd className="text-foreground mt-0.5">{selected.provenance.retrievedAt}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">LAST UPDATE</dt>
-                  <dd className="text-foreground mt-0.5">{selected.observedAt}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">CONFIDENCE</dt>
-                  <dd className="text-[#62E6FF] mt-0.5">{selected.provenance.confidence}</dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">WHY AM I SEEING THIS?</dt>
-                  <dd className="text-foreground mt-0.5 leading-relaxed">
-                    {selected.provenance.whyVisible}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="text-muted-foreground">LIMITATIONS</dt>
-                  <dd className="text-muted-foreground mt-0.5 space-y-1">
-                    {selected.provenance.limitations.map((l) => (
-                      <p key={l}>• {l}</p>
-                    ))}
-                  </dd>
-                </div>
-              </dl>
-            ) : (
-              <p className="text-sm text-muted-foreground">Select an object to inspect provenance.</p>
-            )}
-          </div>
-        </aside>
+          </aside>
+        </div>
+
+        <SystemStatusBar className="mt-8" />
       </main>
     </div>
   );

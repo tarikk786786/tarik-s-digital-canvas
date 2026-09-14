@@ -96,9 +96,9 @@ export function FindDetails() {
           <Link
             to="/world-os"
             onClick={() => soundEngine.playClick()}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:text-[#62E6FF]"
+            className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:border-[#62E6FF]/30 hover:text-[#62E6FF]"
           >
-            <Globe2 className="size-3.5" /> World OS
+            <Globe2 className="size-3.5" /> Explore World
           </Link>
           <Link
             to="/forensic-lab"

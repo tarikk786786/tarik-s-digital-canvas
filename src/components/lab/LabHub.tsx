@@ -93,7 +93,8 @@ export function LabHub() {
                 </p>
                 <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{engine.desc}</p>
                 <span className="mt-6 inline-flex items-center gap-1 font-mono text-[11px] uppercase tracking-wider text-[#62E6FF]">
-                  Enter <ArrowUpRight className="size-3.5" />
+                  {engine.to === "/world-os" ? "Explore World" : "Enter"}{" "}
+                  <ArrowUpRight className="size-3.5" />
                 </span>
               </Link>
             );
