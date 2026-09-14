@@ -116,8 +116,8 @@ export function Hero() {
           <div className="mt-5 flex flex-wrap gap-2">
             {[
               { href: "/find-someone?mode=live", label: "FIND DETAILS" },
-              { href: "/world-os", label: "EXPLORE WORLD" },
-              { href: "/forensic-lab", label: "FORENSIC" },
+              { href: "/world-os", label: "WORLD" },
+              { href: "/forensic-lab", label: "FORENSIC LAB" },
             ].map((item) => (
               <a
                 key={item.label}

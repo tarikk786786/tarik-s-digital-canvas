@@ -162,10 +162,10 @@ export function WorldOSShell() {
             </Link>
             <div>
               <p className="font-display text-sm font-bold tracking-tight sm:text-base">
-                TARIK ISLAM // WORLD OS
+                TARIK DIGITAL CANVAS // WORLD
               </p>
               <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                Public data grid · source-derived only
+                Personal digital intelligence laboratory · public data grid
               </p>
             </div>
           </div>

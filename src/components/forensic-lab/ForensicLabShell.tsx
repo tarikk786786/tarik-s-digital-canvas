@@ -124,7 +124,7 @@ export function ForensicLabShell() {
             </Link>
             <div>
               <p className="font-display text-sm font-bold tracking-tight">
-                TARIK ISLAM // FORENSIC INTELLIGENCE LAB
+                TARIK DIGITAL CANVAS // FORENSIC LAB
               </p>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-300/90">
                 {CASE_0001.banner}

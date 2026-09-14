@@ -14,13 +14,13 @@ export function FindSomeoneNav({ onOpenSearchModal, mode = "demo" }: FindSomeone
         {/* Left: Return & Brand */}
         <div className="flex items-center gap-4 sm:gap-6">
           <Link
-            to="/"
+            to="/lab"
             onClick={() => soundEngine.playClick()}
             className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground hover:border-[#62E6FF]/40 hover:text-[#62E6FF] transition-all"
-            title="Return to Main Enclave"
+            title="Return to laboratory hub"
           >
             <ArrowLeft className="size-3.5 transition-transform group-hover:-translate-x-1" />
-            <span className="hidden sm:inline">PORTFOLIO</span>
+            <span className="hidden sm:inline">LAB</span>
           </Link>
 
           <div className="h-4 w-px bg-white/10 hidden sm:block" />
@@ -32,14 +32,14 @@ export function FindSomeoneNav({ onOpenSearchModal, mode = "demo" }: FindSomeone
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-display font-bold text-sm text-foreground tracking-tight">
-                  FIND DETAILS
+                  TARIK DIGITAL CANVAS // FIND DETAILS
                 </span>
                 <span className="rounded bg-[#62E6FF]/10 px-1.5 py-0.5 font-mono text-[9px] font-bold text-[#62E6FF] border border-[#62E6FF]/30">
                   {mode === "demo" ? "DEMO" : "LIVE KERNEL"}
                 </span>
               </div>
               <p className="hidden md:block font-mono text-[9.5px] uppercase tracking-[0.2em] text-muted-foreground">
-                Information Engine · hidden adapters · evidence + provenance
+                Intelligence laboratory · hidden adapters · evidence + provenance
               </p>
             </div>
           </div>
