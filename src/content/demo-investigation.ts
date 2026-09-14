@@ -668,7 +668,7 @@ export const DEMO_INVESTIGATION: Investigation = {
       id: "rel_6",
       sourceEntityId: "ent_org_dezo",
       targetEntityId: "ent_gov_odisha",
-      type: "recognized_by" as any,
+      type: "recognized_by",
       label: "State Recognized Venture",
       confidence: 99,
       evidenceIds: ["ev_startup_grant"],

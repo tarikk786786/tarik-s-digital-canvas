@@ -51,11 +51,23 @@ function classify(text: string): { category: NewsCategory; score: number } | nul
 /* Sanitization                                                        */
 /* ------------------------------------------------------------------ */
 
+function stripControlChars(input: string): string {
+  let out = "";
+  for (let i = 0; i < input.length; i++) {
+    const code = input.charCodeAt(i);
+    if (code === 9 || code === 10 || code === 13 || (code >= 32 && code !== 127)) {
+      out += input[i];
+    } else {
+      out += " ";
+    }
+  }
+  return out;
+}
+
 function sanitizeText(input: unknown, max: number): string {
   if (typeof input !== "string") return "";
-  return input
+  return stripControlChars(input)
     .replace(/<[^>]*>/g, " ")
-    .replace(/[\u0000-\u001f\u007f]/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, max);

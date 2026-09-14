@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FindSomeoneApp } from "@/components/find-someone/FindSomeoneApp";
+import { lazy, Suspense } from "react";
+
+const FindSomeoneApp = lazy(() =>
+  import("@/components/find-someone/FindSomeoneApp").then((m) => ({ default: m.FindSomeoneApp })),
+);
 
 export const Route = createFileRoute("/find-someone")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -32,5 +36,15 @@ export const Route = createFileRoute("/find-someone")({
 });
 
 function FindSomeonePage() {
-  return <FindSomeoneApp />;
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen grid place-items-center bg-[#050608] text-muted-foreground font-mono text-xs">
+          Loading FIND DETAILS…
+        </div>
+      }
+    >
+      <FindSomeoneApp />
+    </Suspense>
+  );
 }

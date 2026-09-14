@@ -264,7 +264,7 @@ export function ForensicLabSimulator() {
         <div>
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[#62E6FF] font-semibold mb-1">
             <Activity className="size-3.5" />
-            <span>INTERACTIVE LABORATORY SUITE // LIVE SIMULATION</span>
+            <span>INTERACTIVE LABORATORY SUITE // SIMULATION</span>
           </div>
           <h3 className="font-display font-extrabold text-2xl sm:text-3xl text-foreground">
             Forensic Investigation &amp; Empirical Analysis Lab
@@ -290,7 +290,7 @@ export function ForensicLabSimulator() {
                 type="button"
                 onClick={() => {
                   soundEngine.playClick();
-                  setActiveTab(mode.id as any);
+                  setActiveTab(mode.id as typeof activeTab);
                 }}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-lg border uppercase tracking-wider text-[11px] font-semibold transition-all cursor-pointer ${
                   isActive

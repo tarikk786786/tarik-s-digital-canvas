@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { WorldOSShell } from "@/components/world-os/WorldOSShell";
+import { lazy, Suspense } from "react";
+
+const WorldOSShell = lazy(() =>
+  import("@/components/world-os/WorldOSShell").then((m) => ({ default: m.WorldOSShell })),
+);
 
 export const Route = createFileRoute("/world-os")({
   head: () => ({
@@ -12,5 +16,19 @@ export const Route = createFileRoute("/world-os")({
       },
     ],
   }),
-  component: WorldOSShell,
+  component: WorldOSPage,
 });
+
+function WorldOSPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen grid place-items-center bg-[#050608] text-muted-foreground font-mono text-xs">
+          Loading World OS…
+        </div>
+      }
+    >
+      <WorldOSShell />
+    </Suspense>
+  );
+}

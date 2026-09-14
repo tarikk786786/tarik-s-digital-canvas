@@ -80,10 +80,23 @@ export function validateUploadFile(
 /**
  * Sanitizes untrusted text strings to prevent prompt injection and XSS
  */
+function stripControlChars(input: string): string {
+  let out = "";
+  for (let i = 0; i < input.length; i++) {
+    const code = input.charCodeAt(i);
+    // Keep TAB/LF/CR; drop other C0 controls and DEL
+    if (code === 9 || code === 10 || code === 13 || (code >= 32 && code !== 127)) {
+      out += input[i];
+    } else {
+      out += " ";
+    }
+  }
+  return out;
+}
+
 export function sanitizePromptInput(input: string): string {
-  return input
+  return stripControlChars(input)
     .replace(/<[^>]*>/g, " ")
-    .replace(/[\u0000-\u001f\u007f]/g, " ")
     .replace(/(?:system:|\bignore previous instructions\b|\byou are now\b)/gi, "[REDACTED]")
     .trim();
 }

@@ -300,12 +300,20 @@ SHARED KERNEL (model + provenance + confidence)
 - **Phase 5–6:** `src/lib/adapters/types.ts` + `src/lib/intelligence/registry.ts` (internal source registry) + `src/lib/forensic/adapter.ts` + `src/lib/forensic/registry.ts` (capability map, category labels only)
 - **Phase 7+:** Expanded collectors (multi-RR DNS, IP/ASN, Nominatim geocode); Forensic Lab capability panel + evidence graph + document text path; Hero lab CTAs; Cmd+K lab routes; Lab hub honest health bar
 
+### Fix-all pass (2026-09-14)
+- **Broken:** `npm run lint` failed (~25k prettier CRLF + prefer-const / no-control-regex / no-explicit-any / unused-expressions)
+- **Fixed:** Real ESLint errors; prettier no longer blocks lint on Windows CRLF; `endOfLine: auto` in `.prettierrc`
+- **Fixed:** FIND DETAILS architecture chrome removed tool brands; LiveProgress mode honesty; lazy routes for world-os / forensic-lab / find-someone
+- **Verified:** `tsc --noEmit` PASS · `npm run lint` PASS (0 errors) · `npm run build` PASS
+- WhatsApp `919114411026` already correct in `contact-links.ts` / profile
+
 ### Remaining (deferred)
 - CesiumJS globe, OpenSky proxy, AISStream  
 - Autopsy/Plaso/Volatility workers (capability map only — correct)  
 - Redis/BullMQ, Meilisearch, Qdrant, Neo4j  
 - InsForge Postgres `forensic_cases` / `forensic_jobs` migrations + app wiring  
-- Mass CRLF lint cleanup  
+- Optional mass `prettier --write` (format script) if team wants uniform LF formatting  
 - Full homepage narrative reorder of all legacy showrooms  
 - Automated e2e tests  
 - Deeper visual living-lab ambient polish beyond CTAs / status bar  
+- ScrambleText exhaustive-deps warning (non-blocking)  

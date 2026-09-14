@@ -10,14 +10,21 @@ import {
   addEdge,
   type Node,
   type Edge,
+  type Connection,
   Handle,
   Position,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { User, Building2, BookOpen, MapPin, Globe, Shield, ExternalLink } from "lucide-react";
 
+type GraphNodeData = {
+  label: string;
+  role?: string;
+  type?: string;
+};
+
 // Custom Node for Person
-function PersonNode({ data }: { data: any }) {
+function PersonNode({ data }: { data: GraphNodeData }) {
   return (
     <div className="rounded-xl border-2 border-[#62E6FF] bg-[#0A0D12] p-4 text-xs font-mono shadow-[0_0_24px_rgba(98,230,255,0.3)] min-w-[200px]">
       <Handle type="target" position={Position.Top} className="!bg-[#62E6FF]" />
@@ -41,7 +48,7 @@ function PersonNode({ data }: { data: any }) {
 }
 
 // Custom Node for Organization
-function OrgNode({ data }: { data: any }) {
+function OrgNode({ data }: { data: GraphNodeData }) {
   return (
     <div className="rounded-xl border border-[#9B8CFF]/50 bg-[#0E121A] p-3 text-xs font-mono shadow-[0_0_16px_rgba(155,140,255,0.2)] min-w-[180px]">
       <Handle type="target" position={Position.Top} className="!bg-[#9B8CFF]" />
@@ -62,7 +69,7 @@ function OrgNode({ data }: { data: any }) {
 }
 
 // Custom Node for Document / Proof
-function DocNode({ data }: { data: any }) {
+function DocNode({ data }: { data: GraphNodeData }) {
   return (
     <div className="rounded-xl border border-[#6EE7B7]/40 bg-[#0E121A] p-3 text-xs font-mono shadow-[0_0_16px_rgba(110,231,183,0.15)] min-w-[170px]">
       <Handle type="target" position={Position.Top} className="!bg-[#6EE7B7]" />
@@ -83,7 +90,7 @@ function DocNode({ data }: { data: any }) {
 }
 
 // Custom Node for Location
-function LocationNode({ data }: { data: any }) {
+function LocationNode({ data }: { data: GraphNodeData }) {
   return (
     <div className="rounded-xl border border-amber-500/40 bg-[#0E121A] p-2.5 text-xs font-mono min-w-[150px]">
       <Handle type="target" position={Position.Top} className="!bg-amber-400" />
@@ -198,7 +205,7 @@ export function RelationshipGraph() {
   const [selectedElement, setSelectedElement] = useState<string | null>("person-1");
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 
@@ -207,7 +214,7 @@ export function RelationshipGraph() {
       {/* Top HUD Overlay */}
       <div className="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-2 pointer-events-none">
         <span className="rounded-full bg-white/10 px-3 py-1 font-mono text-[10px] text-[#62E6FF] border border-[#62E6FF]/30 backdrop-blur-md">
-          INTERACTIVE KNOWLEDGE GRAPH (NEO4J / REACT FLOW)
+          INTERACTIVE KNOWLEDGE GRAPH
         </span>
         <span className="rounded-full bg-white/5 px-2.5 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-md">
           Pan & Zoom to explore correlated entities

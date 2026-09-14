@@ -166,7 +166,8 @@ export type RelationshipType =
   | "located_in"
   | "linked_to"
   | "member_of"
-  | "owns";
+  | "owns"
+  | "recognized_by";
 
 export interface Relationship {
   id: string;

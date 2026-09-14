@@ -177,7 +177,7 @@ export function TarikCore3D({ className = "" }: TarikCore3DProps) {
 
     // 5. Animation Loop
     let rafId: number;
-    let clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     const animate = () => {
       rafId = requestAnimationFrame(animate);

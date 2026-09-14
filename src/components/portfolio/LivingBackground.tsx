@@ -24,7 +24,7 @@ export function LivingBackground() {
 
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resize = () => {
       if (!canvas) return;
       canvas.width = window.innerWidth * dpr;

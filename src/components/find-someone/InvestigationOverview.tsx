@@ -14,13 +14,14 @@ import {
   Building2,
   Users,
 } from "lucide-react";
+import type { TabType } from "./InvestigationTabs";
 import type { Investigation, PersonEntity } from "@/lib/find-someone/types";
 
 interface InvestigationOverviewProps {
   investigation: Investigation;
   selectedPerson: PersonEntity;
   onSelectPerson: (person: PersonEntity) => void;
-  onNavigateTab: (tab: any) => void;
+  onNavigateTab: (tab: TabType) => void;
 }
 
 export function InvestigationOverview({
@@ -55,8 +56,8 @@ export function InvestigationOverview({
     },
     {
       claim:
-        "Active open-source systems maintainer on GitHub publishing memory triage and Indic security tools.",
-      source: "GitHub Public Developer Graph",
+        "Active open-source systems maintainer publishing memory triage and Indic security tools.",
+      source: "Public developer profile graph",
       quality: "established",
       confidence: 95,
     },
@@ -246,7 +247,7 @@ export function InvestigationOverview({
           {/* Quick Shortcuts to Deep Views */}
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() => onNavigateTab("graph")}
+              onClick={() => onNavigateTab("connections")}
               className="rounded-lg border border-[#9B8CFF]/30 bg-[#9B8CFF]/5 p-3 text-left hover:bg-[#9B8CFF]/10 transition-colors cursor-pointer"
             >
               <span className="font-mono text-[9px] uppercase tracking-wider text-[#9B8CFF] block">

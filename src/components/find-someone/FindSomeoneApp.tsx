@@ -194,6 +194,7 @@ export function FindSomeoneApp() {
             steps={pipelineSteps}
             targetQuery={investigation.query.raw}
             isSearching={isSearching}
+            mode={mode}
           />
         )}
 

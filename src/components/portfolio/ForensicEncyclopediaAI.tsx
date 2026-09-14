@@ -243,7 +243,7 @@ export function ForensicEncyclopediaAI() {
                   type="button"
                   onClick={() => {
                     soundEngine.playClick();
-                    setActiveTab(tab.id as any);
+                    setActiveTab(tab.id as typeof activeTab);
                   }}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all cursor-pointer ${
                     activeTab === tab.id

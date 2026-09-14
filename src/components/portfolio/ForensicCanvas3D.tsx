@@ -155,12 +155,12 @@ export function ForensicCanvas3D({ className = "" }: { className?: string }) {
         }
 
         // Y-axis rotation
-        let x1 = bx * cosY - bz * sinY;
-        let z1 = bz * cosY + bx * sinY;
+        const x1 = bx * cosY - bz * sinY;
+        const z1 = bz * cosY + bx * sinY;
 
         // X-axis rotation
-        let y1 = by * cosX - z1 * sinX;
-        let z2 = z1 * cosX + by * sinX;
+        const y1 = by * cosX - z1 * sinX;
+        const z2 = z1 * cosX + by * sinX;
 
         // Perspective projection
         const scale = fov / (fov + z2 + radius * 1.2);

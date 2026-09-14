@@ -33,7 +33,13 @@ export function LiveProgress({
             <CheckCircle2 className="size-4 text-[#6EE7B7]" />
           )}
           <span className="font-display font-bold uppercase tracking-wider text-foreground text-sm">
-            {mode === "live" ? "LIVE SESSION · WORKERS OFF" : "DEMO SESSION"}
+            {mode === "live"
+              ? isSearching
+                ? "LIVE KERNEL · COLLECTING"
+                : hasUnavailable
+                  ? "LIVE KERNEL · PARTIAL / AUTH_DEPENDENT"
+                  : "LIVE KERNEL · PUBLIC COLLECTORS"
+              : "DEMO SESSION · SCRIPTED DOSSIER"}
           </span>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground text-[11px]">
