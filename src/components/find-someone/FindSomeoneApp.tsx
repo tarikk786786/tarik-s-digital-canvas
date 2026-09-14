@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
+import { AlertTriangle } from "lucide-react";
 import { FindSomeoneNav } from "./FindSomeoneNav";
 import { SearchInterface } from "./SearchInterface";
 import { LiveProgress, type PipelineStep } from "./LiveProgress";
@@ -72,6 +73,7 @@ export function FindSomeoneApp() {
       : PENDING_STEPS,
   );
   const [kernel, setKernel] = useState<InvestigationKernelResult | null>(null);
+  const autoRan = useRef(false);
 
   const showWorkspace = useMemo(
     () => mode === "demo" && investigation.persons.length > 0,
@@ -160,6 +162,14 @@ export function FindSomeoneApp() {
     }, 220);
   };
 
+  // Auto-run live kernel when arriving from homepage Ask anything with ?q=
+  useEffect(() => {
+    if (mode !== "live" || !initialQuery.trim() || autoRan.current) return;
+    autoRan.current = true;
+    void handleExecuteSearch(initialQuery.trim(), "website");
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one-shot entry run
+  }, [mode, initialQuery]);
+
   return (
     <div className="min-h-screen bg-[#050608] text-foreground font-sans">
       <FindSomeoneNav mode={mode} />
@@ -195,6 +205,7 @@ export function FindSomeoneApp() {
           activeQuery={investigation.query.raw}
           currentIntent={currentIntent}
           onIntentChange={setCurrentIntent}
+          mode={mode}
         />
 
         {(isSearching || pipelineSteps.some((step) => step.status !== "pending")) && (
@@ -214,6 +225,17 @@ export function FindSomeoneApp() {
             </div>
 
             <InvestigationProgress phases={kernel.phases} />
+
+            <div className="flex flex-wrap gap-2">
+              {kernel.classification.chips.map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[#62E6FF]"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
 
             <div className="rounded-xl border border-white/10 bg-[#0A0D12] p-5 space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -249,17 +271,6 @@ export function FindSomeoneApp() {
               </ul>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {kernel.classification.chips.map((chip) => (
-                <span
-                  key={chip}
-                  className="rounded-full border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[#62E6FF]"
-                >
-                  {chip}
-                </span>
-              ))}
-            </div>
-
             <p className="rounded-xl border border-white/10 px-4 py-3 text-xs text-muted-foreground">
               {kernel.boundary}
             </p>
@@ -271,7 +282,7 @@ export function FindSomeoneApp() {
                   className="rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <TechnicalLabel>Collector</TechnicalLabel>
+                    <TechnicalLabel>{a.categoryLabel || "Collector"}</TechnicalLabel>
                     <SystemIndicator
                       health={
                         a.health === "AVAILABLE"
@@ -289,6 +300,43 @@ export function FindSomeoneApp() {
                 </div>
               ))}
             </div>
+
+            {(kernel.conflicts?.length ?? 0) > 0 && (
+              <div className="space-y-3">
+                <h2 className="font-display text-xl font-bold tracking-tight text-amber-200">
+                  Conflicts ({kernel.conflicts.length})
+                </h2>
+                {kernel.conflicts.map((c) => (
+                  <article
+                    key={c.id}
+                    className="rounded-xl border border-amber-500/30 bg-amber-500/[0.04] p-5 space-y-3"
+                  >
+                    <div className="flex items-start gap-3">
+                      <AlertTriangle className="size-4 shrink-0 text-amber-400 mt-0.5" />
+                      <div>
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-amber-400">
+                          Unresolved · {c.field}
+                        </p>
+                        <p className="mt-1 text-sm text-muted-foreground">{c.description}</p>
+                      </div>
+                    </div>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {c.sides.map((side) => (
+                        <div
+                          key={`${c.id}-${side.label}`}
+                          className="rounded-lg border border-white/10 bg-black/30 px-3 py-2"
+                        >
+                          <p className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+                            {side.label}
+                          </p>
+                          <p className="mt-1 text-sm text-foreground">{side.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
 
             <div className="space-y-3">
               <h2 className="font-display text-2xl font-bold tracking-tight">

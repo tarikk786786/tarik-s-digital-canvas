@@ -9,6 +9,7 @@ import {
   type Classification,
   type InvestigationPlan,
 } from "./classifier";
+import { KERNEL_SOURCE_REGISTRY } from "./registry";
 
 export type AdapterHealth = "AVAILABLE" | "DEGRADED" | "AUTH_DEPENDENT" | "OFFLINE";
 
@@ -31,10 +32,23 @@ export interface KernelEvidence {
 
 export interface AdapterResult {
   adapterId: string;
+  /** Visitor-facing category — never an adapter brand */
+  categoryLabel: string;
   health: AdapterHealth;
   statusLabel: string;
   evidence: KernelEvidence[];
   error?: string;
+}
+
+export interface KernelConflict {
+  id: string;
+  field: string;
+  description: string;
+  sides: Array<{ label: string; value: string }>;
+}
+
+function categoryFor(adapterId: string, fallback: string): string {
+  return KERNEL_SOURCE_REGISTRY.find((s) => s.id === adapterId)?.categoryLabel ?? fallback;
 }
 
 function extractDomain(q: string): string | null {
@@ -75,6 +89,7 @@ async function collectDns(domain: string): Promise<AdapterResult> {
     if (answers.length === 0) {
       return {
         adapterId: "dns",
+        categoryLabel: categoryFor("dns", "Public DNS resolution"),
         health: "DEGRADED",
         statusLabel: "No DNS answers",
         evidence: [],
@@ -82,6 +97,7 @@ async function collectDns(domain: string): Promise<AdapterResult> {
     }
     return {
       adapterId: "dns",
+      categoryLabel: categoryFor("dns", "Public DNS resolution"),
       health: "AVAILABLE",
       statusLabel: `${answers.length} DNS records retrieved`,
       evidence: answers.slice(0, 16).map((a, i) => ({
@@ -103,6 +119,7 @@ async function collectDns(domain: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "dns",
+      categoryLabel: categoryFor("dns", "Public DNS resolution"),
       health: "OFFLINE",
       statusLabel: "DNS unreachable",
       evidence: [],
@@ -125,6 +142,7 @@ async function collectIpAsn(ip: string): Promise<AdapterResult> {
     if (!res.ok) {
       return {
         adapterId: "ip-asn",
+        categoryLabel: categoryFor("ip-asn", "IP / network metadata"),
         health: "DEGRADED",
         statusLabel: `IP metadata HTTP ${res.status}`,
         evidence: [],
@@ -144,6 +162,7 @@ async function collectIpAsn(ip: string): Promise<AdapterResult> {
     if (json.success === false) {
       return {
         adapterId: "ip-asn",
+        categoryLabel: categoryFor("ip-asn", "IP / network metadata"),
         health: "DEGRADED",
         statusLabel: json.message || "IP lookup failed",
         evidence: [],
@@ -154,6 +173,7 @@ async function collectIpAsn(ip: string): Promise<AdapterResult> {
     const org = json.connection?.org || json.connection?.isp || "unknown org";
     return {
       adapterId: "ip-asn",
+      categoryLabel: categoryFor("ip-asn", "IP / network metadata"),
       health: "AVAILABLE",
       statusLabel: "IP / ASN metadata retrieved",
       evidence: [
@@ -180,6 +200,7 @@ async function collectIpAsn(ip: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "ip-asn",
+      categoryLabel: categoryFor("ip-asn", "IP / network metadata"),
       health: "OFFLINE",
       statusLabel: "IP metadata unreachable",
       evidence: [],
@@ -204,6 +225,7 @@ async function collectGeocode(query: string): Promise<AdapterResult> {
     if (!res.ok) {
       return {
         adapterId: "geocode",
+        categoryLabel: categoryFor("geocode", "Place / location lookup"),
         health: "DEGRADED",
         statusLabel: `Geocode HTTP ${res.status}`,
         evidence: [],
@@ -219,6 +241,7 @@ async function collectGeocode(query: string): Promise<AdapterResult> {
     }>;
     return {
       adapterId: "geocode",
+      categoryLabel: categoryFor("geocode", "Place / location lookup"),
       health: "AVAILABLE",
       statusLabel: `${json.length} place candidates`,
       evidence: json.map((row, i) => ({
@@ -243,6 +266,7 @@ async function collectGeocode(query: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "geocode",
+      categoryLabel: categoryFor("geocode", "Place / location lookup"),
       health: "OFFLINE",
       statusLabel: "Geocode unreachable",
       evidence: [],
@@ -262,6 +286,7 @@ async function collectRdap(domain: string): Promise<AdapterResult> {
     if (!res.ok) {
       return {
         adapterId: "rdap",
+        categoryLabel: categoryFor("rdap", "Domain registration directory"),
         health: res.status === 404 ? "AVAILABLE" : "DEGRADED",
         statusLabel: res.status === 404 ? "No RDAP domain object" : `RDAP HTTP ${res.status}`,
         evidence: [],
@@ -283,6 +308,7 @@ async function collectRdap(domain: string): Promise<AdapterResult> {
     const status = (json.status ?? []).join(", ") || "unknown";
     return {
       adapterId: "rdap",
+      categoryLabel: categoryFor("rdap", "Domain registration directory"),
       health: "AVAILABLE",
       statusLabel: "Registration data retrieved",
       evidence: [
@@ -310,6 +336,7 @@ async function collectRdap(domain: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "rdap",
+      categoryLabel: categoryFor("rdap", "Domain registration directory"),
       health: "OFFLINE",
       statusLabel: "RDAP unreachable",
       evidence: [],
@@ -328,6 +355,7 @@ async function collectCrtSh(domain: string): Promise<AdapterResult> {
     if (!res.ok) {
       return {
         adapterId: "ct-logs",
+        categoryLabel: categoryFor("ct-logs", "Certificate transparency"),
         health: "DEGRADED",
         statusLabel: `Certificate transparency HTTP ${res.status}`,
         evidence: [],
@@ -351,6 +379,7 @@ async function collectCrtSh(domain: string): Promise<AdapterResult> {
     const list = [...names].slice(0, 12);
     return {
       adapterId: "ct-logs",
+      categoryLabel: categoryFor("ct-logs", "Certificate transparency"),
       health: "AVAILABLE",
       statusLabel: `${list.length} public hostnames from CT`,
       evidence: list.map((name, i) => ({
@@ -375,6 +404,7 @@ async function collectCrtSh(domain: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "ct-logs",
+      categoryLabel: categoryFor("ct-logs", "Certificate transparency"),
       health: "DEGRADED",
       statusLabel: "Certificate transparency unavailable",
       evidence: [],
@@ -393,6 +423,7 @@ async function collectWayback(domain: string): Promise<AdapterResult> {
     if (!res.ok) {
       return {
         adapterId: "archive",
+        categoryLabel: categoryFor("archive", "Public web archive index"),
         health: "DEGRADED",
         statusLabel: `Archive index HTTP ${res.status}`,
         evidence: [],
@@ -403,6 +434,7 @@ async function collectWayback(domain: string): Promise<AdapterResult> {
     const rows = json.slice(1);
     return {
       adapterId: "archive",
+      categoryLabel: categoryFor("archive", "Public web archive index"),
       health: "AVAILABLE",
       statusLabel: `${rows.length} archived captures`,
       evidence: rows.map((row, i) => {
@@ -432,6 +464,7 @@ async function collectWayback(domain: string): Promise<AdapterResult> {
   } catch (e) {
     return {
       adapterId: "archive",
+      categoryLabel: categoryFor("archive", "Public web archive index"),
       health: "DEGRADED",
       statusLabel: "Archive index unavailable",
       evidence: [],
@@ -442,17 +475,81 @@ async function collectWayback(domain: string): Promise<AdapterResult> {
 
 function stubAdapter(
   id: string,
-  statusLabel: string,
+  categoryLabel: string,
   health: AdapterHealth,
   why: string,
 ): AdapterResult {
   return {
     adapterId: id,
+    categoryLabel,
     health,
-    statusLabel,
+    statusLabel: categoryLabel,
     evidence: [],
     error: why,
   };
+}
+
+function correlateConflicts(adapters: AdapterResult[]): KernelConflict[] {
+  const conflicts: KernelConflict[] = [];
+  const byId = Object.fromEntries(adapters.map((a) => [a.adapterId, a]));
+
+  const dns = byId["dns"];
+  const rdap = byId["rdap"];
+  if (
+    dns?.health === "AVAILABLE" &&
+    dns.evidence.length > 0 &&
+    rdap &&
+    rdap.evidence.length === 0 &&
+    (rdap.statusLabel.includes("No RDAP") || rdap.health === "AVAILABLE")
+  ) {
+    conflicts.push({
+      id: "conflict-dns-vs-rdap",
+      field: "Domain registration vs resolution",
+      description:
+        "Public DNS answers exist, but the registration directory returned no domain object. Coverage gaps and privacy redaction are common — treat as unresolved, not identity.",
+      sides: [
+        { label: dns.categoryLabel, value: dns.statusLabel },
+        { label: rdap.categoryLabel, value: rdap.statusLabel },
+      ],
+    });
+  }
+
+  const geo = byId["geocode"];
+  if (geo?.health === "AVAILABLE" && geo.evidence.length >= 2) {
+    const a = geo.evidence[0];
+    const b = geo.evidence[1];
+    if (a.title !== b.title) {
+      conflicts.push({
+        id: "conflict-geocode-ambiguity",
+        field: "Place identity",
+        description:
+          "Open place directory returned multiple distinct candidates. Ambiguous place names need human disambiguation — the kernel does not pick a winner.",
+        sides: [
+          { label: "Candidate A", value: a.title },
+          { label: "Candidate B", value: b.title },
+        ],
+      });
+    }
+  }
+
+  const aRecords = dns?.evidence.filter((e) => e.title.startsWith("A record")) ?? [];
+  if (aRecords.length >= 2) {
+    const values = [...new Set(aRecords.map((e) => e.summary.split(" ")[0]))];
+    if (values.length >= 2) {
+      conflicts.push({
+        id: "conflict-multi-a",
+        field: "IPv4 answers",
+        description:
+          "Multiple distinct A records were returned. Multi-homing / CDN anycast is normal — not proof of conflicting ownership.",
+        sides: values.slice(0, 2).map((v, i) => ({
+          label: `A answer ${i + 1}`,
+          value: v,
+        })),
+      });
+    }
+  }
+
+  return conflicts;
 }
 
 export interface InvestigationKernelResult {
@@ -462,6 +559,7 @@ export interface InvestigationKernelResult {
   phases: Array<{ id: string; status: "completed" | "running" | "pending" | "skipped" }>;
   adapters: AdapterResult[];
   evidence: KernelEvidence[];
+  conflicts: KernelConflict[];
   retrievedAt: string;
   boundary: string;
 }
@@ -494,11 +592,19 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
 
   const stubs: AdapterResult[] = plan.steps
     .filter((s) => s.mode === "AUTH_DEPENDENT")
-    .map((s) => stubAdapter(s.id, s.categoryLabel, "AUTH_DEPENDENT", s.reason));
+    .map((s) =>
+      stubAdapter(
+        s.id,
+        s.categoryLabel,
+        "AUTH_DEPENDENT",
+        s.reason,
+      ),
+    );
 
   const collected = jobs.length > 0 ? await Promise.all(jobs) : [];
   const adapters = [...collected, ...stubs];
   const evidence = adapters.flatMap((a) => a.evidence);
+  const conflicts = correlateConflicts(adapters);
 
   return {
     query: rawQuery.trim(),
@@ -507,11 +613,12 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
     phases: [
       { id: "UNDERSTANDING", status: "completed" },
       { id: "COLLECTING", status: "completed" },
-      { id: "CORRELATING", status: evidence.length ? "completed" : "skipped" },
+      { id: "CORRELATING", status: evidence.length || conflicts.length ? "completed" : "skipped" },
       { id: "VERIFYING", status: evidence.length ? "completed" : "skipped" },
     ],
     adapters,
     evidence,
+    conflicts,
     retrievedAt,
     boundary:
       "Public / permitted sources only. No private databases, IMSI, interception, credential theft, or subscriber triangulation.",

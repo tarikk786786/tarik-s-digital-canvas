@@ -1,4 +1,4 @@
-import { detectQueryType } from "./scoring";
+import { classifyQuery } from "@/lib/intelligence/classifier";
 
 export type InvestigationMode = "demo" | "live";
 
@@ -10,13 +10,9 @@ export interface CreatedInvestigation {
   mode: InvestigationMode;
 }
 
+/** Align session tags with the Information Kernel classifier. */
 export function classifyInput(query: string): string[] {
-  const type = detectQueryType(query);
-  const tags = [type.toUpperCase()];
-  if (/\b(from|at|in)\b/i.test(query) && type === "person") {
-    tags.push("RELATIONSHIP");
-  }
-  return tags;
+  return classifyQuery(query).chips;
 }
 
 export function workspacePath(id: string, mode: InvestigationMode, query: string) {

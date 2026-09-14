@@ -60,6 +60,32 @@ async function runCase(
     };
   }
 
+  if (!Array.isArray(result.conflicts)) {
+    return {
+      label,
+      query,
+      ok: false,
+      detail: "missing conflicts array on kernel result",
+      liveAdapters: [],
+      authAdapters: [],
+      evidenceCount: 0,
+    };
+  }
+
+  for (const a of result.adapters) {
+    if (!a.categoryLabel || BRAND_LEAK.test(a.categoryLabel)) {
+      return {
+        label,
+        query,
+        ok: false,
+        detail: `adapter ${a.adapterId} missing/leaky categoryLabel`,
+        liveAdapters: [],
+        authAdapters: [],
+        evidenceCount: result.evidence.length,
+      };
+    }
+  }
+
   const liveAdapters = result.adapters
     .filter((a) => a.health === "AVAILABLE")
     .map((a) => a.adapterId);
