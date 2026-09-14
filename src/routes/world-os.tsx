@@ -8,11 +8,11 @@ const WorldOSShell = lazy(() =>
 export const Route = createFileRoute("/world-os")({
   head: () => ({
     meta: [
-      { title: "WORLD OS — Tarik Islam" },
+      { title: "WORLD OS — Tarik Digital Canvas" },
       {
         name: "description",
         content:
-          "TARIK ISLAM // WORLD OS — public data grid with honest ONLINE / DEGRADED / OFFLINE / AUTH_DEPENDENT source health.",
+          "WORLD OS — personal public data grid with honest ONLINE / DEGRADED / OFFLINE / AUTH_DEPENDENT source health. No fake counters.",
       },
     ],
   }),

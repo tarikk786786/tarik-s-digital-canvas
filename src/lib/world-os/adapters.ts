@@ -95,14 +95,15 @@ export const usgsEarthquakeAdapter: SourceAdapter = {
   license: "USGS public domain",
   async healthCheck() {
     try {
+      // GET (not HEAD) — USGS/CDN often mishandle HEAD and false-negatives health
       const res = await fetch(
-        "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson",
-        { method: "HEAD", signal: AbortSignal.timeout(8000) },
+        "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
+        { signal: AbortSignal.timeout(10000) },
       );
       if (!res.ok) {
         return { health: "DEGRADED" as const, detail: `HTTP ${res.status}` };
       }
-      return { health: "ONLINE" as const, detail: "Feed reachable" };
+      return { health: "ONLINE" as const, detail: "M2.5+ day feed reachable" };
     } catch (e) {
       return {
         health: "OFFLINE" as const,
@@ -111,29 +112,47 @@ export const usgsEarthquakeAdapter: SourceAdapter = {
     }
   },
   async fetch({ indiaMode }) {
-    const url =
+    // Prefer day feed; if India Mode yields empty, widen to week (still real events only)
+    const dayUrl =
       "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson";
-    const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
-    if (!res.ok) throw new Error(`Seismic feed HTTP ${res.status}`);
-    const json = (await res.json()) as {
-      features?: Array<{
-        id: string;
-        properties: {
-          mag: number;
-          place: string;
-          time: number;
-          title: string;
-        };
-        geometry: { coordinates: [number, number, number] };
-      }>;
+    const weekUrl =
+      "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson";
+
+    const loadFeatures = async (url: string) => {
+      const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+      if (!res.ok) throw new Error(`Seismic feed HTTP ${res.status}`);
+      const json = (await res.json()) as {
+        features?: Array<{
+          id: string;
+          properties: {
+            mag: number;
+            place: string;
+            time: number;
+            title: string;
+          };
+          geometry: { coordinates: [number, number, number] };
+        }>;
+      };
+      return json.features ?? [];
     };
+
+    const inIndia = (
+      f: { geometry: { coordinates: [number, number, number] } },
+    ) => {
+      const [lng, lat] = f.geometry.coordinates;
+      return lat >= 5 && lat <= 38 && lng >= 65 && lng <= 100;
+    };
+
     const retrievedAt = setTs(this.id);
-    let features = json.features ?? [];
+    let features = await loadFeatures(dayUrl);
+    let windowLabel = "past day";
     if (indiaMode) {
-      features = features.filter((f) => {
-        const [lng, lat] = f.geometry.coordinates;
-        return lat >= 5 && lat <= 38 && lng >= 65 && lng <= 100;
-      });
+      features = features.filter(inIndia);
+      if (features.length === 0) {
+        const week = await loadFeatures(weekUrl);
+        features = week.filter(inIndia);
+        windowLabel = "past week (day window empty in bbox)";
+      }
     }
     return features.slice(0, 24).map((f) => {
       const [lng, lat] = f.geometry.coordinates;
@@ -152,8 +171,7 @@ export const usgsEarthquakeAdapter: SourceAdapter = {
           license: this.license,
           retrievedAt,
           confidence: "VERIFIED" as const,
-          whyVisible:
-            "Public seismic bulletin for the selected time window. Shown because EARTH dimension is active.",
+          whyVisible: `Public seismic bulletin (${windowLabel}). Shown because EARTH dimension is active.`,
           limitations: [
             "Magnitude and location are agency-reported estimates.",
             indiaMode
@@ -264,10 +282,11 @@ export const airTrafficAdapter: SourceAdapter = {
   license: "OpenSky Network (CC BY-SA / terms of use)",
   async healthCheck() {
     try {
+      // Tight India corridor — faster probe than a wide bbox
       const res = await fetch(
-        "https://opensky-network.org/api/states/all?lamin=18&lomin=72&lamax=22&lomax=78",
+        "https://opensky-network.org/api/states/all?lamin=18&lomin=72&lamax=23&lomax=78",
         {
-          signal: AbortSignal.timeout(10000),
+          signal: AbortSignal.timeout(8000),
           headers: { Accept: "application/json" },
         },
       );
@@ -280,19 +299,18 @@ export const airTrafficAdapter: SourceAdapter = {
       return { health: "ONLINE" as const, detail: "OpenSky reachable via server proxy" };
     } catch (e) {
       return {
-        health: "OFFLINE" as const,
-        detail: e instanceof Error ? e.message : "Unreachable",
+        health: "DEGRADED" as const,
+        detail: e instanceof Error ? e.message : "Probe timed out",
       };
     }
   },
   async fetch({ indiaMode }) {
-    // Never pull the full planet in one call (huge payload / timeouts). Sample bboxes.
+    // One primary bbox first (timeout-friendly). Never invent flights.
     const regions = indiaMode
-      ? [{ lamin: 5, lomin: 65, lamax: 38, lomax: 100 }]
+      ? [{ lamin: 8, lomin: 68, lamax: 35, lomax: 97 }]
       : [
-          { lamin: 5, lomin: 65, lamax: 38, lomax: 100 },
-          { lamin: 35, lomin: -10, lamax: 60, lomax: 30 },
-          { lamin: 24, lomin: -125, lamax: 49, lomax: -66 },
+          { lamin: 8, lomin: 68, lamax: 35, lomax: 97 },
+          { lamin: 35, lomin: -10, lamax: 55, lomax: 20 },
         ];
 
     const retrievedAt = setTs(this.id);
@@ -310,7 +328,7 @@ export const airTrafficAdapter: SourceAdapter = {
       });
       try {
         const res = await fetch(`https://opensky-network.org/api/states/all?${qs}`, {
-          signal: AbortSignal.timeout(12000),
+          signal: AbortSignal.timeout(9000),
           headers: { Accept: "application/json" },
         });
         if (res.status === 429) {
@@ -328,6 +346,7 @@ export const airTrafficAdapter: SourceAdapter = {
         sawOk = true;
         if (json.time) observedAt = new Date(json.time * 1000).toISOString();
         states.push(...(json.states ?? []));
+        if (states.length >= 20) break;
       } catch (e) {
         lastErr = e instanceof Error ? e.message : "Fetch failed";
       }
