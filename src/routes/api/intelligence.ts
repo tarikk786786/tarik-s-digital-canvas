@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { sanitizePromptInput } from "@/lib/find-someone/security";
 import { runInformationKernel } from "@/lib/intelligence/collectors";
+import { getKernelRegistryPublic } from "@/lib/intelligence/registry";
+import { getPublicWorkerStatuses } from "@/lib/forensic/registry";
 import { WORLD_ADAPTERS, type WorldDimension } from "@/lib/world-os/adapters";
 
 const CORS: Record<string, string> = {
@@ -76,6 +78,25 @@ export const Route = createFileRoute("/api/intelligence")({
           );
         }
 
+        if (kind === "kernel" || kind === "health") {
+          return Response.json(
+            {
+              status: "ok",
+              service: "information-kernel",
+              retrievedAt: new Date().toISOString(),
+              sources: getKernelRegistryPublic(),
+              forensicWorkers: getPublicWorkerStatuses().map((w) => ({
+                id: w.id,
+                label: w.label,
+                health: w.health,
+                detail: w.detail,
+              })),
+              note: "Registry health is capability truth — not live probe of every upstream host.",
+            },
+            { headers: CORS },
+          );
+        }
+
         return Response.json(
           {
             status: "ok",
@@ -83,6 +104,7 @@ export const Route = createFileRoute("/api/intelligence")({
             endpoints: {
               investigate: "POST /api/intelligence { query }",
               world: "GET /api/intelligence?kind=world&dimension=EARTH&india=0|1",
+              kernel: "GET /api/intelligence?kind=kernel",
             },
           },
           { headers: CORS },

@@ -9,6 +9,14 @@ import { detectQueryType } from "@/lib/find-someone/scoring";
 import { soundEngine } from "@/lib/sound-engine";
 import type { Investigation, SearchIntent } from "@/lib/find-someone/types";
 import type { InvestigationKernelResult } from "@/lib/intelligence/collectors";
+import {
+  ConfidenceMeter,
+  InvestigationProgress,
+  LiveTimestamp,
+  SourceBadge,
+  SystemIndicator,
+  TechnicalLabel,
+} from "@/components/system";
 
 const PENDING_STEPS: PipelineStep[] = [
   { label: "UNDERSTANDING", status: "pending" },
@@ -200,6 +208,13 @@ export function FindSomeoneApp() {
 
         {mode === "live" && kernel && (
           <section className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <TechnicalLabel className="text-[#62E6FF]">Live public collectors</TechnicalLabel>
+              <LiveTimestamp iso={kernel.retrievedAt} prefix="Retrieved" />
+            </div>
+
+            <InvestigationProgress phases={kernel.phases} />
+
             <div className="flex flex-wrap gap-2">
               {kernel.classification.chips.map((chip) => (
                 <span
@@ -211,18 +226,32 @@ export function FindSomeoneApp() {
               ))}
             </div>
 
-            <p className="text-xs text-muted-foreground border border-white/10 rounded-xl px-4 py-3">
+            <p className="rounded-xl border border-white/10 px-4 py-3 text-xs text-muted-foreground">
               {kernel.boundary}
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {kernel.adapters.map((a) => (
-                <div key={a.adapterId} className="rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3">
-                  <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                    Collector · {a.health}
-                  </p>
-                  <p className="mt-1 text-sm text-foreground">{a.statusLabel}</p>
-                  {a.error && <p className="mt-1 text-[11px] text-muted-foreground">{a.error}</p>}
+                <div
+                  key={a.adapterId}
+                  className="rounded-xl border border-white/10 bg-[#0A0D12] px-4 py-3"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <TechnicalLabel>Collector</TechnicalLabel>
+                    <SystemIndicator
+                      health={
+                        a.health === "AVAILABLE"
+                          ? "ONLINE"
+                          : a.health === "AUTH_DEPENDENT"
+                            ? "AUTH_DEPENDENT"
+                            : a.health
+                      }
+                    />
+                  </div>
+                  <p className="mt-2 text-sm text-foreground">{a.statusLabel}</p>
+                  {a.error && (
+                    <p className="mt-1 text-[11px] text-muted-foreground">{a.error}</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -234,41 +263,43 @@ export function FindSomeoneApp() {
               {kernel.evidence.length === 0 ? (
                 <p className="rounded-xl border border-dashed border-white/10 p-6 text-sm text-muted-foreground">
                   No public evidence returned for this query class yet. Try a domain (e.g.
-                  example.com) to exercise live DNS / registration / archive collectors.
+                  example.com) for DNS / registration / archive. India corporate and username
+                  presence stay AUTH_DEPENDENT — never fabricated.
                 </p>
               ) : (
                 kernel.evidence.map((ev) => (
                   <article
                     key={ev.id}
-                    className="rounded-xl border border-white/10 bg-[#0A0D12] p-5 space-y-2"
+                    className="space-y-3 rounded-xl border border-white/10 bg-[#0A0D12] p-5"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <h3 className="font-medium text-foreground">{ev.title}</h3>
-                      <span className="font-mono text-[10px] text-[#62E6FF]">{ev.confidence}</span>
+                      <SourceBadge label={ev.provenance.sourceLabel} freshness={ev.freshness} />
                     </div>
                     <p className="text-sm text-muted-foreground">{ev.summary}</p>
-                    <dl className="grid gap-2 sm:grid-cols-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground pt-2 border-t border-white/5">
+                    <ConfidenceMeter confidence={ev.confidence} />
+                    <dl className="grid gap-2 border-t border-white/5 pt-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground sm:grid-cols-2">
                       <div>
-                        <dt>Source</dt>
-                        <dd className="text-foreground normal-case tracking-normal mt-0.5">
-                          {ev.provenance.sourceLabel}
+                        <dt>Method</dt>
+                        <dd className="mt-0.5 normal-case tracking-normal text-foreground">
+                          {ev.provenance.method}
                         </dd>
                       </div>
                       <div>
                         <dt>Retrieved</dt>
-                        <dd className="text-foreground normal-case tracking-normal mt-0.5">
+                        <dd className="mt-0.5 normal-case tracking-normal text-foreground">
                           {ev.provenance.retrievedAt}
                         </dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt>Why am I seeing this?</dt>
-                        <dd className="text-foreground normal-case tracking-normal mt-0.5">
+                        <dd className="mt-0.5 normal-case tracking-normal text-foreground">
                           {ev.provenance.whyVisible}
                         </dd>
                       </div>
                       <div className="sm:col-span-2">
                         <dt>Limitations</dt>
-                        <dd className="text-muted-foreground normal-case tracking-normal mt-0.5 space-y-0.5">
+                        <dd className="mt-0.5 space-y-0.5 normal-case tracking-normal text-muted-foreground">
                           {ev.provenance.limitations.map((l) => (
                             <p key={l}>• {l}</p>
                           ))}

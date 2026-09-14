@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import photoLab from "@/assets/tarik-photo-lab.jpg";
 import profileImage from "@/assets/tarik-portrait-cutout.png";
 import { TarikCore3D } from "./TarikCore3D";
+import { LivingBackground } from "./LivingBackground";
 import { MagneticButton } from "./MagneticButton";
 import { ArrowUpRight, Maximize2 } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/contact-links";
 import { PROFILE } from "@/lib/profile";
 import { soundEngine } from "@/lib/sound-engine";
+import { TechnicalLabel } from "@/components/system";
 
 const ROLES = [
   "Forensic Science Specialist",
@@ -45,39 +47,41 @@ export function Hero() {
   return (
     <header
       id="top"
-      className="relative min-h-[100svh] w-full flex flex-col justify-center pt-24 md:pt-28 pb-16 overflow-hidden bg-[#050608]"
+      className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden bg-[#050608] pt-24 pb-16 md:pt-28"
     >
-      <div className="absolute inset-0 pointer-events-none -z-0 ambient-mesh-hero">
+      <LivingBackground />
+      <div className="pointer-events-none absolute inset-0 -z-0 opacity-40">
         <div className="absolute inset-0 grid-bg opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628]/80 via-transparent to-[#1a0a08]/40" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628]/70 via-transparent to-[#1a0a08]/35" />
       </div>
 
-      <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-        <div className="lg:col-span-6 flex flex-col justify-center">
-          <p className="font-mono text-[11px] uppercase tracking-[0.32em] text-[#62E6FF] mb-3">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-12 px-6 md:px-12 lg:grid-cols-12 lg:gap-16 lg:px-16">
+        <div className="flex flex-col justify-center lg:col-span-6">
+          <TechnicalLabel className="mb-3 text-[#62E6FF]">
             Tarik Digital Canvas · Protocol 001
-          </p>
-          <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground mb-5">
+          </TechnicalLabel>
+          <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
             Verified practitioner · Bhubaneswar · Dezo.in
           </p>
 
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-[5.75rem] font-extrabold tracking-tighter leading-[0.9] text-foreground">
+          <h1 className="font-display text-5xl font-extrabold leading-[0.9] tracking-tighter text-foreground sm:text-6xl md:text-7xl lg:text-[5.75rem]">
             Tarik Islam
           </h1>
 
-          <div className="mt-5 flex items-center gap-3 min-h-7">
+          <div className="mt-5 flex min-h-7 items-center gap-3">
             <span className="h-px w-8 bg-[#62E6FF]" />
             <p className="font-mono text-sm uppercase tracking-[0.22em] text-[#62E6FF]">
               {reduceMotion ? PROFILE.identity : ROLES[roleIndex]}
             </p>
           </div>
 
-          <p className="mt-8 max-w-xl font-display text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-foreground/90 leading-snug italic">
+          <p className="mt-8 max-w-xl font-display text-2xl font-light italic leading-snug tracking-tight text-foreground/90 sm:text-3xl md:text-4xl">
             Building intelligent systems that see the invisible.
           </p>
 
-          <p className="mt-6 max-w-lg font-sans text-base sm:text-lg text-muted-foreground leading-relaxed">
-            Forensic science specialist in <span className="text-foreground">investigation &amp; toxicology</span>
+          <p className="mt-6 max-w-lg font-sans text-base leading-relaxed text-muted-foreground sm:text-lg">
+            Forensic science specialist in{" "}
+            <span className="text-foreground">investigation &amp; toxicology</span>
             — then MCA, then M.Tech in cyber security &amp; AI / digital forensics. Laboratory rigor
             applied to evidence, systems, and intelligence.
           </p>
@@ -104,7 +108,7 @@ export function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => soundEngine.playClick()}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/15 bg-white/[0.04] font-mono text-xs uppercase tracking-[0.2em] text-foreground hover:border-[#62E6FF]/50 transition-colors"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/[0.04] px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-foreground transition-colors hover:border-[#62E6FF]/50"
             >
               WhatsApp +91 91144 11026
             </a>
@@ -115,13 +119,12 @@ export function Hero() {
               { href: "/find-someone?mode=live", label: "FIND DETAILS" },
               { href: "/world-os", label: "WORLD" },
               { href: "/forensic-lab", label: "FORENSIC" },
-              { href: "/#how-i-build", label: "ARCHITECTURE" },
             ].map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={() => soundEngine.playClick()}
-                className="rounded-full border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground hover:border-[#62E6FF]/40 hover:text-[#62E6FF] transition-colors"
+                className="rounded-full border border-white/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-[#62E6FF]/40 hover:text-[#62E6FF]"
               >
                 {item.label}
               </a>
@@ -129,9 +132,9 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="lg:col-span-6 relative">
-          <div className="relative mx-auto max-w-md lg:max-w-none aspect-[4/5] lg:aspect-[5/6] overflow-hidden rounded-[2rem] border border-white/10 bg-[#0A0D12] shadow-[0_0_80px_rgba(98,230,255,0.08)]">
-            <div className="absolute inset-0 opacity-40 pointer-events-none">
+        <div className="relative lg:col-span-6">
+          <div className="relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-[#0A0D12] shadow-[0_0_80px_rgba(98,230,255,0.08)] lg:aspect-[5/6] lg:max-w-none">
+            <div className="pointer-events-none absolute inset-0 opacity-35">
               <TarikCore3D className="size-full" />
             </div>
 
@@ -147,20 +150,18 @@ export function Hero() {
               className="relative z-10 size-full object-contain object-bottom drop-shadow-[0_20px_60px_rgba(0,0,0,0.65)]"
             />
 
-            <div className="absolute top-5 left-5 z-20 rounded-lg border border-white/10 bg-[#050608]/75 px-3 py-2 backdrop-blur-md">
-              <p className="font-mono text-[9px] uppercase tracking-widest text-[#62E6FF]">Primary</p>
-              <p className="font-mono text-[10px] text-foreground mt-0.5">Investigation · Toxicology</p>
-            </div>
-
             <button
               type="button"
               onClick={openLabLightbox}
-              className="absolute bottom-5 right-5 z-20 inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#050608]/80 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-[#62E6FF] hover:border-[#62E6FF]/40 transition-colors"
+              className="absolute right-5 bottom-5 z-20 inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#050608]/80 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors hover:border-[#62E6FF]/40 hover:text-[#62E6FF]"
             >
               <Maximize2 className="size-3" />
               Peek the lab
             </button>
           </div>
+          <p className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            Investigation · Toxicology · Digital forensics
+          </p>
         </div>
       </div>
     </header>

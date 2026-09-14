@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
+import { prefersReducedMotion } from "@/lib/motion/system";
 
 /**
  * Fixed atmospheric layer: drifting aurora orbs + subtle particle field
  * that responds to mouse parallax. Sits behind all content (z-0).
+ * Honors prefers-reduced-motion — static field only, no RAF loop.
  */
 export function LivingBackground() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -12,15 +14,16 @@ export function LivingBackground() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduced = prefersReducedMotion();
 
     let mx = 0.5;
     let my = 0.5;
     const onMove = (e: MouseEvent) => {
+      if (reduced) return;
       mx = e.clientX / window.innerWidth;
       my = e.clientY / window.innerHeight;
     };
-    window.addEventListener("mousemove", onMove, { passive: true });
+    if (!reduced) window.addEventListener("mousemove", onMove, { passive: true });
 
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
@@ -63,12 +66,29 @@ export function LivingBackground() {
     };
     let shooterTimer = 0;
 
+    const drawStatic = () => {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (const st of stars) {
+        ctx.fillStyle = "rgba(200,240,255,0.35)";
+        ctx.beginPath();
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    if (reduced) {
+      drawStatic();
+      return () => {
+        window.removeEventListener("resize", resize);
+      };
+    }
+
     let raf = 0;
     const tick = (now: number) => {
       if (ctx && canvas) {
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-        // draw stars with parallax + twinkle, cache positions for links
         const pts: { x: number; y: number; r: number }[] = [];
         for (const st of stars) {
           const twinkle = 0.5 + Math.sin(now * 0.001 * st.s + st.d) * 0.5;
@@ -81,7 +101,6 @@ export function LivingBackground() {
           pts.push({ x: px, y: py, r: st.r });
         }
 
-        // constellation links — connect near neighbors (neural net vibe)
         ctx.lineWidth = 0.35;
         const maxD = 130;
         for (let i = 0; i < pts.length; i++) {
@@ -92,7 +111,7 @@ export function LivingBackground() {
             const dy = a.y - b.y;
             const d = Math.hypot(dx, dy);
             if (d < maxD) {
-              const alpha = (1 - d / maxD) * 0.22;
+              const alpha = (1 - d / maxD) * 0.18;
               ctx.strokeStyle = `rgba(140,220,255,${alpha})`;
               ctx.beginPath();
               ctx.moveTo(a.x, a.y);
@@ -102,9 +121,8 @@ export function LivingBackground() {
           }
         }
 
-        // shooting stars
         shooterTimer++;
-        if (shooterTimer > 220 && Math.random() < 0.02) {
+        if (shooterTimer > 280 && Math.random() < 0.015) {
           spawnShooter();
           shooterTimer = 0;
         }
@@ -115,27 +133,29 @@ export function LivingBackground() {
           s.life++;
           const tailLen = 90;
           const grad = ctx.createLinearGradient(s.x, s.y, s.x - s.vx * 6, s.y - s.vy * 6);
-          grad.addColorStop(0, "rgba(180,240,255,0.9)");
+          grad.addColorStop(0, "rgba(180,240,255,0.75)");
           grad.addColorStop(1, "rgba(180,240,255,0)");
           ctx.strokeStyle = grad;
-          ctx.lineWidth = 1.2;
+          ctx.lineWidth = 1.1;
           ctx.beginPath();
           ctx.moveTo(s.x, s.y);
-          ctx.lineTo(s.x - (s.vx / Math.hypot(s.vx, s.vy)) * tailLen, s.y - (s.vy / Math.hypot(s.vx, s.vy)) * tailLen);
+          ctx.lineTo(
+            s.x - (s.vx / Math.hypot(s.vx, s.vy)) * tailLen,
+            s.y - (s.vy / Math.hypot(s.vx, s.vy)) * tailLen,
+          );
           ctx.stroke();
           if (s.life > s.max) shooters.splice(i, 1);
         }
       }
 
-      // parallax orbs
       if (orbA.current)
-        orbA.current.style.transform = `translate3d(${(mx - 0.5) * -40}px, ${(my - 0.5) * -30}px, 0)`;
+        orbA.current.style.transform = `translate3d(${(mx - 0.5) * -28}px, ${(my - 0.5) * -20}px, 0)`;
       if (orbB.current)
-        orbB.current.style.transform = `translate3d(${(mx - 0.5) * 60}px, ${(my - 0.5) * 40}px, 0)`;
+        orbB.current.style.transform = `translate3d(${(mx - 0.5) * 40}px, ${(my - 0.5) * 28}px, 0)`;
       if (orbC.current)
-        orbC.current.style.transform = `translate3d(${(mx - 0.5) * -25}px, ${(my - 0.5) * 55}px, 0)`;
+        orbC.current.style.transform = `translate3d(${(mx - 0.5) * -18}px, ${(my - 0.5) * 36}px, 0)`;
 
-      if (!reduced) raf = requestAnimationFrame(tick);
+      raf = requestAnimationFrame(tick);
     };
 
     raf = requestAnimationFrame(tick);
@@ -152,26 +172,26 @@ export function LivingBackground() {
       {/* Aurora orbs */}
       <div
         ref={orbA}
-        className="absolute -top-40 -left-40 size-[38rem] rounded-full blur-3xl opacity-40 transition-transform duration-500 ease-out"
+        className="absolute -top-40 -left-40 size-[38rem] rounded-full blur-3xl opacity-30 transition-transform duration-500 ease-out"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklab, var(--accent) 45%, transparent), transparent 65%)",
+            "radial-gradient(circle, color-mix(in oklab, #62E6FF 40%, transparent), transparent 65%)",
         }}
       />
       <div
         ref={orbB}
-        className="absolute top-1/3 -right-40 size-[42rem] rounded-full blur-3xl opacity-30 transition-transform duration-500 ease-out"
+        className="absolute top-1/3 -right-40 size-[42rem] rounded-full blur-3xl opacity-22 transition-transform duration-500 ease-out"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklab, #7ad0ff 55%, transparent), transparent 65%)",
+            "radial-gradient(circle, color-mix(in oklab, #7ad0ff 45%, transparent), transparent 65%)",
         }}
       />
       <div
         ref={orbC}
-        className="absolute bottom-[-12rem] left-1/3 size-[36rem] rounded-full blur-3xl opacity-25 transition-transform duration-500 ease-out"
+        className="absolute bottom-[-12rem] left-1/3 size-[36rem] rounded-full blur-3xl opacity-18 transition-transform duration-500 ease-out"
         style={{
           background:
-            "radial-gradient(circle, color-mix(in oklab, #a78bfa 55%, transparent), transparent 65%)",
+            "radial-gradient(circle, color-mix(in oklab, #c4a574 40%, transparent), transparent 65%)",
         }}
       />
       {/* Star canvas */}

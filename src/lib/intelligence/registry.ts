@@ -55,19 +55,19 @@ export const KERNEL_SOURCE_REGISTRY: KernelSourceEntry[] = [
   {
     id: "india-company",
     categoryLabel: "India corporate records",
-    health: "AUTH_REQUIRED",
+    health: "AUTH_DEPENDENT",
     detail: "Official portals require interactive/authenticated access",
   },
   {
     id: "username-presence",
     categoryLabel: "Username presence checks",
-    health: "AUTH_REQUIRED",
+    health: "AUTH_DEPENDENT",
     detail: "Hosted worker not connected — no invented profile hits",
   },
   {
     id: "phone-public-meta",
     categoryLabel: "Phone public metadata",
-    health: "AUTH_REQUIRED",
+    health: "AUTH_DEPENDENT",
     detail: "Format/country only planned — no subscriber identity",
   },
 ];

@@ -14,14 +14,19 @@ import {
 } from "lucide-react";
 import { CASE_0001 } from "@/content/forensic-case-0001";
 import { soundEngine } from "@/lib/sound-engine";
-import { FORENSIC_REPOSITORY_REGISTRY, getPublicWorkerStatuses } from "@/lib/forensic/registry";
+import { PROFILE } from "@/lib/profile";
+import { FORENSIC_REPOSITORY_REGISTRY, getPublicWorkerStatuses, getRegistryHealthSummary } from "@/lib/forensic/registry";
 import { ForensicEvidenceGraph } from "./ForensicEvidenceGraph";
 import {
+  ConfidenceMeter,
   DataPanel,
   DiagnosticPanel,
+  EvidenceBadge,
+  SourceBadge,
   SystemIndicator,
   TechnicalLabel,
 } from "@/components/system";
+import { SystemStatusBar } from "@/components/system/SystemStatusBar";
 
 const DISCIPLINES = [
   { id: "TOX", label: "TOX", icon: FlaskConical },
@@ -44,6 +49,7 @@ export function ForensicLabShell() {
   const [docResult, setDocResult] = useState<string | null>(null);
 
   const workerStatuses = useMemo(() => getPublicWorkerStatuses(), []);
+  const registrySummary = useMemo(() => getRegistryHealthSummary(), []);
 
   const evidenceForDiscipline = useMemo(
     () =>
@@ -156,15 +162,49 @@ export function ForensicLabShell() {
       </header>
 
       <main className="mx-auto grid max-w-[1600px] gap-6 px-4 py-8 sm:px-8 lg:grid-cols-12">
-        <section className="lg:col-span-7 space-y-6">
+        <section className="space-y-6 lg:col-span-7">
+          <article className="rounded-2xl border border-[#62E6FF]/25 bg-gradient-to-br from-[#62E6FF]/10 via-transparent to-amber-500/5 p-6 md:p-8">
+            <TechnicalLabel className="text-[#62E6FF]">Practitioner · Forensic Intelligence Lab</TechnicalLabel>
+            <h1 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
+              {PROFILE.name}
+            </h1>
+            <p className="mt-2 font-mono text-[11px] uppercase tracking-[0.2em] text-[#62E6FF]">
+              {PROFILE.primaryRole}
+            </p>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              {PROFILE.professionalSummary}
+            </p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <EvidenceBadge>Investigation</EvidenceBadge>
+              <EvidenceBadge>Toxicology</EvidenceBadge>
+              <EvidenceBadge>Digital forensics</EvidenceBadge>
+              <SourceBadge label="Capability map" freshness="DEMO" />
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <ConfidenceMeter confidence="SUPPORTED" />
+              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+                <TechnicalLabel className="mb-2 block">Host modules</TechnicalLabel>
+                <p className="font-mono text-xs text-foreground">
+                  {registrySummary.online.length} online ·{" "}
+                  {registrySummary.counts.WORKER_PENDING ?? 0} workers pending
+                </p>
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  No mass install of Autopsy-class stacks — registry is a capability map only.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <SystemStatusBar />
+
           <article className="rounded-2xl border border-amber-500/25 bg-amber-500/5 p-6">
             <p className="font-mono text-[10px] uppercase tracking-widest text-amber-200">
               Case board · {CASE_0001.id}
             </p>
-            <h1 className="mt-2 font-display text-3xl font-bold tracking-tight">
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
               {CASE_0001.title}
-            </h1>
-            <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{CASE_0001.summary}</p>
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{CASE_0001.summary}</p>
           </article>
 
           <ForensicEvidenceGraph />

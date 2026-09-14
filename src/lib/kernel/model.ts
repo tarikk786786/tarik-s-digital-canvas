@@ -17,6 +17,7 @@ export type SystemHealth =
   | "PROCESSING"
   | "DEGRADED"
   | "AUTH_REQUIRED"
+  | "AUTH_DEPENDENT"
   | "OFFLINE"
   | "WORKER_PENDING";
 
@@ -27,6 +28,9 @@ export interface Provenance {
   retrievedAt: string;
   whyVisible: string;
   limitations: string[];
+  /** Optional confidence attached at observation time */
+  confidence?: Confidence;
+  freshness?: Freshness;
 }
 
 export interface Observation {

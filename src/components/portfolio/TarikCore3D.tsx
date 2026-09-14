@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { getDirectorMode } from "@/lib/director-mode";
+import { prefersReducedMotion } from "@/lib/motion/system";
 
 interface TarikCore3DProps {
   className?: string;
@@ -16,6 +17,7 @@ export function TarikCore3D({ className = "" }: TarikCore3DProps) {
     if (!container) return;
 
     const mode = getDirectorMode();
+    const reduced = prefersReducedMotion();
     if (mode === "minimal") {
       // In minimal mode, render a clean SVG fallback
       return;
@@ -154,63 +156,65 @@ export function TarikCore3D({ className = "" }: TarikCore3DProps) {
     const dust = new THREE.Points(particlesGeo, particlesMat);
     coreGroup.add(dust);
 
-    // 3. Mouse Parallax Reaction
+    // 3. Mouse Parallax Reaction (disabled when reduced motion)
     let targetX = 0;
     let targetY = 0;
     const onMouseMove = (e: MouseEvent) => {
+      if (reduced) return;
       const rect = container.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       targetX = x * 0.8;
       targetY = y * 0.8;
     };
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    if (!reduced) window.addEventListener("mousemove", onMouseMove, { passive: true });
 
     // 4. Observer for 0% Idle CPU when offscreen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
       },
-      { threshold: 0.05 }
+      { threshold: 0.05 },
     );
     observer.observe(container);
 
-    // 5. Animation Loop
-    let rafId: number;
+    // 5. Animation Loop — static single frame when prefers-reduced-motion
+    let rafId = 0;
     const clock = new THREE.Clock();
 
-    const animate = () => {
-      rafId = requestAnimationFrame(animate);
-      if (!isVisibleRef.current) return;
-
-      const elapsed = clock.getElapsedTime();
-
-      // Gyroscopic Rotations
-      outerMesh.rotation.y = elapsed * 0.15;
-      outerMesh.rotation.x = elapsed * 0.10;
-
-      ring1.rotation.x = elapsed * 0.35;
-      ring1.rotation.y = elapsed * 0.20;
-
-      ring2.rotation.y = -elapsed * 0.40;
-      ring2.rotation.z = elapsed * 0.25;
-
-      nodes.rotation.y = elapsed * 0.08;
-      neuralLines.rotation.y = elapsed * 0.08;
-      dust.rotation.y = elapsed * 0.04;
-
-      // Energy Core Breathe / Pulse
-      const scale = 1 + Math.sin(elapsed * 2.5) * 0.08;
-      centralSphere.scale.set(scale, scale, scale);
-
-      // Smooth Mouse Parallax Lerp
-      coreGroup.rotation.y += (targetX - coreGroup.rotation.y) * 0.05;
-      coreGroup.rotation.x += (targetY - coreGroup.rotation.x) * 0.05;
-
+    if (reduced) {
       renderer.render(scene, camera);
-    };
+    } else {
+      const animate = () => {
+        rafId = requestAnimationFrame(animate);
+        if (!isVisibleRef.current) return;
 
-    animate();
+        const elapsed = clock.getElapsedTime();
+
+        outerMesh.rotation.y = elapsed * 0.12;
+        outerMesh.rotation.x = elapsed * 0.08;
+
+        ring1.rotation.x = elapsed * 0.28;
+        ring1.rotation.y = elapsed * 0.16;
+
+        ring2.rotation.y = -elapsed * 0.32;
+        ring2.rotation.z = elapsed * 0.2;
+
+        nodes.rotation.y = elapsed * 0.06;
+        neuralLines.rotation.y = elapsed * 0.06;
+        dust.rotation.y = elapsed * 0.03;
+
+        const scale = 1 + Math.sin(elapsed * 2) * 0.05;
+        centralSphere.scale.set(scale, scale, scale);
+
+        coreGroup.rotation.y += (targetX - coreGroup.rotation.y) * 0.05;
+        coreGroup.rotation.x += (targetY - coreGroup.rotation.x) * 0.05;
+
+        renderer.render(scene, camera);
+      };
+
+      animate();
+    }
 
     // Resize Handler
     const onResize = () => {
@@ -220,13 +224,14 @@ export function TarikCore3D({ className = "" }: TarikCore3DProps) {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      if (reduced) renderer.render(scene, camera);
     };
     window.addEventListener("resize", onResize);
 
     return () => {
-      cancelAnimationFrame(rafId);
+      if (rafId) cancelAnimationFrame(rafId);
       observer.disconnect();
-      window.removeEventListener("mousemove", onMouseMove);
+      if (!reduced) window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("resize", onResize);
       renderer.dispose();
       outerGeo.dispose();

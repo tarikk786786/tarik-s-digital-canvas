@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { SystemIndicator, TechnicalLabel, LiveTimestamp } from "@/components/system";
 import type { SystemHealth } from "@/lib/kernel/model";
+import { getRegistryHealthSummary } from "@/lib/forensic/registry";
+import { getKernelRegistryPublic } from "@/lib/intelligence/registry";
 
 interface HealthRow {
   id: string;
@@ -34,13 +36,32 @@ export function SystemStatusBar({ className }: { className?: string }) {
     (async () => {
       const next: HealthRow[] = [];
       try {
-        const res = await fetch("/api/intelligence", { signal: AbortSignal.timeout(8000) });
-        next.push({
-          id: "kernel",
-          label: "Information Kernel",
-          health: res.ok ? "ONLINE" : "DEGRADED",
-          detail: res.ok ? "API reachable" : `HTTP ${res.status}`,
+        const res = await fetch("/api/intelligence?kind=kernel", {
+          signal: AbortSignal.timeout(8000),
         });
+        if (!res.ok) {
+          next.push({
+            id: "kernel",
+            label: "Information Kernel",
+            health: "DEGRADED",
+            detail: `HTTP ${res.status}`,
+          });
+        } else {
+          const json = (await res.json()) as {
+            sources?: Array<{ health: string }>;
+          };
+          const sources = json.sources ?? getKernelRegistryPublic();
+          const online = sources.filter((s) => s.health === "ONLINE").length;
+          const auth = sources.filter(
+            (s) => s.health === "AUTH_DEPENDENT" || s.health === "AUTH_REQUIRED",
+          ).length;
+          next.push({
+            id: "kernel",
+            label: "Information Kernel",
+            health: online > 0 ? "ONLINE" : "DEGRADED",
+            detail: `${online} public collectors · ${auth} AUTH_DEPENDENT (source registry)`,
+          });
+        }
       } catch {
         next.push({
           id: "kernel",
@@ -87,12 +108,16 @@ export function SystemStatusBar({ className }: { className?: string }) {
           detail: "World probe failed",
         });
       }
+
+      const forensic = getRegistryHealthSummary();
+      const pending = forensic.counts.WORKER_PENDING ?? 0;
       next.push({
         id: "forensic-workers",
-        label: "Forensic workers",
-        health: "WORKER_PENDING",
-        detail: "Heavy workers not on this host — capability map only",
+        label: "Forensic capability map",
+        health: forensic.online.length > 0 ? "ONLINE" : "WORKER_PENDING",
+        detail: `${forensic.online.length} browser modules online · ${pending} workers pending (no Autopsy stack install)`,
       });
+
       if (!cancelled) {
         setRows(next);
         setAt(new Date().toISOString());
@@ -107,7 +132,7 @@ export function SystemStatusBar({ className }: { className?: string }) {
     <div
       className={`rounded-xl border border-white/10 bg-black/40 px-4 py-3 ${className || ""}`}
     >
-      <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <TechnicalLabel className="text-[#62E6FF]">System health</TechnicalLabel>
         <LiveTimestamp iso={at} prefix="Checked" />
       </div>
@@ -116,7 +141,7 @@ export function SystemStatusBar({ className }: { className?: string }) {
           <li key={r.id} className="flex items-center gap-2">
             <span className="font-mono text-[10px] text-muted-foreground">{r.label}</span>
             <SystemIndicator health={r.health} />
-            <span className="hidden sm:inline font-mono text-[9px] text-muted-foreground/80">
+            <span className="hidden font-mono text-[9px] text-muted-foreground/80 sm:inline">
               {r.detail}
             </span>
           </li>
