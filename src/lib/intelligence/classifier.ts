@@ -64,8 +64,7 @@ export function classifyQuery(raw: string): Classification {
     const looksLikePlace = PLACE_HINT.test(q) || STANDALONE_PLACE.test(q);
     if (!looksLikePlace) chips.push("USERNAME");
   }
-  if (/\b(pvt|ltd|llc|inc|corp|company|technologies|solutions)\b/i.test(q))
-    chips.push("COMPANY");
+  if (/\b(pvt|ltd|llc|inc|corp|company|technologies|solutions)\b/i.test(q)) chips.push("COMPANY");
   if (/\b(pdf|docx?|xlsx?|passport|aadhaar|invoice)\b/i.test(q)) chips.push("DOCUMENT");
   if (PLACE_HINT.test(q) || STANDALONE_PLACE.test(q)) chips.push("LOCATION");
   if (/^[A-Za-z][A-Za-z.'\-\s]{2,}$/.test(q) && q.includes(" ") && chips.length === 0)
@@ -176,6 +175,16 @@ export function buildInvestigationPlan(classification: Classification): Investig
     });
   }
 
+  if (chips.has("PERSON") || chips.has("DOCUMENT")) {
+    steps.push({
+      id: "academic-pubs",
+      categoryLabel: "Open-access scientific publications",
+      mode: "LIVE",
+      reason:
+        "Person or document query checks open scholarly indexes for matching authors/publications.",
+    });
+  }
+
   // Always surface honest non-live workers so chrome never invents hits
   steps.push(
     {
@@ -208,11 +217,6 @@ export function buildInvestigationPlan(classification: Classification): Investig
   return { steps: steps.filter((s) => s.mode !== "SKIP"), summary };
 }
 
-export const PLANNER_PHASES = [
-  "UNDERSTANDING",
-  "COLLECTING",
-  "CORRELATING",
-  "VERIFYING",
-] as const;
+export const PLANNER_PHASES = ["UNDERSTANDING", "COLLECTING", "CORRELATING", "VERIFYING"] as const;
 
 export type PlannerPhase = (typeof PLANNER_PHASES)[number];

@@ -15,8 +15,13 @@ import {
 import { CASE_0001 } from "@/content/forensic-case-0001";
 import { soundEngine } from "@/lib/sound-engine";
 import { PROFILE } from "@/lib/profile";
-import { FORENSIC_REPOSITORY_REGISTRY, getPublicWorkerStatuses, getRegistryHealthSummary } from "@/lib/forensic/registry";
+import {
+  FORENSIC_REPOSITORY_REGISTRY,
+  getPublicWorkerStatuses,
+  getRegistryHealthSummary,
+} from "@/lib/forensic/registry";
 import { ForensicEvidenceGraph } from "./ForensicEvidenceGraph";
+import { ForensicToolboxExplorer } from "./ForensicToolboxExplorer";
 import {
   ConfidenceMeter,
   DataPanel,
@@ -29,6 +34,7 @@ import {
 import { SystemStatusBar } from "@/components/system/SystemStatusBar";
 
 const DISCIPLINES = [
+  { id: "TOOLBOX", label: "DFIR TOOLBOX", icon: HardDrive },
   { id: "TOX", label: "TOX", icon: FlaskConical },
   { id: "DNA", label: "DNA", icon: Dna },
   { id: "FINGERPRINT", label: "FINGERPRINT", icon: Fingerprint },
@@ -41,7 +47,7 @@ const DISCIPLINES = [
 const TOX_STEPS = ["SCREENING", "CONFIRMATION", "QUANTITATION", "INTERPRETATION"] as const;
 
 export function ForensicLabShell() {
-  const [discipline, setDiscipline] = useState<string>("TOX");
+  const [discipline, setDiscipline] = useState<string>("TOOLBOX");
   const [toxStep, setToxStep] = useState<(typeof TOX_STEPS)[number]>("SCREENING");
   const [ask, setAsk] = useState("");
   const [askAnswer, setAskAnswer] = useState<string | null>(null);
@@ -95,15 +101,14 @@ export function ForensicLabShell() {
     soundEngine.playClick();
     const q = ask.trim().toLowerCase();
     const hit = CASE_0001.askLabFaq.find(
-      (f) => q.includes(f.q.toLowerCase().slice(0, 12)) || f.q.toLowerCase().includes(q.slice(0, 12)),
+      (f) =>
+        q.includes(f.q.toLowerCase().slice(0, 12)) || f.q.toLowerCase().includes(q.slice(0, 12)),
     );
     if (hit) setAskAnswer(hit.a);
-    else if (q.includes("real") || q.includes("evidence"))
-      setAskAnswer(CASE_0001.askLabFaq[0].a);
+    else if (q.includes("real") || q.includes("evidence")) setAskAnswer(CASE_0001.askLabFaq[0].a);
     else if (q.includes("tox") || q.includes("poison") || q.includes("dose"))
       setAskAnswer(CASE_0001.askLabFaq[1].a);
-    else if (q.includes("hash") || q.includes("digital"))
-      setAskAnswer(CASE_0001.askLabFaq[2].a);
+    else if (q.includes("hash") || q.includes("digital")) setAskAnswer(CASE_0001.askLabFaq[2].a);
     else
       setAskAnswer(
         "Ask the Lab only answers from the synthetic CASE 0001 dataset. Rephrase using case terms (hash, tox card, real case).",
@@ -181,7 +186,9 @@ export function ForensicLabShell() {
       <main className="mx-auto grid max-w-[1600px] gap-6 px-4 py-8 sm:px-8 lg:grid-cols-12">
         <section className="space-y-6 lg:col-span-7">
           <article className="rounded-2xl border border-[#62E6FF]/25 bg-gradient-to-br from-[#62E6FF]/10 via-transparent to-amber-500/5 p-6 md:p-8">
-            <TechnicalLabel className="text-[#62E6FF]">Practitioner · Forensic Intelligence Lab</TechnicalLabel>
+            <TechnicalLabel className="text-[#62E6FF]">
+              Practitioner · Forensic Intelligence Lab
+            </TechnicalLabel>
             <h1 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-4xl">
               {PROFILE.name}
             </h1>
@@ -221,7 +228,9 @@ export function ForensicLabShell() {
             <h2 className="mt-2 font-display text-2xl font-bold tracking-tight md:text-3xl">
               {CASE_0001.title}
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{CASE_0001.summary}</p>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              {CASE_0001.summary}
+            </p>
           </article>
 
           <ForensicEvidenceGraph />
@@ -378,7 +387,10 @@ export function ForensicLabShell() {
               </p>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {["Ridge ending", "Bifurcation", "Island"].map((m) => (
-                  <div key={m} className="rounded-lg border border-white/10 p-3 text-center text-xs">
+                  <div
+                    key={m}
+                    className="rounded-lg border border-white/10 p-3 text-center text-xs"
+                  >
                     {m}
                   </div>
                 ))}
@@ -386,7 +398,9 @@ export function ForensicLabShell() {
             </article>
           )}
 
-          {!["TOX", "DIGITAL", "FINGERPRINT", "DOCUMENT"].includes(discipline) && (
+          {discipline === "TOOLBOX" && <ForensicToolboxExplorer />}
+
+          {!["TOOLBOX", "TOX", "DIGITAL", "FINGERPRINT", "DOCUMENT"].includes(discipline) && (
             <article className="rounded-2xl border border-dashed border-white/15 bg-[#0A0D12] p-6">
               <h2 className="font-display text-xl font-bold">{discipline} module</h2>
               <p className="mt-2 text-sm text-muted-foreground">

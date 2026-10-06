@@ -71,6 +71,12 @@ export const KERNEL_SOURCE_REGISTRY: KernelSourceEntry[] = [
     detail: "Local E.164 / dial-code format only — never subscriber identity",
   },
   {
+    id: "academic-pubs",
+    categoryLabel: "Open-access scientific publications",
+    health: "ONLINE",
+    detail: "Crossref and open scholarly repositories for academic/author queries",
+  },
+  {
     id: "email-identity",
     categoryLabel: "Email identity / breach checks",
     health: "AUTH_DEPENDENT",

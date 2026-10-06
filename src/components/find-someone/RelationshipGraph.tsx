@@ -199,9 +199,14 @@ const initialEdges: Edge[] = [
   },
 ];
 
-export function RelationshipGraph() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+interface RelationshipGraphProps {
+  customNodes?: Node[];
+  customEdges?: Edge[];
+}
+
+export function RelationshipGraph({ customNodes, customEdges }: RelationshipGraphProps = {}) {
+  const [nodes, setNodes, onNodesChange] = useNodesState(customNodes || initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(customEdges || initialEdges);
   const [selectedElement, setSelectedElement] = useState<string | null>("person-1");
 
   const onConnect = useCallback(

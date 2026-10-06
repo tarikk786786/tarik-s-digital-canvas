@@ -54,7 +54,10 @@ function categoryFor(adapterId: string, fallback: string): string {
 function extractDomain(q: string): string | null {
   const emailHost = q.trim().match(/^[^\s@]+@([^\s@]+\.[^\s@]+)$/);
   if (emailHost) return emailHost[1].toLowerCase();
-  const trimmed = q.trim().replace(/^https?:\/\//i, "").split(/[/?#]/)[0];
+  const trimmed = q
+    .trim()
+    .replace(/^https?:\/\//i, "")
+    .split(/[/?#]/)[0];
   if (/^(?:[a-z0-9-]+\.)+[a-z]{2,}$/i.test(trimmed)) return trimmed.toLowerCase();
   return null;
 }
@@ -350,10 +353,9 @@ async function collectRdap(domain: string): Promise<AdapterResult> {
 async function collectCrtSh(domain: string): Promise<AdapterResult> {
   const retrievedAt = new Date().toISOString();
   try {
-    const res = await fetch(
-      `https://crt.sh/?q=${encodeURIComponent(`%.${domain}`)}&output=json`,
-      { signal: AbortSignal.timeout(15000) },
-    );
+    const res = await fetch(`https://crt.sh/?q=${encodeURIComponent(`%.${domain}`)}&output=json`, {
+      signal: AbortSignal.timeout(15000),
+    });
     if (!res.ok) {
       return {
         adapterId: "ct-logs",
@@ -494,14 +496,18 @@ async function collectPhoneMeta(raw: string): Promise<AdapterResult> {
 
   let region = "Unknown dialing region";
   for (const row of DIAL.sort((a, b) => b.prefix.length - a.prefix.length)) {
-    if (digits.startsWith(row.prefix) || (!digits.startsWith("+") && row.prefix === "+91" && digits.length === 10)) {
+    if (
+      digits.startsWith(row.prefix) ||
+      (!digits.startsWith("+") && row.prefix === "+91" && digits.length === 10)
+    ) {
       region = row.region;
       break;
     }
   }
 
   const e164ish = digits.startsWith("+") ? digits : digits.length === 10 ? `+91${digits}` : digits;
-  const plausible = e164ish.replace(/\D/g, "").length >= 8 && e164ish.replace(/\D/g, "").length <= 15;
+  const plausible =
+    e164ish.replace(/\D/g, "").length >= 8 && e164ish.replace(/\D/g, "").length <= 15;
 
   if (!plausible) {
     return {
@@ -541,6 +547,98 @@ async function collectPhoneMeta(raw: string): Promise<AdapterResult> {
       },
     ],
   };
+}
+
+async function collectAcademicPubs(query: string): Promise<AdapterResult> {
+  const retrievedAt = new Date().toISOString();
+  const categoryLabel = categoryFor("academic-pubs", "Open-access scientific publications");
+  try {
+    const res = await fetch(
+      `https://api.crossref.org/works?rows=4&query.bibliographic=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "TarikDigitalCanvas/1.0 (mailto:contact@tarikislam.in)",
+        },
+        signal: AbortSignal.timeout(10000),
+      },
+    );
+    if (!res.ok) {
+      return {
+        adapterId: "academic-pubs",
+        categoryLabel,
+        health: "DEGRADED",
+        statusLabel: `Crossref HTTP ${res.status}`,
+        evidence: [],
+        error: `HTTP ${res.status}`,
+      };
+    }
+    const json = (await res.json()) as {
+      message?: {
+        items?: Array<{
+          title?: string[];
+          DOI?: string;
+          URL?: string;
+          published?: { "date-parts"?: number[][] };
+          author?: Array<{ given?: string; family?: string }>;
+          "container-title"?: string[];
+        }>;
+      };
+    };
+    const items = json.message?.items ?? [];
+    if (items.length === 0) {
+      return {
+        adapterId: "academic-pubs",
+        categoryLabel,
+        health: "AVAILABLE",
+        statusLabel: "0 matching publications in open index",
+        evidence: [],
+      };
+    }
+    return {
+      adapterId: "academic-pubs",
+      categoryLabel,
+      health: "AVAILABLE",
+      statusLabel: `${items.length} scientific works indexed`,
+      evidence: items.map((it, idx) => {
+        const title = it.title?.[0] || "Untitled work";
+        const authors = (it.author ?? [])
+          .map((a) => [a.given, a.family].filter(Boolean).join(" "))
+          .slice(0, 3)
+          .join(", ");
+        const journal = it["container-title"]?.[0] || "Open Repository";
+        const year = it.published?.["date-parts"]?.[0]?.[0] || "";
+        return {
+          id: `crossref-${idx}`,
+          title: `Publication: ${title}`,
+          summary: `${authors ? `By ${authors}. ` : ""}${journal}${year ? ` (${year})` : ""}${it.DOI ? ` · DOI: ${it.DOI}` : ""}`,
+          confidence: "VERIFIED" as const,
+          freshness: "LIVE" as const,
+          observedAt: retrievedAt,
+          url: it.URL || (it.DOI ? `https://doi.org/${it.DOI}` : undefined),
+          provenance: {
+            sourceLabel: "Crossref Open Scholarly Registry",
+            method: "Public Crossref Works Metadata API",
+            retrievedAt,
+            whyVisible: "Person/Document query triggered open scientific citation index lookup.",
+            limitations: [
+              "Indexed publications indicate public scholarship, not private attribution.",
+              "Name collision is possible across researchers with common names.",
+            ],
+          },
+        };
+      }),
+    };
+  } catch (e) {
+    return {
+      adapterId: "academic-pubs",
+      categoryLabel,
+      health: "DEGRADED",
+      statusLabel: "Scientific publications index unreachable",
+      evidence: [],
+      error: e instanceof Error ? e.message : "Crossref lookup failed",
+    };
+  }
 }
 
 function stubAdapter(
@@ -664,16 +762,13 @@ export async function runInformationKernel(rawQuery: string): Promise<Investigat
     jobs.push(collectPhoneMeta(rawQuery.trim()));
   }
 
+  if (liveIds.has("academic-pubs")) {
+    jobs.push(collectAcademicPubs(rawQuery.trim()));
+  }
+
   const stubs: AdapterResult[] = plan.steps
     .filter((s) => s.mode === "AUTH_DEPENDENT")
-    .map((s) =>
-      stubAdapter(
-        s.id,
-        s.categoryLabel,
-        "AUTH_DEPENDENT",
-        s.reason,
-      ),
-    );
+    .map((s) => stubAdapter(s.id, s.categoryLabel, "AUTH_DEPENDENT", s.reason));
 
   const collected = jobs.length > 0 ? await Promise.all(jobs) : [];
   const adapters = [...collected, ...stubs];

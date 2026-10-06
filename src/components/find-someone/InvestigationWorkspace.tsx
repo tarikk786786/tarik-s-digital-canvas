@@ -297,7 +297,63 @@ export function InvestigationWorkspace({
         )}
 
         {/* 10. CONNECTIONS */}
-        {activeTab === "connections" && <RelationshipGraph />}
+        {activeTab === "connections" && (
+          <RelationshipGraph
+            customNodes={
+              investigation.persons.length > 0
+                ? [
+                    ...investigation.persons.map((p, idx) => ({
+                      id: p.id,
+                      type: "person" as const,
+                      position: { x: 300, y: 140 + idx * 160 },
+                      data: {
+                        label: p.name,
+                        role: p.metadata.designation || "Identified Candidate",
+                      },
+                    })),
+                    ...investigation.organizations.map((o, idx) => ({
+                      id: o.id,
+                      type: "org" as const,
+                      position: { x: 80, y: 60 + idx * 160 },
+                      data: { label: o.name, type: o.type.toUpperCase() },
+                    })),
+                    {
+                      id: "doc-evidence",
+                      type: "doc" as const,
+                      position: { x: 550, y: 160 },
+                      data: {
+                        label: `${investigation.evidence.length} Corroborated Evidence Records`,
+                      },
+                    },
+                    {
+                      id: "loc-target",
+                      type: "location" as const,
+                      position: { x: 320, y: 380 },
+                      data: {
+                        label:
+                          investigation.persons[0]?.locations?.[0] ||
+                          investigation.query.location ||
+                          "Geographic Focus",
+                      },
+                    },
+                  ]
+                : undefined
+            }
+            customEdges={
+              investigation.relationships.length > 0
+                ? investigation.relationships.map((r) => ({
+                    id: r.id,
+                    source: r.sourceEntityId,
+                    target: r.targetEntityId,
+                    label: r.label,
+                    animated: r.type === "founded" || r.type === "authored",
+                    style: { stroke: "#62E6FF", strokeWidth: 1.5 },
+                    labelStyle: { fill: "#62E6FF", fontFamily: "monospace", fontSize: 10 },
+                  }))
+                : undefined
+            }
+          />
+        )}
 
         {/* 11. LOCATIONS + WORLD SIMULATION */}
         {activeTab === "locations" && (
@@ -306,15 +362,17 @@ export function InvestigationWorkspace({
               <span className="text-amber-400 font-bold block uppercase tracking-wider mb-1">
                 DEMO / SIMULATION — NOT LIVE FEEDS
               </span>
-              Geographic anchors from statutory filings, plus a labeled world-layer simulation.
-              No municipal camera ingest, device tracking, or live ADS-B/AIS in this demo.
+              Geographic anchors from statutory filings, plus a labeled world-layer simulation. No
+              municipal camera ingest, device tracking, or live ADS-B/AIS in this demo.
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-white/10 bg-white/[0.025] p-5 space-y-2">
                 <div className="flex items-center gap-2 font-display text-base font-bold text-foreground">
                   <MapPin className="size-4 text-[#6EE7B7]" />
-                  <span>Bhubaneswar, Odisha, India</span>
+                  <span>
+                    {investigation.persons[0]?.locations?.[0] || "Bhubaneswar, Odisha, India"}
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Statutory Registered Headquarters of Dezo Systems Pvt Ltd (MCA ROC Cuttack) &
@@ -325,7 +383,9 @@ export function InvestigationWorkspace({
               <div className="rounded-xl border border-white/10 bg-white/[0.025] p-5 space-y-2">
                 <div className="flex items-center gap-2 font-display text-base font-bold text-foreground">
                   <MapPin className="size-4 text-[#62E6FF]" />
-                  <span>Bengaluru, Karnataka, India</span>
+                  <span>
+                    {investigation.persons[0]?.locations?.[1] || "Bengaluru, Karnataka, India"}
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Cloud engineering and research collaboration nexus verified through IEEE
@@ -335,8 +395,21 @@ export function InvestigationWorkspace({
             </div>
 
             <LiveWorld3D
-              focusTargetName="Bhubaneswar, Odisha"
-              focusCoords={{ lat: 20.2961, lng: 85.8245 }}
+              focusTargetName={
+                investigation.persons[0]?.locations?.[0] ||
+                investigation.query.location ||
+                "Bhubaneswar, Odisha"
+              }
+              focusCoords={
+                investigation.query.location?.toLowerCase().includes("delhi")
+                  ? { lat: 28.6139, lng: 77.209 }
+                  : investigation.query.location?.toLowerCase().includes("mumbai")
+                    ? { lat: 19.076, lng: 72.8777 }
+                    : investigation.query.location?.toLowerCase().includes("bengaluru") ||
+                        investigation.query.location?.toLowerCase().includes("bangalore")
+                      ? { lat: 12.9716, lng: 77.5946 }
+                      : { lat: 20.2961, lng: 85.8245 }
+              }
             />
           </div>
         )}

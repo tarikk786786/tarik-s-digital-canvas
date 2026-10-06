@@ -101,8 +101,27 @@ export function detectQueryType(
   if (/\b(corp|inc|ltd|llc|pvt|limited|company|technologies|solutions|group)\b/i.test(trimmed))
     return "company";
 
-  // Default: person (contains spaces, looks like a name)
-  if (/^[A-Za-z\s.'-]{2,}$/.test(trimmed) && trimmed.includes(" ")) return "person";
+  // Document (contains pdf, doc, cert, etc.)
+  if (
+    /\.(pdf|docx?|xlsx?|txt)$/i.test(trimmed) ||
+    /\b(aadhaar|passport|certificate|dossier)\b/i.test(trimmed)
+  )
+    return "general";
+
+  // Location / Geo hints
+  if (
+    /\b(in|at|near|district|odisha|delhi|mumbai|bengaluru|bangalore|chennai|kolkata|hyderabad|pune|jaipur|lucknow|ahmedabad|kochi|bhubaneswar|india)\b/i.test(
+      trimmed,
+    )
+  )
+    return "general";
+
+  // Default: person (contains spaces, looks like a name, or Indic characters)
+  if (
+    /^[\p{L}\s.'-]{2,}$/u.test(trimmed) &&
+    (trimmed.includes(" ") || /[\u0900-\u0D7F]/.test(trimmed))
+  )
+    return "person";
 
   return "general";
 }

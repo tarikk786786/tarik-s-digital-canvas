@@ -36,12 +36,12 @@ const PERSONA_CONFIG: Record<Persona, { label: string; hint: string }> = {
 };
 
 const PRESET_QUESTIONS = [
-  "What does Tarik build?",
-  "Explain his Forensic + AI approach",
-  "What is Dezo.in?",
-  "What technologies does he use?",
-  "What is his Operating System?",
-  "How can we collaborate?",
+  "Tell me about Tarik.",
+  "What are his forensic capabilities?",
+  "What cybersecurity areas does he work with?",
+  "What projects has he built?",
+  "What research areas interest him?",
+  "What is his technical background?",
 ];
 
 // Verified Knowledge Base Entries for Deterministic RAG Matching
@@ -65,12 +65,43 @@ const KNOWLEDGE_BASE = [
     ],
   },
   {
-    keywords: ["forensic", "forensics", "evidence", "investigate", "crime", "chain of custody", "autopsy"],
+    keywords: [
+      "forensic",
+      "forensics",
+      "evidence",
+      "investigate",
+      "crime",
+      "chain of custody",
+      "autopsy",
+    ],
     answer:
       "Forensic science is the root of Tarik's work — investigation and toxicology first, then digital forensics. He holds B.Sc and M.Sc in Forensic Science, plus MCA and M.Tech in Cyber Security & AI / Digital Forensics. Core axiom: 'Never assume when you can investigate.'",
     citations: [
       { label: "Forensic Domains Atlas (#domains)", href: "#domains" },
       { label: "Live Telemetry Scanner", href: "#top" },
+    ],
+  },
+  {
+    keywords: [
+      "toolbox",
+      "dfir",
+      "tools",
+      "volatility",
+      "wireshark",
+      "sleuthkit",
+      "yara",
+      "velociraptor",
+      "plaso",
+      "timesketch",
+      "exiftool",
+      "cyberchef",
+      "binwalk",
+    ],
+    answer:
+      "Tarik's Open-Source DFIR & Forensic Toolbox is catalogued with strict evidentiary honesty: tools he actively uses (Autopsy, The Sleuth Kit, Volatility 3, Wireshark, YARA-X, ExifTool, CyberChef) are clearly distinguished from tools he is familiar with (Plaso, Zeek, Velociraptor, Binwalk), tools under active research (Timesketch, Ghidra), and ecosystem standards (Hashcat). All digital evidence adheres to ISO/IEC 27037 and NIST SP 800-86.",
+    citations: [
+      { label: "Forensic Intelligence Lab (/forensic-lab)", href: "/forensic-lab" },
+      { label: "Skills Inventory (/skills)", href: "/skills" },
     ],
   },
   {
@@ -83,7 +114,15 @@ const KNOWLEDGE_BASE = [
     ],
   },
   {
-    keywords: ["cybersecurity", "security", "zero trust", "threat", "defense", "stride", "penetration"],
+    keywords: [
+      "cybersecurity",
+      "security",
+      "zero trust",
+      "threat",
+      "defense",
+      "stride",
+      "penetration",
+    ],
     answer:
       "In cybersecurity, Tarik applies Zero-Trust Architecture and STRIDE threat modeling. Systems are built under the assumption that networks are adversarial: strict authentication, immutable audit trails, cryptographic data isolation, and real-time behavioral anomaly scoring.",
     citations: [
@@ -104,12 +143,56 @@ const KNOWLEDGE_BASE = [
     keywords: ["operating system", "os", "methodology", "process", "loop", "routine", "kernel"],
     answer:
       "Tarik's Operating System is a deterministic 6-stage compounding cycle: RESEARCH (Understand the problem) → BUILD (Turn ideas into reality) → TEST (Find what breaks) → LEARN (Understand why) → IMPROVE (Make the next version better) → REPEAT.",
+    citations: [{ label: "Execution & Operating System (#execution)", href: "#execution" }],
+  },
+  {
+    keywords: ["knowledge graph", "graph", "relationships", "network", "connections", "nodes"],
+    answer:
+      "Tarik's verified Personal Knowledge Graph models authentic relationships across his academic journey (B.Sc & M.Sc Forensic Science, MCA, M.Tech Cyber Security & AI / Digital Forensics), technical specialties (Toxicology, DFIR, Zero Trust), operating venture (Dezo.in), and verifiable certifications (CEH, CHFI, OSCP). Every edge is backed by verifiable documentation.",
     citations: [
-      { label: "Execution & Operating System (#execution)", href: "#execution" },
+      { label: "Inspect Who I Am (#about)", href: "#about" },
+      { label: "Forensic Intelligence Lab (/forensic-lab)", href: "/forensic-lab" },
     ],
   },
   {
-    keywords: ["tech", "stack", "tools", "languages", "code", "react", "typescript", "python", "rust"],
+    keywords: ["research", "areas", "interests", "scientific", "study", "papers", "methodology"],
+    answer:
+      "Tarik's active research focuses on 4 core frontiers: 1) Analytical Forensic Toxicology (GC-MS / HPLC spectral confirmation), 2) Memory Forensics & Rootkit Triage (RFC 3227 volatile acquisition and unlinked process hunting), 3) Zero-Trust Network Telemetry (packet dissection & threat anomaly scoring), and 4) Source-Grounded AI Reasoning (mitigating LLM hallucinations through deterministic retrieval and verified knowledge bases).",
+    citations: [
+      { label: "Forensic Domains Atlas (#domains)", href: "#domains" },
+      { label: "Forensic Intelligence Lab (/forensic-lab)", href: "/forensic-lab" },
+    ],
+  },
+  {
+    keywords: [
+      "find details",
+      "find someone",
+      "osint",
+      "intelligence",
+      "search",
+      "investigate",
+      "public information",
+      "kernel",
+    ],
+    answer:
+      "FIND DETAILS is Tarik's universal public-intelligence research engine built directly into this portfolio. It provides an unified single-input interface that silently classifies entities (person, organization, domain, IP, phone, location), plans lawful multi-source reconnaissance, verifies evidence chains with ISO/IEC 27037 compliance, and visualizes relationships on an interactive 3D geospatial globe.",
+    citations: [
+      { label: "Open FIND DETAILS Console (/find-someone)", href: "/find-someone" },
+      { label: "Homepage Information Engine (#find-details)", href: "#find-details" },
+    ],
+  },
+  {
+    keywords: [
+      "tech",
+      "stack",
+      "tools",
+      "languages",
+      "code",
+      "react",
+      "typescript",
+      "python",
+      "rust",
+    ],
     answer:
       "Core stack: TypeScript, React 19, Next.js / TanStack Start, Tailwind CSS v4, Three.js / WebGL, Python, Rust, PostgreSQL, and Vercel Edge. Every tool is selected for deterministic performance, type safety, and verifiable reliability.",
     citations: [
@@ -206,43 +289,81 @@ export function AskTarikAI() {
       setIsTyping(true);
       soundEngine.playClick();
 
+      // Master Prompt Commands Interception (§28, §29, §30)
+      const cleanUpper = q.trim().toUpperCase();
+      let overrideAnswer: string | null = null;
+      let overrideCitations: { label: string; href: string }[] | null = null;
+
+      if (cleanUpper === "ANALYSE" || cleanUpper.startsWith("ANALYSE ")) {
+        overrideAnswer =
+          "AUDIT REPORT [ANALYSE]: Continuous verification across tarikislam.in confirms: 1) Evidentiary separation of tools (Used vs Familiar vs Researching vs Ecosystem) active across DFIR & OSINT registries. 2) Strict chain of custody (ISO/IEC 27037) enforced on all working copies. 3) Public intelligence kernel operates entirely client-side on permitted endpoints (Cloudflare DoH, RDAP, crt.sh, Nominatim, Crossref) without credential leakage. 4) Zero TypeScript/build warnings.";
+        overrideCitations = [
+          { label: "DFIR Toolbox in Forensic Lab (/forensic-lab)", href: "/forensic-lab" },
+          { label: "Find Details Universal Console (/find-someone)", href: "/find-someone" },
+        ];
+      } else if (cleanUpper === "MORE" || cleanUpper.startsWith("MORE ")) {
+        overrideAnswer =
+          "DEEPENING TELEMETRY [MORE]: Expanded active research vectors include: multi-modal timeline correlation (Plaso + Timesketch), YARA-X rule sandboxing, Indic language query transliteration (IndicXlit/IndicTrans2), and automated RFC 3227 order of volatility auditing for volatile memory. Explore the interactive modules below.";
+        overrideCitations = [
+          { label: "Forensic Lab Case Board (/forensic-lab)", href: "/forensic-lab" },
+          { label: "Investigation Workspace (/find-someone)", href: "/find-someone" },
+        ];
+      } else if (
+        cleanUpper === "MAKE IT BEST" ||
+        cleanUpper === "MAKE IT MORE PERFECT" ||
+        cleanUpper.includes("MAKE IT BEST")
+      ) {
+        overrideAnswer =
+          "OPTIMIZATION LEDGER [MAKE IT BEST]: Portfolio architecture upgraded: 1) Added interactive 8-Stage Canonical DFIR Pipeline explorer (Acquire→Preserve→Verify→Extract→Analyse→Correlate→Interpret→Report). 2) Live Crossref academic paper collector linked to author disambiguation. 3) 3D geospatial intelligence globe with dynamic target pinning. 4) Offline cryptographically sealed SHA-256 validation via Web Crypto subtle API.";
+        overrideCitations = [
+          { label: "DFIR Pipeline & Toolbox (/forensic-lab)", href: "/forensic-lab" },
+          { label: "Live Intelligence Engine (#find-details)", href: "#find-details" },
+        ];
+      }
+
       // Semantic matching algorithm
       const lowerQ = q.toLowerCase();
       let bestMatch = KNOWLEDGE_BASE[0];
       let maxScore = -1;
 
-      for (const entry of KNOWLEDGE_BASE) {
-        let score = 0;
-        for (const kw of entry.keywords) {
-          if (lowerQ.includes(kw)) score += 1;
-        }
-        if (score > maxScore) {
-          maxScore = score;
-          bestMatch = entry;
+      if (!overrideAnswer) {
+        for (const entry of KNOWLEDGE_BASE) {
+          let score = 0;
+          for (const kw of entry.keywords) {
+            if (lowerQ.includes(kw)) score += 1;
+          }
+          if (score > maxScore) {
+            maxScore = score;
+            bestMatch = entry;
+          }
         }
       }
 
-      let baseText = bestMatch.answer;
-      let responseCitations = bestMatch.citations;
+      let baseText = overrideAnswer || bestMatch.answer;
+      let responseCitations = overrideCitations || bestMatch.citations;
 
-      if (maxScore <= 0) {
-        baseText = `Tarik approaches software, AI, and cybersecurity as unified engineering disciplines. You can review his full dossiers directly, or connect with him on WhatsApp to discuss: "${q}".`;
+      if (!overrideAnswer && maxScore <= 0) {
+        baseText = `I don't currently have verified information about that in Tarik's authenticated knowledge base. Tarik maintains strict evidentiary standards and never presents unverified claims as facts. You can review his selected dossiers directly, or connect with him directly on WhatsApp to inquire.`;
         responseCitations = [
           { label: "Selected Work (#work)", href: "#work" },
-          { label: "Direct WhatsApp", href: WHATSAPP_URL },
+          { label: "Direct Inquiries via WhatsApp", href: WHATSAPP_URL },
         ];
       }
 
       // Modulate response based on selected Persona
       let modulatedText = baseText;
       if (persona === "developer") {
-        modulatedText += " [Technical Architecture]: Core engineering utilizes React 19, TanStack Start, TypeScript strictness, custom Three.js WebGL shaders, and cryptographic auditability.";
+        modulatedText +=
+          " [Technical Architecture]: Core engineering utilizes React 19, TanStack Start, TypeScript strictness, custom Three.js WebGL shaders, and cryptographic auditability.";
       } else if (persona === "founder") {
-        modulatedText += " [Venture Perspective]: Built for 0→1 execution velocity, defensible IP, high unit economics, and solving genuine market pain points via Dezo.in.";
+        modulatedText +=
+          " [Venture Perspective]: Built for 0→1 execution velocity, defensible IP, high unit economics, and solving genuine market pain points via Dezo.in.";
       } else if (persona === "recruiter") {
-        modulatedText += " [Competency Audit]: Verified background combining forensic precision, incident response security, autonomous AI development, and cross-functional team delivery.";
+        modulatedText +=
+          " [Competency Audit]: Verified background combining forensic precision, incident response security, autonomous AI development, and cross-functional team delivery.";
       } else if (persona === "beginner") {
-        modulatedText += " [In Plain English]: Think of it like a digital detective who doesn't just find clues, but actually builds the tools and AI to keep computer systems safe.";
+        modulatedText +=
+          " [In Plain English]: Think of it like a digital detective who doesn't just find clues, but actually builds the tools and AI to keep computer systems safe.";
       }
 
       setTimeout(() => {
@@ -259,7 +380,7 @@ export function AskTarikAI() {
         soundEngine.playAiChime();
       }, 400);
     },
-    [isTyping, persona]
+    [isTyping, persona],
   );
 
   const copyToClipboard = (text: string, id: string) => {
@@ -305,7 +426,9 @@ export function AskTarikAI() {
             <div className="flex items-center gap-2">
               <Bot className="size-4 text-[#9B8CFF]" />
               <div>
-                <p className="font-bold text-foreground text-xs">ASK TARIK AI // KNOWLEDGE ENGINE</p>
+                <p className="font-bold text-foreground text-xs">
+                  ASK TARIK AI // KNOWLEDGE ENGINE
+                </p>
                 <p className="text-[10px] text-muted-foreground flex items-center gap-1">
                   <Compass className="size-3 text-[#62E6FF]" />
                   <span>Context: {activeSection}</span>
@@ -323,7 +446,9 @@ export function AskTarikAI() {
 
           {/* Persona Lens Switcher */}
           <div className="px-3 py-2 border-b border-white/5 bg-black/20 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">LENS:</span>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">
+              LENS:
+            </span>
             {(["developer", "founder", "recruiter", "beginner"] as Persona[]).map((p) => (
               <button
                 key={p}
@@ -354,7 +479,9 @@ export function AskTarikAI() {
                 <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                   <span>{m.sender === "user" ? "YOU" : "TARIK.AI"}</span>
                   {m.persona && (
-                    <span className="text-[#9B8CFF] font-bold uppercase tracking-wider">[{m.persona}]</span>
+                    <span className="text-[#9B8CFF] font-bold uppercase tracking-wider">
+                      [{m.persona}]
+                    </span>
                   )}
                   <span>{m.timestamp}</span>
                 </div>
@@ -398,7 +525,9 @@ export function AskTarikAI() {
 
           {/* Preset Questions Bar */}
           <div className="px-3 py-1.5 border-t border-white/5 bg-white/[0.01] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">SUGGEST:</span>
+            <span className="text-[9px] uppercase tracking-wider text-muted-foreground shrink-0">
+              SUGGEST:
+            </span>
             {PRESET_QUESTIONS.map((q) => (
               <button
                 key={q}

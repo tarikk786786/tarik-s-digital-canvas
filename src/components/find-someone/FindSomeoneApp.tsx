@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearch } from "@tanstack/react-router";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Download } from "lucide-react";
 import { FindSomeoneNav } from "./FindSomeoneNav";
 import { SearchInterface } from "./SearchInterface";
 import { LiveProgress, type PipelineStep } from "./LiveProgress";
 import { InvestigationWorkspace } from "./InvestigationWorkspace";
+import { ReportGenerator } from "./ReportGenerator";
 import { DEMO_INVESTIGATION } from "@/content/demo-investigation";
 import { detectQueryType } from "@/lib/find-someone/scoring";
 import { soundEngine } from "@/lib/sound-engine";
-import type { Investigation, SearchIntent } from "@/lib/find-someone/types";
+import type { Investigation, SearchIntent, Source, Evidence } from "@/lib/find-someone/types";
 import type { InvestigationKernelResult } from "@/lib/intelligence/collectors";
 import {
   ConfidenceMeter,
@@ -73,6 +74,7 @@ export function FindSomeoneApp() {
       : PENDING_STEPS,
   );
   const [kernel, setKernel] = useState<InvestigationKernelResult | null>(null);
+  const [showLiveReport, setShowLiveReport] = useState(false);
   const autoRan = useRef(false);
 
   const showWorkspace = useMemo(
@@ -113,7 +115,42 @@ export function FindSomeoneApp() {
                 : (p.status as PipelineStep["status"]),
           })),
         );
-        setInvestigation(emptyInvestigation(query));
+        const liveSources: Source[] = (json.adapters || [])
+          .filter((a) => a.health === "AVAILABLE" && a.evidence.length > 0)
+          .map((a, i) => ({
+            id: `src_live_${a.adapterId}`,
+            name: a.categoryLabel,
+            url: a.evidence[0]?.url || "https://public-registry.org",
+            domain: "public-web",
+            qualityTier: "primary" as const,
+            qualityScore: 5,
+            type: "api" as const,
+            retrievedAt: json.retrievedAt,
+            lastVerified: json.retrievedAt.slice(0, 10),
+          }));
+
+        const liveEvidence: Evidence[] = (json.evidence || []).map((ev, i) => ({
+          id: ev.id,
+          sourceId: `src_live_${i}`,
+          extractedText: `${ev.title}: ${ev.summary}`,
+          context: ev.provenance.whyVisible,
+          extractedAt: ev.observedAt,
+          confidence:
+            ev.confidence === "VERIFIED"
+              ? 98
+              : ev.confidence === "SUPPORTED"
+                ? 85
+                : ev.confidence === "PROBABLE"
+                  ? 70
+                  : 50,
+        }));
+
+        setInvestigation({
+          ...emptyInvestigation(query),
+          status: "completed",
+          sources: liveSources,
+          evidence: liveEvidence,
+        });
         soundEngine.playSuccess();
       } catch (e) {
         setPipelineSteps([
@@ -176,13 +213,22 @@ export function FindSomeoneApp() {
 
       <main className="relative z-10 mx-auto max-w-[1600px] px-4 sm:px-8 py-10 sm:py-14 space-y-10">
         <div className="flex flex-wrap gap-2 font-mono text-[10px] uppercase tracking-wider">
-          <Link to="/lab" className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]">
+          <Link
+            to="/lab"
+            className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]"
+          >
             Lab hub
           </Link>
-          <Link to="/world-os" className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]">
+          <Link
+            to="/world-os"
+            className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]"
+          >
             World OS
           </Link>
-          <Link to="/forensic-lab" className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]">
+          <Link
+            to="/forensic-lab"
+            className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-[#62E6FF]"
+          >
             Forensic Lab
           </Link>
         </div>
@@ -193,8 +239,8 @@ export function FindSomeoneApp() {
           </p>
         ) : (
           <p className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-muted-foreground">
-            Live Information Kernel — public HTTP collectors only. Adapter brand names stay off
-            the chrome. AUTH_DEPENDENT India / username workers are labeled honestly when offline.
+            Live Information Kernel — public HTTP collectors only. Adapter brand names stay off the
+            chrome. AUTH_DEPENDENT India / username workers are labeled honestly when offline.
           </p>
         )}
 
@@ -220,9 +266,28 @@ export function FindSomeoneApp() {
         {mode === "live" && kernel && (
           <section className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <TechnicalLabel className="text-[#62E6FF]">Live public collectors</TechnicalLabel>
-              <LiveTimestamp iso={kernel.retrievedAt} prefix="Retrieved" />
+              <div className="flex items-center gap-3">
+                <TechnicalLabel className="text-[#62E6FF]">Live public collectors</TechnicalLabel>
+                <LiveTimestamp iso={kernel.retrievedAt} prefix="Retrieved" />
+              </div>
+
+              {kernel.evidence.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowLiveReport(!showLiveReport)}
+                  className="flex items-center gap-1.5 rounded-lg border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-3 py-1.5 font-mono text-xs text-[#62E6FF] hover:bg-[#62E6FF]/20 transition-all shrink-0 cursor-pointer"
+                >
+                  <Download className="size-3.5" />
+                  <span>{showLiveReport ? "Close Dossier" : "Export Dossier"}</span>
+                </button>
+              )}
             </div>
+
+            {showLiveReport && (
+              <div className="p-4 rounded-xl border border-white/10 bg-[#0A0D12]">
+                <ReportGenerator investigation={investigation} />
+              </div>
+            )}
 
             <InvestigationProgress phases={kernel.phases} />
 
@@ -255,9 +320,7 @@ export function FindSomeoneApp() {
                       <span className="text-sm text-foreground">{step.categoryLabel}</span>
                       <span
                         className={`font-mono text-[9px] uppercase tracking-wider ${
-                          step.mode === "LIVE"
-                            ? "text-emerald-300"
-                            : "text-amber-200/90"
+                          step.mode === "LIVE" ? "text-emerald-300" : "text-amber-200/90"
                         }`}
                       >
                         {step.mode}
@@ -295,7 +358,9 @@ export function FindSomeoneApp() {
                   </div>
                   <p className="mt-2 text-sm text-foreground">{a.statusLabel}</p>
                   {a.error && (
-                    <p className="mt-1 text-[11px] text-muted-foreground">{a.error}</p>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      Analysis temporarily unavailable
+                    </p>
                   )}
                 </div>
               ))}

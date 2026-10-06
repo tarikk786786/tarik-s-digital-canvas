@@ -13,6 +13,35 @@ export function ReportGenerator({ investigation }: ReportGeneratorProps) {
   const generateMarkdown = () => {
     const p = investigation.persons[0];
     if (!p) {
+      if (investigation.evidence.length > 0) {
+        return `# FIND DETAILS — LIVE PUBLIC DOSSIER
+Timestamp: ${new Date().toISOString()}
+Target Query: "${investigation.query.raw}"
+Entity Classification: ${investigation.query.entityType.toUpperCase()}
+Audit Standard: ISO/IEC 27037 Custody Principles & Evidence Integrity
+
+---
+
+## 1. EVIDENCE LEDGER (${investigation.evidence.length} Records)
+${investigation.evidence
+  .map(
+    (ev, i) => `### [${i + 1}] ${ev.extractedText}
+- **Confidence**: ${ev.confidence}%
+- **Extracted At**: ${ev.extractedAt}
+- **Context**: ${ev.context}
+`,
+  )
+  .join("\n")}
+
+---
+
+## 2. CITATIONS & OPEN REGISTRIES (${investigation.sources.length} Sources)
+${investigation.sources.map((s) => `- **${s.name}** (${s.domain}): ${s.url} (Quality: ${s.qualityTier})`).join("\n")}
+
+---
+*Disclaimer: Strict lawful public reconnaissance only. No private interception or bypass of security controls.*
+`;
+      }
       return `# FIND DETAILS — EMPTY SESSION
 Mode: Live / no workers
 Timestamp: ${new Date().toISOString()}

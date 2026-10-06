@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate, Link } from "@tanstack/react-router";
 import { ArrowUpRight, Globe2, FlaskConical } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";
-import { startInvestigation, workspacePath, type InvestigationMode } from "@/lib/find-someone/session";
+import {
+  startInvestigation,
+  workspacePath,
+  type InvestigationMode,
+} from "@/lib/find-someone/session";
 import { soundEngine } from "@/lib/sound-engine";
 
 export function FindDetails() {
@@ -80,6 +84,31 @@ export function FindDetails() {
               <span>{busy ? "Opening…" : "Ask the world"}</span>
               <ArrowUpRight className="size-4" />
             </MagneticButton>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-2 font-mono text-[11px] text-muted-foreground">
+            <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">
+              Sample:
+            </span>
+            {[
+              { label: "Rahul Kumar Odisha", query: "Rahul Kumar Odisha", mode: "demo" as const },
+              { label: "example.com", query: "example.com", mode: "live" as const },
+              { label: "Bhubaneswar", query: "Bhubaneswar", mode: "live" as const },
+              { label: "tarikislam.in", query: "tarikislam.in", mode: "live" as const },
+            ].map((sample) => (
+              <button
+                key={sample.label}
+                type="button"
+                onClick={() => {
+                  setQuery(sample.query);
+                  setMode(sample.mode);
+                  soundEngine.playClick();
+                }}
+                className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1 hover:border-[#62E6FF]/40 hover:text-white transition-all cursor-pointer"
+              >
+                "{sample.label}"
+              </button>
+            ))}
           </div>
 
           {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
