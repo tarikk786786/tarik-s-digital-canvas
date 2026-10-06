@@ -4,10 +4,13 @@ import { WHATSAPP_URL } from "@/lib/contact-links";
 import { soundEngine } from "@/lib/sound-engine";
 
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Lab", href: "/lab" },
-  { label: "Connect", href: "#contact" },
+  { label: "Home", href: "/#top" },
+  { label: "Intelligence", href: "/#intelligence" },
+  { label: "Labs", href: "/lab" },
+  { label: "Research", href: "/#research" },
+  { label: "Tools", href: "/forensic-lab" },
+  { label: "Reports", href: "/find-someone?mode=live" },
+  { label: "About", href: "/#about" },
 ];
 
 export function Navigation() {
@@ -101,11 +104,9 @@ export function Navigation() {
             <kbd className="px-1 py-0.2 rounded bg-white/10 text-[9px]">~</kbd>
           </button>
 
-          {/* Contact Direct */}
+          {/* Launch Research Direct */}
           <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/find-someone?mode=live"
             onClick={() => soundEngine.playClick()}
             className="hidden xl:flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#62E6FF]/40 bg-[#62E6FF]/10 font-mono text-[10px] uppercase tracking-[0.2em] text-[#62E6FF] hover:bg-[#62E6FF]/20 transition-all shadow-[0_0_12px_rgba(98,230,255,0.2)]"
           >
@@ -113,7 +114,7 @@ export function Navigation() {
               <span className="absolute inline-flex size-full animate-ping rounded-full bg-[#62E6FF] opacity-75" />
               <span className="relative inline-flex size-1.5 rounded-full bg-[#62E6FF]" />
             </span>
-            <span>AVAILABLE Q3 26</span>
+            <span>Launch Research →</span>
           </a>
 
           {/* Mobile hamburger */}

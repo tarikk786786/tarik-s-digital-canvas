@@ -28,6 +28,14 @@ const ENGINES = [
     desc: "Synthetic training cases with TOX signature, digital hash chain, and Observation → Analysis → Interpretation → Conclusion.",
     icon: FlaskConical,
   },
+  {
+    to: "/toxicity" as const,
+    code: "04",
+    title: "CHEMICAL SAFETY",
+    subtitle: "Toxicology Reference",
+    desc: "Harm-reduction chemical registry, PubChem integration, AIIMS NPIC 24/7 hotline (1800-116-117), 'DO NOT MIX' domestic matrix & antidotes.",
+    icon: FlaskConical,
+  },
 ];
 
 export function LabHub() {
@@ -58,13 +66,13 @@ export function LabHub() {
           <span className="block italic font-light text-foreground/80">intelligence laboratory</span>
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-          Building intelligent systems that see the invisible. Three engines. One evidence language.
+          Building intelligent systems that see the invisible. Four autonomous engines. One evidence language.
           Evidence over assumptions.
         </p>
 
         <SystemStatusBar className="mt-10" />
 
-        <div className="mt-14 grid gap-5 md:grid-cols-3">
+        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {ENGINES.map((engine) => {
             const Icon = engine.icon;
             return (

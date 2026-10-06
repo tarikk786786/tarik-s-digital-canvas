@@ -632,7 +632,7 @@ export function runIndiaPhoneIntelligence(rawQuery: string): IndiaPhoneIntellige
   }
 
   const adapterResult: AdapterResult = {
-    adapterId: "india-phone-intel",
+    adapterId: "phone-public-meta",
     categoryLabel: "Phone public numbering & telecom metadata",
     health: "AVAILABLE",
     statusLabel: `${analysis.country} ${analysis.numberType} · ${analysis.circle?.name || "Global NNP"} · Valid format`,

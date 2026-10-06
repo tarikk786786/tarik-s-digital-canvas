@@ -22,6 +22,7 @@ import { Route as ResumeRouteImport } from './routes/resume'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SkillsRouteImport } from './routes/skills'
+import { Route as ToxicityRouteImport } from './routes/toxicity'
 import { Route as WorldOsRouteImport } from './routes/world-os'
 import { Route as ApiIntelligenceRouteImport } from './routes/api/intelligence'
 import { Route as ApiInvestigationsRouteImport } from './routes/api/investigations'
@@ -93,6 +94,11 @@ const SkillsRoute = SkillsRouteImport.update({
   path: '/skills',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToxicityRoute = ToxicityRouteImport.update({
+  id: '/toxicity',
+  path: '/toxicity',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WorldOsRoute = WorldOsRouteImport.update({
   id: '/world-os',
   path: '/world-os',
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/toxicity': typeof ToxicityRoute
   '/world-os': typeof WorldOsRoute
   '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/toxicity': typeof ToxicityRoute
   '/world-os': typeof WorldOsRoute
   '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/skills': typeof SkillsRoute
+  '/toxicity': typeof ToxicityRoute
   '/world-os': typeof WorldOsRoute
   '/api/intelligence': typeof ApiIntelligenceRoute
   '/api/investigations': typeof ApiInvestigationsRoute
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/toxicity'
     | '/world-os'
     | '/api/intelligence'
     | '/api/investigations'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/toxicity'
     | '/world-os'
     | '/api/intelligence'
     | '/api/investigations'
@@ -236,6 +247,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/skills'
+    | '/toxicity'
     | '/world-os'
     | '/api/intelligence'
     | '/api/investigations'
@@ -257,6 +269,7 @@ export interface RootRouteChildren {
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SkillsRoute: typeof SkillsRoute
+  ToxicityRoute: typeof ToxicityRoute
   WorldOsRoute: typeof WorldOsRoute
   ApiIntelligenceRoute: typeof ApiIntelligenceRoute
   ApiInvestigationsRoute: typeof ApiInvestigationsRoute
@@ -357,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SkillsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/toxicity': {
+      id: '/toxicity'
+      path: '/toxicity'
+      fullPath: '/toxicity'
+      preLoaderRoute: typeof ToxicityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/world-os': {
       id: '/world-os'
       path: '/world-os'
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SkillsRoute: SkillsRoute,
+  ToxicityRoute: ToxicityRoute,
   WorldOsRoute: WorldOsRoute,
   ApiIntelligenceRoute: ApiIntelligenceRoute,
   ApiInvestigationsRoute: ApiInvestigationsRoute,

@@ -6,6 +6,7 @@ import { LogoMarquee } from "@/components/portfolio/LogoMarquee";
 import { AboutMe } from "@/components/portfolio/AboutMe";
 import { Capabilities } from "@/components/portfolio/Capabilities";
 import { Reveal } from "@/components/portfolio/Reveal";
+import { PlatformArchitecture } from "@/components/portfolio/PlatformArchitecture";
 import { ConsentBanner } from "@/components/privacy/ConsentBanner";
 import { Footer } from "@/components/portfolio/Footer";
 
@@ -54,6 +55,11 @@ function Index() {
 
           {/* Identity & Tenets Marquee */}
           <LogoMarquee />
+
+          {/* Core Platform Architecture — 5 Layers & 6 Intelligence Divisions */}
+          <Reveal>
+            <PlatformArchitecture />
+          </Reveal>
 
           {/* Section 01: ABOUT — Identity, Philosophy, Laboratory Evidence & Milestones */}
           <Reveal>
