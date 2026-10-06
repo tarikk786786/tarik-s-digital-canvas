@@ -158,7 +158,7 @@ export const Route = createFileRoute("/api/intelligence")({
           // Route to the person intelligence engine for person/username/NL class queries.
           // Domain, IP, geo, and mixed technical queries stay on the original kernel.
           const classification = classifyQuery(query);
-          const personClasses = new Set(["PERSON", "USERNAME", "NL"]);
+          const personClasses = new Set(["PERSON", "USERNAME", "NL", "PHONE", "EMAIL"]);
           const domainClasses = new Set(["DOMAIN", "URL", "IP"]);
           const hasDomainSignal = classification.chips.some((c) => domainClasses.has(c));
           const hasPersonSignal = classification.chips.some((c) => personClasses.has(c));

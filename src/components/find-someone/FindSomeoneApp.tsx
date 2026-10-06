@@ -13,6 +13,7 @@ import type { Investigation, SearchIntent, Source, Evidence } from "@/lib/find-s
 import type { InvestigationKernelResult } from "@/lib/intelligence/collectors";
 import type { PersonIntelligenceResult } from "@/lib/intelligence/person-engine";
 import { PersonIntelligenceReport } from "./PersonIntelligenceReport";
+import { PhoneIntelligenceReport } from "./PhoneIntelligenceReport";
 import {
   ConfidenceMeter,
   InvestigationProgress,
@@ -441,6 +442,11 @@ export function FindSomeoneApp() {
             )}
 
             <InvestigationProgress phases={kernel.phases} />
+
+            {(kernel.classification.chips.includes("PHONE") ||
+              /^\+?\d[\d\s\-()]{7,}$/.test(kernel.query.trim())) && (
+              <PhoneIntelligenceReport phoneInput={kernel.query} />
+            )}
 
             <div className="flex flex-wrap gap-2">
               {kernel.classification.chips.map((chip) => (

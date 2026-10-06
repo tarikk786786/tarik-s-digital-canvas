@@ -16,6 +16,7 @@ export type CapabilityCategory =
   | "Cryptographic Verification"
   | "Document & Text Processing"
   | "Entity Relationship Graph"
+  | "Telephony & Public Numbering"
   | "Forensic Toxicology Simulation";
 
 export type ComponentSecurityStatus =
@@ -212,6 +213,23 @@ export const CAPABILITY_REGISTRY: CapabilityComponent[] = [
     enabled: true,
     fallback: "Tabular tabular evidence ledger",
     lastChecked: "2026-10-05",
+  },
+  {
+    id: "india-phone-intel",
+    purpose: "Validate E.164 phone formats and map DoT 22 telecom circle allocations & STD codes",
+    category: "Telephony & Public Numbering",
+    publicLabel: "Phone Public Numbering & Circle Metadata",
+    license: "TRAI / DoT Open National Numbering Plan",
+    source: "Local ITU-T / DoT National Numbering Engine",
+    version: "2026.1-NNP",
+    securityStatus: "VERIFIED_SECURE",
+    maintenanceStatus: "ACTIVELY_MAINTAINED",
+    compatibility: "Edge Function / Nitro",
+    performance: "<50ms",
+    confidence: "VERIFIED",
+    enabled: true,
+    fallback: "Basic E.164 country dial-code parser",
+    lastChecked: "2026-10-06",
   },
 ];
 

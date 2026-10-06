@@ -24,6 +24,7 @@ import {
   ShieldCheck,
   Activity,
   Hash,
+  Phone,
 } from "lucide-react";
 import {
   ConfidenceMeter,
@@ -34,6 +35,7 @@ import {
 } from "@/components/system";
 import type { PersonIntelligenceResult, PersonCandidate } from "@/lib/intelligence/person-engine";
 import type { KernelEvidence } from "@/lib/intelligence/collectors";
+import { PhoneIntelligenceReport } from "./PhoneIntelligenceReport";
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
@@ -281,10 +283,16 @@ interface Props {
 }
 
 export function PersonIntelligenceReport({ result }: Props) {
-  const [activeSection, setActiveSection] = useState<string>("identity");
+  const isPhone =
+    result.classification.chips.includes("PHONE") ||
+    /^\+?\d[\d\s\-()]{7,}$/.test(result.query.trim());
+  const [activeSection, setActiveSection] = useState<string>(isPhone ? "phone" : "identity");
 
   const sections = useMemo(
     () => [
+      ...(isPhone
+        ? [{ id: "phone", label: "Phone Intelligence", icon: Phone, count: 1 }]
+        : []),
       { id: "identity", label: "Identity", icon: User, count: result.candidates.length },
       { id: "evidence", label: "Evidence", icon: ShieldCheck, count: result.evidence.length },
       { id: "timeline", label: "Timeline", icon: Clock, count: result.timeline.length },
@@ -293,7 +301,7 @@ export function PersonIntelligenceReport({ result }: Props) {
       { id: "collectors", label: "Collectors", icon: Activity, count: result.adapters.length },
       { id: "pending", label: "Pending", icon: Hash, count: result.pendingCapabilities.length },
     ],
-    [result],
+    [result, isPhone],
   );
 
   const liveAdapters = result.adapters.filter((a) => a.health === "AVAILABLE");
@@ -392,6 +400,11 @@ export function PersonIntelligenceReport({ result }: Props) {
           );
         })}
       </div>
+
+      {/* PHONE section */}
+      {activeSection === "phone" && (
+        <PhoneIntelligenceReport phoneInput={result.query} />
+      )}
 
       {/* IDENTITY section */}
       {activeSection === "identity" && (

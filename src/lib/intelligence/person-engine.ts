@@ -29,6 +29,11 @@ import {
   collectWikidataEntity,
   collectRedditProfile,
 } from "./public-api-collectors";
+import {
+  runIndiaPhoneIntelligence,
+  analyzeIndiaPhone,
+  type IndiaPhoneAnalysis,
+} from "./india-phone-engine";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -68,6 +73,9 @@ export interface PersonCandidate {
     affiliations: string[];
     orcid?: string;
   };
+  /** Public phone details if input was a phone number */
+  publicPhones?: string[];
+  phoneDetails?: IndiaPhoneAnalysis;
   /** Evidence items that contributed to this candidate */
   evidenceIds: string[];
 }
@@ -329,12 +337,25 @@ function buildPersonCandidate(
     distinctionConfidence = "LOW";
   }
 
+  // Extract phone details
+  const phoneAdapter = adapters.find((a) => a.adapterId === "india-phone-intel");
+  let phoneDetails: IndiaPhoneAnalysis | undefined;
+  const publicPhones: string[] = [];
+  if (phoneAdapter) {
+    phoneDetails = analyzeIndiaPhone(query);
+    if (phoneDetails.isValid) {
+      publicPhones.push(phoneDetails.nationalFormat);
+    }
+  }
+
   return {
     candidateId,
     distinctionConfidence,
     names: [query.trim()],
     usernames: github ? { GitHub: github.username } : {},
     publicEmails,
+    publicPhones,
+    phoneDetails,
     locations: [...locations],
     organizations: [...organizations].slice(0, 5),
     websites,
@@ -496,6 +517,14 @@ export async function runPersonIntelligenceEngine(
   const isUsername =
     classification.chips.includes("USERNAME") && !classification.chips.includes("DOMAIN");
   const isEmail = classification.chips.includes("EMAIL");
+  const isPhone = classification.chips.includes("PHONE") || /^\+?\d[\d\s\-()]{7,}$/.test(q);
+
+  // Phone collector: runs for phone numbers
+  if (isPhone) {
+    const phoneIntel = runIndiaPhoneIntelligence(q);
+    jobs.push(Promise.resolve(phoneIntel.adapterResult));
+    liveJobIds.push("india-phone-intel");
+  }
 
   // GitHub collector: runs for usernames and person names
   const githubUsername = extractGitHubUsername(q, classification);
