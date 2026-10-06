@@ -79,7 +79,7 @@ export function Hero() {
             <div className="flex flex-wrap items-center gap-3 mb-4">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-[#62E6FF]">
                 <span className="size-1.5 rounded-full bg-[#62E6FF] animate-pulse" />
-                TARIK ISLAM / INDEPENDENT TECHNOLOGY LAB
+                TARIK ISLAM · INTELLIGENCE · FORENSICS · AI · CYBER
               </span>
               <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70 hidden sm:inline">
                 {currentTime} · BHUBANESWAR
@@ -94,8 +94,7 @@ export function Hero() {
 
             {/* Supporting Text */}
             <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-muted-foreground sm:text-lg">
-              A modular research and intelligence platform combining open-source technology, AI,
-              public information, data analysis and knowledge graphs into one workspace.
+              Research systems built around evidence, engineering and scientific method. One platform to discover, investigate, understand and connect public information.
             </p>
 
             {/* Universal Research Engine Interface Card */}

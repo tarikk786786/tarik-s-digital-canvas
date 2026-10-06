@@ -7,6 +7,7 @@ import { AboutMe } from "@/components/portfolio/AboutMe";
 import { Capabilities } from "@/components/portfolio/Capabilities";
 import { Reveal } from "@/components/portfolio/Reveal";
 import { PlatformArchitecture } from "@/components/portfolio/PlatformArchitecture";
+import { LiveResearchWorkspace } from "@/components/portfolio/LiveResearchWorkspace";
 import { ConsentBanner } from "@/components/privacy/ConsentBanner";
 import { Footer } from "@/components/portfolio/Footer";
 
@@ -59,6 +60,11 @@ function Index() {
           {/* Core Platform Architecture — 5 Layers & 6 Intelligence Divisions */}
           <Reveal>
             <PlatformArchitecture />
+          </Reveal>
+
+          {/* Live Research Workspace — Evidence Engine in Motion */}
+          <Reveal>
+            <LiveResearchWorkspace />
           </Reveal>
 
           {/* Section 01: ABOUT — Identity, Philosophy, Laboratory Evidence & Milestones */}
