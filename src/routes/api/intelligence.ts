@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { sanitizePromptInput } from "@/lib/find-someone/security";
 import { runInformationKernel } from "@/lib/intelligence/collectors";
+import { classifyQuery } from "@/lib/intelligence/classifier";
+import { runPersonIntelligenceEngine } from "@/lib/intelligence/person-engine";
 import { getKernelRegistryPublic } from "@/lib/intelligence/registry";
 import { getPublicWorkerStatuses } from "@/lib/forensic/registry";
 import { WORLD_ADAPTERS, type WorldDimension } from "@/lib/world-os/adapters";
@@ -152,8 +154,34 @@ export const Route = createFileRoute("/api/intelligence")({
             return Response.json({ error: "Query is required." }, { status: 400, headers: CORS });
           }
           const query = sanitizePromptInput(parsed.data.query);
+
+          // Route to the person intelligence engine for person/username/NL class queries.
+          // Domain, IP, geo, and mixed technical queries stay on the original kernel.
+          const classification = classifyQuery(query);
+          const personClasses = new Set(["PERSON", "USERNAME", "NL"]);
+          const domainClasses = new Set(["DOMAIN", "URL", "IP"]);
+          const hasDomainSignal = classification.chips.some((c) => domainClasses.has(c));
+          const hasPersonSignal = classification.chips.some((c) => personClasses.has(c));
+
+          if (hasPersonSignal && !hasDomainSignal) {
+            // Person / username / NL → Person Intelligence Engine
+            const result = await runPersonIntelligenceEngine(query);
+            return Response.json(
+              {
+                status: "success",
+                engine: "person-intelligence",
+                ...result,
+              },
+              { headers: CORS },
+            );
+          }
+
+          // Default kernel: domain / IP / geo / mixed
           const result = await runInformationKernel(query);
-          return Response.json({ status: "success", ...result }, { headers: CORS });
+          return Response.json(
+            { status: "success", engine: "information-kernel", ...result },
+            { headers: CORS },
+          );
         } catch (err) {
           return Response.json(
             { error: "Investigation failed", details: (err as Error).message },

@@ -11,6 +11,8 @@ import { detectQueryType } from "@/lib/find-someone/scoring";
 import { soundEngine } from "@/lib/sound-engine";
 import type { Investigation, SearchIntent, Source, Evidence } from "@/lib/find-someone/types";
 import type { InvestigationKernelResult } from "@/lib/intelligence/collectors";
+import type { PersonIntelligenceResult } from "@/lib/intelligence/person-engine";
+import { PersonIntelligenceReport } from "./PersonIntelligenceReport";
 import {
   ConfidenceMeter,
   InvestigationProgress,
@@ -74,6 +76,7 @@ export function FindSomeoneApp() {
       : PENDING_STEPS,
   );
   const [kernel, setKernel] = useState<InvestigationKernelResult | null>(null);
+  const [personResult, setPersonResult] = useState<PersonIntelligenceResult | null>(null);
   const [showLiveReport, setShowLiveReport] = useState(false);
   const autoRan = useRef(false);
 
@@ -87,6 +90,7 @@ export function FindSomeoneApp() {
     soundEngine.playTerminal();
     setCurrentIntent(intent);
     setKernel(null);
+    setPersonResult(null);
 
     if (mode === "live") {
       setPipelineSteps([
@@ -102,56 +106,170 @@ export function FindSomeoneApp() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query }),
         });
-        const json = (await res.json()) as InvestigationKernelResult & { error?: string };
+        const json = (await res.json()) as (
+          | (InvestigationKernelResult & { engine?: string; error?: string })
+          | (PersonIntelligenceResult & { engine?: string; error?: string })
+        );
         if (!res.ok) throw new Error(json.error || "Kernel failed");
 
-        setKernel(json);
-        setPipelineSteps(
-          (json.phases || []).map((p) => ({
-            label: p.id,
-            status:
-              p.status === "skipped"
-                ? ("unavailable" as const)
-                : (p.status as PipelineStep["status"]),
-          })),
-        );
-        const liveSources: Source[] = (json.adapters || [])
-          .filter((a) => a.health === "AVAILABLE" && a.evidence.length > 0)
-          .map((a, i) => ({
-            id: `src_live_${a.adapterId}`,
-            name: a.categoryLabel,
-            url: a.evidence[0]?.url || "https://public-registry.org",
-            domain: "public-web",
-            qualityTier: "primary" as const,
-            qualityScore: 5,
-            type: "api" as const,
-            retrievedAt: json.retrievedAt,
-            lastVerified: json.retrievedAt.slice(0, 10),
+        if (json.engine === "person-intelligence") {
+          const pResult = json as PersonIntelligenceResult;
+          setPersonResult(pResult);
+          setKernel(null);
+          setPipelineSteps(
+            (pResult.phases || []).map((p) => ({
+              label: p.id,
+              status:
+                p.status === "skipped"
+                  ? ("unavailable" as const)
+                  : (p.status as PipelineStep["status"]),
+            })),
+          );
+
+          const liveSources: Source[] = (pResult.adapters || [])
+            .filter((a) => a.health === "AVAILABLE" && a.evidence.length > 0)
+            .map((a) => ({
+              id: `src_live_${a.adapterId}`,
+              name: a.categoryLabel,
+              url: a.evidence[0]?.url || "https://public-registry.org",
+              domain: "public-web",
+              qualityTier: "primary" as const,
+              qualityScore: 5,
+              type: "api" as const,
+              retrievedAt: pResult.retrievedAt,
+              lastVerified: pResult.retrievedAt.slice(0, 10),
+            }));
+
+          const liveEvidence: Evidence[] = (pResult.evidence || []).map((ev, i) => ({
+            id: ev.id,
+            sourceId: `src_live_${i}`,
+            extractedText: `${ev.title}: ${ev.summary}`,
+            context: ev.provenance.whyVisible,
+            extractedAt: ev.observedAt,
+            confidence:
+              ev.confidence === "VERIFIED"
+                ? 98
+                : ev.confidence === "SUPPORTED"
+                  ? 85
+                  : ev.confidence === "PROBABLE"
+                    ? 70
+                    : 50,
           }));
 
-        const liveEvidence: Evidence[] = (json.evidence || []).map((ev, i) => ({
-          id: ev.id,
-          sourceId: `src_live_${i}`,
-          extractedText: `${ev.title}: ${ev.summary}`,
-          context: ev.provenance.whyVisible,
-          extractedAt: ev.observedAt,
-          confidence:
-            ev.confidence === "VERIFIED"
-              ? 98
-              : ev.confidence === "SUPPORTED"
-                ? 85
-                : ev.confidence === "PROBABLE"
-                  ? 70
-                  : 50,
-        }));
+          const candidate = pResult.candidates[0];
+          const personEntities = candidate
+            ? [
+                {
+                  id: candidate.candidateId,
+                  type: "person" as const,
+                  name: candidate.names[0] || query,
+                  aliases: candidate.names.slice(1),
+                  metadata: {
+                    location: candidate.locations.join(", "),
+                    affiliation: candidate.organizations.join(", "),
+                    email: candidate.publicEmails.join(", "),
+                    repos: candidate.github?.publicRepos
+                      ? String(candidate.github.publicRepos)
+                      : "",
+                    citations: candidate.academic?.citationCount
+                      ? String(candidate.academic.citationCount)
+                      : "",
+                  },
+                  sources: liveSources.map((s) => s.id),
+                  confidence:
+                    candidate.distinctionConfidence === "HIGH"
+                      ? 90
+                      : candidate.distinctionConfidence === "MEDIUM"
+                        ? 75
+                        : 50,
+                  status: (candidate.distinctionConfidence === "HIGH"
+                    ? "high_confidence"
+                    : "likely") as any,
+                  createdAt: pResult.retrievedAt,
+                  updatedAt: pResult.retrievedAt,
+                  publicProfiles: Object.entries(candidate.usernames).map(([plat, u]) => ({
+                    platform: plat,
+                    url: plat === "GitHub" ? `https://github.com/${u}` : "",
+                    username: u,
+                    confidence: 90,
+                    verified: true,
+                    lastChecked: pResult.retrievedAt,
+                    metadata: {},
+                  })),
+                  organizations: candidate.organizations,
+                  websites: candidate.websites,
+                  locations: candidate.locations,
+                  publicFootprint: {
+                    profiles: Object.keys(candidate.usernames).length,
+                    organizations: candidate.organizations.length,
+                    websites: candidate.websites.length,
+                    publications: candidate.academic?.worksCount || 0,
+                    documents: 0,
+                    newsMentions: 0,
+                  },
+                },
+              ]
+            : [];
 
-        setInvestigation({
-          ...emptyInvestigation(query),
-          status: "completed",
-          sources: liveSources,
-          evidence: liveEvidence,
-        });
-        soundEngine.playSuccess();
+          setInvestigation({
+            ...emptyInvestigation(query),
+            status: "completed",
+            persons: personEntities,
+            sources: liveSources,
+            evidence: liveEvidence,
+          });
+          soundEngine.playSuccess();
+        } else {
+          const kResult = json as InvestigationKernelResult;
+          setKernel(kResult);
+          setPersonResult(null);
+          setPipelineSteps(
+            (kResult.phases || []).map((p) => ({
+              label: p.id,
+              status:
+                p.status === "skipped"
+                  ? ("unavailable" as const)
+                  : (p.status as PipelineStep["status"]),
+            })),
+          );
+          const liveSources: Source[] = (kResult.adapters || [])
+            .filter((a) => a.health === "AVAILABLE" && a.evidence.length > 0)
+            .map((a) => ({
+              id: `src_live_${a.adapterId}`,
+              name: a.categoryLabel,
+              url: a.evidence[0]?.url || "https://public-registry.org",
+              domain: "public-web",
+              qualityTier: "primary" as const,
+              qualityScore: 5,
+              type: "api" as const,
+              retrievedAt: kResult.retrievedAt,
+              lastVerified: kResult.retrievedAt.slice(0, 10),
+            }));
+
+          const liveEvidence: Evidence[] = (kResult.evidence || []).map((ev, i) => ({
+            id: ev.id,
+            sourceId: `src_live_${i}`,
+            extractedText: `${ev.title}: ${ev.summary}`,
+            context: ev.provenance.whyVisible,
+            extractedAt: ev.observedAt,
+            confidence:
+              ev.confidence === "VERIFIED"
+                ? 98
+                : ev.confidence === "SUPPORTED"
+                  ? 85
+                  : ev.confidence === "PROBABLE"
+                    ? 70
+                    : 50,
+          }));
+
+          setInvestigation({
+            ...emptyInvestigation(query),
+            status: "completed",
+            sources: liveSources,
+            evidence: liveEvidence,
+          });
+          soundEngine.playSuccess();
+        }
       } catch (e) {
         setPipelineSteps([
           { label: "UNDERSTANDING", status: "completed" },
@@ -160,6 +278,7 @@ export function FindSomeoneApp() {
           { label: "VERIFYING", status: "unavailable" },
         ]);
         setKernel(null);
+        setPersonResult(null);
         setInvestigation(emptyInvestigation(query));
         soundEngine.playClick();
         console.error(e);
@@ -263,7 +382,39 @@ export function FindSomeoneApp() {
           />
         )}
 
-        {mode === "live" && kernel && (
+        {mode === "live" && personResult && (
+          <section className="space-y-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <TechnicalLabel className="text-[#62E6FF]">
+                  Person Intelligence Engine
+                </TechnicalLabel>
+                <LiveTimestamp iso={personResult.retrievedAt} prefix="Retrieved" />
+              </div>
+
+              {personResult.evidence.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => setShowLiveReport(!showLiveReport)}
+                  className="flex items-center gap-1.5 rounded-lg border border-[#62E6FF]/30 bg-[#62E6FF]/10 px-3 py-1.5 font-mono text-xs text-[#62E6FF] hover:bg-[#62E6FF]/20 transition-all shrink-0 cursor-pointer"
+                >
+                  <Download className="size-3.5" />
+                  <span>{showLiveReport ? "Close Dossier" : "Export Dossier"}</span>
+                </button>
+              )}
+            </div>
+
+            {showLiveReport && (
+              <div className="p-4 rounded-xl border border-white/10 bg-[#0A0D12]">
+                <ReportGenerator investigation={investigation} />
+              </div>
+            )}
+
+            <PersonIntelligenceReport result={personResult} />
+          </section>
+        )}
+
+        {mode === "live" && kernel && !personResult && (
           <section className="space-y-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
