@@ -209,20 +209,20 @@ export function Hero() {
               <div className="absolute inset-x-0 bottom-0 p-5 border-t border-white/10 bg-[#050608]/85 backdrop-blur-md space-y-2.5">
                 <div className="grid grid-cols-2 gap-2 font-mono text-[10px]">
                   <div className="rounded-lg border border-white/10 bg-black/40 p-2">
-                    <span className="text-muted-foreground block text-[9px]">HUMAN OSINT</span>
-                    <span className="text-[#62E6FF] font-bold">28 Public Tools</span>
+                    <span className="text-muted-foreground block text-[9px]">HUMAN INTELLIGENCE</span>
+                    <span className="text-[#62E6FF] font-bold">Disambiguation</span>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-black/40 p-2">
                     <span className="text-muted-foreground block text-[9px]">TELECOM CIRCLING</span>
                     <span className="text-emerald-400 font-bold">22 DoT LSAs</span>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-black/40 p-2">
-                    <span className="text-muted-foreground block text-[9px]">PUBLIC DOMAINS</span>
-                    <span className="text-amber-400 font-bold">DoH · RDAP · CT</span>
+                    <span className="text-muted-foreground block text-[9px]">DIGITAL ASSETS</span>
+                    <span className="text-amber-400 font-bold">Provenance Chain</span>
                   </div>
                   <div className="rounded-lg border border-white/10 bg-black/40 p-2">
                     <span className="text-muted-foreground block text-[9px]">SCIENTIFIC INDEX</span>
-                    <span className="text-purple-400 font-bold">Crossref · OpenAlex</span>
+                    <span className="text-purple-400 font-bold">Peer-Reviewed</span>
                   </div>
                 </div>
 

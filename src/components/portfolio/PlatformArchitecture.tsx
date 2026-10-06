@@ -47,7 +47,7 @@ const LAB_DIVISIONS: LabDivision[] = [
       "India Telecom 22 LSAs & Numbering Plan",
       "Public Corporate Directorship & Filings",
     ],
-    toolsReferenced: ["GitHub API", "OpenAlex", "ORCID", "Sherlock & Maigret specs", "DoT LSAs"],
+    toolsReferenced: ["Scholarly Repositories", "Public Code Hosts", "Open Registries", "National Numbering Plans"],
     status: "ONLINE",
     route: "/find-someone?mode=live",
     icon: UserCheck,
@@ -66,7 +66,7 @@ const LAB_DIVISIONS: LabDivision[] = [
       "Certificate Transparency Log Discovery",
       "Wayback Machine Historical Snapshots",
     ],
-    toolsReferenced: ["Cloudflare DoH", "RDAP.org", "crt.sh", "Internet Archive CDX"],
+    toolsReferenced: ["Recursive DNS (DoH)", "ICANN RDAP", "CT Append-Only Logs", "Public Web Archives"],
     status: "ONLINE",
     route: "/find-someone?mode=live",
     icon: Globe2,
@@ -85,7 +85,7 @@ const LAB_DIVISIONS: LabDivision[] = [
       "Document Metadata & EXIF Analysis",
       "GHS Chemical & Hazard Label OCR Clues",
     ],
-    toolsReferenced: ["ExifTool specs", "Tesseract OCR", "SHA-256 Engine", "OpenCV"],
+    toolsReferenced: ["Metadata Extractors", "OCR Neural Engines", "Cryptographic Hashes", "Computer Vision"],
     status: "ONLINE",
     route: "/forensic-lab",
     icon: FileText,
@@ -104,7 +104,7 @@ const LAB_DIVISIONS: LabDivision[] = [
       "AIIMS NPIC 24/7 Helpline Directory",
       "Household 'DO NOT MIX' Incompatibility Matrix",
     ],
-    toolsReferenced: ["PubChem", "Crossref", "OpenAlex", "AIIMS NPIC", "NCDC"],
+    toolsReferenced: ["Open Citation Indices", "National Poison Information Centers", "PubChem Open API"],
     status: "ONLINE",
     route: "/toxicity",
     icon: FlaskConical,
@@ -123,7 +123,7 @@ const LAB_DIVISIONS: LabDivision[] = [
       "Public Air, Sea & Earth Vector Layers",
       "Honest Live/Degraded/Offline State Tracking",
     ],
-    toolsReferenced: ["OpenStreetMap", "Nominatim", "USGS Open Data", "NOAA Feeds"],
+    toolsReferenced: ["Open Spatial Directories", "Public Geocoding", "Earth Telemetry Feeds"],
     status: "ONLINE",
     route: "/world-os",
     icon: Compass,
@@ -133,16 +133,16 @@ const LAB_DIVISIONS: LabDivision[] = [
     id: "security",
     code: "06",
     name: "SECURITY & OBSERVABILITY",
-    headline: "DFIR Open Toolbox & ISO 27037 Evidentiary Standards",
+    headline: "DFIR Open Methodology & Evidentiary Standards",
     description:
-      "A curated 15-tool DFIR repository structured across 8 forensic pipeline phases, backed by real-time collector latency metrics and tamper-evident audit logs.",
+      "A structured digital forensics methodology organized across 8 pipeline phases, backed by real-time collector latency metrics and tamper-evident audit logs.",
     capabilities: [
-      "15 Curated Open-Source DFIR Tools",
-      "ISO/IEC 27037 & NIST SP 800-86 Standards",
+      "Defensible Digital Forensics Pipeline",
+      "Chain-of-Custody & Evidence Standards",
       "Passive vs. Active Mode Safeguards",
       "System Telemetry & Health Probes",
     ],
-    toolsReferenced: ["Autopsy", "Volatility", "Wireshark", "Zeek", "YARA", "Velociraptor"],
+    toolsReferenced: ["Memory Parsers", "Network Analyzers", "Filesystem Triagers", "Signature Scanners"],
     status: "ONLINE",
     route: "/forensic-lab",
     icon: ShieldAlert,
@@ -154,7 +154,7 @@ export function PlatformArchitecture() {
   const [selectedDivision, setSelectedDivision] = useState(LAB_DIVISIONS[0]);
 
   return (
-    <section id="architecture" className="relative py-28 px-6 md:px-12 lg:px-16 bg-[#050608] border-t border-white/5">
+    <section id="intelligence" className="relative py-28 px-6 md:px-12 lg:px-16 bg-[#050608] border-t border-white/5">
       <div className="mx-auto max-w-[1600px]">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-16 border-b border-white/10">
