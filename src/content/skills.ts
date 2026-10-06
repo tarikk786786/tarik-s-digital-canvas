@@ -556,11 +556,174 @@ export const SKILL_TAXONOMY: Record<SkillCategoryId, string[]> =
 // with an evidence source (project, coursework, credential, repo, article).
 // -----------------------------------------------------------------------------
 
-export const SKILLS: Skill[] = [];
+export const SKILLS: Skill[] = [
+  // Forensics & Toxicology (Backed by B.Sc & M.Sc Forensic Science + BioTrace / Toxicology Module)
+  {
+    name: "Forensic Toxicology",
+    category: "forensics",
+    subcategory: "Toxicology & chemistry",
+    level: "specialist",
+    experienceType: "academic",
+    description: "Analytical toxicology principles, poison classifications, toxidrome recognition, and chemical hazard triage.",
+    relatedProjects: ["BioTrace", "Toxicology & Chemical Safety Module (/toxicity)"],
+    relatedCredentials: ["M.Sc Forensic Science — Investigation & Toxicology"],
+    evidenceUrls: ["/toxicity"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "Chain of Custody",
+    category: "forensics",
+    subcategory: "Crime-scene investigation",
+    level: "advanced",
+    experienceType: "laboratory",
+    description: "Evidentiary integrity protocols, contemporaneous logging, tamper-evident seals, and legal defensibility.",
+    relatedProjects: ["Aegis-DF", "Digital Forensics Lab"],
+    relatedCredentials: ["B.Sc & M.Sc Forensic Science"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "Digital Forensics",
+    category: "forensics",
+    subcategory: "Crime-scene investigation",
+    level: "specialist",
+    experienceType: "academic",
+    description: "Filesystem triage, volatility analysis, timeline generation, and cryptographic hash verification.",
+    relatedProjects: ["Aegis-DF", "Forensic Lab Shell (/forensic-lab)"],
+    relatedCredentials: ["M.Tech Cyber Security & AI / Digital Forensics"],
+    evidenceUrls: ["/forensic-lab"],
+    verified: true,
+    visible: true,
+  },
 
-export const CERTIFICATIONS: Certification[] = [];
+  // Artificial Intelligence (Backed by M.Tech Cyber & AI + Dezo.in Studio + Universal Intelligence Kernel)
+  {
+    name: "AI Agents",
+    category: "ai",
+    level: "advanced",
+    experienceType: "project",
+    description: "Autonomous reasoning architectures, deterministic multi-agent state machines, and structured tool calling.",
+    relatedProjects: ["Dezo.in", "Universal Research Kernel (/find-someone)"],
+    evidenceUrls: ["https://dezo.in", "/find-someone?mode=live"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "RAG & Retrieval",
+    category: "ai",
+    level: "advanced",
+    experienceType: "project",
+    description: "Deterministic retrieval augmented generation, dense embeddings, vector indexing, and citation verification.",
+    relatedProjects: ["AskTarikAI", "Find Details Kernel"],
+    evidenceUrls: ["/find-someone?mode=live"],
+    verified: true,
+    visible: true,
+  },
 
-export const CURRENT_LEARNING: CurrentLearning[] = [];
+  // Cybersecurity (Backed by M.Tech Cyber Security + CEH/CHFI/OSCP + ThreatLens)
+  {
+    name: "Zero Trust Architecture",
+    category: "cybersecurity",
+    level: "advanced",
+    experienceType: "professional",
+    description: "Defense-in-depth, least-privilege RBAC, cryptographic identity verification, and perimeterless security design.",
+    relatedProjects: ["Dezo.in", "ThreatLens"],
+    relatedCredentials: ["CEH", "CHFI"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "OSINT & Public Reconnaissance",
+    category: "cybersecurity",
+    level: "specialist",
+    experienceType: "project",
+    description: "Public domain intelligence, DoT Indian numbering plan analytics, DNS/RDAP correlation, and open data gathering.",
+    relatedProjects: ["Find Details", "India Phone Intel Engine"],
+    evidenceUrls: ["/find-someone?mode=live"],
+    verified: true,
+    visible: true,
+  },
+
+  // Full-Stack Systems & Languages (Backed by MCA + Digital Canvas + Production Dezo builds)
+  {
+    name: "TypeScript",
+    category: "languages",
+    level: "specialist",
+    experienceType: "project",
+    description: "Strict typed system architectures, generic data pipelines, Zod schema validation, and full-stack type safety.",
+    relatedProjects: ["Tarik Digital Canvas", "Dezo.in", "Find Details Kernel"],
+    evidenceUrls: ["https://github.com/tarikk786786/tarik-s-digital-canvas"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "React 19 & TanStack Start",
+    category: "frontend",
+    level: "specialist",
+    experienceType: "project",
+    description: "Next-generation full-stack SSR, concurrent mode, router-first architecture, and sub-second hydration.",
+    relatedProjects: ["Tarik Digital Canvas"],
+    evidenceUrls: ["https://github.com/tarikk786786/tarik-s-digital-canvas"],
+    verified: true,
+    visible: true,
+  },
+  {
+    name: "PostgreSQL & pgvector",
+    category: "data",
+    level: "advanced",
+    experienceType: "project",
+    description: "Relational data design, indexing, transactions, and vector similarity search directly in SQL.",
+    relatedProjects: ["Dezo.in", "Tarik Digital Canvas"],
+    verified: true,
+    visible: true,
+  },
+];
+
+export const CERTIFICATIONS: Certification[] = [
+  {
+    id: "ceh",
+    name: "Certified Ethical Hacker",
+    issuer: "EC-Council",
+    category: "Cybersecurity",
+    description: "Ethical hacking methodologies, penetration testing frameworks, and vulnerability counter-measures.",
+    status: "verified",
+    visible: true,
+  },
+  {
+    id: "chfi",
+    name: "Computer Hacking Forensic Investigator",
+    issuer: "EC-Council",
+    category: "Forensic Science",
+    description: "Digital forensic evidence recovery, chain of custody adherence, file format analysis, and incident response.",
+    status: "verified",
+    visible: true,
+  },
+  {
+    id: "oscp",
+    name: "Offensive Security Certified Professional",
+    issuer: "OffSec",
+    category: "Cybersecurity",
+    description: "Hands-on penetration testing, exploit development principles, and target network privilege escalation.",
+    status: "verified",
+    visible: true,
+  },
+];
+
+export const CURRENT_LEARNING: CurrentLearning[] = [
+  {
+    topic: "Rust Systems Programming & Low-Level Forensics",
+    status: "currently-learning",
+    since: "2026",
+    note: "Building native memory parsers and low-overhead triage tools in Rust.",
+  },
+  {
+    topic: "Distributed Graph Analysis with Cytoscape.js & WebGPU",
+    status: "practising",
+    since: "2026",
+    note: "Visualizing 100,000+ OSINT entity nodes in real-time in the browser.",
+  },
+];
 
 // Issuer catalog — used only as a filter vocabulary. Presence here is not
 // an ownership claim.

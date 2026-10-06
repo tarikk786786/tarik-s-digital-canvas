@@ -51,12 +51,12 @@ export const PROFILE = {
       level: "Master of Science",
       status: "completed",
       highlights:
-        "Specialization in forensic investigation and toxicology: GC-MS / HPLC analytical chemistry, biological evidence, and chain-of-custody protocols for court-ready reporting.",
+        "Specialization in forensic investigation and toxicology: GC-MS / HPLC analytical chemistry principles, biological evidence handling, and laboratory chain-of-custody protocols.",
       competencies: [
-        "Forensic Toxicology & GC-MS",
-        "Serology & DNA Analysis",
+        "Forensic Toxicology & GC-MS Principles",
+        "Serology & Biological Evidence Handling",
         "Chemical Extraction Protocols",
-        "Courtroom Admissibility (ISO/IEC 17025)",
+        "Chain of Custody & Laboratory Quality Standards",
       ],
     },
     {

@@ -29,7 +29,7 @@ export function SmartLoader({ onComplete }: SmartLoaderProps) {
       return;
     }
 
-    // Step through the 5 stages
+    // Step through the 5 stages fast (75ms each = under 400ms total)
     let current = 0;
     const interval = setInterval(() => {
       if (current < STAGES.length) {
@@ -42,9 +42,9 @@ export function SmartLoader({ onComplete }: SmartLoaderProps) {
           sessionStorage.setItem("tarik_os_loaded", "true");
           setIsDismissed(true);
           onComplete?.();
-        }, 250);
+        }, 120);
       }
-    }, 180);
+    }, 75);
 
     // Escape key bypass
     const handleKeyDown = (e: KeyboardEvent) => {
