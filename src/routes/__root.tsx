@@ -111,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "TARIK DIGITAL CANVAS" },
       { property: "og:type", content: "profile" },
       { property: "og:locale", content: "en_US" },
-      { property: "og:url", content: "https://tarik-s-digital-canvas.vercel.app" },
+      { property: "og:url", content: "https://tarikislam.in" },
       {
         property: "og:title",
         content: "TARIK DIGITAL CANVAS — Forensic Investigation & Toxicology · Digital Intelligence Lab",
@@ -123,7 +123,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         property: "og:image",
-        content: "https://tarik-s-digital-canvas.vercel.app/android-chrome-512x512.png",
+        content: "https://tarikislam.in/android-chrome-512x512.png",
       },
       { property: "og:image:width", content: "512" },
       { property: "og:image:height", content: "512" },
@@ -144,11 +144,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         name: "twitter:image",
-        content: "https://tarik-s-digital-canvas.vercel.app/android-chrome-512x512.png",
+        content: "https://tarikislam.in/android-chrome-512x512.png",
       },
     ],
     links: [
-      { rel: "canonical", href: "https://tarik-s-digital-canvas.vercel.app" },
+      { rel: "canonical", href: "https://tarikislam.in" },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", sizes: "any" },
       { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
@@ -179,9 +179,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@graph": [
             {
               "@type": "Person",
-              "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+              "@id": "https://tarikislam.in/#person",
               name: "Tarik Islam",
-              url: "https://tarik-s-digital-canvas.vercel.app",
+              url: "https://tarikislam.in",
               jobTitle: [
                 "Forensic Science Specialist",
                 "Investigation & Toxicology",
@@ -224,21 +224,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             },
             {
               "@type": "WebSite",
-              "@id": "https://tarik-s-digital-canvas.vercel.app/#website",
-              url: "https://tarik-s-digital-canvas.vercel.app",
+              "@id": "https://tarikislam.in/#website",
+              url: "https://tarikislam.in",
               name: "TARIK DIGITAL CANVAS",
               alternateName: "Tarik Islam — Forensic Investigation & Toxicology",
               publisher: {
-                "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+                "@id": "https://tarikislam.in/#person",
               },
             },
             {
               "@type": "ProfilePage",
-              "@id": "https://tarik-s-digital-canvas.vercel.app/#webpage",
-              url: "https://tarik-s-digital-canvas.vercel.app",
+              "@id": "https://tarikislam.in/#webpage",
+              url: "https://tarikislam.in",
               name: "TARIK DIGITAL CANVAS — Profile",
               mainEntity: {
-                "@id": "https://tarik-s-digital-canvas.vercel.app/#person",
+                "@id": "https://tarikislam.in/#person",
               },
             },
           ],

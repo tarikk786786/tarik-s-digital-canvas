@@ -36,19 +36,37 @@ export function CyberTerminal() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const handleToggle = () => {
+      setIsOpen((prev) => !prev);
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeEl = document.activeElement;
+      const isInput =
+        activeEl?.tagName === "INPUT" ||
+        activeEl?.tagName === "TEXTAREA" ||
+        (activeEl as HTMLElement)?.isContentEditable;
+
+      if ((e.key === "`" || e.key === "~") && !isInput) {
+        e.preventDefault();
+        setIsOpen((prev) => !prev);
+      } else if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("tarik:open-terminal", handleToggle);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("tarik:open-terminal", handleToggle);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     if (isOpen) {
       setTimeout(() => inputRef.current?.focus(), 100);
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [isOpen, history]);
-
-  useEffect(() => {
-    const handleToggle = () => {
-      setIsOpen((prev) => !prev);
-    };
-    window.addEventListener("tarik:open-terminal", handleToggle);
-    return () => window.removeEventListener("tarik:open-terminal", handleToggle);
-  }, []);
 
   const handleCommand = (rawCmd: string) => {
     const cmd = rawCmd.trim();

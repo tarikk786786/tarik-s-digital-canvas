@@ -27,6 +27,10 @@ import { ProjectBriefForm } from "@/components/portfolio/ProjectBriefForm";
 import { AskTarikAI } from "@/components/portfolio/AskTarikAI";
 import { SmartLoader } from "@/components/portfolio/SmartLoader";
 import { LabLightboxModal } from "@/components/portfolio/LabLightboxModal";
+import { CyberTerminal } from "@/components/portfolio/CyberTerminal";
+import { PersonalTimeline } from "@/components/portfolio/PersonalTimeline";
+import { HowIBuildLab } from "@/components/portfolio/HowIBuildLab";
+import { ForensicDomains } from "@/components/portfolio/ForensicDomains";
 
 const SectionFallback = () => (
   <div aria-hidden className="h-[30vh] w-full flex items-center justify-center">
@@ -89,6 +93,29 @@ function Index() {
             <Capabilities />
           </Reveal>
 
+          {/* Section: JOURNEY — Evolution from Forensic Science to Cyber and AI Systems */}
+          <Reveal>
+            <div id="journey">
+              <PersonalTimeline />
+            </div>
+          </Reveal>
+
+          {/* Section: DOMAINS — Comprehensive Forensic Domains & Methodologies Atlas */}
+          <Reveal>
+            <div id="domains" className="py-20 px-6 md:px-12 lg:px-16 border-t border-white/5 bg-[#050608]">
+              <div className="max-w-[1600px] mx-auto">
+                <ForensicDomains />
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Section: HOW I BUILD — Living Lab and Technology Stacks */}
+          <Reveal>
+            <div id="how-i-build">
+              <HowIBuildLab />
+            </div>
+          </Reveal>
+
           <Suspense fallback={<SectionFallback />}>
             <Reveal>
               <Contact />
@@ -113,6 +140,9 @@ function Index() {
 
       {/* Laboratory Command Matrix Lightbox Modal */}
       <LabLightboxModal />
+
+      {/* Interactive Forensic Shell Enclave */}
+      <CyberTerminal />
     </>
   );
 }

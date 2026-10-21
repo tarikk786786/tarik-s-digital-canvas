@@ -47,6 +47,41 @@ const PRESET_QUESTIONS = [
 // Verified Knowledge Base Entries for Deterministic RAG Matching
 const KNOWLEDGE_BASE = [
   {
+    keywords: ["brainai", "brain", "operating system", "ai platform"],
+    answer:
+      "BrainAI Platform (brainai.in) is Tarik's unified AI operating system and research platform. It integrates multiple top-tier LLMs, AI agents, persistent memory across workflows, and provenance-backed research synthesis, reducing AI task times by up to 60%.",
+    citations: [
+      { label: "BrainAI Platform", href: "https://brainai.in" },
+      { label: "Inspect Selected Work (#work)", href: "#work" },
+    ],
+  },
+  {
+    keywords: ["vaidya", "medicine", "health", "salt", "first aid", "doctor"],
+    answer:
+      "Vaidya AI is a healthcare intelligence utility built by Tarik providing emergency first-aid protocols, active Indian medicine salt/composition equivalences, price transparency, and rapid triage calculators. It enforces strict non-prescriptive harm reduction.",
+    citations: [
+      { label: "Vaidya AI Case Study (#work)", href: "#work" },
+      { label: "Chemical & Toxicology Reference (/toxicity)", href: "/toxicity" },
+    ],
+  },
+  {
+    keywords: ["astro", "astro360", "vedic", "panchang", "horoscope", "astronomy"],
+    answer:
+      "Astro360 is a high-precision Vedic astronomical and calculation engine built by Tarik. It computes real-time daily Panchang, birth chart coordinates, and planetary ephemeris conversions with sub-millisecond precision.",
+    citations: [
+      { label: "Astro360 Case Study (#work)", href: "#work" },
+    ],
+  },
+  {
+    keywords: ["domain", "website", "tarikislam.in", "official"],
+    answer:
+      "tarikislam.in is the primary digital canvas and central portfolio hub for Tarik Islam, connecting his applied engineering platforms (Dezo.in, BrainAI.in), interactive intelligence labs (FIND DETAILS, WORLD OS, FORENSIC LAB), and verified credentials.",
+    citations: [
+      { label: "Home Enclave (#top)", href: "/#top" },
+      { label: "Personal Lab Hub (/lab)", href: "/lab" },
+    ],
+  },
+  {
     keywords: ["who", "about", "tarik", "background", "bio", "identity", "multidisciplinary"],
     answer:
       "Tarik Islam is a forensic science specialist in investigation and toxicology. Academic path: B.Sc & M.Sc Forensic Science → MCA → M.Tech Cyber Security & AI / Digital Forensics. Founder of Dezo.in. Evidence-first: question assumptions, verify through data, engineer systems that withstand scrutiny.",
